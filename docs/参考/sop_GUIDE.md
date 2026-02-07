@@ -65,34 +65,53 @@ L4: 参考层 (04_reference/)
 
 ---
 
+### 1.4 少即是多 (Less is More)
+
+SOP 应聚焦于结构和规则，而非具体内容的演绎：
+
+- **拒绝冗余**：删除所有不影响执行的修饰性文字、背景介绍或“废话”。
+- **模板 > 示例**：
+  - **禁止**：编写具体的业务示例（Example），避免 Agent 过拟合或模仿具体的业务逻辑。
+  - **必须**：提供高度抽象的模板（Template），使用占位符明确数据结构。
+
+| 维度 | 推荐 (Template) | 不推荐 (Example) |
+|------|----------------|------------------|
+| **代码** | 包含 `[PLACEHOLDER]` 的框架 | 具体的 `Hello World` 实现 |
+| **指令** | `生成 [Language] 接口` | `生成 Python 接口` |
+| **格式** | `key: [value]` | `name: John` |
+
+---
+
 ## 2. 文档结构规范
 
 ### 2.1 文件组织
 
 ```
-sop/
-├── AGENT_SOP.md              # 入口文档：导航+摘要
-├── AGENT_SOP_COMPACT.md      # 紧凑版：AI Agent核心指令
-├── ROLE_CHEATSHEET.md        # 角色速查卡：快速参考
+docs/参考/
 ├── sop_GUIDE.md              # 本文件：编写指南
-├── 01_concept_overview.md    # L1: 核心概念与价值
-├── 02_role_matrix/           # L2: 角色定义与职责
-│   ├── index.md              # 角色矩阵总览（权威）
-│   └── [role].md             # 各角色详细定义
-├── 03_workflow/              # L3: 工作流详细规范
-│   ├── index.md              # 工作流总览（权威）
-│   ├── fast_path.md          # 快速路径详情
-│   ├── deep_path.md          # 深度路径详情
-│   └── three_strike_rule.md  # 三错即停规则（权威）
-├── 04_reference/             # L4: 参考文档与模板
-│   ├── index.md              # 参考文档首页（权威）
-│   ├── document_templates/   # 文档模板
-│   └── interaction_formats/  # 交互格式
-├── prompts/                  # AI Agent提示词
-│   └── [role]_prompt.md      # 各角色提示词
-└── skills/                   # AI Agent Skill定义
-    └── [skill-name]/         # Skill目录
-        └── SKILL.md          # Skill定义文件
+├── sop_for_human.md          # 人类阅读版规约
+└── sop/                      # AGENT SOP 核心目录
+    ├── AGENT_SOP.md          # 入口文档：导航+摘要
+    ├── AGENT_SOP_COMPACT.md  # 紧凑版：AI Agent核心指令
+    ├── ROLE_CHEATSHEET.md    # 角色速查卡：快速参考
+    ├── 01_concept_overview.md # L1: 核心概念与价值
+    ├── 02_role_matrix/       # L2: 角色定义与职责
+    │   ├── index.md          # 角色矩阵总览（权威）
+    │   └── [role].md         # 各角色详细定义
+    ├── 03_workflow/          # L3: 工作流详细规范
+    │   ├── index.md          # 工作流总览（权威）
+    │   ├── fast_path.md      # 快速路径详情
+    │   ├── deep_path.md      # 深度路径详情
+    │   └── three_strike_rule.md # 三错即停规则（权威）
+    ├── 04_reference/         # L4: 参考文档与模板
+    │   ├── index.md          # 参考文档首页（权威）
+    │   ├── document_templates/ # 文档模板
+    │   └── interaction_formats/ # 交互格式
+    ├── prompts/              # AI Agent提示词
+    │   └── [role]_prompt.md  # 各角色提示词
+    └── skills/               # AI Agent Skill定义
+        └── [skill-name]/     # Skill目录
+            └── SKILL.md      # Skill定义文件
 ```
 
 ---
@@ -261,7 +280,7 @@ description: "功能描述。Invoke when 触发条件。"
 - 文档模板
 - 交互格式
 - 技术规范
-- 示例代码
+- 代码模板
 
 **约束**:
 - [ ] 提供可直接使用的模板
@@ -351,6 +370,30 @@ description: "功能描述。Invoke when 触发条件。"
 
 ---
 
+### 3.4 AGENT Prompt 编写标准
+
+为确保 Prompt 可被自动化系统稳定调用，需遵循以下格式规约：
+
+#### 变量标准
+- 所有动态替换内容必须使用 `[PLACEHOLDER]` 或 `{{variable}}` 格式。
+- **禁止**使用模糊的描述（如“这里填入名字”），必须使用明确的占位符。
+
+#### 输出锚点
+- 必须定义清晰的 Markdown 标题作为输出锚点（如 `## 结论` 或 `## Output`）。
+- **推荐**：在 Skill 中提供 JSON Schema 或 XML 标签结构（如 `<result>...</result>`）以便程序提取。
+
+#### 思维链规范
+- 复杂任务（如代码生成、架构设计）必须在 Prompt 中显式包含“思考过程”要求。
+- **示例**：
+  ```markdown
+  ## Thinking Process
+  1. Analyze the request...
+  2. Identify constraints...
+  3. Formulate solution...
+  ```
+
+---
+
 ## 4. 维护指南
 
 ### 4.1 更新流程
@@ -380,6 +423,7 @@ description: "功能描述。Invoke when 触发条件。"
 - [ ] 是否存在与其他文档的重复内容
 - [ ] 概念是否只在权威文档中详细定义
 - [ ] 信息密度是否足够高（表格>段落）
+- [ ] 是否使用模板代替了具体示例
 
 #### 格式审核
 - [ ] 标题层级是否正确
