@@ -41,13 +41,13 @@
 
 ## 工作流
 
-### 深度路径
+**深度路径**
 ```
 新项目: Analyst → Prometheus ↔ Skeptic → Oracle → Worker → Librarian
 功能迭代: Analyst → Oracle → Worker → Librarian
 ```
 
-### 快速路径
+**快速路径**
 ```
 Explorer → Worker → Librarian
 ```
@@ -78,12 +78,11 @@ Explorer → Worker → Librarian
 
 ## design.md规则
 
-- 基于模块划分: 每个独立模块根目录创建
-- 基于复杂度:
-  - 低(<100行): 省略，代码注释
-  - 中(100-500行): 简要design.md+接口契约
-  - 高(>500行): 完整design.md+详细契约
-- 必须包含: 输入/输出/依赖接口定义
+| 复杂度 | 行数 | 要求 |
+|--------|------|------|
+| 低 | <100 | 省略，代码注释 |
+| 中 | 100-500 | 简要design.md+接口契约 |
+| 高 | >500 | 完整design.md+详细契约 |
 
 ---
 

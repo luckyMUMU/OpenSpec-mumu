@@ -21,6 +21,8 @@ Explorer → Worker → Librarian
 | Worker | 审计报告 | 代码修改 | Diff展示 |
 | Librarian | 代码修改 | 文档更新 | `[已完成]` |
 
+👉 [快速路径详情](fast_path.md)
+
 ---
 
 ## 深度路径
@@ -44,6 +46,8 @@ Analyst → Oracle → Worker → Librarian
 | Worker | 实现设计 | 代码 | Diff展示 |
 | Librarian | 代码 | 文档更新 | `[已完成]` |
 
+👉 [深度路径详情](deep_path.md)
+
 ---
 
 ## 三错即停
@@ -54,14 +58,16 @@ Analyst → Oracle → Worker → Librarian
 | 2 | 再失败 | @Explorer+@Oracle审计+微调 |
 | 3 | 再失败 | **熔断**，生成报告 |
 
+👉 [三错即停详情](three_strike_rule.md)
+
 ---
 
-## 场景速查
+## 停止点
 
-| 场景 | 路径 | 预计时间 |
-|------|------|----------|
-| 修复拼写 | 快速 | 5分钟 |
-| 添加日志 | 快速 | 10分钟 |
-| 新增功能 | 深度 | 1-3天 |
-| 重构代码 | 深度 | 2-5天 |
-| 架构调整 | 深度 | 1-2周 |
+| 标记 | 触发 | 等待 |
+|------|------|------|
+| `[WAITING_FOR_REQUIREMENTS]` | Analyst完成 | 用户确认PRD |
+| `[WAITING_FOR_ARCHITECTURE]` | Prometheus完成 | 架构审批 |
+| `[ARCHITECTURE_PASSED]` | Skeptic通过 | - |
+| `[WAITING_FOR_DESIGN]` | Oracle完成 | 设计审批 |
+| Diff展示 | Worker完成 | 用户审批代码 |
