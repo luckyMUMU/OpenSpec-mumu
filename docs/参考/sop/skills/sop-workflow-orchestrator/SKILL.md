@@ -1,56 +1,82 @@
 ---
-name: "sop-workflow-orchestrator"
-description: "SOP工作流编排器。Invoke when receiving a new task request to determine the appropriate workflow path and assign roles."
+name: "sop-task-triage"
+description: "Task triage workflow to determine fast path or deep path. Invoke when receiving a new task request to analyze complexity and assign workflow."
 ---
 
-# SOP Workflow Orchestrator
+# Task Triage Workflow
 
-## 输入
-
-```markdown
-## 任务请求
-[用户原始请求]
-
-## 上下文
-- 项目类型: [新项目/功能迭代/代码重构]
-- 相关文件: [文件列表]
-- 紧急程度: [高/中/低]
-- 已知约束: [约束条件]
-```
-
-## 输出
+## Input
 
 ```markdown
-## 任务分诊结果
+## Task Request
+[User request]
 
-### 路径选择
-- [ ] 快速路径
-- [x] 深度路径
-
-### 理由
-[选择理由]
-
-### 角色分配
-| 阶段 | 角色 | 任务 |
-|------|------|------|
-| 1 | Analyst | 需求分析 |
-| 2 | Prometheus | 架构设计 |
-| 3 | Skeptic | 架构审查 |
-| 4 | Oracle | 实现设计 |
-| 5 | Worker | 编码实现 |
-| 6 | Librarian | 文档维护 |
-
-### 预计时间
-[时间估算]
-
-### 下一步
-@[角色]: [具体任务]
+## Context
+- Project type: [new/feature/refactor]
+- Related files: [list]
+- Urgency: [high/medium/low]
+- Constraints: [constraints]
 ```
 
-## 约束
+## Workflow Steps
 
-- 准确判断任务复杂度
-- 考虑任务依赖关系
-- 分配合适的角色
-- 提供清晰的路径选择理由
-- 给出明确的下一步指示
+### Step 1: Analyze Task Complexity
+
+Check conditions:
+| Condition | Fast Path | Deep Path |
+|-----------|-----------|-----------|
+| Single file | ✅ Yes | ❌ No |
+| Lines < 30 | ✅ Yes | ❌ No |
+| No logic change | ✅ Yes | ❌ No |
+| Cross-file | ❌ No | ✅ Yes |
+| New feature | ❌ No | ✅ Yes |
+| Refactor | ❌ No | ✅ Yes |
+| API change | ❌ No | ✅ Yes |
+
+### Step 2: Select Path
+
+**Fast Path** (all conditions met):
+- Single file + <30 lines + no logic change
+
+**Deep Path** (any condition met):
+- Cross-file / new feature / refactor / API change / architecture
+
+### Step 3: Assign Roles
+
+**Fast Path Flow**:
+```
+Explorer → Worker → Librarian
+```
+
+**Deep Path Flow**:
+```
+New project: Analyst → Prometheus ↔ Skeptic → Oracle → Worker → Librarian
+Feature:      Analyst → Oracle → Worker → Librarian
+```
+
+## Output
+
+```markdown
+## Triage Result
+
+### Path Selection
+- [ ] Fast Path
+- [x] Deep Path
+
+### Reason
+[Why this path]
+
+### Role Assignment
+| Stage | Role | Task |
+|-------|------|------|
+| 1 | [Role] | [Task] |
+
+### Next
+@[Role]: [Specific task]
+```
+
+## Constraints
+
+- Must accurately judge complexity
+- Must consider dependencies
+- Must provide clear next steps
