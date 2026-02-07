@@ -91,8 +91,7 @@ docs/参考/
 ├── sop_GUIDE.md              # 本文件：编写指南
 ├── sop_for_human.md          # 人类阅读版规约
 └── sop/                      # AGENT SOP 核心目录
-    ├── AGENT_SOP.md          # 入口文档：导航+摘要
-    ├── AGENT_SOP_COMPACT.md  # 紧凑版：AI Agent核心指令
+    ├── AGENT_SOP.md          # 入口文档：导航+摘要（统一入口）
     ├── ROLE_CHEATSHEET.md    # 角色速查卡：快速参考
     ├── 01_concept_overview.md # L1: 核心概念与价值
     ├── 02_role_matrix/       # L2: 角色定义与职责
