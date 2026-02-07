@@ -148,3 +148,8 @@ CLAUDE.md
 
 # Pnpm
 .pnpm-store/
+result
+
+# OpenCode
+.opencode/
+opencode.json
