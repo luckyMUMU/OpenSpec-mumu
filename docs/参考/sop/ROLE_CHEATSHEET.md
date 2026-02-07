@@ -12,7 +12,9 @@
 | Prometheus | 设计 | 架构设计 | `[WAITING_FOR_ARCHITECTURE]` |
 | Skeptic | 设计 | 架构审查 | `[ARCHITECTURE_PASSED]` |
 | Oracle | 设计 | 实现设计 | `[WAITING_FOR_DESIGN]` |
+| **Tester** | **设计** | **生成CSV测试用例** | **`[WAITING_FOR_TEST_REVIEW]`** |
 | Worker | 实现 | 编码实现 | Diff展示 |
+| **TestWorker** | **实现** | **编写测试代码** | **-** |
 | Librarian | 监管 | 文档维护 | `[已完成]` |
 | Supervisor | 监管 | 进度监管，熔断 | `[FUSION_TRIGGERED]` |
 
@@ -31,6 +33,13 @@ Explorer → Worker → Librarian
 功能迭代: Analyst → Oracle → Worker → Librarian
 ```
 
+### TDD深度路径 (可选)
+```
+Analyst → Prometheus ↔ Skeptic → Oracle → Tester → Worker + TestWorker → Librarian
+                                    ↓
+                              生成CSV测试用例
+```
+
 ---
 
 ## 文档类型
@@ -40,6 +49,8 @@ Explorer → Worker → Librarian
 | PRD | `docs/01_requirements/*.md` | Analyst |
 | 架构设计 | `docs/02_logical_workflow/*.pseudo` | Prometheus |
 | 实现设计 | `src/**/design.md` | Oracle |
+| **测试用例** | **`docs/03_technical_spec/test_cases/*.csv`** | **Tester** |
+| **测试代码** | **`tests/*.test.[ext]`** | **TestWorker** |
 
 ---
 

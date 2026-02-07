@@ -20,6 +20,7 @@
 |------|------|
 | 快速 | 单文件+<30行+无逻辑变更 |
 | 深度 | 其他所有情况 |
+| TDD | 深度+启用TDD(可选) |
 
 ---
 
@@ -33,7 +34,9 @@
 | Prometheus | 架构设计 | PRD | 架构设计 | `[WAITING_FOR_ARCHITECTURE]` |
 | Skeptic | 架构审查 | 架构设计 | 审查报告 | `[ARCHITECTURE_PASSED]` |
 | Oracle | 实现设计 | 架构设计 | 实现设计 | `[WAITING_FOR_DESIGN]` |
+| **Tester** | **生成测试用例** | **设计文档** | **CSV测试用例** | **`[WAITING_FOR_TEST_REVIEW]`** |
 | Worker | 编码实现 | 实现设计 | 代码 | Diff展示 |
+| **TestWorker** | **编写测试代码** | **CSV+代码** | **测试代码** | **-** |
 | Librarian | 文档维护 | 设计文档 | 索引更新 | `[已完成]` |
 | Supervisor | 进度监管 | 执行状态 | 熔断决策 | `[FUSION_TRIGGERED]` |
 
@@ -45,6 +48,13 @@
 ```
 新项目: Analyst → Prometheus ↔ Skeptic → Oracle → Worker → Librarian
 功能迭代: Analyst → Oracle → Worker → Librarian
+```
+
+**TDD深度路径** (可选)
+```
+Analyst → Prometheus ↔ Skeptic → Oracle → Tester → Worker + TestWorker → Librarian
+                                    ↓
+                              生成CSV测试用例
 ```
 
 **快速路径**
@@ -71,6 +81,8 @@ Explorer → Worker → Librarian
 | PRD | `docs/01_requirements/*.md` | Analyst |
 | 架构设计 | `docs/02_logical_workflow/*.pseudo` | Prometheus |
 | 实现设计 | `src/**/design.md` | Oracle |
+| **测试用例** | **`docs/03_technical_spec/test_cases/*.csv`** | **Tester** |
+| **测试代码** | **`tests/*.test.[ext]`** | **TestWorker** |
 
 **约束**: `/docs/参考/` **非指定不变更**
 
@@ -83,6 +95,18 @@ Explorer → Worker → Librarian
 | 低 | <100 | 省略，代码注释 |
 | 中 | 100-500 | 简要design.md+接口契约 |
 | 高 | >500 | 完整design.md+详细契约 |
+
+---
+
+## TDD规则 (可选)
+
+**启用条件**: 核心业务/复杂逻辑/高覆盖要求
+
+**测试用例来源**: 仅基于设计文档 (L2+L3)，不参考代码
+
+**测试代码来源**: 主要基于CSV，仅参考代码接口
+
+👉 [TDD工作流详情](skills/sop-tdd-workflow/SKILL.md)
 
 ---
 

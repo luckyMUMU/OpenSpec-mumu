@@ -6,6 +6,7 @@
 |------|------|
 | 快速 | 单文件+<30行+无逻辑变更 |
 | 深度 | 其他所有情况 |
+| TDD | 深度+启用TDD(可选) |
 
 ---
 
@@ -50,6 +51,30 @@ Analyst → Oracle → Worker → Librarian
 
 ---
 
+## TDD深度路径 (可选)
+
+```
+Analyst → Prometheus ↔ Skeptic → Oracle → Tester → Worker + TestWorker → Librarian
+                                    ↓
+                              生成CSV测试用例
+```
+
+| 阶段 | 输入 | 输出 | 停止点 |
+|------|------|------|--------|
+| Tester | L2+L3设计 | CSV测试用例 | `[WAITING_FOR_TEST_REVIEW]` |
+| Worker | 实现设计 | 代码 | Diff展示 |
+| TestWorker | CSV+代码 | 测试代码 | - |
+
+**启用条件**: 核心业务/复杂逻辑/高覆盖要求
+
+**测试用例来源**: 仅基于设计文档，不参考代码
+
+**测试代码来源**: 主要基于CSV，仅参考代码接口
+
+👉 [TDD工作流详情](../skills/sop-tdd-workflow/SKILL.md)
+
+---
+
 ## 三错即停
 
 | Strike | 条件 | 行动 |
@@ -70,4 +95,5 @@ Analyst → Oracle → Worker → Librarian
 | `[WAITING_FOR_ARCHITECTURE]` | Prometheus完成 | 架构审批 |
 | `[ARCHITECTURE_PASSED]` | Skeptic通过 | - |
 | `[WAITING_FOR_DESIGN]` | Oracle完成 | 设计审批 |
+| `[WAITING_FOR_TEST_REVIEW]` | Tester完成 | 人工审核CSV |
 | Diff展示 | Worker完成 | 用户审批代码 |

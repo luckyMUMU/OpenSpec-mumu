@@ -20,8 +20,10 @@
 | `/docs/01_requirements/` | PRD (L1) | Analyst创建 |
 | `/docs/02_logical_workflow/` | 架构设计 (L2) | Prometheus创建 |
 | `/docs/03_technical_spec/` | 技术规格 (L3) | Oracle创建 |
+| `/docs/03_technical_spec/test_cases/` | **测试用例** | **Tester创建** |
 | `/docs/04_context_reference/` | 决策参考 (L4) | Prometheus/Oracle创建 |
 | `src/**/design.md` | 实现设计 (L3) | Oracle创建 |
+| `tests/` | **测试代码** | **TestWorker创建** |
 
 ---
 
@@ -108,6 +110,31 @@ ADR-[模块]-[序号]: [标题]
 
 ---
 
+## TDD测试文档
+
+**创建者**: Tester / TestWorker  
+**规范**: CSV格式测试用例，便于人工审核
+
+### 测试用例位置
+```
+docs/03_technical_spec/test_cases/
+├── [module]_test_cases.csv      # 测试用例 (Tester创建)
+└── [module]_test_plan.md        # 测试计划 (可选)
+```
+
+### CSV格式
+```csv
+ID,模块,功能点,测试场景,前置条件,输入数据,预期输出,优先级,类型,状态,关联L2原子操作,备注
+TC001,订单,创建,正常流程,用户登录,"{product:A,qty:1}","{status:success}",P0,正向,待实现,PROCESS_ORDER,
+```
+
+### 关键约束
+- **测试用例来源**: 仅基于设计文档 (L2+L3)，不参考代码
+- **测试代码来源**: 主要基于CSV，仅参考代码接口
+- **追溯关系**: L2原子操作 ←→ CSV测试用例 ←→ 测试代码
+
+---
+
 ## 模板
 
 | 模板 | 层级 | 用途 | 角色 |
@@ -116,6 +143,7 @@ ADR-[模块]-[序号]: [标题]
 | [架构设计](document_templates/architecture_design.md) | L2 | 逻辑工作流 | Prometheus |
 | [实现设计](document_templates/implementation_design.md) | L3 | 技术规格 | Oracle |
 | [ADR](document_templates/adr.md) | L4 | 决策参考 | Prometheus/Oracle |
+| **[测试用例CSV](document_templates/test_cases.csv)** | **L3** | **测试用例** | **Tester** |
 
 ---
 
