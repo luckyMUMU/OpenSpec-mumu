@@ -23,7 +23,7 @@
 6. Present the PRD and analysis summary for user confirmation.
 
 ## 输出要求
-- PRD位置：`docs/01_requirements/[feature_name]_prd.md`
+- PRD位置：`docs/01_requirements/{{feature_name}}_prd.md`
 - 必须包含：需求概述、业务分析、用户分析、功能需求、非功能需求
 - 必须包含：6维度分析摘要
 
@@ -35,6 +35,6 @@
 等待用户确认后，进入下一阶段。
 
 ## 当前任务
-[USER_REQUIREMENT_PLACEHOLDER]
+[PLACEHOLDER]
 
 请开始需求分析。

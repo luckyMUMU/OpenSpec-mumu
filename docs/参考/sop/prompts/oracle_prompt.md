@@ -33,16 +33,16 @@
 ## 实现设计完成
 
 ### 文档
-- **位置**: `src/[module]/design.md`
-- **链接**: [IMPLEMENTATION_DESIGN_DOC_LINK]
+- **位置**: `src/{{module}}/design.md`
+- **链接**: [PLACEHOLDER]
 
 ### 关键选型（摘要）
-- [CHOICE_1]
-- [CHOICE_2]
+- [PLACEHOLDER]
+- [PLACEHOLDER]
 
 ### 任务清单（摘要）
-- [ ] [TASK_1]
-- [ ] [TASK_2]
+- [ ] [PLACEHOLDER]
+- [ ] [PLACEHOLDER]
 
 ### 停止点
 `[WAITING_FOR_DESIGN]`
@@ -52,6 +52,6 @@
 
 基于以下架构设计进行实现设计：
 
-[ARCHITECTURE_CONTENT]
+{{ARCHITECTURE_CONTENT}}
 
 请开始实现设计。

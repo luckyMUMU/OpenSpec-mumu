@@ -43,20 +43,20 @@
 ## 架构审查报告
 
 ### 审查对象
-- [ARCHITECTURE_DOC_LINK]
-- 第 [REVIEW_ROUND] 轮
+- [PLACEHOLDER]
+- 第 [PLACEHOLDER] 轮
 
 ### 🔴 严重问题
-- [ISSUE_1]
+- [PLACEHOLDER]
 
 ### 🟡 一般问题
-- [ISSUE_2]
+- [PLACEHOLDER]
 
 ### 🟢 建议
-- [SUGGESTION_1]
+- [PLACEHOLDER]
 
 ### 结论
-- [ ] 继续审查（第 [NEXT_REVIEW_ROUND] 轮）
+- [ ] 继续审查（第 [PLACEHOLDER] 轮）
 - [ ] 审查通过：`[ARCHITECTURE_PASSED]` → @Oracle
 - [ ] 需要用户决策：`[USER_DECISION]`
 ```
@@ -65,6 +65,6 @@
 
 审查以下架构设计：
 
-[ARCHITECTURE_CONTENT]
+{{ARCHITECTURE_CONTENT}}
 
 请开始审查。

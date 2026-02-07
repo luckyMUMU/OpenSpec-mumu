@@ -39,13 +39,13 @@
 ### 角色分配
 | 阶段 | 角色 | 任务 |
 |------|------|------|
-| 1 | [ROLE_NAME] | [ROLE_TASK] |
+| 1 | [PLACEHOLDER] | [PLACEHOLDER] |
 
 ### 下一步
-@[ROLE_NAME]: [NEXT_STEP_TASK]
+@[PLACEHOLDER]: [PLACEHOLDER]
 ```
 
 ## 当前任务
-[USER_REQUEST]
+[PLACEHOLDER]
 
 请进行任务分诊。

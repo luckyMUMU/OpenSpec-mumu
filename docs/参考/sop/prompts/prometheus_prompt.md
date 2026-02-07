@@ -33,12 +33,12 @@
 ## 架构设计完成
 
 ### 文档
-- **位置**: `docs/02_logical_workflow/[module_name].pseudo`
-- **链接**: [ARCHITECTURE_DOC_LINK]
+- **位置**: `docs/02_logical_workflow/{{module_name}}.pseudo`
+- **链接**: [PLACEHOLDER]
 
 ### 关键决策（摘要）
-- [DECISION_1]
-- [DECISION_2]
+- [PLACEHOLDER]
+- [PLACEHOLDER]
 
 ### 停止点
 `[WAITING_FOR_ARCHITECTURE]`
@@ -48,6 +48,6 @@
 
 基于以下PRD进行架构设计：
 
-[PRD_CONTENT]
+{{PRD_CONTENT}}
 
 请开始架构设计。
