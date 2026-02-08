@@ -5,7 +5,7 @@ description: "Fast path workflow for single-file, small changes. Invoke when tas
 
 # Fast Path Workflow
 
-> **版本**: v1.0.0
+> **版本**: v1.1.0
 
 ## Input
 
@@ -30,7 +30,7 @@ description: "Fast path workflow for single-file, small changes. Invoke when tas
 2. Identify dependencies
 3. Check for risks
 
-**Output**: Brief audit report
+**Note**: Fast path does not involve directory-based parallel execution as it targets a single file.
 
 ### Step 2: Code Modification
 
@@ -79,3 +79,4 @@ description: "Fast path workflow for single-file, small changes. Invoke when tas
 - <30 lines changed
 - No logic changes
 - Must pass tests
+- **No directory-based execution needed**

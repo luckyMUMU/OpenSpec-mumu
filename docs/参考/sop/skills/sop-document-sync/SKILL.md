@@ -5,7 +5,7 @@ description: "Document synchronization workflow for index updates and progressiv
 
 # Document Synchronization Workflow
 
-> **版本**: v1.0.0
+> **版本**: v1.1.0
 
 ## Input
 

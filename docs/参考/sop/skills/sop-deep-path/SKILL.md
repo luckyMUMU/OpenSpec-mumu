@@ -5,7 +5,7 @@ description: "Deep path workflow for complex changes. Invoke when task is triage
 
 # Deep Path Workflow
 
-> **版本**: v1.0.0
+> **版本**: v1.1.0
 
 ## Input
 
@@ -39,8 +39,9 @@ description: "Deep path workflow for complex changes. Invoke when task is triage
 
 **Actions**:
 1. Analyze existing code
-2. Identify dependencies
-3. Assess impact scope
+2. **Scan directory structure, identify all design.md files**
+3. **Map directory dependencies**
+4. Assess impact scope
 
 ### Step 3: Architecture Design
 
@@ -69,31 +70,49 @@ description: "Deep path workflow for complex changes. Invoke when task is triage
 - Pass: `[ARCHITECTURE_PASSED]`
 - Deadlock: `[USER_DECISION]`
 
-### Step 5: Implementation Design
+### Step 5: Implementation Design (Directory-based)
 
 **Purpose**: Project-specific design
 
 **Actions**:
 1. Map to tech stack
 2. Compare options
-3. Create task list
-4. Define interfaces
+3. **Create design.md for each module directory**
+4. **Define directory-level interface contracts**
+5. **Identify cross-directory dependencies**
 
 **Stop Point**: `[WAITING_FOR_DESIGN]`
 
-### Step 6: Code Implementation
+### Step 6: Directory Scheduling
 
-**Purpose**: Physical coding
+**Purpose**: Create parallel execution plan
 
 **Actions**:
-1. Create checkpoint
-2. Implement by design
-3. Run tests
-4. Quality checks
+1. **Scan all design.md files**
+2. **Calculate directory depth for each**
+3. **Create directory-Worker mapping table**
+4. **Identify dependencies between directories**
+
+**Stop Point**: `[SCHEDULING]`
+
+### Step 7: Code Implementation (Parallel)
+
+**Purpose**: Physical coding with directory-based parallel execution
+
+**Actions**:
+1. **Supervisor launches Workers by directory depth (deepest first)**
+2. **Workers process in parallel for same depth, no dependency**
+3. **Worker marks `[DIR_WORKING]` when starting**
+4. **Worker implements only within its design.md directory**
+5. **If cross-directory change needed, mark target design.md and notify Supervisor**
+6. **Worker marks `[DIR_WAITING_DEP]` when waiting for dependency**
+7. **Worker marks `[DIR_COMPLETED]` when done**
+8. Run tests
+9. Quality checks
 
 **Stop Point**: Show diff for review
 
-### Step 7: Document Maintenance
+### Step 8: Document Maintenance
 
 **Purpose**: Sync docs
 

@@ -5,7 +5,7 @@ description: "指导AI Agent正确放置设计文档和创建design.md。Invoke 
 
 # 设计文档放置指南
 
-> **版本**: v1.0.0
+> **版本**: v1.1.0
 
 ## 目录结构规范
 
@@ -29,12 +29,12 @@ description: "指导AI Agent正确放置设计文档和创建design.md。Invoke 
 
 ## design.md 创建规则
 
-### 1. 基于模块划分
+### 1. 基于目录层级划分
 
-**模块定义**:
-- 功能边界清晰的独立单元
-- 可独立开发、测试、部署
-- 有明确的输入/输出接口
+**目录层级定义**:
+- 以项目根目录为基准（深度 0）
+- 每深入一级，深度 +1
+- `design.md` 的深度 = 其所在目录的深度
 
 **放置位置**:
 ```
@@ -46,11 +46,12 @@ description: "指导AI Agent正确放置设计文档和创建design.md。Invoke 
 ```
 
 **路径选择**:
-| 模块位置 | design.md 位置 |
-|----------|----------------|
-| `src/module/` | `src/module/design.md` |
-| `packages/package/` | `packages/package/design.md` |
-| 顶层模块 | `docs/module/design.md` |
+| 模块位置 | design.md 位置 | 深度示例 |
+|----------|----------------|----------|
+| `src/module/` | `src/module/design.md` | depth 2 |
+| `packages/package/` | `packages/package/design.md` | depth 2 |
+| 顶层模块 | `docs/module/design.md` | depth 2 |
+| 子模块 | `src/module/sub/design.md` | depth 3 |
 
 ### 2. 基于复杂度判断
 
@@ -73,7 +74,23 @@ description: "指导AI Agent正确放置设计文档和创建design.md。Invoke 
     └─ 高 → 创建完整 design.md（完整设计 + 详细契约）
 ```
 
-### 3. 接口契约规范
+### 3. 目录层级与并行执行
+
+**目录深度与执行顺序**:
+```
+深度 3: src/core/utils/design.md      → 第一批并行（最深，无依赖）
+深度 3: src/core/helpers/design.md    → 第一批并行
+深度 2: src/core/design.md            → 第二批（依赖第一批）
+深度 2: src/api/design.md             → 第二批并行
+深度 1: src/design.md                 → 第三批（依赖第二批）
+```
+
+**Worker 分配**:
+- 每个 design.md 目录分配一个 Worker
+- 同深度无依赖的目录并行执行
+- 父目录等待子目录完成后才能开始
+
+### 4. 接口契约规范
 
 每个 design.md 必须包含接口契约章节：
 
@@ -92,15 +109,35 @@ description: "指导AI Agent正确放置设计文档和创建design.md。Invoke 
 | [return1] | [type] | [description] |
 | [error] | [Error] | [error description] |
 
-### 依赖接口
-| 模块 | 接口 | 用途 |
+### 目录依赖
+| 目录 | 接口 | 用途 |
 |------|------|------|
-| [module] | [interface] | [purpose] |
+| [dir_path] | [interface] | [purpose] |
 
 ### 被依赖接口
-| 模块 | 接口 | 用途 |
+| 目录 | 接口 | 用途 |
 |------|------|------|
-| [module] | [interface] | [purpose] |
+| [dir_path] | [interface] | [purpose] |
+```
+
+### 5. 跨目录依赖声明
+
+在 design.md 中声明跨目录依赖：
+
+```markdown
+## 目录依赖声明
+
+### 依赖的目录
+| 目录路径 | 依赖类型 | 说明 |
+|----------|----------|------|
+| src/core/ | 接口依赖 | 使用 CoreService |
+| src/utils/ | 工具依赖 | 使用 helper 函数 |
+
+### 被依赖的目录
+| 目录路径 | 用途 |
+|----------|------|
+| src/api/ | API 层调用本模块 |
+| src/web/ | Web 层调用本模块 |
 ```
 
 ## 工作流程
@@ -141,8 +178,9 @@ description: "指导AI Agent正确放置设计文档和创建design.md。Invoke 
 **必须包含**:
 - 输入参数定义
 - 输出返回值定义
-- 依赖接口列表
-- 被依赖接口列表
+- 依赖目录列表
+- 被依赖目录列表
+- 目录深度信息
 
 ## 输入
 
@@ -150,6 +188,7 @@ description: "指导AI Agent正确放置设计文档和创建design.md。Invoke 
 ## 模块信息
 - **模块名称**: [name]
 - **模块路径**: [path]
+- **目录深度**: [depth]
 - **功能描述**: [description]
 
 ## 复杂度评估
@@ -158,8 +197,8 @@ description: "指导AI Agent正确放置设计文档和创建design.md。Invoke 
 - [ ] 高（>500行）
 
 ## 依赖分析
-- 依赖模块: [list]
-- 被依赖模块: [list]
+- 依赖目录: [list]
+- 被依赖目录: [list]
 ```
 
 ## 输出
@@ -177,6 +216,7 @@ description: "指导AI Agent正确放置设计文档和创建design.md。Invoke 
 ## 决策结果
 - **创建 design.md**: 是
 - **位置**: `src/module/design.md`
+- **深度**: 2
 - **复杂度**: 中
 - **内容**: 接口契约 + 简要任务清单
 ```
@@ -186,6 +226,7 @@ description: "指导AI Agent正确放置设计文档和创建design.md。Invoke 
 ## 决策结果
 - **创建 design.md**: 是
 - **位置**: `docs/module/design.md`
+- **深度**: 2
 - **复杂度**: 高
 - **内容**: 完整设计 + 详细接口契约 + 任务清单 + 测试策略
 ```
@@ -193,15 +234,18 @@ description: "指导AI Agent正确放置设计文档和创建design.md。Invoke 
 ## 约束
 
 1. **禁止修改 `/docs/参考/`** - 仅 Librarian 可维护
-2. **基于模块划分** - 每个独立模块创建独立 design.md
+2. **基于目录划分** - 每个独立目录创建独立 design.md
 3. **基于复杂度判断** - 低复杂度可省略，中高复杂度必须创建
 4. **必须包含接口契约** - 输入/输出/依赖必须明确定义
 5. **渐进式披露** - 复杂度越高，设计文档越详细
+6. **目录深度标记** - 记录目录深度用于并行执行调度
+7. **跨目录依赖声明** - 必须声明与其他目录的依赖关系
 
 ## 快速参考
 
-| 场景 | 决策 | 位置 | 内容 |
-|------|------|------|------|
-| 简单工具函数（<100行） | 不创建 | - | 代码注释 |
-| 中等模块（100-500行） | 创建 | `src/module/design.md` | 接口契约 + 任务清单 |
-| 复杂模块（>500行） | 创建 | `docs/module/design.md` | 完整设计 + 详细契约 |
+| 场景 | 决策 | 位置 | 内容 | 深度 |
+|------|------|------|------|------|
+| 简单工具函数（<100行） | 不创建 | - | 代码注释 | - |
+| 中等模块（100-500行） | 创建 | `src/module/design.md` | 接口契约 + 任务清单 | 按实际 |
+| 复杂模块（>500行） | 创建 | `docs/module/design.md` | 完整设计 + 详细契约 | 按实际 |
+| 子模块 | 创建 | `src/parent/child/design.md` | 按需 | depth+1 |

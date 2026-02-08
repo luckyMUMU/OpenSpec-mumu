@@ -5,13 +5,18 @@ description: "Code implementation workflow for physical coding. Invoke when impl
 
 # Code Implementation Workflow
 
-> **版本**: v1.0.0
+> **版本**: v1.1.0
 
 ## Input
 
 ```markdown
 ## Implementation Design
 [Design document link]
+
+## Directory Scope
+- Target directory: [path to design.md directory]
+- Depth: [directory depth]
+- Dependencies: [dependent directories]
 
 ## Context
 - Tech stack: [stack]
@@ -21,7 +26,25 @@ description: "Code implementation workflow for physical coding. Invoke when impl
 
 ## Workflow Steps
 
-### Step 1: Checkpoint
+### Step 1: Directory Scope Check
+
+**Purpose**: Confirm Worker work boundary
+
+**Actions**:
+1. Read design.md in target directory
+2. Confirm directory boundary (current dir + subdirs without nested design.md)
+3. Check dependency directory status
+4. Mark `[DIR_WORKING]`
+
+**Dependency Check**:
+```markdown
+| Dependency Directory | Status | Action |
+|---------------------|--------|--------|
+| src/core/ | [DIR_COMPLETED] | Continue |
+| src/utils/ | [DIR_WORKING] | Wait |
+```
+
+### Step 2: Checkpoint
 
 **Purpose**: Create rollback point
 
@@ -30,25 +53,32 @@ description: "Code implementation workflow for physical coding. Invoke when impl
 2. Note current state
 3. Prepare rollback plan
 
-### Step 2: Code Development
+### Step 3: Code Development (Within Directory Boundary)
 
-**Purpose**: Implement by design
+**Purpose**: Implement by design within directory scope
 
 **Actions**:
 1. Follow design doc strictly
-2. No design changes
-3. Add code comments
+2. **Only modify files within current directory scope**
+3. **Do NOT modify files in other design.md directories**
+4. Add code comments
 
-### Step 3: Testing
+**Cross-Directory Change Handling**:
+- If need to modify other directory → Only update its design.md
+- Add "Pending Changes" section to target design.md
+- Notify Supervisor to create/wake target directory Worker
+- Mark `[DIR_WAITING_DEP]` and wait
+
+### Step 4: Testing
 
 **Purpose**: Verify correctness
 
 **Actions**:
-1. Run unit tests
+1. Run unit tests within directory
 2. Run integration tests
 3. Fix failures
 
-### Step 4: Quality Check
+### Step 5: Quality Check
 
 **Purpose**: Ensure code quality
 
@@ -57,19 +87,23 @@ description: "Code implementation workflow for physical coding. Invoke when impl
 2. Run type checker
 3. Fix issues
 
-### Step 5: Diff Review
+### Step 6: Completion
 
-**Purpose**: Present changes
+**Purpose**: Mark directory complete
 
 **Actions**:
-1. Generate diff
-2. Show summary
-3. Wait for approval
+1. Mark `[DIR_COMPLETED]`
+2. Notify Supervisor
+3. Generate diff for review
 
 ## Output
 
 ```markdown
 ## Implementation Complete
+
+### Directory
+- Path: [target directory]
+- Status: [DIR_COMPLETED]
 
 ### Changes
 - Files: [N]
@@ -83,6 +117,12 @@ description: "Code implementation workflow for physical coding. Invoke when impl
 - Lint: [pass/fail]
 - Type check: [pass/fail]
 
+### Dependencies
+| Directory | Status |
+|-----------|--------|
+| [dep1] | [DIR_COMPLETED] |
+| [dep2] | [DIR_COMPLETED] |
+
 ### Diff
 [diff]
 
@@ -92,10 +132,12 @@ Waiting for review
 
 ## Constraints
 
-- Follow design strictly
-- No design changes
-- Must pass tests
-- Must pass quality checks
+- **Directory Boundary**: Only modify files within current design.md directory
+- **No Cross-Directory Changes**: Don't directly modify other design.md directories
+- **Dependency Wait**: Must wait for dependencies to complete
+- **Follow design strictly**: No design changes during implementation
+- **Must pass tests**: All tests must pass
+- **Must pass quality checks**: Lint and type check must pass
 
 ## 3-Strike Rule
 

@@ -5,7 +5,7 @@ description: "Architecture design workflow for creating technology-agnostic desi
 
 # Architecture Design Workflow
 
-> **版本**: v1.0.0
+> **版本**: v1.1.0
 
 ## Input
 
@@ -14,18 +14,22 @@ description: "Architecture design workflow for creating technology-agnostic desi
 - PRD: [link]
 - Key requirements: [list]
 - Constraints: [constraints]
+
+## Directory Structure (from Explorer)
+[Directory tree]
 ```
 
 ## Workflow Steps
 
-### Step 1: Concept Design
+### Step 1: Concept Design (Directory-aware)
 
-**Purpose**: Define system concepts
+**Purpose**: Define system concepts with directory structure in mind
 
 **Actions**:
 1. Identify core concepts
-2. Define boundaries
-3. Map relationships
+2. Define boundaries aligned with directories
+3. Map concepts to directory structure
+4. Define relationships
 
 ### Step 2: Interface Definition
 
@@ -35,6 +39,7 @@ description: "Architecture design workflow for creating technology-agnostic desi
 1. Define input/output
 2. Specify data structures
 3. Document error handling
+4. Define cross-directory interfaces
 
 ### Step 3: Pseudocode
 
@@ -72,6 +77,11 @@ description: "Architecture design workflow for creating technology-agnostic desi
 - Input: [spec]
 - Output: [spec]
 
+### Directory Mapping
+| Concept | Directory | Responsibility |
+|---------|-----------|----------------|
+| [concept] | [dir] | [resp] |
+
 ### Stop Point
 `[WAITING_FOR_ARCHITECTURE]`
 ```
@@ -82,3 +92,5 @@ description: "Architecture design workflow for creating technology-agnostic desi
 - Reusable across projects
 - Clear interfaces
 - Documented decisions
+- **Directory-aware design**
+- **Concept-to-directory mapping**

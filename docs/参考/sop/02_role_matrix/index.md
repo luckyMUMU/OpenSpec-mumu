@@ -1,20 +1,68 @@
 # 角色矩阵
 
+> **版本**: v1.2.0
+
 ## 角色总览
 
-| 角色 | 层级 | 职责 | 权限 |
-|------|------|------|------|
-| Router | 规划 | 任务分诊 | 全局Read，分发指令 |
-| Explorer | 规划 | 代码审计 | 仅Read |
-| Analyst | 需求 | 需求分析，PRD生成 | 读写需求文档 |
-| Prometheus | 设计 | 架构设计 | 读写架构文档 |
-| Skeptic | 设计 | 架构审查 | 写入审查意见 |
-| Oracle | 设计 | 实现设计 | 读写实现文档 |
-| **Tester** | **设计** | **CSV测试用例唯一维护者** | **读写CSV** |
-| Worker | 实现 | 编码实现 | Full-Write |
-| **TestWorker** | **实现** | **测试代码维护者** | **读写测试代码，只读CSV** |
-| Librarian | 监管 | 文档维护 | 仅文档文件 |
-| Supervisor | 监管 | 进度监管，熔断决策 | 状态更新 |
+| 角色 | 层级 | 职责 | 权限 | 工作范围 |
+|------|------|------|------|----------|
+| Router | 规划 | 任务分诊 | 全局Read，分发指令 | 全局 |
+| Explorer | 规划 | 代码审计 | 仅Read | 全局 |
+| Analyst | 需求 | 需求分析，PRD生成 | 读写需求文档 | 全局 |
+| Prometheus | 设计 | 架构设计 | 读写架构文档 | 全局 |
+| Skeptic | 设计 | 架构审查 | 写入审查意见 | 全局 |
+| Oracle | 设计 | 实现设计 | 读写实现文档 | 按目录 |
+| **Tester** | **设计** | **分层验收测试设计者** | **读写测试设计** | 按目录 |
+| Worker | 实现 | 编码实现 | Full-Write | **design.md 所在目录** |
+| **TestWorker** | **实现** | **分层验收测试实现者** | **读写测试代码，只读设计** | **design.md 所在目录** |
+| Librarian | 监管 | 文档维护 | 仅文档文件 | 全局 |
+| Supervisor | 监管 | 进度监管，熔断决策，**并行协调** | 状态更新 | 全局 |
+
+---
+
+## 目录维度工作范围
+
+### Worker 工作范围定义
+
+Worker 以 `design.md` 所在目录为工作边界：
+
+```
+Worker 工作范围 = design.md 所在目录及其子目录（不含嵌套 design.md 的子目录）
+```
+
+**示例**：
+```
+src/
+├── module_a/
+│   ├── design.md          ← Worker A 负责
+│   ├── src/
+│   └── utils/
+├── module_b/
+│   ├── design.md          ← Worker B 负责
+│   └── src/
+└── shared/
+    └── design.md          ← Worker C 负责
+```
+
+### 目录层级处理顺序
+
+```
+1. 扫描所有 design.md 文件，记录路径和深度
+2. 按深度降序排序（深度大的优先）
+3. 同深度目录可并行处理
+4. 父目录等待所有子目录完成后才能开始
+```
+
+**处理顺序示例**：
+```
+深度 3: src/core/utils/design.md      → 第一批并行
+深度 3: src/core/helpers/design.md    → 第一批并行
+深度 2: src/core/design.md            → 第二批（等待第一批）
+深度 2: src/api/design.md             → 第二批并行
+深度 1: src/design.md                 → 第三批（等待第二批）
+```
+
+👉 [目录维度工作策略详情](../04_reference/design_directory_strategy.md)
 
 ---
 

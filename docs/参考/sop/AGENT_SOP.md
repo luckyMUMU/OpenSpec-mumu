@@ -1,6 +1,6 @@
 # AI Agent SOP
 
-> **版本**: v1.0.0  
+> **版本**: v1.2.0  
 > **更新日期**: 2026-02-08  
 > AI Agent专用 | 命令式 | 最小Token
 
@@ -13,6 +13,10 @@
 3. `[进行中]`→`[已完成]`
 4. 各角色只操作授权范围
 5. 先复用→改进→新建→清理
+6. **Worker 按目录工作**: 以 design.md 所在目录为工作范围
+7. **自底向上并行**: 按目录深度从深到浅并行执行
+
+**禁止项矩阵**: [查看完整黑白名单](05_constraints/constraint_matrix.md)
 
 ---
 
@@ -28,35 +32,115 @@
 
 ## 角色指令
 
-| 角色 | 职责 | 输入 | 输出 | 停止点 |
-|------|------|------|------|--------|
-| Router | 任务分诊 | 用户请求 | 路径+角色分配 | - |
-| Explorer | 代码审计 | 目标文件 | 审计报告 | - |
-| Analyst | 需求分析 | 用户描述 | **多级需求** | `[WAITING_FOR_REQUIREMENTS]` |
-| Prometheus | 架构设计 | PRD | 架构设计 | `[WAITING_FOR_ARCHITECTURE]` |
-| Skeptic | 架构审查 | 架构设计 | 审查报告 | `[ARCHITECTURE_PASSED]` |
-| Oracle | 实现设计 | 架构设计 | 实现设计 | `[WAITING_FOR_DESIGN]` |
-| Tester | 生成测试用例 | 设计文档 | CSV测试用例 | `[WAITING_FOR_TEST_REVIEW]` |
-| Worker | 编码实现 | 实现设计 | 代码 | Diff展示 |
-| TestWorker | 编写测试代码 | CSV+代码 | 测试代码 | - |
-| Librarian | 文档维护 | 设计文档 | 索引更新 | `[已完成]` |
-| Supervisor | 进度监管 | 执行状态 | 熔断决策 | `[FUSION_TRIGGERED]` |
+| 角色 | 职责 | 输入 | 输出 | 停止点 | 工作范围 |
+|------|------|------|------|--------|----------|
+| Router | 任务分诊 | 用户请求 | 路径+角色分配 | - | 全局 |
+| Explorer | 代码审计 | 目标文件 | 审计报告 | - | 全局 |
+| Analyst | 需求分析 | 用户描述 | **多级需求** | `[WAITING_FOR_REQUIREMENTS]` | 全局 |
+| Prometheus | 架构设计 | PRD | 架构设计 | `[WAITING_FOR_ARCHITECTURE]` | 全局 |
+| Skeptic | 架构审查 | 架构设计 | 审查报告 | `[ARCHITECTURE_PASSED]` | 全局 |
+| Oracle | 实现设计 | 架构设计 | 实现设计 | `[WAITING_FOR_DESIGN]` | 按目录 |
+| Tester | 设计分层验收测试 | 实现设计 | L1-L4测试设计 | `[WAITING_FOR_TEST_DESIGN]` | 按目录 |
+| **Worker** | **编码实现** | **design.md** | **代码** | **Diff展示** | **design.md 所在目录** |
+| **TestWorker** | **实现验收测试代码** | **测试设计** | **L1-L4测试代码** | **`[WAITING_FOR_TEST_IMPLEMENTATION]`** | **design.md 所在目录** |
+| Librarian | 文档维护 | 设计文档 | 索引更新 | `[已完成]` | 全局 |
+| **Supervisor** | **进度监管+并行协调** | **执行状态** | **熔断决策** | **`[FUSION_TRIGGERED]`** | **全局协调** |
+
+---
+
+## 目录维度工作范围
+
+### Worker 工作范围定义
+
+Worker 以 `design.md` 所在目录为工作边界：
+
+```
+Worker 工作范围 = design.md 所在目录及其子目录（不含嵌套 design.md 的子目录）
+```
+
+**示例**：
+```
+src/
+├── module_a/
+│   ├── design.md          ← Worker A 负责
+│   ├── src/
+│   └── utils/
+├── module_b/
+│   ├── design.md          ← Worker B 负责
+│   └── src/
+└── shared/
+    └── design.md          ← Worker C 负责
+```
+
+### 目录层级处理顺序
+
+```
+1. 扫描所有 design.md 文件，记录路径和深度
+2. 按深度降序排序（深度大的优先）
+3. 同深度目录可并行处理
+4. 父目录等待所有子目录完成后才能开始
+```
+
+**处理顺序示例**：
+```
+深度 3: src/core/utils/design.md      → 第一批并行
+深度 3: src/core/helpers/design.md    → 第一批并行
+深度 2: src/core/design.md            → 第二批（等待第一批）
+深度 2: src/api/design.md             → 第二批并行
+深度 1: src/design.md                 → 第三批（等待第二批）
+```
+
+👉 [目录维度工作策略详情](04_reference/design_directory_strategy.md)
 
 ---
 
 ## 工作流
 
-**深度路径**
+### 目录维度深度路径
+
+**核心流程** (带并行执行)
+```
+Analyst → Prometheus ↔ Skeptic → Oracle → Supervisor → [多 Worker 并行] → Librarian
+                                              ↓
+                                    按目录深度调度 Worker
+```
+
+**目录并行执行流程**
+```
+1. Explorer 扫描目录结构，识别所有 design.md
+2. Supervisor 按目录深度排序，创建目录-Worker 映射表
+3. 按深度降序分批启动 Worker（同深度并行）
+4. Worker 处理当前目录，遇到依赖则标记等待
+5. Supervisor 监控进度，唤醒等待依赖的 Worker
+6. 所有目录完成后，Librarian 更新文档
+```
+
+### 标准深度路径（单目录）
 ```
 新项目: Analyst → Prometheus ↔ Skeptic → Oracle → Worker → Librarian
 功能迭代: Analyst → Oracle → Worker → Librarian
 ```
 
-**TDD深度路径** (可选)
+### 分层验收深度路径 (推荐)
 ```
-Analyst → Prometheus ↔ Skeptic → Oracle → Tester → Worker + TestWorker → Librarian
-                                    ↓
-                              生成CSV测试用例
+Analyst → Prometheus ↔ Skeptic → Oracle → Tester → Supervisor → [多 Worker 并行] → Librarian
+                                    ↓           ↓
+                              设计验收测试    实现验收测试
+```
+
+**验收流程** (Worker执行)
+```
+编码完成
+  ↓
+L1验收 → [WAITING_FOR_L1_REVIEW] → Oracle审查
+  ↓
+L2验收 → [WAITING_FOR_L2_REVIEW] → Oracle审查
+  ↓
+L3验收 → [WAITING_FOR_L3_REVIEW] → Analyst+Oracle审查
+  ↓
+L4验收 → [WAITING_FOR_L4_REVIEW] → Prometheus+Analyst+Oracle审查
+  ↓
+通过
 ```
 
 **快速路径**
