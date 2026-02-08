@@ -30,13 +30,13 @@
 |------|------|------|------|--------|
 | Router | 任务分诊 | 用户请求 | 路径+角色分配 | - |
 | Explorer | 代码审计 | 目标文件 | 审计报告 | - |
-| Analyst | 需求分析 | 用户描述 | PRD | `[WAITING_FOR_REQUIREMENTS]` |
+| Analyst | 需求分析 | 用户描述 | **多级需求** | `[WAITING_FOR_REQUIREMENTS]` |
 | Prometheus | 架构设计 | PRD | 架构设计 | `[WAITING_FOR_ARCHITECTURE]` |
 | Skeptic | 架构审查 | 架构设计 | 审查报告 | `[ARCHITECTURE_PASSED]` |
 | Oracle | 实现设计 | 架构设计 | 实现设计 | `[WAITING_FOR_DESIGN]` |
-| **Tester** | **生成测试用例** | **设计文档** | **CSV测试用例** | **`[WAITING_FOR_TEST_REVIEW]`** |
+| Tester | 生成测试用例 | 设计文档 | CSV测试用例 | `[WAITING_FOR_TEST_REVIEW]` |
 | Worker | 编码实现 | 实现设计 | 代码 | Diff展示 |
-| **TestWorker** | **编写测试代码** | **CSV+代码** | **测试代码** | **-** |
+| TestWorker | 编写测试代码 | CSV+代码 | 测试代码 | - |
 | Librarian | 文档维护 | 设计文档 | 索引更新 | `[已完成]` |
 | Supervisor | 进度监管 | 执行状态 | 熔断决策 | `[FUSION_TRIGGERED]` |
 
@@ -76,15 +76,36 @@ Explorer → Worker → Librarian
 
 ## 文档位置
 
-| 类型 | 位置 | 创建者 |
-|------|------|--------|
-| PRD | `docs/01_requirements/*.md` | Analyst |
-| 架构设计 | `docs/02_logical_workflow/*.pseudo` | Prometheus |
-| 实现设计 | `src/**/design.md` | Oracle |
-| **测试用例** | **`docs/03_technical_spec/test_cases/*.csv`** | **Tester** |
-| **测试代码** | **`tests/*.test.[ext]`** | **TestWorker** |
+### 需求文档 (Analyst)
+| 类型 | 位置 | 层级 | 创建者 |
+|------|------|------|--------|
+| 项目PRD | `docs/01_requirements/project_prd.md` | L1 | Analyst |
+| 模块MRD | `docs/01_requirements/modules/[module]_mrd.md` | L2 | Analyst |
+| 功能FRD | `docs/01_requirements/modules/[module]/[feature]_frd.md` | L3 | Analyst |
+| 原型 | `docs/01_requirements/prototypes/[module]/` | L3 | Analyst |
+
+### 设计文档
+| 类型 | 位置 | 层级 | 创建者 |
+|------|------|------|--------|
+| 架构设计 | `docs/02_logical_workflow/*.pseudo` | L2 | Prometheus |
+| 实现设计 | `src/**/design.md` | L3 | Oracle |
+| 测试用例 | `docs/03_technical_spec/test_cases/*.csv` | L3 | Tester |
+| 测试代码 | `tests/*.test.[ext]` | L3 | TestWorker |
 
 **约束**: `/docs/参考/` **非指定不变更**
+
+---
+
+## 需求分层 (Analyst)
+
+| 层级 | 文档 | 内容 | 触发条件 |
+|------|------|------|----------|
+| L1 | Project PRD | 项目愿景、模块清单 | 新项目 |
+| L2 | Module MRD | 模块功能、边界 | 新模块 |
+| L3 | Feature FRD | 功能详情、交互 | 新功能 |
+| L3 | Prototype | 界面原型 | UI项目 |
+
+👉 [需求分层详情](04_reference/index.md#l1-l3-需求分层-analyst)
 
 ---
 
