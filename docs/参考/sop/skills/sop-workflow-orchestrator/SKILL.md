@@ -1,9 +1,11 @@
 ---
-name: "sop-task-triage"
-description: "Task triage workflow to determine fast path or deep path. Invoke when receiving a new task request to analyze complexity and assign workflow."
+name: "sop-workflow-orchestrator"
+description: "Workflow orchestration for task triage and path selection. Invoke when receiving a new task request to analyze complexity, select path (fast/deep/TDD), and assign roles."
 ---
 
-# Task Triage Workflow
+# Workflow Orchestration
+
+> **版本**: v1.0.0
 
 ## Input
 
@@ -23,15 +25,17 @@ description: "Task triage workflow to determine fast path or deep path. Invoke w
 ### Step 1: Analyze Task Complexity
 
 Check conditions:
-| Condition | Fast Path | Deep Path |
-|-----------|-----------|-----------|
-| Single file | ✅ Yes | ❌ No |
-| Lines < 30 | ✅ Yes | ❌ No |
-| No logic change | ✅ Yes | ❌ No |
-| Cross-file | ❌ No | ✅ Yes |
-| New feature | ❌ No | ✅ Yes |
-| Refactor | ❌ No | ✅ Yes |
-| API change | ❌ No | ✅ Yes |
+| Condition | Fast Path | Deep Path | TDD Path |
+|-----------|-----------|-----------|----------|
+| Single file | ✅ Yes | ❌ No | ❌ No |
+| Lines < 30 | ✅ Yes | ❌ No | ❌ No |
+| No logic change | ✅ Yes | ❌ No | ❌ No |
+| Cross-file | ❌ No | ✅ Yes | ✅ Yes |
+| New feature | ❌ No | ✅ Yes | ✅ Yes |
+| Refactor | ❌ No | ✅ Yes | ✅ Yes |
+| API change | ❌ No | ✅ Yes | ✅ Yes |
+| Core business | ❌ No | ❌ No | ✅ Yes |
+| Complex logic | ❌ No | ❌ No | ✅ Yes |
 
 ### Step 2: Select Path
 
@@ -40,6 +44,9 @@ Check conditions:
 
 **Deep Path** (any condition met):
 - Cross-file / new feature / refactor / API change / architecture
+
+**TDD Deep Path** (deep path + any condition):
+- Core business / complex logic / high coverage requirement
 
 ### Step 3: Assign Roles
 
@@ -54,14 +61,22 @@ New project: Analyst → Prometheus ↔ Skeptic → Oracle → Worker → Librar
 Feature:      Analyst → Oracle → Worker → Librarian
 ```
 
+**TDD Deep Path Flow**:
+```
+Analyst → Prometheus ↔ Skeptic → Oracle → Tester → Worker + TestWorker → Librarian
+                                    ↓
+                              生成CSV测试用例
+```
+
 ## Output
 
 ```markdown
-## Triage Result
+## Orchestration Result
 
 ### Path Selection
 - [ ] Fast Path
-- [x] Deep Path
+- [ ] Deep Path
+- [x] TDD Deep Path
 
 ### Reason
 [Why this path]
@@ -80,3 +95,4 @@ Feature:      Analyst → Oracle → Worker → Librarian
 - Must accurately judge complexity
 - Must consider dependencies
 - Must provide clear next steps
+- Must check TDD conditions

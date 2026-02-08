@@ -5,6 +5,8 @@ description: "Deep path workflow for complex changes. Invoke when task is triage
 
 # Deep Path Workflow
 
+> **版本**: v1.0.0
+
 ## Input
 
 ```markdown

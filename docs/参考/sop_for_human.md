@@ -1,6 +1,6 @@
 # AI 项目协作规约 - 人类阅读版
 
-> **版本**: v6.0  
+> **版本**: v1.0.0  
 > **更新日期**: 2026-02-08  
 > **适用对象**: 产品经理、项目经理、技术负责人、开发者
 
@@ -22,6 +22,7 @@
 | **准度 > 速度** | 宁可慢，也要对 | AI 犯错成本高，返工更费时 |
 | **文档先行** | 先写设计文档，再写代码 | 确保理解一致，减少返工 |
 | **渐进披露** | 按需获取信息，避免信息过载 | 提高决策效率 |
+| **少即是多** | 先复用→改进→新建→清理 | 避免重复造轮子，保持简洁 |
 | **测试独立** | 测试用例与代码分离，专人维护 | 确保测试客观性 |
 
 ### 1.2 解决什么问题？
@@ -339,12 +340,13 @@ AI 不会擅自做主，以下节点会停下来等你确认：
 
 ---
 
-### 6.3 实现设计文档（Oracle 写）
+### 6.3 实现设计文档（Oracle 写）- L4
 
 - **位置**：`src/模块/design.md`
 - **内容**：具体实现方案、任务清单、技术选型
 - **特点**：项目特定，可操作
 - **给谁看**：开发工程师
+- **层级**：L4（实现层）
 
 ---
 
@@ -417,10 +419,20 @@ TC001,订单,创建,正常流程,用户登录,"{product:A,qty:1}","{status:succe
 - **用途**：封装角色的核心能力，可被多个角色复用
 - **格式**：包含 frontmatter（name, description）的 Markdown 文件
 
-**示例 Skill**：
+**示例 Skill**（14个）：
 - `sop-workflow-orchestrator`：工作流编排
 - `sop-requirement-analyst`：需求分析
+- `sop-architecture-design`：架构设计
 - `sop-architecture-reviewer`：架构审查
+- `sop-implementation-designer`：实现设计
+- `sop-code-explorer`：代码审计
+- `sop-code-implementation`：代码实现
+- `sop-document-sync`：文档同步
+- `sop-progress-supervisor`：进度监管
+- `sop-fast-path`：快速路径
+- `sop-deep-path`：深度路径
+- `sop-design-placement`：设计放置
+- `sop-capability-reuse`：能力复用
 - `sop-tdd-workflow`：TDD工作流
 
 ---
@@ -433,8 +445,9 @@ TC001,订单,创建,正常流程,用户登录,"{product:A,qty:1}","{status:succe
 - **用途**：角色的"激活指令"
 - **格式**：Markdown 文件，包含角色身份、职责、约束
 
-**主要 Prompts**：
+**主要 Prompts**（11个）：
 - `router_prompt.md`：激活 Router 角色
+- `explorer_prompt.md`：激活 Explorer 角色
 - `analyst_prompt.md`：激活 Analyst 角色
 - `prometheus_prompt.md`：激活 Prometheus 角色
 - `skeptic_prompt.md`：激活 Skeptic 角色
@@ -442,6 +455,8 @@ TC001,订单,创建,正常流程,用户登录,"{product:A,qty:1}","{status:succe
 - `tester_prompt.md`：激活 Tester 角色
 - `test_worker_prompt.md`：激活 TestWorker 角色
 - `worker_prompt.md`：激活 Worker 角色
+- `supervisor_prompt.md`：激活 Supervisor 角色
+- `librarian_prompt.md`：激活 Librarian 角色
 
 ---
 
@@ -708,14 +723,15 @@ TC001,订单,创建,正常流程,用户登录,"{product:A,qty:1}","{status:succe
 | 2 | 再次失败 | 审计+微调 | 等待 |
 | 3 | 第三次失败 | **熔断**，生成报告 | **必须** |
 
-### 12.4 需求分层速查
+### 12.4 文档层级速查
 
-| 层级 | 文档 | 内容 | 触发条件 |
-|------|------|------|----------|
-| L1 | Project PRD | 项目愿景、模块清单 | 新项目 |
-| L2 | Module MRD | 模块功能、边界 | 新模块 |
-| L3 | Feature FRD | 功能详情、交互 | 新功能 |
-| L3 | Prototype | 界面原型 | UI项目 |
+| 层级 | 文档 | 位置 | 内容 | 触发条件 |
+|------|------|------|------|----------|
+| L1 | Project PRD | `docs/01_requirements/project_prd.md` | 项目愿景、模块清单 | 新项目 |
+| L2 | Module MRD | `docs/01_requirements/modules/[module]_mrd.md` | 模块功能、边界 | 新模块 |
+| L3 | Feature FRD | `docs/01_requirements/modules/[module]/[feature]_frd.md` | 功能详情、交互 | 新功能 |
+| L3 | Prototype | `docs/01_requirements/prototypes/[module]/` | 界面原型 | UI项目 |
+| L4 | Implementation | `src/模块/design.md` | 实现设计、技术方案 | 编码前 |
 
 ### 12.5 测试权限速查
 

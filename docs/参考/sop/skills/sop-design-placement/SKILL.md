@@ -5,6 +5,8 @@ description: "指导AI Agent正确放置设计文档和创建design.md。Invoke 
 
 # 设计文档放置指南
 
+> **版本**: v1.0.0
+
 ## 目录结构规范
 
 ### 文档放置位置

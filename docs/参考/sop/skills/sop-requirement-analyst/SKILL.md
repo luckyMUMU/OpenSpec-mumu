@@ -1,9 +1,11 @@
 ---
-name: "sop-requirement-analysis"
-description: "Requirement analysis workflow to elicit needs and generate PRD. Invoke when starting a new feature or when requirements need clarification."
+name: "sop-requirement-analyst"
+description: "Requirement analysis workflow for multi-level requirements (L1 PRD / L2 MRD / L3 FRD). Invoke when starting a new project, module, or feature, or when requirements need clarification."
 ---
 
 # Requirement Analysis Workflow
+
+> **版本**: v1.0.0
 
 ## Input
 
@@ -15,11 +17,21 @@ description: "Requirement analysis workflow to elicit needs and generate PRD. In
 - Background: [info]
 - Constraints: [constraints]
 - Related: [docs]
+- Project type: [new project / new module / new feature]
 ```
 
 ## Workflow Steps
 
-### Step 1: Dialogue Elicitation
+### Step 1: Requirement Level Identification
+
+**Determine level**:
+| Level | Condition | Output |
+|-------|-----------|--------|
+| L1 | New project | Project PRD |
+| L2 | New module | Module MRD |
+| L3 | New feature | Feature FRD |
+
+### Step 2: Dialogue Elicitation
 
 **Purpose**: Clarify user needs
 
@@ -29,20 +41,25 @@ description: "Requirement analysis workflow to elicit needs and generate PRD. In
 3. **Explore**: Discover hidden needs
 4. **Confirm**: Validate understanding
 
-### Step 2: PRD Generation
+### Step 3: Multi-Level PRD Generation
 
-**Purpose**: Document requirements
+**L1 - Project PRD**:
+- Location: `docs/01_requirements/project_prd.md`
+- Content: Project vision, goals, scope, module list
 
-**Sections**:
-1. Overview (background, goals, metrics)
-2. Business analysis (value, process, rules)
-3. User analysis (persona, scenarios, stories)
-4. Functional requirements (Must/Should/Could/Won't)
-5. Non-functional requirements (performance, security)
+**L2 - Module MRD**:
+- Location: `docs/01_requirements/modules/[module]_mrd.md`
+- Content: Module functions, boundaries, interfaces
 
-**Output**: `docs/01_requirements/[feature]_prd.md`
+**L3 - Feature FRD**:
+- Location: `docs/01_requirements/modules/[module]/[feature]_frd.md`
+- Content: Feature details, interaction flow, acceptance criteria
 
-### Step 3: Multi-Dimension Analysis
+**L3 - Prototype** (UI projects):
+- Location: `docs/01_requirements/prototypes/[module]/`
+- Content: Wireframes, mockups, interaction specs
+
+### Step 4: Multi-Dimension Analysis
 
 | Dimension | Check | Output |
 |-----------|-------|--------|
@@ -53,9 +70,9 @@ description: "Requirement analysis workflow to elicit needs and generate PRD. In
 | Risk | Uncertainty, mitigation | Conclusion + risk |
 | Acceptance | Criteria, metrics | Conclusion + risk |
 
-### Step 4: User Confirmation
+### Step 5: User Confirmation
 
-**Purpose**: Validate PRD
+**Purpose**: Validate requirements
 
 **Checklist**:
 - [ ] Requirements correct?
@@ -70,9 +87,13 @@ description: "Requirement analysis workflow to elicit needs and generate PRD. In
 ```markdown
 ## Requirement Analysis Complete
 
-### PRD
-- Location: `docs/01_requirements/[feature]_prd.md`
-- Link: [link]
+### Documents
+| Level | Type | Location |
+|-------|------|----------|
+| L1 | Project PRD | `docs/01_requirements/project_prd.md` |
+| L2 | Module MRD | `docs/01_requirements/modules/[module]_mrd.md` |
+| L3 | Feature FRD | `docs/01_requirements/modules/[module]/[feature]_frd.md` |
+| L3 | Prototype | `docs/01_requirements/prototypes/[module]/` |
 
 ### Analysis Summary
 | Dimension | Conclusion | Risk |
@@ -100,3 +121,5 @@ After confirmation → Architecture Design
 - Must cover 6 dimensions
 - Must get user confirmation
 - Must define clear boundaries
+- Must support multi-level requirements
+- Must create prototypes for UI projects

@@ -1,9 +1,11 @@
 ---
-name: "sop-code-audit"
+name: "sop-code-explorer"
 description: "Code audit workflow for impact assessment and risk identification. Invoke before implementation to understand existing code and assess change impact."
 ---
 
 # Code Audit Workflow
+
+> **版本**: v1.0.0
 
 ## Input
 

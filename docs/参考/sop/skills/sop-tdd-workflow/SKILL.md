@@ -5,6 +5,8 @@ description: "TDD工作流定义。Invoke when 用户启用TDD测试驱动开发
 
 # TDD 工作流 (可选)
 
+> **版本**: v1.0.0
+
 **类型**: 可选项  
 **触发**: Router判断启用TDD时  
 **位置**: `skills/sop-tdd-workflow/SKILL.md`

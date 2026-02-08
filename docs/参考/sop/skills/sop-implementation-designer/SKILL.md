@@ -1,9 +1,11 @@
 ---
-name: "sop-implementation-design"
+name: "sop-implementation-designer"
 description: "Implementation design workflow for creating detailed technical designs. Invoke when architecture is approved and ready for implementation design."
 ---
 
 # Implementation Design Workflow
+
+> **版本**: v1.0.0
 
 ## Input
 

@@ -5,6 +5,8 @@ description: "Architecture design workflow for creating technology-agnostic desi
 
 # Architecture Design Workflow
 
+> **版本**: v1.0.0
+
 ## Input
 
 ```markdown

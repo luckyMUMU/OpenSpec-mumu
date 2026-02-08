@@ -5,6 +5,8 @@ description: "Fast path workflow for single-file, small changes. Invoke when tas
 
 # Fast Path Workflow
 
+> **版本**: v1.0.0
+
 ## Input
 
 ```markdown

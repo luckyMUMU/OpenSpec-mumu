@@ -5,6 +5,8 @@ description: "指导AI Agent复用和优化已有能力。Invoke when needing to
 
 # 能力复用与优化
 
+> **版本**: v1.0.0
+
 ## Step 1: 检查已有能力
 
 **搜索范围**:
