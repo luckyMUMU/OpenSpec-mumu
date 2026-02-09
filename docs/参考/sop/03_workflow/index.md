@@ -18,13 +18,12 @@
 
 Worker 以 `design.md` 所在目录为工作范围，按目录深度自底向上并行执行：
 
-```
-1. Explorer 分析目录结构，识别所有 design.md
-2. Supervisor 按目录深度排序，创建目录-Worker 映射
-3. 同深度目录并行启动 Worker
-4. Worker 处理完当前目录后通知 Supervisor
-5. Supervisor 唤醒等待依赖的 Worker
-```
+CMD: `LIST_DESIGN_MD(root) -> design_list`
+CMD: `SCHEDULE_DIRS(design_list) -> dir_map`
+CMD: `RUN_DIR_BATCH(depth_desc)`（同 depth 并行）
+CMD: `WAIT_DEP(dir,deps)` / `COMPLETE_DIR(dir)`
+
+参见：05_constraints/command_dictionary.md
 
 ### 并行执行规则
 
@@ -92,14 +91,15 @@ Analyst → Oracle → Supervisor → [多 Worker 并行] → Librarian
 ## TDD深度路径 (可选)
 
 ```
-Analyst → Prometheus ↔ Skeptic → Oracle → Tester → Worker + TestWorker → Librarian
-                                    ↓
-                              生成CSV测试用例
+Analyst → Prometheus ↔ Skeptic → Oracle → Tester → Supervisor → Worker + TestWorker → Librarian
+                                    ↓                 ↓
+                              生成CSV测试用例      并行调度与依赖协调
 ```
 
 | 阶段 | 输入 | 输出 | 停止点 |
 |------|------|------|--------|
 | Tester | L2+L3设计 | CSV测试用例 | `[WAITING_FOR_TEST_DESIGN]` |
+| Supervisor | 实现设计+测试设计 | 目录-Worker 映射+调度状态 | `[SCHEDULING]` |
 | Worker | 实现设计 | 代码 | Diff展示 |
 | TestWorker | CSV+代码 | 测试代码 | - |
 

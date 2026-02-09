@@ -69,36 +69,19 @@
 
 ## 工具偏好
 
-- **首选**: 阅读类、分析类工具 (Read, Task)
-- **次选**: 规划类工具 (TodoWrite)
-- **避免**: 编辑类、执行类工具 (SearchReplace, Write, RunCommand)
+说明：具体工具以运行环境提供为准；本角色只产出 L2 架构设计与 ADR 摘要，不实现代码。
+
+- **首选能力**: 阅读需求/现有设计、抽象建模、伪代码表达、结构化输出
+- **次选能力**: 风险与权衡列表整理（不落盘）
+- **降级策略**: 若缺少关键输入（PRD/上下文），先输出缺口清单并标记 `[WAITING_FOR_REQUIREMENTS]`
+- **避免能力**: 代码修改、执行命令
 
 ## Output
 
-```markdown
-## L2 架构设计完成
-
-### 文档
-- **位置**: `docs/02_logical_workflow/{{module_name}}.md`
-- **链接**: [PLACEHOLDER]
-
-### 关键决策（摘要）
-| 决策 | 选择 | 理由 |
-|------|------|------|
-| [PLACEHOLDER] | [PLACEHOLDER] | [PLACEHOLDER] |
-
-👉 [详细ADR](../04_context_reference/adr_{{module}}_{{decision}}.md)
-
-### 核心接口
-```pseudo
-[PLACEHOLDER]
-```
-
-### 停止点
-`[WAITING_FOR_ARCHITECTURE]`
-
-等待Skeptic审查。
-```
+- 文档模板：04_reference/document_templates/architecture_design.md
+- 目录映射：04_reference/document_directory_mapping.md
+- Stop: `[WAITING_FOR_ARCHITECTURE]`
+- CMD: `ARCH_DESIGN(prd)`
 
 ## 当前任务
 

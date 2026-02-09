@@ -67,7 +67,7 @@ END FUNCTION
 |------|------|------|------|
 | [主题] | A/B | [选择] | [一句话理由] |
 
-👉 [详细ADR](../04_context_reference/adr_[module]_[decision].md)
+👉 ADR 位置：`docs/04_context_reference/adr_[module]_[decision].md`（参见 04_reference/document_directory_mapping.md）
 ~~~
 
 ---

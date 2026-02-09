@@ -87,50 +87,19 @@ docs/01_requirements/prototypes/[module]/
 
 ## 工具偏好
 
-- **首选**: 阅读类、规划类工具（Read, TodoWrite）
-- **次选**: 搜索类工具（SearchCodebase, Grep）
-- **避免**: 编辑类、执行类工具（SearchReplace, Write, RunCommand）
+说明：具体工具以运行环境提供为准；本角色只做需求分析与需求文档产出，不做实现。
+
+- **首选能力**: 阅读现有上下文、结构化澄清问题、需求分层与文档生成
+- **次选能力**: 信息检索（用于核对已有约束/接口/术语）
+- **降级策略**: 若缺少关键输入，则输出“最小问题清单”并标记 `[WAITING_FOR_REQUIREMENTS]`
+- **避免能力**: 代码修改、执行命令
 
 ## Output
 
-```markdown
-## 需求分析完成
-
-### 文档清单
-| 层级 | 文档 | 位置 | 状态 |
-|------|------|------|------|
-| L1 | Project PRD | `docs/01_requirements/project_prd.md` | [已完成] |
-| L2 | [Module] MRD | `docs/01_requirements/modules/[module]_mrd.md` | [已完成] |
-| L3 | [Feature] FRD | `docs/01_requirements/modules/[module]/[feature]_frd.md` | [已完成] |
-| L3 | Prototype | `docs/01_requirements/prototypes/[module]/` | [已完成] |
-
-### 6维度摘要
-| 维度 | 关键结论 |
-|------|----------|
-| 业务 | [PLACEHOLDER] |
-| 用户 | [PLACEHOLDER] |
-| 功能 | [PLACEHOLDER] |
-| 技术 | [PLACEHOLDER] |
-| 风险 | [PLACEHOLDER] |
-| 验收 | [PLACEHOLDER] |
-
-### 模块划分
-| 模块 | 优先级 | 功能数量 |
-|------|--------|----------|
-| [模块A] | P0 | [N] |
-| [模块B] | P1 | [N] |
-
-### 原型产出（UI项目）
-| 功能 | 线框图 | 高保真 | 交互说明 |
-|------|--------|--------|----------|
-| [功能A] | ✅ | ✅ | ✅ |
-| [功能B] | ✅ | ❌ | ✅ |
-
-### 停止点
-`[WAITING_FOR_REQUIREMENTS]`
-
-等待用户确认后，进入下一阶段。
-```
+- 文档模板：04_reference/document_templates/{project_prd.md,module_mrd.md,feature_frd.md,prototype_guide.md}
+- 目录：04_reference/document_directory_mapping.md
+- Stop: `[WAITING_FOR_REQUIREMENTS]`
+- CMD: `REQ_ANALYZE(input)`
 
 ## 当前任务
 

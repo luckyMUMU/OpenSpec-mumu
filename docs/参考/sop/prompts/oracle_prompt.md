@@ -145,65 +145,19 @@ END FUNCTION
 
 ## 工具偏好
 
-- **首选**: 阅读类、分析类工具 (Read, Task)
-- **次选**: 规划类工具 (TodoWrite)
-- **避免**: 执行类工具 (RunCommand)
+说明：具体工具以运行环境提供为准；本角色只产出目录级 L3 实现设计，不直接编码。
+
+- **首选能力**: 阅读 L2/现有代码、目录结构分析、接口契约定义、可执行任务清单输出
+- **次选能力**: 风险评估与依赖图整理（不落盘）
+- **降级策略**: 若目录结构/技术栈信息不足，先输出“最小补充信息清单”并标记 `[WAITING_FOR_DESIGN]`
+- **避免能力**: 代码实现、命令执行
 
 ## Output
 
-```xml
-<design_result>
-    <context_manifest>
-        <!-- List files strictly necessary for this design task -->
-        <file>src/{{module}}/types.ts</file>
-        <file>src/{{module}}/interface.ts</file>
-    </context_manifest>
-
-    <documents>
-        <doc path="src/core/design.md" based_on="L2_core_pseudo" />
-        <doc path="src/api/design.md" based_on="L2_api_pseudo" />
-    </documents>
-
-    <tech_stack>
-        <component name="[name]" choice="[choice]" version="[version]">
-            <reason>[reason]</reason>
-        </component>
-    </tech_stack>
-
-    <mapping_table>
-        <item l2_op="VALIDATE_ORDER" l3_impl="OrderValidator.validate()" tech="Class-validator" />
-    </mapping_table>
-
-    <interface_contracts>
-        <contract source="[dir1]" target="[dir2]" interface="[name]">
-            <spec>[specification]</spec>
-        </contract>
-    </interface_contracts>
-
-    <directory_dependencies>
-        <!-- Dependency Graph representation -->
-        [src/core/utils/] -> [src/core/]
-    </directory_dependencies>
-
-    <task_lists>
-        <list directory="src/core/">
-            <task>Implement OrderValidator</task>
-            <task>Setup DB Schema</task>
-        </list>
-    </task_lists>
-
-    <risk_assessment>
-        <risk level="medium">
-            <description>[desc]</description>
-            <mitigation>[plan]</mitigation>
-        </risk>
-    </risk_assessment>
-
-    <stop_point status="WAITING_FOR_DESIGN">
-        Waiting for user confirmation to proceed to coding.
-    </stop_point>
-</design_result>
-```
+- 文档模板：04_reference/document_templates/implementation_design.md
+- 目录策略：04_reference/design_directory_strategy.md
+- Stop: `[WAITING_FOR_DESIGN]`
+- CMD: `IMPL_DESIGN(l2, dir)`
 
 ## 当前任务
 

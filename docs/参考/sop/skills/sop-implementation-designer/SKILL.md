@@ -9,18 +9,10 @@ description: "Implementation design workflow for creating detailed technical des
 
 ## Input
 
-```markdown
-## Architecture
-[Architecture document link]
-
-## Directory Structure
-[Directory tree from Explorer]
-
-## Context
-- Tech stack: [stack]
-- Constraints: [constraints]
-- Existing code: [files]
-```
+- L2 架构文档（link 或内容）
+- Explorer 审计报告（可选）
+- ADR/RAG 参考（可选）
+- 目录范围（dir）
 
 ## Workflow Steps
 
@@ -35,13 +27,7 @@ description: "Implementation design workflow for creating detailed technical des
 4. Define directory-level responsibilities
 
 **Directory Module Map**:
-```markdown
-| Directory | Module | Responsibility |
-|-----------|--------|----------------|
-| src/core/ | Core | Business logic |
-| src/core/utils/ | Utils | Helper functions |
-| src/api/ | API | HTTP handlers |
-```
+输出：dir→module→responsibility（写入 design.md）
 
 ### Step 2: Tech Mapping with ADR Reference
 
@@ -49,14 +35,14 @@ description: "Implementation design workflow for creating detailed technical des
 
 **Actions**:
 1. **Review existing ADRs**:
-   - Check `docs/04_context_reference/adr_*.md`
+   - Check `docs/04_context_reference/adr_*.md`（参见 04_reference/document_directory_mapping.md）
    - Note technology decisions from L2
    - Reference ADR in design.md
 
 2. **Check RAG for tech references**:
-   - Review `docs/04_context_reference/rag/external/tech_docs/`
+   - Review `docs/04_context_reference/rag/external/tech_docs/`（参见 04_reference/document_directory_mapping.md）
    - Check for relevant technology documentation
-   - Mark `[USER_DECISION_REQUIRED]` if conflict with ADR
+   - Mark `[USER_DECISION]` if conflict with ADR
 
 3. **Identify tech options per directory**:
    - Based on ADR decisions
@@ -79,29 +65,7 @@ description: "Implementation design workflow for creating detailed technical des
 4. **Define cross-directory interface contracts**
 
 **Interface Contract Template**:
-```markdown
-## Interface Contract for [directory]
-
-### Input
-| Param | Type | Required | Desc |
-|-------|------|----------|------|
-| [name] | [type] | [Y/N] | [desc] |
-
-### Output
-| Return | Type | Desc |
-|--------|------|------|
-| [name] | [type] | [desc] |
-
-### Directory Dependencies
-| Directory | Interface | Purpose |
-|-----------|-----------|---------|
-| [dep_dir] | [iface] | [purpose] |
-
-### Exposed Interfaces
-| Interface | Used By | Purpose |
-|-----------|---------|---------|
-| [iface] | [dir1], [dir2] | [purpose] |
-```
+写入位置：design.md 的“Interface Contract / Directory Dependencies”章节
 
 ### Step 4: Cross-Directory Dependency Design
 
@@ -114,20 +78,7 @@ description: "Implementation design workflow for creating detailed technical des
 4. Avoid circular dependencies
 
 **Dependency Design Output**:
-```markdown
-## Cross-Directory Dependencies
-
-```
-[src/core/utils/] → [src/core/] → [src/api/]
-                              → [src/web/]
-```
-
-| Source | Target | Interface | Type |
-|--------|--------|-----------|------|
-| src/api/ | src/core/ | CoreService | Import |
-| src/web/ | src/core/ | CoreService | Import |
-| src/core/ | src/core/utils/ | Helpers | Import |
-```
+输出：cross_dir_deps（写入 design.md）
 
 ### Step 5: Task Decomposition (Per Directory)
 
@@ -140,16 +91,7 @@ description: "Implementation design workflow for creating detailed technical des
 4. Identify parallelizable tasks
 
 **Task List Template**:
-```markdown
-## Tasks for [directory]
-
-- [ ] Task 1: [description]
-  - Dependencies: [other tasks]
-  - Estimated: [time]
-- [ ] Task 2: [description]
-  - Dependencies: [other tasks]
-  - Estimated: [time]
-```
+输出：task_list（写入 design.md）
 
 ### Step 6: Test Strategy (Per Directory)
 
@@ -176,72 +118,15 @@ description: "Implementation design workflow for creating detailed technical des
 3. **Conflict check**:
    - Compare design with ADR decisions
    - Compare with RAG references
-   - Mark `[USER_DECISION_REQUIRED]` if conflict found
+   - Mark `[USER_DECISION]` if conflict found
 
-**Reference Template for design.md**:
-```markdown
-## 相关决策与参考
-
-### 架构决策 (ADR)
-| ADR | 决策内容 | 影响 | 状态 |
-|-----|----------|------|------|
-| [ADR-001] | [描述] | [本目录] | [已接受] |
-
-### 参考资料 (RAG)
-| 来源 | 类型 | 内容摘要 | 链接 |
-|------|------|----------|------|
-| [user_req_v2] | 用户输入 | [需求变更] | [rag/user_input/...] |
-| [postgres_doc] | 外部文档 | [连接池配置] | [rag/external/...] |
-
-### 冲突记录
-| 冲突点 | ADR/RAG | 设计决策 | 状态 |
-|--------|---------|----------|------|
-| [数据库选择] | ADR-001: MySQL | 设计: PostgreSQL | [USER_DECISION_REQUIRED] |
-```
+参考：04_reference/knowledge_management.md
 
 ## Output
 
-```markdown
-## Implementation Design Complete
-
-### Documents
-| Directory | Document | Status |
-|-----------|----------|--------|
-| src/core/ | src/core/design.md | Created |
-| src/api/ | src/api/design.md | Created |
-
-### Tech Choices
-| Directory | Component | Choice | Rationale |
-|-----------|-----------|--------|-----------|
-| [dir] | [name] | [choice] | [reason] |
-
-### Cross-Directory Interface Contracts
-| Source | Target | Interface | Contract |
-|--------|--------|-----------|----------|
-| [dir1] | [dir2] | [name] | [link] |
-
-### Directory Dependencies
-```
-[Dependency graph]
-```
-
-### Task Lists (Per Directory)
-#### src/core/
-- [ ] [task 1]
-- [ ] [task 2]
-
-#### src/api/
-- [ ] [task 1]
-- [ ] [task 2]
-
-### Test Strategy (Per Directory)
-| Directory | Unit | Integration | Coverage |
-|-----------|------|-------------|----------|
-| [dir] | [scope] | [scope] | [%] |
-
-### Stop Point
-`[WAITING_FOR_DESIGN]`
-```
+- 模板：04_reference/document_templates/implementation_design.md
+- Stop: `[WAITING_FOR_DESIGN]`
+- CMD: `IMPL_DESIGN(l2, dir)`
 
 ## design.md Rules (Per Directory)
 
@@ -253,11 +138,28 @@ description: "Implementation design workflow for creating detailed technical des
 **Complexity-based**:
 | Complexity | Lines | Action |
 |------------|-------|--------|
-| Low | <100 | Skip design.md, use code comments |
+| Low | <100 | 仅在非目录调度/快速路径可跳过；目录调度下使用极简 design.md |
 | Medium | 100-500 | Brief design.md + interface contracts |
 | High | >500 | Full design.md + detailed contracts |
 
 **Required**: Interface contract with cross-directory dependencies
+
+极简 design.md 模板（目录调度下 Low complexity 允许）：
+```markdown
+# [Module/Directory] Design
+
+## Scope
+- Directory: [path]
+- Goal: [one sentence]
+
+## Interfaces
+- Inputs: [list]
+- Outputs: [list]
+- Errors: [list]
+
+## Dependencies
+- [dep_dir]: [purpose]
+```
 
 ## Constraints
 

@@ -9,15 +9,8 @@ description: "Deep path workflow for complex changes. Invoke when task is triage
 
 ## Input
 
-```markdown
-## Task
-[Feature/Refactor description]
-
-## Context
-- Type: [new/refactor/api/architecture]
-- Scope: [cross-file/modules]
-- Constraints: [constraints]
-```
+- Task: [desc]
+- Context: type/scope/constraints
 
 ## Workflow Steps
 
@@ -25,11 +18,7 @@ description: "Deep path workflow for complex changes. Invoke when task is triage
 
 **Purpose**: Clarify requirements
 
-**Actions**:
-1. Multi-round dialogue with user
-2. Generate PRD
-3. 6-dimension analysis
-4. Get user confirmation
+CMD: `REQ_ANALYZE(input) -> [WAITING_FOR_REQUIREMENTS]`
 
 **Stop Point**: `[WAITING_FOR_REQUIREMENTS]`
 
@@ -37,21 +26,13 @@ description: "Deep path workflow for complex changes. Invoke when task is triage
 
 **Purpose**: Impact assessment
 
-**Actions**:
-1. Analyze existing code
-2. **Scan directory structure, identify all design.md files**
-3. **Map directory dependencies**
-4. Assess impact scope
+CMD: `AUDIT(scope)` / `LIST_DESIGN_MD(root)`
 
 ### Step 3: Architecture Design
 
 **Purpose**: Technology-agnostic design
 
-**Actions**:
-1. Design system architecture
-2. Write pseudocode
-3. Define interfaces
-4. Record decisions
+CMD: `ARCH_DESIGN(prd) -> [WAITING_FOR_ARCHITECTURE]`
 
 **Stop Point**: `[WAITING_FOR_ARCHITECTURE]`
 
@@ -59,10 +40,7 @@ description: "Deep path workflow for complex changes. Invoke when task is triage
 
 **Purpose**: Quality assurance
 
-**Actions**:
-1. Review 6 dimensions
-2. Identify issues
-3. Multi-round iteration
+CMD: `ARCH_REVIEW(l2) -> [ARCHITECTURE_PASSED] | [USER_DECISION]`
 
 **Max**: 3 rounds
 
@@ -74,12 +52,7 @@ description: "Deep path workflow for complex changes. Invoke when task is triage
 
 **Purpose**: Project-specific design
 
-**Actions**:
-1. Map to tech stack
-2. Compare options
-3. **Create design.md for each module directory**
-4. **Define directory-level interface contracts**
-5. **Identify cross-directory dependencies**
+CMD: `IMPL_DESIGN(l2, dir) -> [WAITING_FOR_DESIGN]`
 
 **Stop Point**: `[WAITING_FOR_DESIGN]`
 
@@ -87,11 +60,7 @@ description: "Deep path workflow for complex changes. Invoke when task is triage
 
 **Purpose**: Create parallel execution plan
 
-**Actions**:
-1. **Scan all design.md files**
-2. **Calculate directory depth for each**
-3. **Create directory-Worker mapping table**
-4. **Identify dependencies between directories**
+CMD: `SCHEDULE_DIRS(design_list) -> [SCHEDULING]`
 
 **Stop Point**: `[SCHEDULING]`
 
@@ -99,16 +68,7 @@ description: "Deep path workflow for complex changes. Invoke when task is triage
 
 **Purpose**: Physical coding with directory-based parallel execution
 
-**Actions**:
-1. **Supervisor launches Workers by directory depth (deepest first)**
-2. **Workers process in parallel for same depth, no dependency**
-3. **Worker marks `[DIR_WORKING]` when starting**
-4. **Worker implements only within its design.md directory**
-5. **If cross-directory change needed, mark target design.md and notify Supervisor**
-6. **Worker marks `[DIR_WAITING_DEP]` when waiting for dependency**
-7. **Worker marks `[DIR_COMPLETED]` when done**
-8. Run tests
-9. Quality checks
+CMD: `RUN_DIR_BATCH(depth_desc) -> IMPLEMENT(dir, design) -> Diff展示`
 
 **Stop Point**: Show diff for review
 
@@ -116,33 +76,13 @@ description: "Deep path workflow for complex changes. Invoke when task is triage
 
 **Purpose**: Sync docs
 
-**Actions**:
-1. Update parent indexes
-2. Sync cross-references
-3. Mark `[completed]`
+CMD: `DOC_SYNC(scope) -> [已完成]`
 
 ## Output
 
-```markdown
-## Deep Path Complete
-
-### Stages Completed
-- [x] Requirement Analysis
-- [x] Architecture Design
-- [x] Architecture Review
-- [x] Implementation Design
-- [x] Code Implementation
-- [x] Document Maintenance
-
-### Artifacts
-- PRD: [path]
-- Architecture: [path]
-- Implementation: [path]
-- Code: [changes]
-
-### Status
-`[completed]`
-```
+- 状态：`[已完成]`
+- 产物：PRD / L2 / design.md / code / indexes
+- 参考：05_constraints/command_dictionary.md
 
 ## Constraints
 

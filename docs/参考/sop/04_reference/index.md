@@ -2,12 +2,14 @@
 
 ## 渐进式披露层级 (L1-L4)
 
+参见 [document_directory_mapping.md](file:///d:/Code/AI/OpenSpec-mumu/docs/%E5%8F%82%E8%80%83/sop/04_reference/document_directory_mapping.md)（逻辑目录 → 项目实际目录映射）。
+
 | 层级 | 目录 | 内容 | 格式 | 创建者 |
 |------|------|------|------|--------|
 | L1 | `01_concept_overview.md` | 核心概念 | Markdown | - |
-| L2 | `02_logical_workflow/` | 逻辑工作流 | `.md` | Prometheus |
-| L3 | `03_technical_spec/` / `src/**/design.md` | 技术规格 | Markdown/YAML | Oracle |
-| L4 | `04_context_reference/` | 决策参考 | `adr_*.md` | Prometheus/Oracle |
+| L2 | `docs/02_logical_workflow/` | 逻辑工作流 | `.md` | Prometheus |
+| L3 | `docs/03_technical_spec/` / `src/**/design.md` | 技术规格 | Markdown/YAML | Oracle |
+| L4 | `docs/04_context_reference/` | 决策参考 | `adr_*.md` | Prometheus/Oracle |
 
 ---
 

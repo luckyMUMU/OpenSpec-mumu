@@ -28,6 +28,17 @@
 
 ---
 
+## TDD 路径的测试资产约定
+
+当启用 TDD 深度路径（参见 `skills/sop-tdd-workflow/SKILL.md`）时：
+- **Tester 的测试设计载体**：以 CSV 为准，建议位置 `docs/03_technical_spec/test_cases/*.csv`（参见 04_reference/document_directory_mapping.md）
+- **TestWorker 的测试代码落地**：将 CSV 用例实现为分层验收测试，建议目录 `tests/acceptance/l1-l4/`
+- **Worker 的边界不变**：仅运行测试，不创建/修改测试
+
+当未启用 TDD 路径时：Tester 可继续使用本文档中描述的 `tests/acceptance/l*/[module]_l*_test_design.md` 作为测试设计载体。
+
+---
+
 ## 项目适配与 CI 门禁（推荐）
 
 ### 命令适配原则
@@ -103,31 +114,10 @@ L4 审查 (Prometheus + Analyst + Oracle)
 
 **设计输出**: `tests/acceptance/l1/[module]_l1_test_design.md`
 
-**设计内容**:
-```markdown
-## L1 测试设计
-
-### 测试目标
-- 函数: `function_name`
-- 位置: `src/module/file.py`
-
-### 测试场景
-1. **正常场景**
-   - 输入: xxx
-   - 预期输出: xxx
-   
-2. **边界场景**
-   - 输入: xxx
-   - 预期输出: xxx
-   
-3. **异常场景**
-   - 输入: xxx
-   - 预期异常: xxx
-
-### 验收标准
-- 覆盖率 >= 80%
-- 所有场景通过
-```
+**设计内容**（最小字段）:
+- 目标（函数/位置）
+- 场景（正向/边界/异常）
+- 标准（覆盖率/通过率）
 
 ### 测试实现（TestWorker）
 
@@ -180,27 +170,10 @@ go test ./tests/acceptance/l1/ -v -cover
 
 **设计输出**: `tests/acceptance/l2/[module]_l2_test_design.md`
 
-**设计内容**:
-```markdown
-## L2 测试设计
-
-### 测试目标
-- 模块: `module_name`
-- 接口: 模块对外暴露的接口
-
-### 集成场景
-1. **组件集成**
-   - 组件A + 组件B 协作
-   - 预期结果: xxx
-   
-2. **接口调用**
-   - 输入: xxx
-   - 预期输出: xxx
-
-### 依赖验证
-- 依赖模块: xxx
-- Mock策略: xxx
-```
+**设计内容**（最小字段）:
+- 目标（模块/接口）
+- 集成场景（组件集成/接口调用）
+- 依赖验证（mock 策略）
 
 ### 测试实现（TestWorker）
 
@@ -248,32 +221,10 @@ go test ./tests/acceptance/l2/ -v
 
 **设计输出**: `tests/acceptance/l3/[feature]_l3_test_design.md`
 
-**设计内容**:
-```markdown
-## L3 测试设计
-
-### 测试目标
-- 功能: `feature_name`
-- 对应FRD: `docs/01_requirements/.../[feature]_frd.md`
-
-### 用户场景
-1. **主流程**
-   - 步骤1: xxx
-   - 步骤2: xxx
-   - 预期结果: xxx
-   
-2. **替代流程**
-   - 触发条件: xxx
-   - 处理流程: xxx
-
-3. **异常流程**
-   - 错误场景: xxx
-   - 预期处理: xxx
-
-### 业务规则验证
-- 规则1: xxx
-- 规则2: xxx
-```
+**设计内容**（最小字段）:
+- 目标（feature + FRD link）
+- 场景（主/替代/异常）
+- 业务规则（规则清单）
 
 ### 测试实现（TestWorker）
 
@@ -321,31 +272,10 @@ go test ./tests/acceptance/l3/ -v
 
 **设计输出**: `tests/acceptance/l4/system_l4_test_design.md`
 
-**设计内容**:
-```markdown
-## L4 测试设计
-
-### 测试目标
-- 系统整体流程
-- 架构约束验证
-
-### E2E场景
-1. **完整业务流程**
-   - 从入口到出口的全流程
-   - 涉及模块: A → B → C
-   
-2. **性能场景**
-   - 并发用户数: xxx
-   - 响应时间要求: xxx
-   
-3. **可靠性场景**
-   - 故障恢复
-   - 数据一致性
-
-### 架构约束验证
-- 约束1: xxx
-- 约束2: xxx
-```
+**设计内容**（最小字段）:
+- 目标（系统流程/架构约束）
+- 场景（E2E/性能/可靠性）
+- 指标/约束（阈值/校验项）
 
 ### 测试实现（TestWorker）
 
@@ -393,41 +323,8 @@ k6 run performance-tests.js
 
 Worker 在运行每层验收测试前，必须检查：
 
-```markdown
-## 测试充分性检查
-
-### L1 检查
-- [ ] 测试文件存在: `tests/acceptance/l1/`
-- [ ] 设计文档存在: `tests/acceptance/l1/*_l1_test_design.md`
-- [ ] 测试代码存在: `tests/acceptance/l1/test_*.py`
-- [ ] 覆盖率配置存在
-
-**不充分**: 中断，标记 `[WAITING_FOR_TEST_CREATION]`
-
-### L2 检查
-- [ ] L1 已通过
-- [ ] L1 审查已通过
-- [ ] 测试文件存在: `tests/acceptance/l2/`
-- [ ] 设计文档存在
-
-**不充分**: 中断，标记 `[WAITING_FOR_TEST_CREATION]`
-
-### L3 检查
-- [ ] L2 已通过
-- [ ] L2 审查已通过
-- [ ] 测试文件存在: `tests/acceptance/l3/`
-- [ ] 覆盖FRD场景
-
-**不充分**: 中断，标记 `[WAITING_FOR_TEST_CREATION]`
-
-### L4 检查
-- [ ] L3 已通过
-- [ ] L3 审查已通过
-- [ ] 测试文件存在: `tests/acceptance/l4/`
-- [ ] E2E场景完整
-
-**不充分**: 中断，标记 `[WAITING_FOR_TEST_CREATION]`
-```
+检查项（每层一致）：测试文件存在 / 测试设计存在 / 测试代码存在 / 覆盖关键场景与指标。
+不充分：中断并标记 `[WAITING_FOR_TEST_CREATION]`（等待用户决策）
 
 ---
 
@@ -518,27 +415,7 @@ tests/
 
 每层验收完成后，Worker生成验收报告：
 
-```markdown
-## L1 验收报告
-
-### 执行时间
-2024-01-15 10:30:00
-
-### 测试结果
-- 测试用例: 15
-- 通过: 15
-- 失败: 0
-- 覆盖率: 85%
-
-### 通过的检查项
-- [x] 测试存在性
-- [x] 覆盖率 >= 80%
-- [x] 100%通过率
-- [x] 无lint错误
-
-### 结论
-✅ L1 验收通过，等待审查
-```
+模板：04_reference/interaction_formats/worker_execution_result.md
 
 ---
 

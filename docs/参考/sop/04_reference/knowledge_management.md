@@ -3,6 +3,7 @@
 > **版本**: v1.4.0  
 > **位置**: `docs/04_context_reference/`  
 > **用途**: 管理用户输入和外部获取的知识
+> **目录映射**: 参见 04_reference/document_directory_mapping.md
 
 ---
 
@@ -182,10 +183,10 @@ docs/04_context_reference/
 
 | 类型 | 示例 | 处理方式 |
 |------|------|----------|
-| ADR vs 设计 | ADR选择MySQL，设计选择PostgreSQL | `[USER_DECISION_REQUIRED]` |
-| RAG vs 设计 | 参考文档建议A，设计采用B | `[USER_DECISION_REQUIRED]` |
-| 用户输入 vs ADR | 用户新需求与已接受ADR冲突 | `[USER_DECISION_REQUIRED]` |
-| RAG 内部冲突 | 两份参考文档建议矛盾 | `[USER_DECISION_REQUIRED]` |
+| ADR vs 设计 | ADR选择MySQL，设计选择PostgreSQL | `[USER_DECISION]` |
+| RAG vs 设计 | 参考文档建议A，设计采用B | `[USER_DECISION]` |
+| 用户输入 vs ADR | 用户新需求与已接受ADR冲突 | `[USER_DECISION]` |
+| RAG 内部冲突 | 两份参考文档建议矛盾 | `[USER_DECISION]` |
 
 ### 处理流程
 
@@ -217,7 +218,7 @@ docs/04_context_reference/
 - 选项3: [更新ADR/RAG]
 ```
     ↓
-标记 [USER_DECISION_REQUIRED]
+标记 `[USER_DECISION]`
     ↓
 等待用户决策
     ↓

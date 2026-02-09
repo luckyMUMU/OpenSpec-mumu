@@ -9,19 +9,10 @@ description: "Architecture review workflow with multi-round iteration. Invoke wh
 
 ## Input
 
-```markdown
-## Review Target
-[Architecture document link]
-
-## Directory Structure
-[Directory tree]
-
-## Round
-[N]
-
-## Previous Response
-[Designer reply summary]
-```
+- L2 架构文档（link 或内容）
+- 目录结构（可选）
+- 当前轮次 N（1-3）
+- 上轮回复摘要（可选）
 
 ## Workflow Steps
 
@@ -29,14 +20,7 @@ description: "Architecture review workflow with multi-round iteration. Invoke wh
 
 **Purpose**: Check 6 dimensions
 
-| Dimension | Check |
-|-----------|-------|
-| Completeness | All requirements covered? |
-| Consistency | Terms and logic aligned? |
-| Feasibility | Technically achievable? |
-| Performance | Meets requirements? |
-| Security | Any vulnerabilities? |
-| Scalability | Easy to extend? |
+维度：完整性/一致性/可行性/性能/安全/可扩展
 
 ### Step 2: Directory Structure Review
 
@@ -72,54 +56,8 @@ Round 3: Final check → Pass or deadlock
 
 ## Output
 
-### Continue Review
-```markdown
-## Review Round [N]
-
-### Issues
-| Severity | Location | Description | Fix |
-|----------|----------|-------------|-----|
-| 🔴 | [loc] | [desc] | [fix] |
-
-### Directory Issues
-| Directory | Issue | Impact |
-|-----------|-------|--------|
-| [dir] | [desc] | [impact] |
-
-### Next
-@Designer: Fix issues above
-```
-
-### Pass
-```markdown
-## Review Passed ✅
-
-### Stats
-- Rounds: [N]
-- Issues fixed: [N]
-
-### Directory Structure Approved
-| Directory | Responsibility | Dependencies |
-|-----------|----------------|--------------|
-| [dir] | [resp] | [deps] |
-
-### Next
-@Implementer: Start implementation design
-```
-
-### Deadlock
-```markdown
-## Review Deadlock
-
-### Dispute
-[Topic]: [conflict]
-
-### Options
-- A: [desc]
-- B: [desc]
-
-**User decision required**
-```
+- 模板：04_reference/interaction_formats/design_review.md
+- CMD: `ARCH_REVIEW(l2)`（post: `[ARCHITECTURE_PASSED]` / `[USER_DECISION]`）
 
 ## Constraints
 

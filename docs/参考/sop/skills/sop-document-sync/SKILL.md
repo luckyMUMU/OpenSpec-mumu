@@ -9,16 +9,10 @@ description: "Document synchronization workflow for index updates and progressiv
 
 ## Input
 
-```markdown
-## Task
-- Type: [add/update/status/archive]
-- Target: [document path]
-- Change: [description]
-
-## Impact
-- Parent: [path]
-- Related: [paths]
-```
+- type(add/update/status/archive)
+- target(path)
+- change(brief)
+- parent/related(paths)
 
 ## Workflow Steps
 
@@ -60,27 +54,8 @@ description: "Document synchronization workflow for index updates and progressiv
 
 ## Output
 
-```markdown
-## Document Synchronization Complete
-
-### Summary
-- Type: [type]
-- Target: [path]
-- Status: [old] → [new]
-
-### Updated
-| Path | Change | Note |
-|------|--------|------|
-| [path] | [add/modify] | [note] |
-
-### Validation
-- Links: [valid/total]
-- Structure: [pass/fail]
-- Format: [pass/fail]
-
-### Status
-`[已完成]`
-```
+- 状态：`[已完成]`
+- CMD: `DOC_SYNC(scope)`
 
 ## Constraints
 
@@ -90,6 +65,8 @@ description: "Document synchronization workflow for index updates and progressiv
 - Status marks: `[进行中]` / `[已完成]` / `[待审批]` / `[已归档]`
 
 ## Document Levels (L1-L4)
+
+参见 04_reference/document_directory_mapping.md（逻辑目录 → 项目实际目录映射）。
 
 | Level | Path | Content | Creator |
 |-------|------|---------|---------|

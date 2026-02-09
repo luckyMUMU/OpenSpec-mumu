@@ -63,17 +63,9 @@ Analyst → Oracle → Worker → Librarian
 | Librarian | 代码 | 文档更新 | `[已完成]` | 全局 |
 
 ### 目录-Worker 映射表示例
+模板：04_reference/interaction_formats/supervisor_report.md（进度更新中的表格）
 
-```markdown
-## 目录处理状态
-| 目录 | 深度 | Worker | 状态 | 依赖目录 |
-|------|------|--------|------|----------|
-| src/core/utils/ | 3 | Worker-1 | [DIR_COMPLETED] | - |
-| src/core/helpers/ | 3 | Worker-2 | [DIR_COMPLETED] | - |
-| src/core/ | 2 | Worker-3 | [DIR_WORKING] | src/core/utils/, src/core/helpers/ |
-| src/api/ | 2 | Worker-4 | [DIR_WAITING_DEP] | src/core/ |
-| src/web/ | 2 | Worker-5 | [DIR_WORKING] | src/core/ |
-```
+CMD: `SCHEDULE_DIRS(design_list) -> dir_map`
 
 ---
 
@@ -102,36 +94,10 @@ Analyst → Prometheus ↔ Skeptic → Oracle → Tester → TestWorker → Work
 | Librarian | 代码+测试 | 文档更新 | `[已完成]` | 文档归档 |
 
 ### 分层验收流程（Worker执行）
-
-```
-Worker编码完成
-    ↓
-检查L1测试充分性
-    ↓
-运行L1验收测试
-    ↓
-L1通过 → [WAITING_FOR_L1_REVIEW] → Oracle审查
-    ↓
-检查L2测试充分性
-    ↓
-运行L2验收测试
-    ↓
-L2通过 → [WAITING_FOR_L2_REVIEW] → Oracle审查
-    ↓
-检查L3测试充分性
-    ↓
-运行L3验收测试
-    ↓
-L3通过 → [WAITING_FOR_L3_REVIEW] → Analyst+Oracle审查
-    ↓
-检查L4测试充分性
-    ↓
-运行L4验收测试
-    ↓
-L4通过 → [WAITING_FOR_L4_REVIEW] → Prometheus+Analyst+Oracle审查
-    ↓
-全部验收通过
-```
+CMD: `RUN_ACCEPTANCE(L1) -> [WAITING_FOR_L1_REVIEW] -> REVIEW_ACCEPTANCE(L1)`
+CMD: `RUN_ACCEPTANCE(L2) -> [WAITING_FOR_L2_REVIEW] -> REVIEW_ACCEPTANCE(L2)`
+CMD: `RUN_ACCEPTANCE(L3) -> [WAITING_FOR_L3_REVIEW] -> REVIEW_ACCEPTANCE(L3)`
+CMD: `RUN_ACCEPTANCE(L4) -> [WAITING_FOR_L4_REVIEW] -> REVIEW_ACCEPTANCE(L4)`
 
 ### 分层验收特点
 

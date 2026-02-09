@@ -9,20 +9,9 @@ description: "Code implementation workflow for physical coding. Invoke when impl
 
 ## Input
 
-```markdown
-## Implementation Design
-[Design document link]
-
-## Directory Scope
-- Target directory: [path to design.md directory]
-- Depth: [directory depth]
-- Dependencies: [dependent directories]
-
-## Context
-- Tech stack: [stack]
-- Test command: [command]
-- Lint command: [command]
-```
+- Implementation Design（design.md / link）
+- Directory Scope（dir + depth + deps）
+- 可执行命令契约（test/lint/typecheck；参见 05_constraints/acceptance_criteria.md）
 
 ## Workflow Steps
 
@@ -35,14 +24,7 @@ description: "Code implementation workflow for physical coding. Invoke when impl
 2. Confirm directory boundary (current dir + subdirs without nested design.md)
 3. Check dependency directory status
 4. Mark `[DIR_WORKING]`
-
-**Dependency Check**:
-```markdown
-| Dependency Directory | Status | Action |
-|---------------------|--------|--------|
-| src/core/ | [DIR_COMPLETED] | Continue |
-| src/utils/ | [DIR_WORKING] | Wait |
-```
+CMD: `WAIT_DEP(dir,deps)` / `COMPLETE_DIR(dir)`
 
 ### Step 2: Checkpoint
 
@@ -64,11 +46,7 @@ description: "Code implementation workflow for physical coding. Invoke when impl
 4. Add code comments
 
 **Cross-Directory Change Handling**:
-- If need to modify other directory → **Do NOT update target design.md directly**
-- **Record Request**: Add "External Dependency Request" to **CURRENT** directory's `design.md`
-- **Content**: Include target directory, change description, and interface contract
-- Notify Supervisor to route request
-- Mark `[DIR_WAITING_DEP]` and wait
+CMD: `REQUEST_CROSS_DIR(src_dir, target_dir, change) -> appended_request`
 
 ### Step 4: Testing
 
@@ -99,37 +77,8 @@ description: "Code implementation workflow for physical coding. Invoke when impl
 
 ## Output
 
-```markdown
-## Implementation Complete
-
-### Directory
-- Path: [target directory]
-- Status: [DIR_COMPLETED]
-
-### Changes
-- Files: [N]
-- Lines: [+N/-M]
-
-### Tests
-- Unit: [pass/fail]
-- Integration: [pass/fail]
-
-### Quality
-- Lint: [pass/fail]
-- Type check: [pass/fail]
-
-### Dependencies
-| Directory | Status |
-|-----------|--------|
-| [dep1] | [DIR_COMPLETED] |
-| [dep2] | [DIR_COMPLETED] |
-
-### Diff
-[diff]
-
-### Status
-Waiting for review
-```
+- 模板：04_reference/interaction_formats/worker_execution_result.md
+- CMD: `IMPLEMENT(dir, design) -> Diff展示`
 
 ## Constraints
 

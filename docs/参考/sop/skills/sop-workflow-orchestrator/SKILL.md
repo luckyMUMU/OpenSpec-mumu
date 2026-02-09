@@ -9,33 +9,14 @@ description: "Workflow orchestration for task triage and path selection. Invoke 
 
 ## Input
 
-```markdown
-## Task Request
-[User request]
-
-## Context
-- Project type: [new/feature/refactor]
-- Related files: [list]
-- Urgency: [high/medium/low]
-- Constraints: [constraints]
-```
+- user_request
+- context(project_type/related_files/urgency/constraints)
 
 ## Workflow Steps
 
 ### Step 1: Analyze Task Complexity
-
-Check conditions:
-| Condition | Fast Path | Deep Path | TDD Path |
-|-----------|-----------|-----------|----------|
-| Single file | ✅ Yes | ❌ No | ❌ No |
-| Lines < 30 | ✅ Yes | ❌ No | ❌ No |
-| No logic change | ✅ Yes | ❌ No | ❌ No |
-| Cross-file | ❌ No | ✅ Yes | ✅ Yes |
-| New feature | ❌ No | ✅ Yes | ✅ Yes |
-| Refactor | ❌ No | ✅ Yes | ✅ Yes |
-| API change | ❌ No | ✅ Yes | ✅ Yes |
-| Core business | ❌ No | ❌ No | ✅ Yes |
-| Complex logic | ❌ No | ❌ No | ✅ Yes |
+CMD: `FAST_PATH_CHECK(change) -> allow|upgrade`
+CMD: `TDD_CHECK(scope) -> on|off`
 
 ### Step 2: Select Path
 
@@ -52,21 +33,7 @@ Check conditions:
 
 **Purpose**: Prepare for directory-based parallel execution
 
-**Actions**:
-1. Scan project directory structure
-2. Identify existing design.md files
-3. Calculate directory depths
-4. Map directory dependencies
-
-**Output**:
-```markdown
-## Directory Structure
-| Directory | Depth | Has design.md | Dependencies |
-|-----------|-------|---------------|--------------|
-| src/core/ | 2 | ✅ | - |
-| src/core/utils/ | 3 | ✅ | - |
-| src/api/ | 2 | ❌ | src/core/ |
-```
+CMD: `LIST_DESIGN_MD(root) -> design_list`
 
 ### Step 4: Assign Roles
 
@@ -106,72 +73,12 @@ Analyst → Prometheus ↔ Skeptic → Oracle → Tester → Supervisor → [多
 
 **Purpose**: Define directory-based parallel execution strategy
 
-**Actions**:
-1. Group directories by depth
-2. Identify parallelizable directories
-3. Map dependencies
-4. **Perform topological sort within same depth** (handle same-depth dependencies)
-5. Create execution batches
-
-**Execution Plan Template**:
-```markdown
-## Parallel Execution Plan
-
-### Batch 1 (Depth 3)
-| Directory | Worker | Dependencies |
-|-----------|--------|--------------|
-| src/core/utils/ | Worker-1 | None |
-| src/core/helpers/ | Worker-2 | None |
-
-### Batch 2 (Depth 2)
-| Directory | Worker | Dependencies |
-|-----------|--------|--------------|
-| src/core/ | Worker-3 | Batch 1 |
-| src/api/ | Worker-4 | Batch 1 |
-
-### Batch 3 (Depth 1)
-| Directory | Worker | Dependencies |
-|-----------|--------|--------------|
-| src/ | Worker-5 | Batch 2 |
-```
+CMD: `SCHEDULE_DIRS(design_list) -> dir_map`
 
 ## Output
 
-```markdown
-## Orchestration Result
-
-### Path Selection
-- [ ] Fast Path
-- [ ] Deep Path
-- [x] TDD Deep Path
-
-### Reason
-[Why this path]
-
-### Directory Analysis
-| Directory | Depth | Status | Action |
-|-----------|-------|--------|--------|
-| [dir1] | 3 | Existing | Assign Worker |
-| [dir2] | 2 | New | Create design.md + Worker |
-
-### Role Assignment
-| Stage | Role | Task | Scope |
-|-------|------|------|-------|
-| 1 | Analyst | 需求分析 | 全局 |
-| ... | ... | ... | ... |
-| 6 | Supervisor | 调度协调 | 全局 |
-| 7 | Worker | 编码实现 | design.md 所在目录 |
-
-### Parallel Execution Plan
-| Batch | Depth | Directories | Execution |
-|-------|-------|-------------|-----------|
-| 1 | 3 | [dirs] | 并行 |
-| 2 | 2 | [dirs] | 并行（依赖Batch 1） |
-| 3 | 1 | [dirs] | 并行（依赖Batch 2） |
-
-### Next
-@[Role]: [Specific task]
-```
+- 模板：04_reference/interaction_formats/router_triage.md
+- CMD: `ROUTE(task)`
 
 ## Constraints
 

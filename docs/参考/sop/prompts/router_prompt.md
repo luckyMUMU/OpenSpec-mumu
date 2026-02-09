@@ -82,56 +82,17 @@
 
 ## 工具偏好
 
-- **首选**: 分析类工具（Task）
-- **次选**: 规划类工具（TodoWrite）
-- **避免**: 编辑类工具（SearchReplace, Write）
+说明：具体工具以运行环境提供为准；本角色只分诊不执行。
+
+- **首选能力**: 任务复杂度判断、路径选择、角色分配、结构化输出
+- **次选能力**: 规划整理（不落盘）
+- **降级策略**: 若缺少上下文/代码信息，则先输出“需要补充的最小信息清单”并标记 `[WAITING_FOR_REQUIREMENTS]`
+- **避免能力**: 直接修改代码/文档、执行命令
 
 ## Output
 
-```markdown
-## 任务分诊结果
-
-### 需求层级
-- [ ] L1: 项目级 (Project PRD)
-- [ ] L2: 模块级 (Module MRD)
-- [x] L3: 功能级 (Feature FRD)
-
-### 路径选择
-- [ ] 快速路径
-- [ ] 深度路径
-- [x] TDD深度路径
-
-### TDD启用理由
-[核心业务/复杂逻辑/高覆盖要求/用户指定]
-
-### UI原型
-- [x] 需要 (Web/App/桌面)
-- [ ] 不需要 (纯后端/数据处理)
-
-### 角色分配
-| 阶段 | 角色 | 任务 | 输出 |
-|------|------|------|------|
-| 1 | Analyst | 需求分析 | PRD/MRD/FRD + 原型 |
-| 2 | Prometheus | 架构设计 | `.md` |
-| 3 | Skeptic | 架构审查 | 审查报告 |
-| 4 | Oracle | 实现设计 | `design.md` |
-| 5 | Tester | 生成测试用例 | CSV |
-| 6 | Worker | 编码实现 | 代码 |
-| 6 | TestWorker | 编写测试代码 | 测试代码 |
-| 7 | Librarian | 文档维护 | 索引更新 |
-
-### 文档位置
-| 类型 | 位置 |
-|------|------|
-| 需求文档 | `docs/01_requirements/` (L1/L2/L3) |
-| 原型 | `docs/01_requirements/prototypes/` |
-| 架构 | `docs/02_logical_workflow/` |
-| 实现 | `src/**/design.md` |
-| 测试用例 | `docs/03_technical_spec/test_cases/` |
-
-### 下一步
-@Analyst: 开始需求分析 (L3功能级 + UI原型)
-```
+- 模板：04_reference/interaction_formats/router_triage.md
+- CMD: `ROUTE(task)`
 
 ## 当前任务
 

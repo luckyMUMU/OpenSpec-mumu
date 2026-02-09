@@ -53,39 +53,17 @@
 
 ## 工具偏好
 
-- **首选**: 阅读类、分析类工具（Read, Task）
-- **次选**: 搜索类工具（SearchCodebase, Grep）
-- **避免**: 编辑类、执行类工具（SearchReplace, Write, RunCommand）
+说明：具体工具以运行环境提供为准；本角色只做审查，不做实现与落盘修改。
+
+- **首选能力**: 阅读架构文档、基于约束矩阵/状态字典审查、一致性核对、结构化问题清单输出
+- **次选能力**: 信息检索（核对历史 ADR/RAG/模板约束）
+- **降级策略**: 若缺少被审查文档或引用上下文，则输出缺口清单并标记 `[USER_DECISION]`
+- **避免能力**: 修改文档/代码、执行命令
 
 ## Output
 
-```markdown
-## 架构审查报告
-
-### 审查对象
-- **文档**: [PLACEHOLDER]
-- **轮次**: 第 [PLACEHOLDER] 轮
-
-### 🔴 严重问题（必须解决）
-| 位置 | 问题 | 影响 | 建议 |
-|------|------|------|------|
-| [PLACEHOLDER] | [PLACEHOLDER] | [PLACEHOLDER] | [PLACEHOLDER] |
-
-### 🟡 一般问题（建议解决）
-| 位置 | 问题 | 影响 | 建议 |
-|------|------|------|------|
-| [PLACEHOLDER] | [PLACEHOLDER] | [PLACEHOLDER] | [PLACEHOLDER] |
-
-### 🟢 建议（可选采纳）
-| 位置 | 建议 | 理由 |
-|------|------|------|
-| [PLACEHOLDER] | [PLACEHOLDER] | [PLACEHOLDER] |
-
-### 结论
-- [ ] 继续审查（第 [PLACEHOLDER] 轮）
-- [x] 审查通过 → 标记 `[ARCHITECTURE_PASSED]` → @Oracle
-- [ ] 需要用户决策 → 标记 `[USER_DECISION]`
-```
+- 模板：04_reference/interaction_formats/design_review.md
+- CMD: `ARCH_REVIEW(l2)`
 
 ## 当前任务
 

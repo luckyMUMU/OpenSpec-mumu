@@ -9,30 +9,10 @@ description: "Progress monitoring workflow for tracking execution and triggering
 
 ## Input
 
-```markdown
-## Monitor Task
-[ID/name]
-
-## Current State
-- Stage: [current]
-- Role: [current]
-- Start: [time]
-- Elapsed: [duration]
-
-## Directory Mapping
-| Directory | Depth | Worker | Status | Dependencies |
-|-----------|-------|--------|--------|--------------|
-| [dir1] | 3 | Worker-1 | [DIR_COMPLETED] | - |
-| [dir2] | 2 | Worker-2 | [DIR_WORKING] | [dir1] |
-| [dir3] | 2 | Worker-3 | [DIR_WAITING_DEP] | [dir2] |
-
-## Latest Feedback
-[Role feedback]
-
-## Failures
-- Count: [0/1/2/3]
-- Reason: [reason]
-```
+- task_id/name
+- stage/role/elapsed
+- dir_map（目录/深度/Worker/状态/依赖）
+- failures（0-3）
 
 ## Workflow Steps
 
@@ -41,49 +21,22 @@ description: "Progress monitoring workflow for tracking execution and triggering
 **Purpose**: Create directory-Worker mapping for parallel execution
 
 **Actions**:
-1. Scan all design.md files in project
-2. Calculate directory depth for each
-3. Sort by depth (descending)
-4. Create mapping table
-5. **Load existing state** from `.temp/scheduler_state.md` (if exists)
-6. Mark `[SCHEDULING]`
-
-**Directory Depth Calculation**:
-```
-Depth 0: ./
-Depth 1: src/
-Depth 2: src/module/          ← design.md here = depth 2
-Depth 3: src/module/utils/
-```
+CMD: `LIST_DESIGN_MD(root) -> design_list`
+CMD: `SCHEDULE_DIRS(design_list) -> dir_map`（可选：持久化 `.temp/scheduler_state.md`）
 
 ### Step 2: Worker Launch Scheduling
 
 **Purpose**: Launch Workers by directory depth
 
 **Actions**:
-1. Group directories by depth
-2. For each depth level (from deepest):
-   - Check if dependencies are completed
-   - Launch Workers for directories with no pending dependencies
-3. Mark `[PARALLEL_EXECUTING]`
-
-**Launch Rules**:
-| Condition | Action |
-|-----------|--------|
-| No dependencies | Launch immediately |
-| All dependencies [DIR_COMPLETED] | Launch immediately |
-| Has pending dependencies | Wait |
-| Same depth, no cross-dependency | Launch in parallel |
+CMD: `RUN_DIR_BATCH(depth_desc)`（deps 全部 `[DIR_COMPLETED]` 才可启动）
 
 ### Step 3: State Collection
 
 **Purpose**: Gather current status from all Workers
 
 **Actions**:
-1. Read each Worker's status mark
-2. Update directory mapping table
-3. **Persist state** to `.temp/scheduler_state.md`
-4. Note any blockers
+CMD: collect worker_status -> update dir_map -> (optional) persist
 
 ### Step 4: Deviation Detection
 
@@ -100,15 +53,7 @@ Depth 3: src/module/utils/
 **Purpose**: Handle cross-directory dependencies
 
 **Actions**:
-1. When Worker reports `[DIR_WAITING_DEP]`:
-   - Identify target dependency directory
-   - Check if target has Worker assigned
-   - If no Worker, create new Worker for target
-   - If has Worker, check its status
-2. When dependency completes:
-   - Notify waiting Worker to continue
-   - Update mapping table
-   - **Persist state** to `.temp/scheduler_state.md`
+CMD: `WAIT_DEP(dir,deps)` / notify resume
 
 ### Step 6: Risk Assessment
 
@@ -130,69 +75,8 @@ Depth 3: src/module/utils/
 
 ## Output
 
-### Progress Update
-```markdown
-## Progress Update
-
-### State
-- Task: [name]
-- Stage: [stage]
-- Status: [in_progress/done/blocked]
-- Overall Progress: [N/M directories completed]
-
-### Directory Mapping
-| Directory | Depth | Worker | Status | Dependencies |
-|-----------|-------|--------|--------|--------------|
-| src/core/utils/ | 3 | Worker-1 | [DIR_COMPLETED] | - |
-| src/core/ | 2 | Worker-2 | [DIR_WORKING] | src/core/utils/ |
-| src/api/ | 2 | Worker-3 | [DIR_WAITING_DEP] | src/core/ |
-
-### Progress by Depth
-| Depth | Total | Completed | In Progress | Waiting |
-|-------|-------|-----------|-------------|---------|
-| 3 | 2 | 2 | 0 | 0 |
-| 2 | 3 | 0 | 1 | 2 |
-| 1 | 1 | 0 | 0 | 1 |
-
-### Risks
-- 🟡 [warning]: [description] → [suggestion]
-- 🔴 [critical]: [description] → [suggestion]
-
-### Next Actions
-- Launch Worker for: [directory]
-- Notify: [Worker] to continue
-- Wait for: [directory] to complete
-```
-
-### Circuit Breaker
-```markdown
-## Circuit Breaker Triggered
-
-### Reason
-- Type: [3 strikes/deadlock/high risk/cross-directory conflict]
-- Detail: [description]
-
-### Current State
-- Failures: [count]/3
-- Involved Workers: [list]
-- Blocked directories: [list]
-- Last operation: [description]
-
-### Problem Analysis
-- **Root cause**: [description]
-- **Affected directories**: [list]
-- **Impact scope**: [description]
-
-### Suggestions
-- A: [description] → [expected result]
-- B: [description] → [expected result]
-- C: [description] → [expected result]
-
-### Decision Request
-`[USER_DECISION]` - Please select a solution or provide a new one
-
-Mark: `[FUSION_TRIGGERED]`
-```
+- 模板：04_reference/interaction_formats/supervisor_report.md
+- CMD: `STRIKE(record)` / `FUSE(reason)` / `ASK_USER_DECISION(topic, options)`
 
 ## Constraints
 

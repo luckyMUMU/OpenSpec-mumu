@@ -54,41 +54,15 @@
 
 Worker 以 `design.md` 所在目录为工作边界：
 
-```
-Worker 工作范围 = design.md 所在目录及其子目录（不含嵌套 design.md 的子目录）
-```
+CMD: `WorkerScope(dir_with_design_md) = dir/** - {subdir/** | subdir contains design.md}`
 
-**示例**：
-```
-src/
-├── module_a/
-│   ├── design.md          ← Worker A 负责
-│   ├── src/
-│   └── utils/
-├── module_b/
-│   ├── design.md          ← Worker B 负责
-│   └── src/
-└── shared/
-    └── design.md          ← Worker C 负责
-```
+参见：04_reference/design_directory_strategy.md + 05_constraints/command_dictionary.md
 
 ### 目录层级处理顺序
 
-```
-1. 扫描所有 design.md 文件，记录路径和深度
-2. 按深度降序排序（深度大的优先）
-3. 同深度目录可并行处理
-4. 父目录等待所有子目录完成后才能开始
-```
-
-**处理顺序示例**：
-```
-深度 3: src/core/utils/design.md      → 第一批并行
-深度 3: src/core/helpers/design.md    → 第一批并行
-深度 2: src/core/design.md            → 第二批（等待第一批）
-深度 2: src/api/design.md             → 第二批并行
-深度 1: src/design.md                 → 第三批（等待第二批）
-```
+CMD: `LIST_DESIGN_MD(root) -> design_list`
+CMD: `SCHEDULE_DIRS(design_list) -> dir_map`
+CMD: `RUN_DIR_BATCH(depth_desc)`（同 depth 并行；父目录等待子目录 `DIR_COMPLETED`）
 
 👉 [目录维度工作策略详情](04_reference/design_directory_strategy.md)
 
@@ -129,19 +103,12 @@ Analyst → Prometheus ↔ Skeptic → Oracle → Tester → Supervisor → [多
 ```
 
 **验收流程** (Worker执行)
-```
-编码完成
-  ↓
-L1验收 → [WAITING_FOR_L1_REVIEW] → Oracle审查
-  ↓
-L2验收 → [WAITING_FOR_L2_REVIEW] → Oracle审查
-  ↓
-L3验收 → [WAITING_FOR_L3_REVIEW] → Analyst+Oracle审查
-  ↓
-L4验收 → [WAITING_FOR_L4_REVIEW] → Prometheus+Analyst+Oracle审查
-  ↓
-通过
-```
+CMD: `RUN_ACCEPTANCE(L1) -> [WAITING_FOR_L1_REVIEW] -> REVIEW_ACCEPTANCE(L1)`
+CMD: `RUN_ACCEPTANCE(L2) -> [WAITING_FOR_L2_REVIEW] -> REVIEW_ACCEPTANCE(L2)`
+CMD: `RUN_ACCEPTANCE(L3) -> [WAITING_FOR_L3_REVIEW] -> REVIEW_ACCEPTANCE(L3)`
+CMD: `RUN_ACCEPTANCE(L4) -> [WAITING_FOR_L4_REVIEW] -> REVIEW_ACCEPTANCE(L4)`
+
+参见：05_constraints/acceptance_criteria.md + 05_constraints/command_dictionary.md
 
 **快速路径**
 ```
@@ -163,6 +130,8 @@ Explorer → Worker → Librarian
 ---
 
 ## 文档位置
+
+参见 [document_directory_mapping.md](file:///d:/Code/AI/OpenSpec-mumu/docs/%E5%8F%82%E8%80%83/sop/04_reference/document_directory_mapping.md)（逻辑目录 → 项目实际目录映射）。
 
 ### 需求文档 (Analyst)
 | 类型 | 位置 | 层级 | 创建者 |
@@ -201,7 +170,7 @@ Explorer → Worker → Librarian
 
 | 复杂度 | 行数 | 要求 |
 |--------|------|------|
-| 低 | <100 | 省略，代码注释 |
+| 低 | <100 | 仅快速路径/非目录调度可省略；目录调度下使用极简design.md |
 | 中 | 100-500 | 简要design.md+接口契约 |
 | 高 | >500 | 完整design.md+详细契约 |
 
@@ -234,7 +203,7 @@ v[主版本].[次版本].[修订版本]
 | 修订版本 | 文档修正、错误修复、格式统一 | v6.0.0→v6.0.1 |
 
 ### 当前版本
-**v6.0.0** - 引入TDD工作流、需求分层、测试独立性
+**v1.4.0**
 
 👉 [查看版本历史](CHANGELOG.md)
 

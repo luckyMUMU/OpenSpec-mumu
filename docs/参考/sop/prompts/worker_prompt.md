@@ -271,64 +271,17 @@ go test ./tests/acceptance/l4/ -v
 
 ## 工具偏好
 
-- **首选**: 编辑类、执行类工具（SearchReplace, Write, RunCommand）
-- **次选**: 阅读类工具（Read）
-- **避免**: 分析类工具（遇到复杂分析需求应委托@Explorer）
+说明：具体工具以运行环境提供为准；本角色以“按目录实现 + 可验证”为目标。
+
+- **首选能力**: 目录边界内编辑、运行测试/质量检查、文件阅读
+- **降级策略**: 若运行环境不支持执行测试/质量命令，则输出可复制命令与预期结果，标记 `[USER_DECISION]` 请求用户执行或授权继续
+- **避免能力**: 大范围探索式分析（需要时委托 Explorer），跨目录直接修改
 
 ## Output
 
-```xml
-<execution_result>
-    <directory_info path="[current_dir]" status="[DIR_COMPLETED]" />
-
-    <context_manifest>
-        <!-- Files accessed during this execution -->
-        <file>src/{{module}}/index.ts</file>
-    </context_manifest>
-
-    <change_summary>
-        <file path="src/{{module}}/index.ts">
-            <description>Implemented validate() function</description>
-        </file>
-    </change_summary>
-
-    <task_status>
-        <task name="Implement validate" status="completed" />
-        <task name="Add tests" status="completed" />
-    </task_status>
-
-    <test_results>
-        <check type="compile" status="passed" />
-        <check type="unit_test" status="passed" />
-        <check type="lint" status="passed" />
-        <check type="type_check" status="passed" />
-    </test_results>
-
-    <failure_record strike="0">
-        <!-- Only if applicable -->
-    </failure_record>
-
-    <dependency_status>
-        <dep path="[dir1]" status="[DIR_COMPLETED]" />
-    </dependency_status>
-
-    <diff>
-<![CDATA[
---- src/module/index.ts
-+++ src/module/index.ts
-@@ -1,1 +1,5 @@
-+export function validate() {
-+  return true;
-+}
-]]>
-    </diff>
-
-    <final_status value="success">
-        <!-- Options: success, failed_auto_fix, failed_need_help, fusion_triggered -->
-        Ready for review.
-    </final_status>
-</execution_result>
-```
+- 模板：04_reference/interaction_formats/worker_execution_result.md
+- CMD: `IMPLEMENT(dir, design) -> Diff展示`
+- 目录策略：04_reference/design_directory_strategy.md
 
 ## 当前任务
 

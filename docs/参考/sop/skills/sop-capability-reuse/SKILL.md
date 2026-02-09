@@ -90,77 +90,18 @@ description: "指导AI Agent复用和优化已有能力。Invoke when needing to
 - [ ] 已更新相关文档
 
 ## 决策树
-
-```
-需要新能力？
-  ├─ 检查已有能力
-  │   ├─ 存在且满足 → 直接复用 ✅
-  │   ├─ 存在但不满足 → 评估改进 vs 新建
-  │   │   ├─ 改进成本更低 → 改进已有 ✅
-  │   │   └─ 新建成本更低 → 新建 → 清理过时代码 ✅
-  │   └─ 不存在 → 新建 → 清理过时代码 ✅
-```
+规则：先搜（skills/prompts/代码）→ 可复用则复用；否则评估改进 vs 新建；新建后必须清理重复/过时代码。
 
 ## 输入
-
-```markdown
-## 能力需求
-[描述需要的功能]
-
-## 已检查的能力
-- [ ] sop/skills/ 搜索完成
-- [ ] sop/prompts/ 搜索完成
-- [ ] 代码库搜索完成
-
-## 发现
-[已有能力列表或"无"]
-
-## 决策
-- [ ] 直接复用
-- [ ] 改进已有
-- [ ] 新建
-```
+- capability_need
+- searched: skills/prompts/code
+- findings(list)
+- decision: reuse|improve|create
 
 ## 输出
-
-### 复用场景
-```markdown
-## 复用结果
-- **选择**: 直接复用
-- **能力**: [skill-name]
-- **原因**: [说明]
-
-## 使用方式
-[如何调用该能力]
-```
-
-### 改进场景
-```markdown
-## 改进结果
-- **选择**: 改进已有
-- **能力**: [skill-name]
-- **改进点**: [具体改进内容]
-
-## 变更清单
-- [ ] 功能扩展
-- [ ] 回归测试通过
-- [ ] 文档更新
-```
-
-### 新建场景
-```markdown
-## 新建结果
-- **选择**: 新建能力
-- **名称**: [新能力名称]
-- **原因**: [说明为何不复用/改进]
-
-## 清理清单
-- [ ] 识别过时/相似代码
-- [ ] 评估影响面
-- [ ] 迁移依赖
-- [ ] 删除过时代码
-- [ ] 更新文档
-```
+- reuse: chosen_skill + invocation
+- improve: delta + regression_ok + docs_updated
+- create: new_name + reason + cleanup_done
 
 ## 约束
 

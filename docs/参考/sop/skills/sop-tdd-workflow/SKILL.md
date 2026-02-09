@@ -55,44 +55,17 @@ Analyst → Prometheus ↔ Skeptic → Oracle → Tester → Supervisor → Work
 
 ## 测试用例位置
 
-```
-docs/03_technical_spec/test_cases/
-├── [module]_test_cases.csv      # 测试用例 (Tester唯一维护)
-└── [module]_test_plan.md        # 测试计划 (可选)
-```
+`docs/03_technical_spec/test_cases/[module]_test_cases.csv`
+
+与分层验收的关系（参见 05_constraints/acceptance_criteria.md）：
+- CSV 是 **测试设计载体**（TDD 路径下的唯一用例来源）
+- TestWorker 将 CSV 用例实现为验收测试代码（建议落地到 `tests/acceptance/l1-l4/`）
+- Worker 仅运行测试，不创建/修改测试
 
 ---
 
 ## CSV格式
-
-```csv
-# 版本: v1.0
-# 更新日期: 2024-01-15
-# 变更: 初始创建
-# 变更人: Tester
-ID,模块,功能点,测试场景,前置条件,输入数据,预期输出,优先级,类型,状态,关联L2原子操作,版本,更新日期,备注
-TC001,订单,创建,正常流程,用户登录,"{product:A,qty:1}","{status:success}",P0,正向,待实现,PROCESS_ORDER,v1.0,2024-01-15,
-TC002,订单,创建,库存不足,用户登录,"{product:B,qty:100}","{error:OUT_OF_STOCK}",P1,异常,待实现,VALIDATE_INVENTORY,v1.0,2024-01-15,
-```
-
-### 字段说明
-
-| 字段 | 说明 | 示例 |
-|------|------|------|
-| ID | 唯一标识 | TC001 |
-| 模块 | 功能模块 | 订单 |
-| 功能点 | 具体功能 | 创建订单 |
-| 测试场景 | 场景描述 | 正常流程-单商品 |
-| 前置条件 | 执行条件 | 用户已登录 |
-| 输入数据 | JSON格式 | `{"product":"A"}` |
-| 预期输出 | JSON格式 | `{"status":"success"}` |
-| 优先级 | P0/P1/P2 | P0 |
-| 类型 | 正向/异常/边界 | 正向 |
-| 状态 | 待实现/已实现/已废弃 | 待实现 |
-| 关联L2原子操作 | 映射到L2 | `PROCESS_ORDER` |
-| 版本 | CSV版本号 | v1.0 |
-| 更新日期 | 更新日期 | 2024-01-15 |
-| 备注 | 补充说明 | 需验证库存 |
+模板：04_reference/interaction_formats/test_case_csv.md
 
 ---
 

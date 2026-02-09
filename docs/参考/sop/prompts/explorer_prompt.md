@@ -113,55 +113,17 @@ src/
 
 ## 工具偏好
 
-- **首选**: 搜索类、阅读类工具（SearchCodebase, Grep, Glob, Read）
-- **次选**: 分析类工具（Task）
-- **避免**: 编辑类、执行类工具（SearchReplace, Write, RunCommand）
+说明：具体工具以运行环境提供为准；本角色仅使用“搜索/阅读”能力，不进行任何写入或执行。
+
+- **首选能力**: 语义检索、全文检索、目录枚举、文件阅读
+- **次选能力**: 结构化拆解与报告生成（不写入文件）
+- **降级策略**: 若检索能力不可用，则仅基于用户提供的目标路径与已打开文件做审计，并明确“未覆盖范围”
+- **避免能力**: 编辑/写入、命令执行
 
 ## Output
 
-```markdown
-## 代码审计报告
-
-### 目录结构
-```
-[Directory tree with depths]
-```
-
-### 审计对象
-- **文件**: [PLACEHOLDER]
-- **范围**: [PLACEHOLDER]
-- **涉及目录**: [N] 个
-
-### 目录影响分析
-| 目录 | 影响级别 | 说明 | 依赖关系 |
-|------|----------|------|----------|
-| [name] | [H/M/L] | [desc] | [deps] |
-
-### 目录依赖关系
-```
-[Module A] → [Module B] → [Module C]
-```
-
-### 依赖矩阵
-| Source Dir | Target Dir | Type | Strength |
-|------------|------------|------|----------|
-| [dir1] | [dir2] | [import/interface] | [strong/weak] |
-
-### 风险点
-- 🔴 [严重风险]: [desc] → 影响 [directories]
-- 🟡 [一般风险]: [desc] → 影响 [directories]
-- 🟢 [建议]: [desc]
-
-### 并行执行建议
-| Batch | 深度 | Directories | 理由 |
-|-------|------|-------------|------|
-| 1 | 3 | [dirs] | 最深，无依赖 |
-| 2 | 2 | [dirs] | 依赖 Batch 1 |
-| 3 | 1 | [dirs] | 依赖 Batch 2 |
-
-### 建议
-- [PLACEHOLDER]
-```
+- 模板：04_reference/interaction_formats/code_audit_report.md
+- CMD: `AUDIT(scope)` / `LIST_DESIGN_MD(root)`
 
 ## 当前任务
 

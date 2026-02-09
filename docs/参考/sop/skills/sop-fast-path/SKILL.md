@@ -9,15 +9,8 @@ description: "Fast path workflow for single-file, small changes. Invoke when tas
 
 ## Input
 
-```markdown
-## Task
-[Change description]
-
-## Target
-- File: [path]
-- Lines: [N]
-- Type: [fix/doc/config]
-```
+- Task: [desc]
+- Target: file/path + delta_lines + type
 
 ## Workflow Steps
 
@@ -26,9 +19,7 @@ description: "Fast path workflow for single-file, small changes. Invoke when tas
 **Purpose**: Quick impact assessment
 
 **Actions**:
-1. Read target file
-2. Identify dependencies
-3. Check for risks
+CMD: `AUDIT(file) -> audit_report`
 
 **Note**: Fast path does not involve directory-based parallel execution as it targets a single file.
 
@@ -37,10 +28,7 @@ description: "Fast path workflow for single-file, small changes. Invoke when tas
 **Purpose**: Implement the change
 
 **Actions**:
-1. Create checkpoint
-2. Apply changes
-3. Run tests
-4. Quality checks
+CMD: `IMPLEMENT(dir, audit) -> Diff展示`
 
 **Stop Point**: Show diff for review
 
@@ -49,29 +37,12 @@ description: "Fast path workflow for single-file, small changes. Invoke when tas
 **Purpose**: Update related docs
 
 **Actions**:
-1. Update code comments
-2. Update related docs
-3. Mark `[completed]`
+CMD: `DOC_SYNC(scope) -> [已完成]`
 
 ## Output
 
-```markdown
-## Fast Path Complete
-
-### Changes
-- File: [path]
-- Lines: [+N/-M]
-
-### Tests
-- [x] Passed
-
-### Quality
-- [x] Lint passed
-- [x] Type check passed
-
-### Status
-`[completed]`
-```
+- 状态：`[已完成]`
+- 模板：04_reference/interaction_formats/worker_execution_result.md
 
 ## Constraints
 

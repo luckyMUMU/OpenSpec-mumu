@@ -9,15 +9,9 @@ description: "Architecture design workflow for creating technology-agnostic desi
 
 ## Input
 
-```markdown
-## Requirements
-- PRD: [link]
-- Key requirements: [list]
-- Constraints: [constraints]
-
-## Directory Structure (from Explorer)
-[Directory tree]
-```
+- PRD（link 或内容）
+- 关键约束（含安全/性能/合规）
+- 目录结构（来自 Explorer 的 audit_report，可选）
 
 ## Workflow Steps
 
@@ -64,7 +58,7 @@ description: "Architecture design workflow for creating technology-agnostic desi
    - Any decision with >2 alternatives
 
 2. **Create ADR for each key decision**:
-   - Location: `docs/04_context_reference/adr_[module]_[topic].md`
+   - Location: `docs/04_context_reference/adr_[module]_[topic].md`（参见 04_reference/document_directory_mapping.md）
    - Use template from `04_reference/document_templates/adr.md`
    - Link to L2 pseudo code
 
@@ -73,46 +67,18 @@ description: "Architecture design workflow for creating technology-agnostic desi
    - Example: `-- ADR-001: Authentication scheme`
 
 4. **Check RAG references**:
-   - Review `docs/04_context_reference/rag/` for relevant info
+   - Review `docs/04_context_reference/rag/` for relevant info（参见 04_reference/document_directory_mapping.md）
    - Reference external knowledge in ADR
-   - Mark `[USER_DECISION_REQUIRED]` if conflict found
+   - Mark `[USER_DECISION]` if conflict found
 
-**ADR Required When**:
-| Decision Type | Example | ADR Required |
-|--------------|---------|--------------|
-| Technology choice | Use PostgreSQL vs MongoDB | ✅ Yes |
-| Architecture pattern | Microservices vs Monolith | ✅ Yes |
-| Interface design | REST vs GraphQL | ✅ Yes |
-| Security | OAuth2 vs JWT | ✅ Yes |
-| Implementation detail | Function naming | ❌ No |
-| Bug fix | Patch version | ❌ No |
+ADR 触发规则（任一满足即需要 ADR）：技术选型 / 架构模式 / 关键接口 / 安全方案 / 性能策略 / >2 个可选项
 
 ## Output
 
-```markdown
-## Architecture Design Complete
-
-### Document
-- Location: `docs/02_logical_workflow/[name].md`
-- Link: [link]
-
-### Key Decisions
-| Decision | Choice | Rationale |
-|----------|--------|-----------|
-| [topic] | [choice] | [reason] |
-
-### Interfaces
-- Input: [spec]
-- Output: [spec]
-
-### Directory Mapping
-| Concept | Directory | Responsibility |
-|---------|-----------|----------------|
-| [concept] | [dir] | [resp] |
-
-### Stop Point
-`[WAITING_FOR_ARCHITECTURE]`
-```
+- 模板：04_reference/document_templates/architecture_design.md
+- ADR 模板：04_reference/document_templates/adr.md
+- Stop: `[WAITING_FOR_ARCHITECTURE]`
+- CMD: `ARCH_DESIGN(prd)`
 
 ## Constraints
 
