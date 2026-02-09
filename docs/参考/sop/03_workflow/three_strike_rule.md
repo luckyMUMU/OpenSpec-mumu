@@ -1,6 +1,6 @@
 # 三错即停
 
-> **版本**: v1.1.0
+> **版本**: v1.4.0
 
 **定义**: Worker连续失败3次时触发的熔断机制
 
@@ -20,8 +20,21 @@
 
 1. 用户决策
 2. 方案调整
-3. 重置计数器
-4. 继续执行
+3. **知识沉淀**: 调用 `manage_core_memory` 记录教训
+4. 重置计数器
+5. 继续执行
+
+---
+
+## 知识沉淀 (Core Memory Integration)
+
+当熔断发生时，必须将此次失败的教训写入 Project Memory，以防止未来再次发生。
+
+**Action**: Supervisor 调用 `manage_core_memory`
+- **Action**: `ADD`
+- **Category**: `Experience` (经验教训)
+- **Content**: 简述导致熔断的根本原因和通过此次失败学到的规则。
+- **Scope**: `project`
 
 ---
 

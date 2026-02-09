@@ -1,6 +1,6 @@
 # 角色速查
 
-> **版本**: v1.2.0
+> **版本**: v1.4.0
 
 ---
 
@@ -14,7 +14,7 @@
 | Prometheus | 设计 | 架构设计 | `[WAITING_FOR_ARCHITECTURE]` | 全局 |
 | Skeptic | 设计 | 架构审查 | `[ARCHITECTURE_PASSED]` | 全局 |
 | Oracle | 设计 | 实现设计 | `[WAITING_FOR_DESIGN]` | 按目录 |
-| **Tester** | **设计** | **CSV测试用例唯一维护者** | **`[WAITING_FOR_TEST_REVIEW]`** | 按目录 |
+| **Tester** | **设计** | **CSV测试用例唯一维护者** | **`[WAITING_FOR_TEST_DESIGN]`** | 按目录 |
 | **Worker** | **实现** | **编码实现** | **Diff展示** | **design.md 所在目录** |
 | **TestWorker** | **实现** | **编写测试代码（只读CSV）** | **-** | **design.md 所在目录** |
 | Librarian | 监管 | 文档维护 | `[已完成]` | 全局 |
@@ -59,7 +59,7 @@ Analyst → Prometheus ↔ Skeptic → Oracle → Tester → Supervisor → [多
 | Module MRD | `docs/01_requirements/modules/[module]_mrd.md` | Analyst |
 | Feature FRD | `docs/01_requirements/modules/[module]/[feature]_frd.md` | Analyst |
 | **原型** | **`docs/01_requirements/prototypes/[module]/`** | **Analyst** |
-| 架构设计 | `docs/02_logical_workflow/*.pseudo` | Prometheus |
+| 架构设计 | `docs/02_logical_workflow/*.md` | Prometheus |
 | 实现设计 | `src/**/design.md` | Oracle |
 | **测试用例** | **`docs/03_technical_spec/test_cases/*.csv`** | **Tester** |
 | **测试代码** | **`tests/*.test.[ext]`** | **TestWorker** |
@@ -114,7 +114,7 @@ v[主版本].[次版本].[修订版本]
 | **Explorer** | ❌ 修改任何代码 | 只读角色 |
 | **Tester** | ❌ 查看代码实现 | 保持独立 |
 | **TestWorker** | ❌ 修改CSV | 权限隔离 |
-| **Worker** | ❌ 修改设计文档 | 按设计实现 |
+| **Worker** | ❌ 修改设计内容 | 按设计实现，仅可追加“待处理变更” |
 
 ### 阶段特定禁止
 

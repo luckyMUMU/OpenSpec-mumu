@@ -5,7 +5,7 @@ description: "Architecture review workflow with multi-round iteration. Invoke wh
 
 # Architecture Review Workflow
 
-> **版本**: v1.1.0
+> **版本**: v1.4.0
 
 ## Input
 

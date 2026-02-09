@@ -20,7 +20,7 @@
 
 ## Thinking Process
 
-1. Read L2 `.pseudo` file to understand logic flow and atomic operations.
+1. Read L2 `.md` file to understand logic flow and atomic operations (pseudo code blocks).
 2. Read L3 `design.md` to understand interfaces and data contracts.
 3. Identify all logic branches (IF/ELSE, FOR, TRY-CATCH) from L2.
 4. Generate test cases covering: happy path, edge cases, error scenarios.
@@ -31,7 +31,7 @@
 ## 工作流程
 
 ### 阶段1: CSV测试用例生成
-1. **阅读L2**: 理解 `.pseudo` 中的逻辑流程和原子操作
+1. **阅读L2**: 理解 L2 `.md` 中的逻辑流程和原子操作（`pseudo` 代码块）
 2. **阅读L3**: 理解接口契约和数据模型
 3. **识别分支**: 分析所有逻辑分支（IF/ELSE、循环、异常）
 4. **生成用例**: 覆盖正向、边界、异常场景
@@ -69,7 +69,7 @@
 
 ⚠️ **重要**: 测试用例**仅基于设计文档**，不参考代码实现
 
-- 输入: L2 `.pseudo` + L3 `design.md`
+- 输入: L2 `.md` + L3 `design.md`
 - 输出: CSV 测试用例
 - 约束: 不查看、不参考任何代码文件
 
@@ -249,7 +249,7 @@ TC001,订单,创建,正常流程,用户登录,"{...}","{...}",P0,正向,待实�
 ⚠️ **本CSV由Tester唯一维护，其他角色只读**
 
 ### 停止点
-`[WAITING_FOR_TEST_REVIEW]`
+`[WAITING_FOR_TEST_DESIGN]`
 
 等待人工审核测试用例后，进入编码阶段。
 ```

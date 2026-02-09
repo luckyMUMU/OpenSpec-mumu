@@ -5,7 +5,7 @@ description: "Architecture design workflow for creating technology-agnostic desi
 
 # Architecture Design Workflow
 
-> **版本**: v1.1.0
+> **版本**: v1.4.0
 
 ## Input
 
@@ -50,14 +50,42 @@ description: "Architecture design workflow for creating technology-agnostic desi
 2. Define control flow
 3. Document edge cases
 
-### Step 4: Decision Records
+### Step 4: Decision Records (ADR)
 
-**Purpose**: Document choices
+**Purpose**: Document key architecture decisions in L4
 
 **Actions**:
-1. List alternatives
-2. Compare pros/cons
-3. Record final decision
+1. **Identify decisions requiring ADR**:
+   - Technology stack selection
+   - Architecture pattern changes
+   - Major interface design decisions
+   - Performance optimization strategies
+   - Security scheme decisions
+   - Any decision with >2 alternatives
+
+2. **Create ADR for each key decision**:
+   - Location: `docs/04_context_reference/adr_[module]_[topic].md`
+   - Use template from `04_reference/document_templates/adr.md`
+   - Link to L2 pseudo code
+
+3. **Document in pseudo code**:
+   - Add ADR reference comment
+   - Example: `-- ADR-001: Authentication scheme`
+
+4. **Check RAG references**:
+   - Review `docs/04_context_reference/rag/` for relevant info
+   - Reference external knowledge in ADR
+   - Mark `[USER_DECISION_REQUIRED]` if conflict found
+
+**ADR Required When**:
+| Decision Type | Example | ADR Required |
+|--------------|---------|--------------|
+| Technology choice | Use PostgreSQL vs MongoDB | ✅ Yes |
+| Architecture pattern | Microservices vs Monolith | ✅ Yes |
+| Interface design | REST vs GraphQL | ✅ Yes |
+| Security | OAuth2 vs JWT | ✅ Yes |
+| Implementation detail | Function naming | ❌ No |
+| Bug fix | Patch version | ❌ No |
 
 ## Output
 
@@ -65,7 +93,7 @@ description: "Architecture design workflow for creating technology-agnostic desi
 ## Architecture Design Complete
 
 ### Document
-- Location: `docs/02_logical_workflow/[name].pseudo`
+- Location: `docs/02_logical_workflow/[name].md`
 - Link: [link]
 
 ### Key Decisions

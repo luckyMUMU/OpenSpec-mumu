@@ -5,7 +5,7 @@ description: "Progress monitoring workflow for tracking execution and triggering
 
 # Progress Monitoring Workflow
 
-> **版本**: v1.1.0
+> **版本**: v1.4.0
 
 ## Input
 
@@ -45,7 +45,8 @@ description: "Progress monitoring workflow for tracking execution and triggering
 2. Calculate directory depth for each
 3. Sort by depth (descending)
 4. Create mapping table
-5. Mark `[SCHEDULING]`
+5. **Load existing state** from `.temp/scheduler_state.md` (if exists)
+6. Mark `[SCHEDULING]`
 
 **Directory Depth Calculation**:
 ```
@@ -81,7 +82,8 @@ Depth 3: src/module/utils/
 **Actions**:
 1. Read each Worker's status mark
 2. Update directory mapping table
-3. Note any blockers
+3. **Persist state** to `.temp/scheduler_state.md`
+4. Note any blockers
 
 ### Step 4: Deviation Detection
 
@@ -106,6 +108,7 @@ Depth 3: src/module/utils/
 2. When dependency completes:
    - Notify waiting Worker to continue
    - Update mapping table
+   - **Persist state** to `.temp/scheduler_state.md`
 
 ### Step 6: Risk Assessment
 

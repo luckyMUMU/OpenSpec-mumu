@@ -5,7 +5,7 @@ description: "Document synchronization workflow for index updates and progressiv
 
 # Document Synchronization Workflow
 
-> **版本**: v1.1.0
+> **版本**: v1.4.0
 
 ## Input
 
@@ -94,7 +94,7 @@ description: "Document synchronization workflow for index updates and progressiv
 | Level | Path | Content | Creator |
 |-------|------|---------|---------|
 | L1 | `docs/01_requirements/` | PRD/MRD/FRD/Prototype | Analyst |
-| L2 | `docs/02_logical_workflow/` | Architecture (.pseudo) | Prometheus |
+| L2 | `docs/02_logical_workflow/` | Architecture (.md) | Prometheus |
 | L3 | `docs/03_technical_spec/` + `src/**/design.md` | Implementation + Test Cases | Oracle + Tester |
 | L4 | `docs/04_context_reference/` | ADR + Context | Prometheus/Oracle |
 
@@ -106,7 +106,7 @@ description: "Document synchronization workflow for index updates and progressiv
 | Module MRD | `docs/01_requirements/modules/[module]_mrd.md` | Analyst |
 | Feature FRD | `docs/01_requirements/modules/[module]/[feature]_frd.md` | Analyst |
 | Prototype | `docs/01_requirements/prototypes/[module]/` | Analyst |
-| Architecture | `docs/02_logical_workflow/*.pseudo` | Prometheus |
+| Architecture | `docs/02_logical_workflow/*.md` | Prometheus |
 | Implementation | `src/**/design.md` | Oracle |
 | Test Cases | `docs/03_technical_spec/test_cases/*.csv` | Tester |
 | Test Code | `tests/*.test.[ext]` | TestWorker |

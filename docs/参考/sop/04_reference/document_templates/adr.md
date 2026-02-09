@@ -61,7 +61,7 @@
 
 ## 相关文档
 
-- **L2 逻辑设计**: [链接到 .pseudo 文件]
+- **L2 逻辑设计**: [链接到 .md 文件]
 - **L3 实现设计**: [链接到 design.md]
 - **相关 ADR**: [ADR-XXX]
 
@@ -157,7 +157,7 @@ ADR-Cache-003: Redis集群方案选择
 
 | 层级 | 文件 | 内容 | 创建者 |
 |------|------|------|--------|
-| L2 | `.pseudo` | 逻辑工作流 | Prometheus |
+| L2 | `.md` | 逻辑工作流 | Prometheus |
 | L3 | `design.md` | 技术规格 | Oracle |
 | L4 | `adr_*.md` | 决策背景 | Prometheus/Oracle |
 

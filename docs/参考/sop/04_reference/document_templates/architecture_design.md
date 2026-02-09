@@ -1,7 +1,7 @@
 # 架构设计模板 (L2: 逻辑工作流)
 
 **层级**: L2 - 逻辑工作流  
-**位置**: `docs/02_logical_workflow/[module].pseudo`  
+**位置**: `docs/02_logical_workflow/[module].md`  
 **创建者**: Prometheus  
 **规范**: 技术无关，只描述逻辑，不写实现
 
@@ -9,7 +9,7 @@
 
 ## 文件结构
 
-```markdown
+~~~markdown
 # [模块] 逻辑设计
 
 ## 1. 核心概念
@@ -68,7 +68,7 @@ END FUNCTION
 | [主题] | A/B | [选择] | [一句话理由] |
 
 👉 [详细ADR](../04_context_reference/adr_[module]_[decision].md)
-```
+~~~
 
 ---
 
@@ -131,7 +131,7 @@ END FOR
 ## L2层约束
 
 ✅ **必须**:
-- 使用伪代码描述逻辑
+- 使用 Markdown 文档描述逻辑，伪代码用代码块
 - 技术无关（不写具体语言/框架）
 - 原子操作用 `UPPER_SNAKE_CASE`
 - 4空格缩进
@@ -147,7 +147,7 @@ END FOR
 
 | 层级 | 文件 | 内容 | 创建者 |
 |------|------|------|--------|
-| L2 | `.pseudo` | 逻辑工作流 | Prometheus |
+| L2 | `.md` | 逻辑工作流 | Prometheus |
 | L3 | `design.md` / `03_technical_spec/` | 技术规格 | Oracle |
 | L4 | `04_context_reference/adr_*.md` | 决策背景 | Prometheus/Oracle |
 

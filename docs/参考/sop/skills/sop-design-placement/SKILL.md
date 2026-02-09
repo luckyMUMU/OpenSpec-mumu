@@ -5,7 +5,7 @@ description: "指导AI Agent正确放置设计文档和创建design.md。Invoke 
 
 # 设计文档放置指南
 
-> **版本**: v1.1.0
+> **版本**: v1.4.0
 
 ## 目录结构规范
 
@@ -15,7 +15,7 @@ description: "指导AI Agent正确放置设计文档和创建design.md。Invoke 
 |------|------|----------|------|
 | `/docs` | 项目设计文档根目录 | 项目开发过程中动态创建 | `docs/README.md` |
 | `/docs/01_requirements/` | PRD 需求文档 | Analyst 创建 | `docs/01_requirements/feature-x.md` |
-| `/docs/02_logical_workflow/` | 架构设计文档 | Prometheus 创建 | `docs/02_logical_workflow/core.pseudo` |
+| `/docs/02_logical_workflow/` | 架构设计文档 | Prometheus 创建 | `docs/02_logical_workflow/core.md` |
 | `/docs/参考/` | SOP 参考文档、模板 | **非指定不变更** | `docs/参考/sop/...` |
 | `src/**/` | 源代码目录 | Worker 修改 | `src/module/design.md` |
 | `docs/**/` | 模块设计文档 | Oracle 创建 | `docs/module/design.md` |
@@ -147,7 +147,7 @@ description: "指导AI Agent正确放置设计文档和创建design.md。Invoke 
 | 文档类型 | 创建者 | 放置位置 |
 |----------|--------|----------|
 | PRD | Analyst | `docs/01_requirements/*.md` |
-| 架构设计 | Prometheus | `docs/02_logical_workflow/*.pseudo` |
+| 架构设计 | Prometheus | `docs/02_logical_workflow/*.md` |
 | 实现设计 | Oracle | `src/**/design.md` 或 `docs/**/design.md` |
 
 ### Step 2: 评估模块复杂度

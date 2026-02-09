@@ -5,7 +5,7 @@ description: "Workflow orchestration for task triage and path selection. Invoke 
 
 # Workflow Orchestration
 
-> **版本**: v1.1.0
+> **版本**: v1.4.0
 
 ## Input
 
@@ -110,7 +110,8 @@ Analyst → Prometheus ↔ Skeptic → Oracle → Tester → Supervisor → [多
 1. Group directories by depth
 2. Identify parallelizable directories
 3. Map dependencies
-4. Create execution batches
+4. **Perform topological sort within same depth** (handle same-depth dependencies)
+5. Create execution batches
 
 **Execution Plan Template**:
 ```markdown

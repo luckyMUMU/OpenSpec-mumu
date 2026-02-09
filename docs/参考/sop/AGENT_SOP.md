@@ -1,7 +1,7 @@
 # AI Agent SOP
 
-> **版本**: v1.2.0  
-> **更新日期**: 2026-02-08  
+> **版本**: v1.4.0  
+> **更新日期**: 2026-02-09  
 > AI Agent专用 | 命令式 | 最小Token
 
 ---
@@ -148,6 +148,8 @@ L4验收 → [WAITING_FOR_L4_REVIEW] → Prometheus+Analyst+Oracle审查
 Explorer → Worker → Librarian
 ```
 
+适用条件与升级红线参见：[快速路径](03_workflow/fast_path.md)
+
 ---
 
 ## 三错即停
@@ -173,7 +175,7 @@ Explorer → Worker → Librarian
 ### 设计文档
 | 类型 | 位置 | 层级 | 创建者 |
 |------|------|------|--------|
-| 架构设计 | `docs/02_logical_workflow/*.pseudo` | L2 | Prometheus |
+| 架构设计 | `docs/02_logical_workflow/*.md` | L2 | Prometheus |
 | 实现设计 | `src/**/design.md` | L3 | Oracle |
 | 测试用例 | `docs/03_technical_spec/test_cases/*.csv` | L3 | Tester |
 | 测试代码 | `tests/*.test.[ext]` | L3 | TestWorker |
@@ -246,6 +248,8 @@ v[主版本].[次版本].[修订版本]
 | L2 | [角色矩阵](02_role_matrix/index.md) |
 | L3 | [工作流](03_workflow/index.md) |
 | L4 | [参考文档](04_reference/index.md) |
+| L4-ADR | [架构决策](04_reference/document_templates/adr.md) |
+| L4-RAG | [参考资料管理](04_reference/knowledge_management.md) |
 | Prompts | [prompts/](prompts/) |
 | Skills | [skills/](skills/) |
 | 版本历史 | [CHANGELOG.md](CHANGELOG.md) |

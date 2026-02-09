@@ -5,7 +5,7 @@ description: "Implementation design workflow for creating detailed technical des
 
 # Implementation Design Workflow
 
-> **版本**: v1.1.0
+> **版本**: v1.4.0
 
 ## Input
 
@@ -43,14 +43,30 @@ description: "Implementation design workflow for creating detailed technical des
 | src/api/ | API | HTTP handlers |
 ```
 
-### Step 2: Tech Mapping
+### Step 2: Tech Mapping with ADR Reference
 
-**Purpose**: Map architecture to tech stack per directory
+**Purpose**: Map architecture to tech stack per directory, referencing ADRs
 
 **Actions**:
-1. Identify tech options per directory
-2. Compare alternatives
-3. Select best fit for each directory
+1. **Review existing ADRs**:
+   - Check `docs/04_context_reference/adr_*.md`
+   - Note technology decisions from L2
+   - Reference ADR in design.md
+
+2. **Check RAG for tech references**:
+   - Review `docs/04_context_reference/rag/external/tech_docs/`
+   - Check for relevant technology documentation
+   - Mark `[USER_DECISION_REQUIRED]` if conflict with ADR
+
+3. **Identify tech options per directory**:
+   - Based on ADR decisions
+   - Consider RAG references
+   - Select best fit for each directory
+
+4. **Document tech choices**:
+   - Link to ADR if exists
+   - Reference RAG if used
+   - Record rationale
 
 ### Step 3: Directory-level Interface Contract
 
@@ -143,6 +159,45 @@ description: "Implementation design workflow for creating detailed technical des
 1. Unit test scope per directory
 2. Integration test scope for cross-directory
 3. Coverage targets per directory
+
+### Step 7: Reference Documentation
+
+**Purpose**: Link to ADRs and RAG references
+
+**Actions**:
+1. **List referenced ADRs**:
+   - Link to `docs/04_context_reference/adr_*.md`
+   - Note which decisions affect this directory
+
+2. **List RAG references**:
+   - Link to `docs/04_context_reference/rag/` files
+   - Document external knowledge used
+
+3. **Conflict check**:
+   - Compare design with ADR decisions
+   - Compare with RAG references
+   - Mark `[USER_DECISION_REQUIRED]` if conflict found
+
+**Reference Template for design.md**:
+```markdown
+## 相关决策与参考
+
+### 架构决策 (ADR)
+| ADR | 决策内容 | 影响 | 状态 |
+|-----|----------|------|------|
+| [ADR-001] | [描述] | [本目录] | [已接受] |
+
+### 参考资料 (RAG)
+| 来源 | 类型 | 内容摘要 | 链接 |
+|------|------|----------|------|
+| [user_req_v2] | 用户输入 | [需求变更] | [rag/user_input/...] |
+| [postgres_doc] | 外部文档 | [连接池配置] | [rag/external/...] |
+
+### 冲突记录
+| 冲突点 | ADR/RAG | 设计决策 | 状态 |
+|--------|---------|----------|------|
+| [数据库选择] | ADR-001: MySQL | 设计: PostgreSQL | [USER_DECISION_REQUIRED] |
+```
 
 ## Output
 

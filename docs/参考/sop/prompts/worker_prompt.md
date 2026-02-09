@@ -37,13 +37,14 @@ src/module_b/
 ## Thinking Process
 
 1. Parse the implementation design into an ordered task list.
-2. **Check directory scope and dependencies**.
-3. **Mark `[DIR_WORKING]`** when starting.
-4. Implement changes strictly within directory scope; do not modify other design.md directories.
-5. **If cross-directory change needed**: Only update target design.md, notify Supervisor, mark `[DIR_WAITING_DEP]`.
-6. Run tests and capture failures with minimal reproduction details.
-7. **Mark `[DIR_COMPLETED]`** when done and notify Supervisor.
-8. Prepare a review-ready diff and a structured execution report.
+2. **Define Context Manifest**: List only files needed for this task.
+3. **Check directory scope and dependencies**.
+4. **Mark `[DIR_WORKING]`** when starting.
+5. Implement changes strictly within directory scope; do not modify other design.md directories.
+6. **If cross-directory change needed**: Only update target design.md, notify Supervisor, mark `[DIR_WAITING_DEP]`.
+7. Run tests and capture failures with minimal reproduction details.
+8. **Mark `[DIR_COMPLETED]`** when done and notify Supervisor.
+9. Prepare a review-ready diff and a structured execution report.
 
 ## 工作流程
 
@@ -64,7 +65,7 @@ src/module_b/
 1. **理解设计**: 仔细阅读实现设计文档
 2. **编写代码**: 按设计实现，不偏离
 3. **目录边界**: 只修改当前目录内的文件
-4. **跨目录处理**: 如需修改其他目录，仅更新其 design.md 并通知 Supervisor
+4. **跨目录处理**: 如需修改其他目录，仅可在其 design.md 中追加“待处理变更”条目，并通知 Supervisor（不得改动其他章节）
 
 **跨目录变更处理**：
 ```
@@ -100,7 +101,17 @@ src/module_b/
 
 **命令**:
 ```bash
+# 优先：使用项目约定的命令（见 05_constraints/acceptance_criteria.md）
+{{L1_TEST_COMMAND}}
+
+# 示例（Python）
 pytest tests/acceptance/l1/ -v --cov=src --cov-report=term-missing
+
+# 示例（JavaScript）
+npm run test:l1 -- --coverage
+
+# 示例（Go）
+go test ./tests/acceptance/l1/ -v -cover
 ```
 
 **标准**:
@@ -116,7 +127,17 @@ pytest tests/acceptance/l1/ -v --cov=src --cov-report=term-missing
 
 **命令**:
 ```bash
+# 优先：使用项目约定的命令（见 05_constraints/acceptance_criteria.md）
+{{L2_TEST_COMMAND}}
+
+# 示例（Python）
 pytest tests/acceptance/l2/ -v
+
+# 示例（JavaScript）
+npm run test:l2
+
+# 示例（Go）
+go test ./tests/acceptance/l2/ -v
 ```
 
 **通过后**:
@@ -128,7 +149,17 @@ pytest tests/acceptance/l2/ -v
 
 **命令**:
 ```bash
+# 优先：使用项目约定的命令（见 05_constraints/acceptance_criteria.md）
+{{L3_TEST_COMMAND}}
+
+# 示例（Python）
 pytest tests/acceptance/l3/ -v
+
+# 示例（JavaScript）
+npm run test:l3
+
+# 示例（Go）
+go test ./tests/acceptance/l3/ -v
 ```
 
 **通过后**:
@@ -140,7 +171,17 @@ pytest tests/acceptance/l3/ -v
 
 **命令**:
 ```bash
+# 优先：使用项目约定的命令（见 05_constraints/acceptance_criteria.md）
+{{L4_TEST_COMMAND}}
+
+# 示例（Python）
 pytest tests/acceptance/l4/ -v
+
+# 示例（JavaScript）
+npm run test:l4
+
+# 示例（Go）
+go test ./tests/acceptance/l4/ -v
 ```
 
 **通过后**:
@@ -236,49 +277,57 @@ pytest tests/acceptance/l4/ -v
 
 ## Output
 
-```markdown
-## 执行结果
+```xml
+<execution_result>
+    <directory_info path="[current_dir]" status="[DIR_COMPLETED]" />
 
-### 目录信息
-- **路径**: [当前目录]
-- **状态**: [DIR_COMPLETED]
+    <context_manifest>
+        <!-- Files accessed during this execution -->
+        <file>src/{{module}}/index.ts</file>
+    </context_manifest>
 
-### 变更摘要
-- **文件**: [PLACEHOLDER]
-- **变更**: [PLACEHOLDER]
+    <change_summary>
+        <file path="src/{{module}}/index.ts">
+            <description>Implemented validate() function</description>
+        </file>
+    </change_summary>
 
-### 任务完成度
-| 任务 | 状态 | 说明 |
-|------|------|------|
-| [PLACEHOLDER] | [已完成/失败] | [PLACEHOLDER] |
+    <task_status>
+        <task name="Implement validate" status="completed" />
+        <task name="Add tests" status="completed" />
+    </task_status>
 
-### 测试结果
-- **编译**: [通过/失败]
-- **单元测试**: [通过/失败]
-- **Lint检查**: [通过/失败]
-- **TypeCheck**: [通过/失败]
+    <test_results>
+        <check type="compile" status="passed" />
+        <check type="unit_test" status="passed" />
+        <check type="lint" status="passed" />
+        <check type="type_check" status="passed" />
+    </test_results>
 
-### 失败记录（如有）
-- **Strike**: [1/2/3]
-- **错误**: [PLACEHOLDER]
-- **尝试**: [PLACEHOLDER]
+    <failure_record strike="0">
+        <!-- Only if applicable -->
+    </failure_record>
 
-### 依赖处理
-| 依赖目录 | 状态 |
-|----------|------|
-| [dir1] | [DIR_COMPLETED] |
-| [dir2] | [DIR_COMPLETED] |
+    <dependency_status>
+        <dep path="[dir1]" status="[DIR_COMPLETED]" />
+    </dependency_status>
 
-### Diff
-```diff
-[PLACEHOLDER]
-```
+    <diff>
+<![CDATA[
+--- src/module/index.ts
++++ src/module/index.ts
+@@ -1,1 +1,5 @@
++export function validate() {
++  return true;
++}
+]]>
+    </diff>
 
-### 状态
-- [x] 成功完成，等待审批
-- [ ] 失败，已尝试自动修复
-- [ ] 失败，需要协助
-- [ ] 熔断，等待用户决策
+    <final_status value="success">
+        <!-- Options: success, failed_auto_fix, failed_need_help, fusion_triggered -->
+        Ready for review.
+    </final_status>
+</execution_result>
 ```
 
 ## 当前任务

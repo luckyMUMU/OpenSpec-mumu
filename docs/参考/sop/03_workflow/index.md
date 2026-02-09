@@ -1,6 +1,6 @@
 # 工作流规范
 
-> **版本**: v1.2.0
+> **版本**: v1.4.0
 
 ## 路径选择
 
@@ -99,7 +99,7 @@ Analyst → Prometheus ↔ Skeptic → Oracle → Tester → Worker + TestWorker
 
 | 阶段 | 输入 | 输出 | 停止点 |
 |------|------|------|--------|
-| Tester | L2+L3设计 | CSV测试用例 | `[WAITING_FOR_TEST_REVIEW]` |
+| Tester | L2+L3设计 | CSV测试用例 | `[WAITING_FOR_TEST_DESIGN]` |
 | Worker | 实现设计 | 代码 | Diff展示 |
 | TestWorker | CSV+代码 | 测试代码 | - |
 
@@ -135,7 +135,7 @@ Analyst → Prometheus ↔ Skeptic → Oracle → Tester → Worker + TestWorker
 | `[WAITING_FOR_ARCHITECTURE]` | Prometheus完成 | 架构审批 |
 | `[ARCHITECTURE_PASSED]` | Skeptic通过 | - |
 | `[WAITING_FOR_DESIGN]` | Oracle完成 | 设计审批 |
-| `[WAITING_FOR_TEST_REVIEW]` | Tester完成 | 人工审核CSV |
+| `[WAITING_FOR_TEST_DESIGN]` | Tester完成 | 用户确认测试设计 |
 | Diff展示 | Worker完成 | 用户审批代码 |
 
 ### 目录维度状态标记

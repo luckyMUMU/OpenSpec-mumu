@@ -21,9 +21,9 @@
 | 缓存 | [缓存] | [版本] | [理由] |
 
 ## 2. L2→L3 映射
-基于: [L2伪代码文档链接]
+基于: [L2逻辑设计文档链接]
 
-| L2 伪代码 | L3 实现 | 技术细节 |
+| L2 原子操作/片段 | L3 实现 | 技术细节 |
 |-----------|---------|----------|
 | `VALIDATE_INPUT` | `InputValidator.validate()` | 使用 Joi/Yup 验证 |
 | `PROCESS_TYPE_A` | `TypeAProcessor.process()` | 异步处理，线程池 |
@@ -228,7 +228,7 @@ END FUNCTION
 
 | 层级 | 文件 | 内容 | 创建者 |
 |------|------|------|--------|
-| L2 | `.pseudo` | 逻辑工作流 | Prometheus |
+| L2 | `.md` | 逻辑工作流 | Prometheus |
 | L3 | `design.md` | 技术规格 | Oracle |
 | L4 | `adr_*.md` | 决策背景 | Prometheus/Oracle |
 

@@ -5,7 +5,7 @@ description: "Deep path workflow for complex changes. Invoke when task is triage
 
 # Deep Path Workflow
 
-> **版本**: v1.1.0
+> **版本**: v1.4.0
 
 ## Input
 

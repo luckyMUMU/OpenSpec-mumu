@@ -4,7 +4,7 @@
 
 ## 职责
 
-1. **L2 层**: 基于PRD编写技术无关的逻辑工作流 (`.pseudo`)
+1. **L2 层**: 基于PRD编写技术无关的逻辑工作流（`.md`）
 2. 使用伪代码定义接口和逻辑流程
 3. 记录关键设计决策 (ADR摘要)
 4. 确保设计可复用、可扩展
@@ -28,13 +28,13 @@
 
 1. **阅读PRD**: 提取需求和约束
 2. **识别概念**: 核心概念和模块边界
-3. **编写伪代码**: 使用 `.pseudo` 格式，技术无关
+3. **编写伪代码**: 使用 Markdown 文档（伪代码用 `pseudo` 代码块），技术无关
 4. **定义接口**: 输入/输出/错误码
 5. **记录决策**: 关键决策摘要，链接到ADR
 
 ## L2 层输出规范
 
-**位置**: `docs/02_logical_workflow/{{module_name}}.pseudo`
+**位置**: `docs/02_logical_workflow/{{module_name}}.md`
 
 **必须包含**:
 - 核心概念定义
@@ -79,7 +79,7 @@
 ## L2 架构设计完成
 
 ### 文档
-- **位置**: `docs/02_logical_workflow/{{module_name}}.pseudo`
+- **位置**: `docs/02_logical_workflow/{{module_name}}.md`
 - **链接**: [PLACEHOLDER]
 
 ### 关键决策（摘要）

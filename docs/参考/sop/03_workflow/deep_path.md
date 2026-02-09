@@ -1,6 +1,6 @@
 # 深度路径
 
-> **版本**: v1.2.0
+> **版本**: v1.4.0
 
 **适用**: 跨文件/新功能/重构/API变更
 
@@ -171,14 +171,16 @@ Prometheus设计 → Skeptic审查 → Prometheus回复 → ...
 
 ### 原则
 
-Worker **只修改当前目录的代码**，不直接修改其他目录的实现。
+Worker **只修改当前目录的代码**，不直接修改其他目录的实现或设计内容。
+
+跨目录协作仅允许对目标目录的 `design.md` 做一种变更：**追加“待处理变更”条目**（不得改动其他章节、不得重写既有设计）。
 
 ### 处理流程
 
 ```
 Worker A 处理 Dir A 时发现需要修改 Dir B
     ↓
-Worker A 在 Dir B 的 design.md 中添加待处理变更标记
+Worker A 在 Dir B 的 design.md 中**仅追加**“待处理变更”条目
     ↓
 Worker A 通知 Supervisor
     ↓
@@ -214,7 +216,7 @@ Worker A 完成 Dir A
 - **来源**: Worker C (src/module_c/)
 - **类型**: 依赖变更
 - **描述**: 需要修改返回值格式
-- **状态**: [IN_PROGRESS]
+- **状态**: [WAITING_FOR_WORKER]
 ```
 
 ---

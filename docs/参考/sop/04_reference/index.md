@@ -5,7 +5,7 @@
 | 层级 | 目录 | 内容 | 格式 | 创建者 |
 |------|------|------|------|--------|
 | L1 | `01_concept_overview.md` | 核心概念 | Markdown | - |
-| L2 | `02_logical_workflow/` | 逻辑工作流 | `.pseudo` | Prometheus |
+| L2 | `02_logical_workflow/` | 逻辑工作流 | `.md` | Prometheus |
 | L3 | `03_technical_spec/` / `src/**/design.md` | 技术规格 | Markdown/YAML | Oracle |
 | L4 | `04_context_reference/` | 决策参考 | `adr_*.md` | Prometheus/Oracle |
 
@@ -66,10 +66,10 @@ docs/01_requirements/
 
 ---
 
-## L2: 逻辑工作流 (`.pseudo`)
+## L2: 逻辑工作流 (`.md`)
 
 **创建者**: Prometheus  
-**规范**: 技术无关伪代码
+**规范**: 技术无关逻辑设计（Markdown 文档，伪代码用 `pseudo` 代码块）
 
 ### 伪代码规范
 - **原子操作**: `UPPER_SNAKE_CASE` (例: `VALIDATE_INPUT`)
@@ -82,7 +82,7 @@ docs/01_requirements/
 ## L3: 技术规格
 
 **创建者**: Oracle  
-**规范**: 将L2伪代码映射为具体技术实现
+**规范**: 将L2逻辑流程映射为具体技术实现
 
 ### design.md规则
 | 复杂度 | 行数 | 要求 |
@@ -102,6 +102,12 @@ docs/01_requirements/
 ```
 ADR-[模块]-[序号]: [标题]
 ```
+
+---
+
+## 参考资料与知识沉淀
+
+用户输入与外部知识沉淀规范请参考：[knowledge_management.md](knowledge_management.md)
 
 ---
 

@@ -18,7 +18,7 @@
 
 ## Thinking Process
 
-1. Read L2 architecture design (`.pseudo`) to extract interfaces and constraints.
+1. Read L2 architecture design (`.md`) to extract interfaces and constraints.
 2. **Review directory structure** from Explorer.
 3. Map L2 atomic operations to project-specific technology implementations.
 4. **Create design.md for each directory** with interface contracts.
@@ -34,7 +34,7 @@
 ### 阶段1: 阅读L2和目录结构
 
 **Actions**:
-1. 理解 `.pseudo` 文件中的逻辑和接口
+1. 理解 L2 `.md` 文件中的逻辑和接口（伪代码在 `pseudo` 代码块中）
 2. 查看 Explorer 提供的目录结构
 3. 识别需要创建 design.md 的目录
 
@@ -117,7 +117,7 @@
 
 - **只做L3**: 只做技术规格设计，不直接编码
 - **技术绑定**: 必须绑定具体技术栈
-- **引用L2**: 必须引用对应的 `.pseudo` 文件
+- **引用L2**: 必须引用对应的 `.md` 文件
 - **建立映射**: 必须包含 L2→L3 映射表
 - **目录级设计**: 为每个目录创建 design.md
 - **声明依赖**: 必须声明目录间依赖关系
@@ -151,52 +151,58 @@ END FUNCTION
 
 ## Output
 
-```markdown
-## L3 实现设计完成
+```xml
+<design_result>
+    <context_manifest>
+        <!-- List files strictly necessary for this design task -->
+        <file>src/{{module}}/types.ts</file>
+        <file>src/{{module}}/interface.ts</file>
+    </context_manifest>
 
-### 文档
-| 目录 | 文档位置 | 基于L2 |
-|------|----------|--------|
-| src/core/ | src/core/design.md | [链接] |
-| src/api/ | src/api/design.md | [链接] |
+    <documents>
+        <doc path="src/core/design.md" based_on="L2_core_pseudo" />
+        <doc path="src/api/design.md" based_on="L2_api_pseudo" />
+    </documents>
 
-### 技术选型
-| 组件 | 选择 | 版本 | 理由 |
-|------|------|------|------|
-| [PLACEHOLDER] | [PLACEHOLDER] | [PLACEHOLDER] | [PLACEHOLDER] |
+    <tech_stack>
+        <component name="[name]" choice="[choice]" version="[version]">
+            <reason>[reason]</reason>
+        </component>
+    </tech_stack>
 
-### L2→L3 映射
-| L2 伪代码 | L3 实现 | 技术细节 |
-|-----------|---------|----------|
-| [PLACEHOLDER] | [PLACEHOLDER] | [PLACEHOLDER] |
+    <mapping_table>
+        <item l2_op="VALIDATE_ORDER" l3_impl="OrderValidator.validate()" tech="Class-validator" />
+    </mapping_table>
 
-### 跨目录接口契约
-| Source | Target | Interface | Contract |
-|--------|--------|-----------|----------|
-| [dir1] | [dir2] | [name] | [spec] |
+    <interface_contracts>
+        <contract source="[dir1]" target="[dir2]" interface="[name]">
+            <spec>[specification]</spec>
+        </contract>
+    </interface_contracts>
 
-### 目录依赖图
-```
-[src/core/utils/] → [src/core/] → [src/api/]
-                              → [src/web/]
-```
+    <directory_dependencies>
+        <!-- Dependency Graph representation -->
+        [src/core/utils/] -> [src/core/]
+    </directory_dependencies>
 
-### 任务清单（按目录）
-#### src/core/
-- [ ] [task 1: 对应L2的某个原子操作]
-- [ ] [task 2]
+    <task_lists>
+        <list directory="src/core/">
+            <task>Implement OrderValidator</task>
+            <task>Setup DB Schema</task>
+        </list>
+    </task_lists>
 
-#### src/api/
-- [ ] [task 1]
-- [ ] [task 2]
+    <risk_assessment>
+        <risk level="medium">
+            <description>[desc]</description>
+            <mitigation>[plan]</mitigation>
+        </risk>
+    </risk_assessment>
 
-### 风险评估
-- 🟡 [风险描述] → [缓解措施]
-
-### 停止点
-`[WAITING_FOR_DESIGN]`
-
-等待用户确认后进入编码阶段。
+    <stop_point status="WAITING_FOR_DESIGN">
+        Waiting for user confirmation to proceed to coding.
+    </stop_point>
+</design_result>
 ```
 
 ## 当前任务

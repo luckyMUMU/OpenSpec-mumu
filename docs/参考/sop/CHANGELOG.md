@@ -1,7 +1,7 @@
 # SOP 版本变更历史
 
-> **当前版本**: v1.2.0  
-> **更新日期**: 2026-02-08
+> **当前版本**: v1.4.0  
+> **更新日期**: 2026-02-09
 
 ---
 
@@ -20,6 +20,60 @@ v[主版本].[次版本].[修订版本]
 ---
 
 ## 版本历史
+
+### v1.4.0 (2026-02-09)
+
+**L2 架构文档 Markdown 化** - 全链路一致性升级
+
+#### 版本说明
+将 L2 架构设计载体统一调整为 `docs/02_logical_workflow/*.md`（Markdown 文档，伪代码用 `pseudo` 代码块），并同步模板、索引、约束矩阵、Prompts 与 Skills。
+
+#### 新增内容
+- **L2 Markdown 标准**: L2 逻辑工作流以 Markdown 表达，伪代码使用 `pseudo` 代码块
+- **ADR 创建要求**: 架构设计阶段必须创建 ADR 记录关键决策（技术选型、架构模式、接口设计等）
+- **RAG 参考资料管理**: 新增 `docs/04_context_reference/rag/` 目录管理用户输入和外部知识
+  - `rag/user_input/`: 用户提供的需求文档、设计稿、参考资料
+  - `rag/external/`: 外部获取的技术文档、API规范、最佳实践
+  - `rag/project/`: 项目沉淀的设计模式、经验教训
+- **知识沉淀入口**: 在参考索引中补充知识沉淀规范入口
+- **冲突处理机制**: 设计时检查 ADR 和 RAG 引用，发现冲突标记 `[USER_DECISION_REQUIRED]`
+
+#### 更新文档
+| 类别 | 更新文件 |
+|------|----------|
+| 模板 | 04_reference/document_templates/architecture_design.md, implementation_design.md, adr.md |
+| 参考 | 04_reference/index.md, 04_reference/knowledge_management.md |
+| 约束 | 05_constraints/constraint_matrix.md |
+| Prompt | prompts/* (L2 引用对齐) |
+| Skill | skills/* (L2 引用对齐) |
+| 核心 | AGENT_SOP.md, ROLE_CHEATSHEET.md |
+
+---
+
+### v1.3.0 (2026-02-09)
+
+**工作流可执行性与治理补强** - 一致性与可审计性升级
+
+#### 版本说明
+补齐状态机单一真源、跨目录依赖合规载体、快速路径判定标准、多语言测试/CI 落地规范与安全供应链红线。
+
+#### 新增内容
+- **状态字典**: 增加 `05_constraints/state_dictionary.md` 作为状态标记唯一来源
+- **安全与供应链红线**: 增加 `05_constraints/security_supply_chain.md`，明确密钥/权限/依赖治理
+- **快速路径判定**: 增强 `03_workflow/fast_path.md` 的变更分类与升级红线
+- **测试与 CI 门禁**: 增强 `05_constraints/acceptance_criteria.md` 的命令契约与 CI 建议
+- **跨目录依赖合规**: 明确 Worker 仅可追加“待处理变更”条目作为跨目录协作载体
+
+#### 更新文档
+| 类别 | 更新文件 |
+|------|----------|
+| 核心 | AGENT_SOP.md, sop_for_human.md, ROLE_CHEATSHEET.md |
+| 工作流 | 03_workflow/index.md, deep_path.md, fast_path.md, three_strike_rule.md |
+| 约束 | 05_constraints/index.md, constraint_matrix.md, acceptance_criteria.md, state_dictionary.md, security_supply_chain.md |
+| 参考 | 04_reference/design_directory_strategy.md |
+| Skill | skills/* (版本对齐) |
+
+---
 
 ### v1.2.0 (2026-02-08)
 

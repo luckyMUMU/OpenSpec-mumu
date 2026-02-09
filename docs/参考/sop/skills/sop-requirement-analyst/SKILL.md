@@ -5,7 +5,7 @@ description: "Requirement analysis workflow for multi-level requirements (L1 PRD
 
 # Requirement Analysis Workflow
 
-> **版本**: v1.1.0
+> **版本**: v1.4.0
 
 ## Input
 

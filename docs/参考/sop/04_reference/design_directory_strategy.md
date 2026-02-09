@@ -1,6 +1,6 @@
 # 目录维度工作策略
 
-> **版本**: v1.0.0
+> **版本**: v1.4.0
 
 本文档定义 Worker 如何以 `design.md` 所在目录为维度进行工作，实现自底向上、依赖驱动的并行执行。
 
@@ -282,7 +282,7 @@ src/
 Worker A 处理 `module_a/` 时发现需要修改 `module_b/` 的接口。
 
 **处理**：
-1. Worker A 修改 `module_b/design.md`，添加待处理变更标记
+1. Worker A 在 `module_b/design.md` 中仅追加“待处理变更”条目（不得改动其他章节）
 2. Worker A 通知 Supervisor
 3. Supervisor 创建 Worker B 处理 `module_b/`
 4. Worker A 标记 `[DIR_WAITING_DEP]` 并等待

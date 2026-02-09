@@ -5,11 +5,11 @@ description: "TDD工作流定义。Invoke when 用户启用TDD测试驱动开发
 
 # TDD 工作流 (可选)
 
-> **版本**: v1.1.0
+> **版本**: v1.4.0
 
 **类型**: 可选项  
 **触发**: Router判断启用TDD时  
-**位置**: `skills/sop-tdd-workflow/SKILL.md`
+**位置**: `docs/参考/sop/skills/sop-tdd-workflow/SKILL.md`
 
 ---
 
@@ -30,9 +30,9 @@ Analyst → Prometheus ↔ Skeptic → Oracle → Worker → Librarian
 
 ### TDD深度路径
 ```
-Analyst → Prometheus ↔ Skeptic → Oracle → Tester → Worker + TestWorker → Librarian
-                                    ↓
-                              生成CSV测试用例
+Analyst → Prometheus ↔ Skeptic → Oracle → Tester → Supervisor → Worker + TestWorker → Librarian
+                                    ↓                 ↓
+                              生成CSV测试用例      并行调度与依赖协调
 ```
 
 ---
@@ -99,7 +99,7 @@ TC002,订单,创建,库存不足,用户登录,"{product:B,qty:100}","{error:OUT_
 ## 关键约束
 
 ### 测试用例来源
-- **仅基于设计文档** (L2 `.pseudo` + L3 `design.md`)
+- **仅基于设计文档** (L2 `.md` + L3 `design.md`)
 - **不参考代码实现**
 - Tester不查看任何代码文件
 
@@ -156,8 +156,8 @@ L2原子操作 ←→ CSV测试用例 ←→ 测试代码
 
 | 标记 | 触发 | 等待 |
 |------|------|------|
-| `[WAITING_FOR_TEST_REVIEW]` | Tester完成 | 人工审核CSV |
-| `[TEST_CASES_APPROVED]` | 审核通过 | - |
+| `[WAITING_FOR_TEST_DESIGN]` | Tester完成 | 用户确认测试设计 |
+| `[WAITING_FOR_TEST_IMPLEMENTATION]` | TestWorker完成 | 用户确认测试实现 |
 
 ---
 
@@ -178,7 +178,7 @@ Router在以下场景建议启用TDD:
 | 测试时机 | 编码后 | 编码前 |
 | 测试来源 | 代码实现 | 设计文档 |
 | 审核环节 | 无 | CSV人工审核 |
-| 额外角色 | 无 | Tester + TestWorker |
+| 额外角色 | 无 | Tester + TestWorker（由 Supervisor 协调并行执行） |
 | 权限隔离 | 无 | Tester/CSV, TestWorker/测试代码 |
 
 ---

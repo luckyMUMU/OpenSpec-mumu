@@ -6,19 +6,17 @@
 
 文档不再是一个巨大的 `README.md`，而是根据“披露深度”拆分为不同的文件/文件夹：
 
-Plaintext
-
-```
+```text
 docs/
 ├── 01_concept_overview.md   # L1: 核心概念与价值（极简文字）
-├── 02_logical_workflow/     # L2: 逻辑工作流（本层级只写伪代码）
-│   ├── auth_flow.pseudo     # 鉴权逻辑伪代码
-│   └── data_pipeline.pseudo  # 数据处理逻辑伪代码
+├── 02_logical_workflow/     # L2: 逻辑工作流（Markdown 文档，伪代码在 pseudo 代码块内）
+│   ├── auth_flow.md         # 鉴权逻辑工作流
+│   └── data_pipeline.md     # 数据处理逻辑工作流
 ├── 03_technical_spec/       # L3: 技术规格（接口、数据结构定义）
 │   ├── api_schema.yaml      # OpenAPI/Swagger 定义
 │   └── data_models.json     # 数据模型定义
 └── 04_context_reference/    # L4: 决策背景与长尾细节
-    └── architecture_decision.md # 架构设计决策记录 (ADR)
+    └── adr_auth_001.md      # 架构设计决策记录 (ADR)
 ```
 
 ---
@@ -38,7 +36,7 @@ docs/
 
 #### L2: 逻辑流转层 (Logic Layer) —— **核心改进点**
 
-- **存放位置：** `02_logical_workflow/` 文件夹。
+- **存放位置：** `docs/02_logical_workflow/` 文件夹。
     
 - **编写原则：使用“结构化伪代码”**。
     
@@ -49,20 +47,18 @@ docs/
     - **屏蔽实现：** 不要写 `db.connect()`，而是写 `CONNECT_TO_DATABASE`。
         
     - **示例：**
-        
-        Plaintext
-        
-        ```
+
+        ```pseudo
         // 伪代码示例：用户意图识别流程
         FUNCTION identify_intent(user_input):
             INITIALIZE context_buffer
             PRE_PROCESS user_input (remove_noise, normalize)
-        
+
             IF user_input contains "urgent":
                 SET priority = HIGH
             ELSE:
                 SET priority = NORMAL
-        
+
             RETURN CALL_LLM_MODEL(prompt_template, user_input)
         END FUNCTION
         ```

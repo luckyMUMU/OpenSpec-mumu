@@ -112,7 +112,7 @@
 | 阶段 | 角色 | 任务 | 输出 |
 |------|------|------|------|
 | 1 | Analyst | 需求分析 | PRD/MRD/FRD + 原型 |
-| 2 | Prometheus | 架构设计 | `.pseudo` |
+| 2 | Prometheus | 架构设计 | `.md` |
 | 3 | Skeptic | 架构审查 | 审查报告 |
 | 4 | Oracle | 实现设计 | `design.md` |
 | 5 | Tester | 生成测试用例 | CSV |

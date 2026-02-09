@@ -5,7 +5,7 @@ description: "Code implementation workflow for physical coding. Invoke when impl
 
 # Code Implementation Workflow
 
-> **版本**: v1.1.0
+> **版本**: v1.4.0
 
 ## Input
 
@@ -64,9 +64,10 @@ description: "Code implementation workflow for physical coding. Invoke when impl
 4. Add code comments
 
 **Cross-Directory Change Handling**:
-- If need to modify other directory → Only update its design.md
-- Add "Pending Changes" section to target design.md
-- Notify Supervisor to create/wake target directory Worker
+- If need to modify other directory → **Do NOT update target design.md directly**
+- **Record Request**: Add "External Dependency Request" to **CURRENT** directory's `design.md`
+- **Content**: Include target directory, change description, and interface contract
+- Notify Supervisor to route request
 - Mark `[DIR_WAITING_DEP]` and wait
 
 ### Step 4: Testing
@@ -133,7 +134,7 @@ Waiting for review
 ## Constraints
 
 - **Directory Boundary**: Only modify files within current design.md directory
-- **No Cross-Directory Changes**: Don't directly modify other design.md directories
+- **No Cross-Directory Changes**: **Strictly Prohibited** to modify other design.md files
 - **Dependency Wait**: Must wait for dependencies to complete
 - **Follow design strictly**: No design changes during implementation
 - **Must pass tests**: All tests must pass
