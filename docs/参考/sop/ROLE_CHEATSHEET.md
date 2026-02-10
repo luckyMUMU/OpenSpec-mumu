@@ -14,7 +14,7 @@
 | Prometheus | 设计 | 架构设计 | `[WAITING_FOR_ARCHITECTURE]` | 全局 |
 | Skeptic | 设计 | 架构审查 | `[ARCHITECTURE_PASSED]` | 全局 |
 | Oracle | 设计 | 实现设计 | `[WAITING_FOR_DESIGN]` | 按目录 |
-| **Tester** | **设计** | **CSV测试用例唯一维护者** | **`[WAITING_FOR_TEST_DESIGN]`** | 按目录 |
+| **Tester** | **设计** | **CSV测试用例唯一维护者，分层验收测试设计者** | **`[WAITING_FOR_TEST_DESIGN]`** | 按目录 |
 | **Worker** | **实现** | **编码实现** | **Diff展示** | **design.md 所在目录** |
 | **TestWorker** | **实现** | **编写测试代码（只读CSV）** | **-** | **design.md 所在目录** |
 | Librarian | 监管 | 文档维护 | `[已完成]` | 全局 |
@@ -91,7 +91,7 @@ v[主版本].[次版本].[修订版本]
 | 修订版本 | 文档修正、错误修复、格式统一 | v6.0.0→v6.0.1 |
 
 ### 当前版本
-**v6.0.0** - 引入TDD工作流、需求分层、测试独立性
+**v1.4.0** - L2架构文档Markdown化
 
 👉 [查看版本历史](CHANGELOG.md)
 

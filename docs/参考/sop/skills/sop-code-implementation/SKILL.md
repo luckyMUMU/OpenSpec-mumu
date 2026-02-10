@@ -78,7 +78,7 @@ CMD: `REQUEST_CROSS_DIR(src_dir, target_dir, change) -> appended_request`
 ## Output
 
 - 模板：04_reference/interaction_formats/worker_execution_result.md
-- CMD: `IMPLEMENT(dir, design) -> Diff展示`
+- CMD: `IMPLEMENT(dir, design)`
 
 ## Constraints
 

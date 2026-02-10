@@ -147,6 +147,14 @@ Analyst → Prometheus ↔ Skeptic → Oracle → Tester → Supervisor → Work
 | `[DIR_COMPLETED]` | Worker 完成 | 当前目录处理完成 |
 | `[DIR_FAILED]` | Worker 失败 | 当前目录处理失败 |
 
+### 测试与监管停止点
+
+| 标记 | 触发 | 等待 |
+|------|------|------|
+| `[WAITING_FOR_TEST_IMPLEMENTATION]` | TestWorker完成 | 测试代码审查 |
+| `[FUSION_TRIGGERED]` | 连续3次失败 | Supervisor介入 |
+| `[已完成]` | Librarian完成 | 文档更新确认 |
+
 ### Supervisor 协调标记
 
 | 标记 | 触发 | 说明 |

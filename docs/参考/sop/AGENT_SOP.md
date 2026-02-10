@@ -40,7 +40,7 @@
 | Prometheus | 架构设计 | PRD | 架构设计 | `[WAITING_FOR_ARCHITECTURE]` | 全局 |
 | Skeptic | 架构审查 | 架构设计 | 审查报告 | `[ARCHITECTURE_PASSED]` | 全局 |
 | Oracle | 实现设计 | 架构设计 | 实现设计 | `[WAITING_FOR_DESIGN]` | 按目录 |
-| Tester | 设计分层验收测试 | 实现设计 | L1-L4测试设计 | `[WAITING_FOR_TEST_DESIGN]` | 按目录 |
+| Tester | CSV测试用例唯一维护者，分层验收测试设计者 | 实现设计 | L1-L4测试设计 | `[WAITING_FOR_TEST_DESIGN]` | 按目录 |
 | **Worker** | **编码实现** | **design.md** | **代码** | **Diff展示** | **design.md 所在目录** |
 | **TestWorker** | **实现验收测试代码** | **测试设计** | **L1-L4测试代码** | **`[WAITING_FOR_TEST_IMPLEMENTATION]`** | **design.md 所在目录** |
 | Librarian | 文档维护 | 设计文档 | 索引更新 | `[已完成]` | 全局 |
@@ -170,9 +170,9 @@ Explorer → Worker → Librarian
 
 | 复杂度 | 行数 | 要求 |
 |--------|------|------|
-| 低 | <100 | 仅快速路径/非目录调度可省略；目录调度下使用极简design.md |
-| 中 | 100-500 | 简要design.md+接口契约 |
-| 高 | >500 | 完整design.md+详细契约 |
+| 低 | <100 | 创建极简design.md（仅接口契约），快速路径可省略 |
+| 中 | 100-500 | 简要design.md+接口契约+任务清单 |
+| 高 | >500 | 完整design.md+详细契约+全部章节 |
 
 ---
 

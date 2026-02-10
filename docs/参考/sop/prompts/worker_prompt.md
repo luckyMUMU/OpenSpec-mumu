@@ -280,7 +280,7 @@ go test ./tests/acceptance/l4/ -v
 ## Output
 
 - 模板：04_reference/interaction_formats/worker_execution_result.md
-- CMD: `IMPLEMENT(dir, design) -> Diff展示`
+- CMD: `IMPLEMENT(dir, design)`
 - 目录策略：04_reference/design_directory_strategy.md
 
 ## 当前任务

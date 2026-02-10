@@ -28,7 +28,7 @@ CMD: `AUDIT(file) -> audit_report`
 **Purpose**: Implement the change
 
 **Actions**:
-CMD: `IMPLEMENT(dir, audit) -> Diff展示`
+CMD: `IMPLEMENT(dir, audit)`
 
 **Stop Point**: Show diff for review
 
