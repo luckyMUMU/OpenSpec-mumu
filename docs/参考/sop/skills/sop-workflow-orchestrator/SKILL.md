@@ -5,7 +5,14 @@ description: "Workflow orchestration for task triage and path selection. Invoke 
 
 # Workflow Orchestration
 
-> **版本**: v1.4.0
+> **版本**: v1.5.0
+
+**位置**: `sop/skills/sop-workflow-orchestrator/SKILL.md`
+
+## 触发条件
+
+- 接收到新任务，需要选择路径（fast/deep/TDD）并分配角色
+- 任务范围/风险不明确，需要先做复杂度判断与依赖判断
 
 ## Input
 
@@ -20,13 +27,13 @@ CMD: `TDD_CHECK(scope) -> on|off`
 
 ### Step 2: Select Path
 
-**Fast Path** (all conditions met):
+**Fast Path**（必须同时满足）：
 - Single file + <30 lines + no logic change
 
-**Deep Path** (any condition met):
+**Deep Path**（满足任一）：
 - Cross-file / new feature / refactor / API change / architecture
 
-**TDD Deep Path** (deep path + any condition):
+**TDD Deep Path**（Deep Path 且满足任一）：
 - Core business / complex logic / high coverage requirement
 
 ### Step 3: Directory Structure Analysis (Deep Path)
@@ -75,10 +82,24 @@ Analyst → Prometheus ↔ Skeptic → Oracle → Tester → Supervisor → [多
 
 CMD: `SCHEDULE_DIRS(design_list) -> dir_map`
 
+## 来源与依赖准则
+
+- 必须声明分诊/编排依据来源与依赖（变更范围/风险/目录结构/约束等），并优先用 `TRACE_SOURCES(inputs)` 固化“来源与依赖声明”
+- 当无法判断或存在冲突时必须中断：进入 `[USER_DECISION]`，并使用 `RECORD_DECISION(topic, decision)` 落盘决策记录
+- 标准：04_reference/review_standards/source_dependency.standard.md
+
 ## Output
 
-- 模板：04_reference/interaction_formats/router_triage.md
-- CMD: `ROUTE(task)`
+- 交付物（模板）：04_reference/interaction_formats/router_triage.md
+- CMD: `ROUTE(task)`（必须输出：路径、角色链路、下一步命令式指令）
+
+## Stop Points
+
+- `[USER_DECISION]`: 路径选择存在冲突/不确定且影响后续执行
+
+## Failure Handling
+
+- 当输入信息不足导致无法判定路径时，必须进入 `[USER_DECISION]` 并给出选项与代价对比
 
 ## Constraints
 
@@ -86,6 +107,8 @@ CMD: `SCHEDULE_DIRS(design_list) -> dir_map`
 - Must consider dependencies
 - Must provide clear next steps
 - Must check TDD conditions
+- Must reference SSOT when using states/commands: 05_constraints/state_dictionary.md, 05_constraints/command_dictionary.md
+- Must persist output via the router triage template (artifact)
 - **Must analyze directory structure for parallel execution**
 - **Must create directory-based execution plan**
 - **Must assign directory scope to Workers**

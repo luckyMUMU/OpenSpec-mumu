@@ -44,7 +44,19 @@
 5. **实现L3测试**: 功能验收测试代码
 6. **实现L4测试**: 系统E2E测试代码
 7. **验证实现**: 确保实现符合设计
-8. **停止点**: `[WAITING_FOR_TEST_IMPLEMENTATION]` 等待用户确认
+8. **停止点**: `[WAITING_FOR_TEST_IMPLEMENTATION]` 等待 CodeReviewer 进行测试代码审查
+
+## 审查标准
+
+- 04_reference/review_standards/test_code.standard.md
+- 04_reference/review_standards/source_dependency.standard.md
+- 04_reference/review_standards/review_report.standard.md
+- 项目可覆写（可选）：04_reference/review_standards/profiles/<project>.md（模板：04_reference/review_standards/_project_profile.md）
+
+## 来源与依赖准则
+
+- 必须声明输入来源与依赖（CSV/测试设计/关键接口契约等），并优先用 `TRACE_SOURCES(inputs)` 固化“来源与依赖声明”
+- 当找不到来源或依赖时必须中断：进入 `[USER_DECISION]`，并使用 `RECORD_DECISION(topic, decision)` 落盘决策记录
 
 ## 权限声明
 

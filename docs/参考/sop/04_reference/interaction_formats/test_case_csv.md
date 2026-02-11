@@ -1,6 +1,6 @@
 ---
-version: v1.4.0
-updated: 2026-02-10
+version: v1.5.0
+updated: 2026-02-11
 ---
 
 # 测试用例 CSV 规范（简版）

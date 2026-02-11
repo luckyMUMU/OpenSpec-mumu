@@ -5,11 +5,11 @@ description: "TDD工作流定义。Invoke when 用户启用TDD测试驱动开发
 
 # TDD 工作流 (可选)
 
-> **版本**: v1.4.0
+> **版本**: v1.5.0
 
 **类型**: 可选项  
 **触发**: Router判断启用TDD时  
-**位置**: `docs/参考/sop/skills/sop-tdd-workflow/SKILL.md`
+**位置**: `sop/skills/sop-tdd-workflow/SKILL.md`
 
 ---
 
@@ -125,12 +125,17 @@ L2原子操作 ←→ CSV测试用例 ←→ 测试代码
 
 ---
 
+## 来源与依赖准则
+
+- TDD 路径下的关键产物（CSV测试用例/测试代码/审查报告）必须包含“来源与依赖声明”（标准：04_reference/review_standards/source_dependency.standard.md），并优先用 `TRACE_SOURCES(inputs)` 固化
+- 当关键来源/依赖缺口无法消解时，必须进入 `[USER_DECISION]`，并使用 `RECORD_DECISION(topic, decision)` 落盘决策记录
+
 ## 停止点
 
 | 标记 | 触发 | 等待 |
 |------|------|------|
 | `[WAITING_FOR_TEST_DESIGN]` | Tester完成 | 用户确认测试设计 |
-| `[WAITING_FOR_TEST_IMPLEMENTATION]` | TestWorker完成 | 用户确认测试实现 |
+| `[WAITING_FOR_TEST_IMPLEMENTATION]` | TestWorker完成 | CodeReviewer进行测试代码审查 |
 
 ---
 

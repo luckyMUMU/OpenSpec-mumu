@@ -1,6 +1,6 @@
 # 参考资料与知识沉淀规范
 
-> **版本**: v1.4.0  
+> **版本**: v1.5.0  
 > **位置**: `docs/04_context_reference/`  
 > **用途**: 管理用户输入和外部获取的知识
 > **目录映射**: 参见 04_reference/document_directory_mapping.md

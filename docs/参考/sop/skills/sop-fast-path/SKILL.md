@@ -5,7 +5,7 @@ description: "Fast path workflow for single-file, small changes. Invoke when tas
 
 # Fast Path Workflow
 
-> **版本**: v1.4.0
+> **版本**: v1.5.0
 
 ## Input
 
@@ -28,16 +28,28 @@ CMD: `AUDIT(file) -> audit_report`
 **Purpose**: Implement the change
 
 **Actions**:
-CMD: `IMPLEMENT(dir, audit) -> Diff展示`
+CMD: `IMPLEMENT(dir, audit) -> [WAITING_FOR_CODE_REVIEW]`
 
-**Stop Point**: Show diff for review
+**Stop Point**: `[WAITING_FOR_CODE_REVIEW]`
 
-### Step 3: Document Sync
+### Step 3: Code Review
+
+**Purpose**: Validate changes against design and common practices
+
+**Actions**:
+CMD: `CODE_REVIEW(diff, design_refs) -> Diff展示`
+
+### Step 4: Document Sync
 
 **Purpose**: Update related docs
 
 **Actions**:
 CMD: `DOC_SYNC(scope) -> [已完成]`
+
+## 来源与依赖准则
+
+- 关键产物（审计报告/执行结果/审查报告）必须包含“来源与依赖声明”（标准：04_reference/review_standards/source_dependency.standard.md），并优先用 `TRACE_SOURCES(inputs)` 固化
+- 当关键来源/依赖缺口无法消解时，必须进入 `[USER_DECISION]`，并使用 `RECORD_DECISION(topic, decision)` 落盘决策记录
 
 ## Output
 

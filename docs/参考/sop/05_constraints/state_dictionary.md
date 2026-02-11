@@ -1,7 +1,7 @@
 # 状态字典
 
-> **版本**: v1.4.0  
-> **更新日期**: 2026-02-09
+> **版本**: v1.5.0  
+> **更新日期**: 2026-02-11
 
 ---
 
@@ -33,12 +33,20 @@
 
 ---
 
+## 代码审查停止点（Code Review Stop Points）
+
+| 状态 | 触发者 | 含义 | 继续条件 |
+|------|--------|------|----------|
+| `[WAITING_FOR_CODE_REVIEW]` | Worker | 代码变更已就绪，等待代码审查 | CodeReviewer 输出审查结论（通过/需修改/僵局→用户决策） |
+
+---
+
 ## 测试相关停止点（Test Stop Points）
 
 | 状态 | 触发者 | 含义 | 继续条件 |
 |------|--------|------|----------|
 | `[WAITING_FOR_TEST_DESIGN]` | Tester | 测试设计（用例）已完成，等待确认 | 用户确认测试设计 |
-| `[WAITING_FOR_TEST_IMPLEMENTATION]` | TestWorker | 测试代码已完成，等待确认 | 用户确认测试实现 |
+| `[WAITING_FOR_TEST_IMPLEMENTATION]` | TestWorker | 测试代码已完成，等待代码审查 | CodeReviewer 输出审查结论（通过/需修改/僵局→用户决策） |
 | `[WAITING_FOR_TEST_CREATION]` | Worker → 用户 | 测试不充分，暂停编码等待决策 | 用户选择：补充测试/继续/暂停 |
 
 兼容性：
@@ -91,7 +99,7 @@
 
 | 标记 | 触发者 | 含义 | 继续条件 |
 |------|--------|------|----------|
-| Diff展示 | Worker | 展示变更 Diff，等待人工审批 | 用户审批通过 |
+| Diff展示 | Worker / CodeReviewer | 展示变更 Diff（经代码审查通过后），等待人工审批 | 用户审批通过 |
 
 ---
 
@@ -101,6 +109,12 @@
 |------|--------|------|----------|
 | `[USER_DECISION]` | 任意角色 → 用户 | 当前存在冲突/风险/分歧，需要用户做出决策 | 用户选择方案或给出新方案 |
 | `[USER_DECISION_REQUIRED]` | 任意角色 → 用户 | `[USER_DECISION]` 的历史别名；新文档统一使用 `[USER_DECISION]` | 同上 |
+
+决策记录要求：
+- 当触发原因是“找不到来源或依赖”（例如 SOURCE_MISSING / DEPENDENCY_MISSING / CONFLICT）时，必须同时：
+  - 使用 `ASK_USER_DECISION(topic, options)` 输出选项
+  - 使用 `RECORD_DECISION(topic, decision)` 落盘决策记录文件
+  - 在后续产物中引用该决策记录路径
 
 ---
 

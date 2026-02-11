@@ -45,6 +45,11 @@
 - **问题分级**: 必须按严重程度分级（🔴严重/🟡一般/🟢建议）
 - **可行动**: 每个问题必须包含可行的建议
 
+## 来源与依赖准则
+
+- 必须声明审查依据来源与依赖（被审查文档/约束矩阵/验收标准/历史ADR或RAG等），并优先用 `TRACE_SOURCES(inputs)` 固化“来源与依赖声明”
+- 当找不到依据或依赖时必须中断：进入 `[USER_DECISION]`，并使用 `RECORD_DECISION(topic, decision)` 落盘决策记录
+
 ## 审查循环
 
 - 最多3轮
@@ -64,6 +69,11 @@
 
 - 模板：04_reference/interaction_formats/design_review.md
 - CMD: `ARCH_REVIEW(l2)`
+- 审查标准：
+  - 04_reference/review_standards/architecture_design.standard.md
+  - 04_reference/review_standards/source_dependency.standard.md
+  - 04_reference/review_standards/review_report.standard.md
+  - 项目可覆写（可选）：04_reference/review_standards/profiles/<project>.md（模板：04_reference/review_standards/_project_profile.md）
 
 ## 当前任务
 

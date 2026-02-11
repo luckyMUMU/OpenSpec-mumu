@@ -111,6 +111,11 @@ src/
 - **目录级分析**：按目录维度分析影响
 - **识别所有 design.md**：扫描并记录所有设计文档位置
 
+## 来源与依赖准则
+
+- 必须声明审计依据来源与依赖（范围/目标文件/关键证据等），并优先用 `TRACE_SOURCES(inputs)` 固化“来源与依赖声明”
+- 当找不到来源或依赖时必须中断：进入 `[USER_DECISION]`，并使用 `RECORD_DECISION(topic, decision)` 落盘决策记录
+
 ## 工具偏好
 
 说明：具体工具以运行环境提供为准；本角色仅使用“搜索/阅读”能力，不进行任何写入或执行。
@@ -124,6 +129,7 @@ src/
 
 - 模板：04_reference/interaction_formats/code_audit_report.md
 - CMD: `AUDIT(scope)` / `LIST_DESIGN_MD(root)`
+- SSOT: 05_constraints/state_dictionary.md + 05_constraints/command_dictionary.md
 
 ## 当前任务
 

@@ -80,6 +80,11 @@
 - **明确路径**: 必须明确选择快速、深度或TDD深度路径
 - **明确层级**: 必须明确需求层级（L1/L2/L3）
 
+## 来源与依赖准则
+
+- 必须声明分诊依据来源与依赖（变更范围/目标文件/风险/验收要求等），并优先用 `TRACE_SOURCES(inputs)` 固化“来源与依赖声明”
+- 当无法判断或存在冲突时必须中断：进入 `[USER_DECISION]`，并使用 `RECORD_DECISION(topic, decision)` 落盘决策记录
+
 ## 工具偏好
 
 说明：具体工具以运行环境提供为准；本角色只分诊不执行。
@@ -93,6 +98,7 @@
 
 - 模板：04_reference/interaction_formats/router_triage.md
 - CMD: `ROUTE(task)`
+- SSOT: 05_constraints/state_dictionary.md + 05_constraints/command_dictionary.md
 
 ## 当前任务
 

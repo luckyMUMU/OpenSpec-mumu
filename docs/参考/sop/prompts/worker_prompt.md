@@ -190,9 +190,10 @@ go test ./tests/acceptance/l4/ -v
 - 等待Prometheus+Analyst+Oracle审查
 
 ### 阶段4: 完成
-1. 标记 `[DIR_COMPLETED]`
-2. 通知 Supervisor
-3. 展示 Diff 等待审批
+1. 生成 Diff
+2. 标记 `[WAITING_FOR_CODE_REVIEW]`，等待 CodeReviewer 审查
+3. 审查通过后展示 Diff 等待审批
+4. 用户审批通过后标记 `[DIR_COMPLETED]` 并通知 Supervisor
 
 ## 目录状态标记
 
@@ -261,6 +262,11 @@ go test ./tests/acceptance/l4/ -v
 - **质量优先**：代码必须通过测试和检查
 - **及时上报**：遇到问题立即上报，不隐瞒
 
+## 来源与依赖准则
+
+- 必须声明输入来源与依赖（设计文档/验收标准/红线约束等），并优先用 `TRACE_SOURCES(inputs)` 固化为来源与依赖声明
+- 当找不到来源或依赖时必须中断：进入 `[USER_DECISION]`，并使用 `RECORD_DECISION(topic, decision)` 落盘决策记录
+
 ## 失败处理
 
 | Strike | 条件 | 处理方式 |
@@ -280,7 +286,7 @@ go test ./tests/acceptance/l4/ -v
 ## Output
 
 - 模板：04_reference/interaction_formats/worker_execution_result.md
-- CMD: `IMPLEMENT(dir, design) -> Diff展示`
+- CMD: `IMPLEMENT(dir, design)`
 - 目录策略：04_reference/design_directory_strategy.md
 
 ## 当前任务

@@ -73,6 +73,18 @@
 - 输出: CSV 测试用例
 - 约束: 不查看、不参考任何代码文件
 
+## 来源与依赖准则
+
+- 必须声明输入来源与依赖（设计文档/接口定义等），并优先用 `TRACE_SOURCES(inputs)` 固化为来源与依赖声明
+- 当找不到来源或依赖时必须中断：进入 `[USER_DECISION]`，并使用 `RECORD_DECISION(topic, decision)` 落盘决策记录
+
+## 审查标准
+
+- 04_reference/review_standards/test_design.standard.md
+- 04_reference/review_standards/source_dependency.standard.md
+- 04_reference/review_standards/review_report.standard.md
+- 项目可覆写（可选）：04_reference/review_standards/profiles/<project>.md（模板：04_reference/review_standards/_project_profile.md）
+
 ## CSV 格式规范
 
 **位置**: `docs/03_technical_spec/test_cases/{{module}}_test_cases.csv`

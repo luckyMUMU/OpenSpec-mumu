@@ -1,6 +1,6 @@
 # 工作流规范
 
-> **版本**: v1.4.0
+> **版本**: v1.5.0
 
 ## 路径选择
 
@@ -41,14 +41,19 @@ CMD: `WAIT_DEP(dir,deps)` / `COMPLETE_DIR(dir)`
 ## 快速路径
 
 ```
-Explorer → Worker → Librarian
+Explorer → Worker → CodeReviewer → Librarian
 ```
 
 | 阶段 | 输入 | 输出 | 停止点 |
 |------|------|------|--------|
 | Explorer | 目标文件 | 审计报告 | - |
-| Worker | 审计报告 | 代码修改 | Diff展示 |
+| Worker | 审计报告 | 代码修改 | `[WAITING_FOR_CODE_REVIEW]` |
+| CodeReviewer | Diff+设计文档 | 审查报告 | Diff展示 |
 | Librarian | 代码修改 | 文档更新 | `[已完成]` |
+
+来源与依赖准则：
+- Worker/CodeReviewer 必须声明来源与依赖（模板：`04_reference/interaction_formats/source_dependency.md`）
+- 当找不到来源或依赖时，必须进入 `[USER_DECISION]` 并落盘决策记录
 
 **注意**：快速路径不涉及多目录并行，单文件修改直接执行。
 
@@ -61,7 +66,7 @@ Explorer → Worker → Librarian
 ### 新项目/大重构（目录维度）
 
 ```
-Analyst → Prometheus ↔ Skeptic → Oracle → Supervisor → [多 Worker 并行] → Librarian
+Analyst → Prometheus ↔ Skeptic → Oracle → Supervisor → [多 Worker 并行] → CodeReviewer → Librarian
                                               ↓
                                     按目录深度调度 Worker
 ```
@@ -69,7 +74,7 @@ Analyst → Prometheus ↔ Skeptic → Oracle → Supervisor → [多 Worker 并
 ### 功能迭代（目录维度）
 
 ```
-Analyst → Oracle → Supervisor → [多 Worker 并行] → Librarian
+Analyst → Oracle → Supervisor → [多 Worker 并行] → CodeReviewer → Librarian
                           ↓
                     按目录深度调度 Worker
 ```
@@ -81,7 +86,8 @@ Analyst → Oracle → Supervisor → [多 Worker 并行] → Librarian
 | Skeptic | 架构设计 | 审查报告 | `[ARCHITECTURE_PASSED]` | 全局 |
 | Oracle | 架构设计 | 实现设计 | `[WAITING_FOR_DESIGN]` | 按目录 |
 | **Supervisor** | **实现设计** | **目录-Worker 映射** | **调度执行** | **全局协调** |
-| **Worker** | **design.md** | **代码** | **Diff展示** | **design.md 所在目录** |
+| **Worker** | **design.md** | **代码** | **`[WAITING_FOR_CODE_REVIEW]`** | **design.md 所在目录** |
+| CodeReviewer | Diff+设计文档 | 审查报告 | Diff展示 | 全局 |
 | Librarian | 代码 | 文档更新 | `[已完成]` | 全局 |
 
 👉 [深度路径详情](deep_path.md)
@@ -91,7 +97,7 @@ Analyst → Oracle → Supervisor → [多 Worker 并行] → Librarian
 ## TDD深度路径 (可选)
 
 ```
-Analyst → Prometheus ↔ Skeptic → Oracle → Tester → Supervisor → Worker + TestWorker → Librarian
+Analyst → Prometheus ↔ Skeptic → Oracle → Tester → Supervisor → Worker + TestWorker → CodeReviewer → Librarian
                                     ↓                 ↓
                               生成CSV测试用例      并行调度与依赖协调
 ```
@@ -100,8 +106,9 @@ Analyst → Prometheus ↔ Skeptic → Oracle → Tester → Supervisor → Work
 |------|------|------|--------|
 | Tester | L2+L3设计 | CSV测试用例 | `[WAITING_FOR_TEST_DESIGN]` |
 | Supervisor | 实现设计+测试设计 | 目录-Worker 映射+调度状态 | `[SCHEDULING]` |
-| Worker | 实现设计 | 代码 | Diff展示 |
+| Worker | 实现设计 | 代码 | `[WAITING_FOR_CODE_REVIEW]` |
 | TestWorker | CSV+代码 | 测试代码 | - |
+| CodeReviewer | Diff+设计文档 | 审查报告 | Diff展示 |
 
 **启用条件**: 核心业务/复杂逻辑/高覆盖要求
 
@@ -136,7 +143,8 @@ Analyst → Prometheus ↔ Skeptic → Oracle → Tester → Supervisor → Work
 | `[ARCHITECTURE_PASSED]` | Skeptic通过 | - |
 | `[WAITING_FOR_DESIGN]` | Oracle完成 | 设计审批 |
 | `[WAITING_FOR_TEST_DESIGN]` | Tester完成 | 用户确认测试设计 |
-| Diff展示 | Worker完成 | 用户审批代码 |
+| `[WAITING_FOR_CODE_REVIEW]` | Worker完成实现 | CodeReviewer输出审查报告 |
+| Diff展示 | Worker完成（代码审查通过后） | 用户审批代码 |
 
 ### 目录维度状态标记
 
@@ -146,6 +154,14 @@ Analyst → Prometheus ↔ Skeptic → Oracle → Tester → Supervisor → Work
 | `[DIR_WAITING_DEP]` | Worker 遇到依赖 | 等待依赖目录完成 |
 | `[DIR_COMPLETED]` | Worker 完成 | 当前目录处理完成 |
 | `[DIR_FAILED]` | Worker 失败 | 当前目录处理失败 |
+
+### 测试与监管停止点
+
+| 标记 | 触发 | 等待 |
+|------|------|------|
+| `[WAITING_FOR_TEST_IMPLEMENTATION]` | TestWorker完成 | CodeReviewer审查测试代码 |
+| `[FUSION_TRIGGERED]` | 连续3次失败 | Supervisor介入 |
+| `[已完成]` | Librarian完成 | 文档更新确认 |
 
 ### Supervisor 协调标记
 

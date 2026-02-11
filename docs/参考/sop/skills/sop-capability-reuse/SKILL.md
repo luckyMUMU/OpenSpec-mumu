@@ -5,7 +5,14 @@ description: "指导AI Agent复用和优化已有能力。Invoke when needing to
 
 # 能力复用与优化
 
-> **版本**: v1.4.0
+> **版本**: v1.5.0
+
+**位置**: `sop/skills/sop-capability-reuse/SKILL.md`
+
+## 触发条件
+
+- 需要新增功能/Skill/Prompt/代码能力时，必须先执行复用审查
+- 需要决定“复用/改进/新建/清理”时，必须产出可追溯的决策记录
 
 ## Step 1: 检查已有能力
 
@@ -92,6 +99,12 @@ description: "指导AI Agent复用和优化已有能力。Invoke when needing to
 ## 决策树
 规则：先搜（skills/prompts/代码）→ 可复用则复用；否则评估改进 vs 新建；新建后必须清理重复/过时代码。
 
+## 来源与依赖准则
+
+- 必须声明决策依据来源与依赖（命中项/约束/代码现状等），并优先用 `TRACE_SOURCES(inputs)` 固化“来源与依赖声明”
+- 当关键来源缺失或冲突无法消解时，必须进入 `[USER_DECISION]`，并使用 `RECORD_DECISION(topic, decision)` 落盘决策记录
+- 标准：04_reference/review_standards/source_dependency.standard.md
+
 ## 输入
 - capability_need
 - searched: skills/prompts/code
@@ -103,6 +116,14 @@ description: "指导AI Agent复用和优化已有能力。Invoke when needing to
 - improve: delta + regression_ok + docs_updated
 - create: new_name + reason + cleanup_done
 
+## 交付物（Artifacts）
+
+- `temp/capability_reuse_decision.md`（必须落盘：搜索范围、命中项、决策依据、后续动作）
+
+## Stop Points
+
+- `[USER_DECISION]`: 复用/改进/新建成本对比无法达成一致
+
 ## 约束
 
 1. **先检查后行动** - 必须先搜索已有能力
@@ -110,3 +131,8 @@ description: "指导AI Agent复用和优化已有能力。Invoke when needing to
 3. **及时清理** - 新建后必须检查并清理过时代码
 4. **保持兼容** - 改进时不破坏已有接口
 5. **文档同步** - 所有变更必须同步更新文档
+6. 必须引用SSOT：05_constraints/state_dictionary.md、05_constraints/command_dictionary.md
+
+## Failure Handling
+
+- 当搜索范围受限或权限不足导致无法确认是否可复用时，必须进入 `[USER_DECISION]` 并明确缺失信息

@@ -1,17 +1,23 @@
 # 深度路径
 
-> **版本**: v1.4.0
+> **版本**: v1.5.0
 
 **适用**: 跨文件/新功能/重构/API变更
 
 ---
+
+## 来源与依赖准则（全路径通用）
+
+- Analyst：除“需求主要来源于用户”外，必须在产物中声明补充来源与依赖
+- Prometheus/Oracle/Tester/Worker/TestWorker/CodeReviewer：必须声明其输入来源于前置阶段产出，并列出依赖清单（模板：`04_reference/interaction_formats/source_dependency.md`）
+- 当找不到来源或依赖时：必须进入 `[USER_DECISION]` 并同时落盘决策记录
 
 ## 目录维度深度路径
 
 ### 核心流程
 
 ```
-Analyst → Prometheus ↔ Skeptic → Oracle → Supervisor → [多 Worker 并行] → Librarian
+Analyst → Prometheus ↔ Skeptic → Oracle → Supervisor → [多 Worker 并行] → CodeReviewer → Librarian
                                               ↓
                                     按目录深度调度 Worker
 ```
@@ -24,8 +30,11 @@ Analyst → Prometheus ↔ Skeptic → Oracle → Supervisor → [多 Worker 并
 3. 按深度降序分批启动 Worker（同深度并行）
 4. Worker 处理当前目录，遇到依赖则标记等待
 5. Supervisor 监控进度，唤醒等待依赖的 Worker
-6. 所有目录完成后，Librarian 更新文档
+6. Worker 完成后提交代码审查，CodeReviewer 审查并驱动返工回路
+7. 所有目录完成且代码审查通过后，Librarian 更新文档
 ```
+
+👉 [目录维度工作策略详情](../04_reference/design_directory_strategy.md)
 
 ---
 
@@ -33,12 +42,12 @@ Analyst → Prometheus ↔ Skeptic → Oracle → Supervisor → [多 Worker 并
 
 ### 新项目/大重构
 ```
-Analyst → Prometheus ↔ Skeptic → Oracle → Worker → Librarian
+Analyst → Prometheus ↔ Skeptic → Oracle → Worker → CodeReviewer → Librarian
 ```
 
 ### 功能迭代
 ```
-Analyst → Oracle → Worker → Librarian
+Analyst → Oracle → Worker → CodeReviewer → Librarian
 ```
 
 ---
@@ -59,7 +68,8 @@ Analyst → Oracle → Worker → Librarian
 |------|------|------|--------|--------|
 | Oracle | 架构设计 | 实现设计 | `[WAITING_FOR_DESIGN]` | 按目录 |
 | **Supervisor** | **实现设计** | **目录-Worker 映射** | **`[SCHEDULING]`** | **全局协调** |
-| **Worker** | **design.md** | **代码** | **Diff展示** | **design.md 所在目录** |
+| **Worker** | **design.md** | **代码** | **`[WAITING_FOR_CODE_REVIEW]`** | **design.md 所在目录** |
+| CodeReviewer | Diff+设计文档 | 审查报告 | Diff展示 | 全局 |
 | Librarian | 代码 | 文档更新 | `[已完成]` | 全局 |
 
 ### 目录-Worker 映射表示例
@@ -75,7 +85,7 @@ CMD: `SCHEDULE_DIRS(design_list) -> dir_map`
 
 ### 流程
 ```
-Analyst → Prometheus ↔ Skeptic → Oracle → Tester → TestWorker → Worker → Librarian
+Analyst → Prometheus ↔ Skeptic → Oracle → Tester → TestWorker → Worker → CodeReviewer → Librarian
                                     ↓           ↓           ↓
                               设计文档    设计验收测试    实现验收测试    运行验收测试
 ```
@@ -91,6 +101,7 @@ Analyst → Prometheus ↔ Skeptic → Oracle → Tester → TestWorker → Work
 | **Tester** | **实现设计** | **L1-L4测试设计** | **`[WAITING_FOR_TEST_DESIGN]`** | **设计分层验收测试** |
 | **TestWorker** | **测试设计** | **L1-L4测试代码** | **`[WAITING_FOR_TEST_IMPLEMENTATION]`** | **实现分层验收测试** |
 | **Worker** | **实现设计+测试** | **代码+验收** | **见下方验收流程** | **编码+运行验收测试** |
+| CodeReviewer | Diff+设计文档 | 审查报告 | Diff展示 | 代码审查与返工回路 |
 | Librarian | 代码+测试 | 文档更新 | `[已完成]` | 文档归档 |
 
 ### 分层验收流程（Worker执行）
