@@ -1,7 +1,7 @@
 # SOP 版本变更历史
 
-> **当前版本**: v1.4.0  
-> **更新日期**: 2026-02-09
+> **当前版本**: v1.5.0  
+> **更新日期**: 2026-02-11
 
 ---
 
@@ -20,6 +20,31 @@ v[主版本].[次版本].[修订版本]
 ---
 
 ## 版本历史
+
+### v1.5.0 (2026-02-11)
+
+**增加代码审查环节与选型沉淀要求** - 质量门禁与知识可追溯升级
+
+#### 新增内容
+- **CodeReviewer 角色**: 在实现阶段引入独立代码审查角色，输出结构化审查报告并驱动返工回路
+- **代码审查停点与命令**: 新增 `[WAITING_FOR_CODE_REVIEW]` 与 `CODE_REVIEW(diff, design_refs)`，与用户 Diff 审批解耦
+- **代码审查输出规范**: 增加 `code_review.md` 交互格式与 `sop-code-review` Skill、Prompt
+- **选型与知识沉淀**: 需求/架构阶段要求关键决策 >=2 选型对比，并将外部参考以 RAG 形式沉淀，决策以 ADR 可追溯
+- **模板补齐**: PRD/MRD/FRD 与 L2 架构模板补齐“候选方案/参考资料”结构
+
+#### 更新文档
+| 类别 | 更新文件 |
+|------|----------|
+| 核心 | AGENT_SOP.md, ROLE_CHEATSHEET.md |
+| 角色 | 02_role_matrix/index.md |
+| 工作流 | 03_workflow/index.md, deep_path.md, fast_path.md |
+| 约束 | 05_constraints/state_dictionary.md, 05_constraints/command_dictionary.md |
+| 交互格式 | 04_reference/interaction_formats/code_review.md |
+| Skill | skills/sop-code-review/SKILL.md, skills/sop-requirement-analyst/SKILL.md, skills/sop-architecture-design/SKILL.md |
+| Prompt | prompts/code_reviewer_prompt.md, prompts/analyst_prompt.md, prompts/prometheus_prompt.md |
+| 模板 | 04_reference/document_templates/{project_prd.md,module_mrd.md,feature_frd.md,architecture_design.md} |
+
+---
 
 ### v1.4.0 (2026-02-09)
 

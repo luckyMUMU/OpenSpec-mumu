@@ -1,6 +1,6 @@
 # 角色速查
 
-> **版本**: v1.4.0
+> **版本**: v1.5.0
 
 ---
 
@@ -17,6 +17,7 @@
 | **Tester** | **设计** | **CSV测试用例唯一维护者，分层验收测试设计者** | **`[WAITING_FOR_TEST_DESIGN]`** | 按目录 |
 | **Worker** | **实现** | **编码实现** | **Diff展示** | **design.md 所在目录** |
 | **TestWorker** | **实现** | **编写测试代码（只读CSV）** | **-** | **design.md 所在目录** |
+| **CodeReviewer** | **监管** | **代码审查** | **`[WAITING_FOR_CODE_REVIEW]`** | **全局** |
 | Librarian | 监管 | 文档维护 | `[已完成]` | 全局 |
 | **Supervisor** | **监管** | **进度监管，熔断，并行协调** | **`[FUSION_TRIGGERED]`** | **全局协调** |
 
@@ -26,25 +27,25 @@
 
 ### 目录维度深度路径（推荐）
 ```
-Analyst → Prometheus ↔ Skeptic → Oracle → Supervisor → [多 Worker 并行] → Librarian
+Analyst → Prometheus ↔ Skeptic → Oracle → Supervisor → [多 Worker 并行] → CodeReviewer → Librarian
                                               ↓
                                     按目录深度调度 Worker
 ```
 
 ### 快速路径
 ```
-Explorer → Worker → Librarian
+Explorer → Worker → CodeReviewer → Librarian
 ```
 
 ### 深度路径（单目录）
 ```
-新项目: Analyst → Prometheus ↔ Skeptic → Oracle → Worker → Librarian
-功能迭代: Analyst → Oracle → Worker → Librarian
+新项目: Analyst → Prometheus ↔ Skeptic → Oracle → Worker → CodeReviewer → Librarian
+功能迭代: Analyst → Oracle → Worker → CodeReviewer → Librarian
 ```
 
 ### TDD深度路径 (可选)
 ```
-Analyst → Prometheus ↔ Skeptic → Oracle → Tester → Supervisor → [多 Worker 并行] → Librarian
+Analyst → Prometheus ↔ Skeptic → Oracle → Tester → Supervisor → [多 Worker 并行] → CodeReviewer → Librarian
                                     ↓           ↓
                               生成CSV测试用例    实现测试代码
 ```
@@ -167,7 +168,7 @@ L4验收 → [WAITING_FOR_L4_REVIEW] → Prometheus+Analyst+Oracle审查
 | 停止点 | 触发时机 | 等待内容 |
 |--------|----------|----------|
 | `[WAITING_FOR_TEST_DESIGN]` | Tester完成测试设计 | 用户确认设计充分 |
-| `[WAITING_FOR_TEST_IMPLEMENTATION]` | TestWorker完成测试实现 | 用户确认实现充分 |
+| `[WAITING_FOR_TEST_IMPLEMENTATION]` | TestWorker完成测试实现 | CodeReviewer审查测试代码 |
 | `[WAITING_FOR_L1_REVIEW]` | L1测试通过后 | Oracle审查 |
 | `[WAITING_FOR_L2_REVIEW]` | L2测试通过后 | Oracle审查 |
 | `[WAITING_FOR_L3_REVIEW]` | L3测试通过后 | Analyst+Oracle审查 |

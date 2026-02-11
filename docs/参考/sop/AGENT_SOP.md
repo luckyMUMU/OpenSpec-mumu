@@ -1,7 +1,7 @@
 # AI Agent SOP
 
-> **版本**: v1.4.0  
-> **更新日期**: 2026-02-09  
+> **版本**: v1.5.0  
+> **更新日期**: 2026-02-11  
 > AI Agent专用 | 命令式 | 最小Token
 
 ---
@@ -41,8 +41,9 @@
 | Skeptic | 架构审查 | 架构设计 | 审查报告 | `[ARCHITECTURE_PASSED]` | 全局 |
 | Oracle | 实现设计 | 架构设计 | 实现设计 | `[WAITING_FOR_DESIGN]` | 按目录 |
 | Tester | CSV测试用例唯一维护者，分层验收测试设计者 | 实现设计 | L1-L4测试设计 | `[WAITING_FOR_TEST_DESIGN]` | 按目录 |
-| **Worker** | **编码实现** | **design.md** | **代码** | **Diff展示** | **design.md 所在目录** |
+| **Worker** | **编码实现** | **design.md** | **代码** | **`[WAITING_FOR_CODE_REVIEW]`** | **design.md 所在目录** |
 | **TestWorker** | **实现验收测试代码** | **测试设计** | **L1-L4测试代码** | **`[WAITING_FOR_TEST_IMPLEMENTATION]`** | **design.md 所在目录** |
+| **CodeReviewer** | **代码审查** | **Diff+设计文档** | **审查报告** | **`[WAITING_FOR_CODE_REVIEW]`** | **全局(只读代码/可写审查)** |
 | Librarian | 文档维护 | 设计文档 | 索引更新 | `[已完成]` | 全局 |
 | **Supervisor** | **进度监管+并行协调** | **执行状态** | **熔断决策** | **`[FUSION_TRIGGERED]`** | **全局协调** |
 
@@ -74,7 +75,7 @@ CMD: `RUN_DIR_BATCH(depth_desc)`（同 depth 并行；父目录等待子目录 `
 
 **核心流程** (带并行执行)
 ```
-Analyst → Prometheus ↔ Skeptic → Oracle → Supervisor → [多 Worker 并行] → Librarian
+Analyst → Prometheus ↔ Skeptic → Oracle → Supervisor → [多 Worker 并行] → CodeReviewer → Librarian
                                               ↓
                                     按目录深度调度 Worker
 ```
@@ -86,18 +87,19 @@ Analyst → Prometheus ↔ Skeptic → Oracle → Supervisor → [多 Worker 并
 3. 按深度降序分批启动 Worker（同深度并行）
 4. Worker 处理当前目录，遇到依赖则标记等待
 5. Supervisor 监控进度，唤醒等待依赖的 Worker
-6. 所有目录完成后，Librarian 更新文档
+6. Worker 完成实现后进入代码审查回路（CodeReviewer 驱动返工或放行）
+7. 所有目录完成且代码审查通过后，Librarian 更新文档
 ```
 
 ### 标准深度路径（单目录）
 ```
-新项目: Analyst → Prometheus ↔ Skeptic → Oracle → Worker → Librarian
-功能迭代: Analyst → Oracle → Worker → Librarian
+新项目: Analyst → Prometheus ↔ Skeptic → Oracle → Worker → CodeReviewer → Librarian
+功能迭代: Analyst → Oracle → Worker → CodeReviewer → Librarian
 ```
 
 ### 分层验收深度路径 (推荐)
 ```
-Analyst → Prometheus ↔ Skeptic → Oracle → Tester → Supervisor → [多 Worker 并行] → Librarian
+Analyst → Prometheus ↔ Skeptic → Oracle → Tester → Supervisor → [多 Worker 并行] → CodeReviewer → Librarian
                                     ↓           ↓
                               设计验收测试    实现验收测试
 ```
@@ -112,7 +114,7 @@ CMD: `RUN_ACCEPTANCE(L4) -> [WAITING_FOR_L4_REVIEW] -> REVIEW_ACCEPTANCE(L4)`
 
 **快速路径**
 ```
-Explorer → Worker → Librarian
+Explorer → Worker → CodeReviewer → Librarian
 ```
 
 适用条件与升级红线参见：[快速路径](03_workflow/fast_path.md)
@@ -203,7 +205,7 @@ v[主版本].[次版本].[修订版本]
 | 修订版本 | 文档修正、错误修复、格式统一 | v6.0.0→v6.0.1 |
 
 ### 当前版本
-**v1.4.0**
+**v1.5.0**
 
 👉 [查看版本历史](CHANGELOG.md)
 

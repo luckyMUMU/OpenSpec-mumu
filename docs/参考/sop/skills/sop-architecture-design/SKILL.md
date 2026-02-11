@@ -5,7 +5,7 @@ description: "Architecture design workflow for creating technology-agnostic desi
 
 # Architecture Design Workflow
 
-> **版本**: v1.4.0
+> **版本**: v1.5.0
 
 ## Input
 
@@ -57,16 +57,21 @@ description: "Architecture design workflow for creating technology-agnostic desi
    - Security scheme decisions
    - Any decision with >2 alternatives
 
-2. **Create ADR for each key decision**:
+2. **Option survey (before deciding)**:
+   - For each key decision, collect >=2 options
+   - Compare: constraints, risks, cost, operational complexity, maintainability
+   - If using external docs/best practices, save to RAG and reference in ADR（参见 04_reference/knowledge_management.md）
+
+3. **Create ADR for each key decision**:
    - Location: `docs/04_context_reference/adr_[module]_[topic].md`（参见 04_reference/document_directory_mapping.md）
    - Use template from `04_reference/document_templates/adr.md`
    - Link to L2 pseudo code
 
-3. **Document in pseudo code**:
+4. **Document in pseudo code**:
    - Add ADR reference comment
    - Example: `-- ADR-001: Authentication scheme`
 
-4. **Check RAG references**:
+5. **Check RAG references**:
    - Review `docs/04_context_reference/rag/` for relevant info（参见 04_reference/document_directory_mapping.md）
    - Reference external knowledge in ADR
    - Mark `[USER_DECISION]` if conflict found

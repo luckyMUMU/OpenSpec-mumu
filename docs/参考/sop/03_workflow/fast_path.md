@@ -1,6 +1,6 @@
 # 快速路径
 
-> **版本**: v1.4.0
+> **版本**: v1.5.0
 
 **适用**: 单文件+<30行+无逻辑变更
 
@@ -9,13 +9,14 @@
 ## 流程
 
 ```
-Explorer → Worker → Librarian
+Explorer → Worker → CodeReviewer → Librarian
 ```
 
 | 阶段 | 输入 | 输出 | 停止点 |
 |------|------|------|--------|
 | Explorer | 目标文件 | 审计报告 | - |
-| Worker | 审计报告 | 代码修改 | Diff展示 |
+| Worker | 审计报告 | 代码修改 | `[WAITING_FOR_CODE_REVIEW]` |
+| CodeReviewer | Diff+设计文档 | 审查报告 | Diff展示 |
 | Librarian | 代码修改 | 文档更新 | `[已完成]` |
 
 ---
@@ -26,9 +27,12 @@ Explorer → Worker → Librarian
 CMD: `AUDIT(file) -> audit_report`（模板：04_reference/interaction_formats/code_audit_report.md）
 
 ### 2. Worker 修改
-CMD: `IMPLEMENT(dir, design|audit) -> Diff展示`（模板：04_reference/interaction_formats/worker_execution_result.md）
+CMD: `IMPLEMENT(dir, design|audit) -> [WAITING_FOR_CODE_REVIEW]`（模板：04_reference/interaction_formats/worker_execution_result.md）
 
-### 3. Librarian 更新
+### 3. CodeReviewer 审查
+CMD: `CODE_REVIEW(diff, design_refs) -> review_report`（模板：04_reference/interaction_formats/code_review.md）
+
+### 4. Librarian 更新
 CMD: `DOC_SYNC(scope) -> [已完成]`
 
 ---

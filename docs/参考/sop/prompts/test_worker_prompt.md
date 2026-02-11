@@ -44,7 +44,13 @@
 5. **实现L3测试**: 功能验收测试代码
 6. **实现L4测试**: 系统E2E测试代码
 7. **验证实现**: 确保实现符合设计
-8. **停止点**: `[WAITING_FOR_TEST_IMPLEMENTATION]` 等待用户确认
+8. **停止点**: `[WAITING_FOR_TEST_IMPLEMENTATION]` 等待 CodeReviewer 进行测试代码审查
+
+## 审查标准
+
+- 04_reference/review_standards/test_code.standard.md
+- 04_reference/review_standards/review_report.standard.md
+- 项目可覆写（可选）：04_reference/review_standards/profiles/<project>.md（模板：04_reference/review_standards/_project_profile.md）
 
 ## 权限声明
 

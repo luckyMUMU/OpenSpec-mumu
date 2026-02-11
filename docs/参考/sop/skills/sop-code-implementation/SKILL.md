@@ -5,7 +5,7 @@ description: "Code implementation workflow for physical coding. Invoke when impl
 
 # Code Implementation Workflow
 
-> **版本**: v1.4.0
+> **版本**: v1.5.0
 
 ## Input
 
@@ -68,12 +68,13 @@ CMD: `REQUEST_CROSS_DIR(src_dir, target_dir, change) -> appended_request`
 
 ### Step 6: Completion
 
-**Purpose**: Mark directory complete
+**Purpose**: Prepare for code review and completion
 
 **Actions**:
-1. Mark `[DIR_COMPLETED]`
-2. Notify Supervisor
-3. Generate diff for review
+1. Generate diff for review
+2. Mark `[WAITING_FOR_CODE_REVIEW]`
+3. Wait CodeReviewer review result
+4. If passed: mark `[DIR_COMPLETED]` and notify Supervisor
 
 ## Output
 

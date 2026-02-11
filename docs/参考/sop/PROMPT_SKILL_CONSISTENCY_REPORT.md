@@ -1,5 +1,9 @@
 # 角色提示词与Skill一致性审查报告
 
+> ⚠️ **历史快照**：本文件记录 2026-02-10 的一次性审查结果，不作为 SSOT。  
+> 最新审查报告请见：`sop/reviews/2026-02-11/05_review_report.md`
+
+> **版本**: v1.5.0  
 > **审查日期**: 2026-02-10  
 > **审查人**: AI Agent  
 > **审查范围**: prompts/*.md + skills/*/SKILL.md  
@@ -112,7 +116,7 @@ description: "Code implementation workflow..."
 
 # Code Implementation Workflow
 
-> **版本**: v1.4.0
+> **版本**: v1.5.0
 ...
 ```
 

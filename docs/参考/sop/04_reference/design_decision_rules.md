@@ -1,6 +1,6 @@
 # design.md 创建判断规则
 
-> **版本**: v1.4.0  
+> **版本**: v1.5.0  
 > **关联文档**: AGENT_SOP.md, design_directory_strategy.md, skills/sop-design-placement/SKILL.md  
 
 本文档定义 Oracle 角色在创建 design.md 时的统一判断逻辑，整合目录层级和代码复杂度两个维度的判断标准。

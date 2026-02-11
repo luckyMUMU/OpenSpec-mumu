@@ -5,7 +5,7 @@ description: "Requirement analysis workflow for multi-level requirements (L1 PRD
 
 # Requirement Analysis Workflow
 
-> **版本**: v1.4.0
+> **版本**: v1.5.0
 
 ## Input
 
@@ -37,6 +37,11 @@ Rounds: core → clarify → confirm
 ### Step 4: Multi-Dimension Analysis
 维度：Business/User/Function/Tech/Risk/Acceptance（每项输出：结论+风险）
 
+**Tech 维度额外要求**:
+1. 针对关键技术点做候选方案调研（>=2 个可选项，允许保持“非绑定”）
+2. 形成对比表：适用场景/约束/风险/成本/可维护性
+3. 外部参考若用于结论或边界，必须沉淀到 RAG 并在文档中引用（参见 04_reference/knowledge_management.md）
+
 ### Step 5: User Confirmation
 
 **Purpose**: Validate requirements
@@ -58,6 +63,7 @@ Rounds: core → clarify → confirm
 
 - Must have multi-round dialogue
 - Must cover 6 dimensions
+- Tech dimension must include option survey and RAG references when applicable
 - Must get user confirmation
 - Must define clear boundaries
 - Must support multi-level requirements

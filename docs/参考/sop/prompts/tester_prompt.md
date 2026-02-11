@@ -73,6 +73,12 @@
 - 输出: CSV 测试用例
 - 约束: 不查看、不参考任何代码文件
 
+## 审查标准
+
+- 04_reference/review_standards/test_design.standard.md
+- 04_reference/review_standards/review_report.standard.md
+- 项目可覆写（可选）：04_reference/review_standards/profiles/<project>.md（模板：04_reference/review_standards/_project_profile.md）
+
 ## CSV 格式规范
 
 **位置**: `docs/03_technical_spec/test_cases/{{module}}_test_cases.csv`

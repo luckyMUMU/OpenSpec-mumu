@@ -5,7 +5,14 @@ description: "Document synchronization workflow for index updates and progressiv
 
 # Document Synchronization Workflow
 
-> **版本**: v1.4.0
+> **版本**: v1.5.0
+
+**位置**: `sop/skills/sop-document-sync/SKILL.md`
+
+## 触发条件
+
+- 任意文档发生新增/更新/状态变更/归档，需要同步父级索引与交叉引用
+- 发现链接断裂、索引缺失、状态标记不一致，需要执行文档修复与同步
 
 ## Input
 
@@ -54,8 +61,15 @@ description: "Document synchronization workflow for index updates and progressiv
 
 ## Output
 
+- 交付物：目标文档内容更新（落盘至 target/path）
+- 交付物：父级索引与相关文档链接/状态更新（落盘至 parent/related paths）
 - 状态：`[已完成]`
 - CMD: `DOC_SYNC(scope)`
+
+## Stop Points
+
+- `[已完成]`: 本次同步结束
+- `[USER_DECISION]`: 同步导致的结构/命名冲突需要人工选择
 
 ## Constraints
 
@@ -63,6 +77,10 @@ description: "Document synchronization workflow for index updates and progressiv
 - Progressive disclosure
 - Valid links required
 - Status marks: `[进行中]` / `[已完成]` / `[待审批]` / `[已归档]`
+
+## Failure Handling
+
+- 发现断链/缺失引用时必须修复并复查，禁止只记录不修复
 
 ## Document Levels (L1-L4)
 

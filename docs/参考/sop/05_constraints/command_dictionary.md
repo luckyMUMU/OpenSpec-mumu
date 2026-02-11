@@ -1,6 +1,6 @@
 ---
-version: v1.4.0
-updated: 2026-02-10
+version: v1.5.0
+updated: 2026-02-11
 scope: docs/参考/sop
 ---
 
@@ -65,8 +65,14 @@ scope: docs/参考/sop
 
 | CMD | 角色 | args | out | pre | post |
 |---|---|---|---|---|---|
-| `IMPLEMENT(dir, design)` | Worker | dir, design.md | code_changes | - | Diff展示 |
+| `IMPLEMENT(dir, design)` | Worker | dir, design.md | code_changes | - | `[WAITING_FOR_CODE_REVIEW]` |
 | `REQUEST_CROSS_DIR(dir, target_dir, change)` | Worker | target_dir, change | appended_request | - | `[DIR_WAITING_DEP]` |
+
+### 代码审查
+
+| CMD | 角色 | args | out | pre | post |
+|---|---|---|---|---|---|
+| `CODE_REVIEW(diff, design_refs)` | CodeReviewer | diff, refs(L2/L3/tests) | review_report | `[WAITING_FOR_CODE_REVIEW]` / `[WAITING_FOR_TEST_IMPLEMENTATION]` | `Diff展示` / `[DIR_WORKING]` / `[USER_DECISION]` |
 
 ### 测试（分层验收 / 可选 TDD）
 

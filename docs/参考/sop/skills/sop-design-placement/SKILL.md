@@ -5,7 +5,14 @@ description: "指导AI Agent正确放置设计文档和创建design.md。Invoke 
 
 # 设计文档放置指南
 
-> **版本**: v1.4.0
+> **版本**: v1.5.0
+
+**位置**: `sop/skills/sop-design-placement/SKILL.md`
+
+## 触发条件
+
+- 需要创建/更新设计文档，且需要判断正确放置位置
+- 需要决定是否创建 design.md 以及 design.md 的深度与拆分粒度
 
 ## 目录结构规范
 
@@ -92,8 +99,13 @@ CMD: `IMPL_DESIGN(l2, dir) -> design.md`
 - deps / used_by
 
 ## 输出
-- 输出：design.md 路径 + 必备章节（接口契约/目录依赖/任务清单）
-- 模板：04_reference/document_templates/implementation_design.md
+- 交付物：design.md 路径（落盘至 `<module_dir>/design.md`）
+- 交付物：design.md 必备章节（接口契约/目录依赖/任务清单）
+- 交付物（模板）：04_reference/document_templates/implementation_design.md
+
+## Stop Points
+
+- `[USER_DECISION]`: 文档放置存在争议（目录边界/模块划分不确定）
 
 ## 约束
 
@@ -104,6 +116,11 @@ CMD: `IMPL_DESIGN(l2, dir) -> design.md`
 5. **渐进式披露** - 复杂度越高，设计文档越详细
 6. **目录深度标记** - 记录目录深度用于并行执行调度
 7. **跨目录依赖声明** - 必须声明与其他目录的依赖关系
+8. 必须引用SSOT：05_constraints/state_dictionary.md、05_constraints/command_dictionary.md
+
+## Failure Handling
+
+- 当发现需要修改 `/docs/参考/` 且非 Librarian 场景时，必须停止并转为 `[USER_DECISION]` 或交由 Librarian 处理
 
 ## 快速参考
 参见：AGENT_SOP.md（design.md 规则）+ 04_reference/design_directory_strategy.md

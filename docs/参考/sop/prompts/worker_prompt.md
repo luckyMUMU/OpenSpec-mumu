@@ -190,9 +190,10 @@ go test ./tests/acceptance/l4/ -v
 - 等待Prometheus+Analyst+Oracle审查
 
 ### 阶段4: 完成
-1. 标记 `[DIR_COMPLETED]`
-2. 通知 Supervisor
-3. 展示 Diff 等待审批
+1. 生成 Diff
+2. 标记 `[WAITING_FOR_CODE_REVIEW]`，等待 CodeReviewer 审查
+3. 审查通过后展示 Diff 等待审批
+4. 用户审批通过后标记 `[DIR_COMPLETED]` 并通知 Supervisor
 
 ## 目录状态标记
 

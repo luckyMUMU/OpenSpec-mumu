@@ -5,7 +5,7 @@ description: "Deep path workflow for complex changes. Invoke when task is triage
 
 # Deep Path Workflow
 
-> **版本**: v1.4.0
+> **版本**: v1.5.0
 
 ## Input
 
@@ -68,11 +68,17 @@ CMD: `SCHEDULE_DIRS(design_list) -> [SCHEDULING]`
 
 **Purpose**: Physical coding with directory-based parallel execution
 
-CMD: `RUN_DIR_BATCH(depth_desc) -> IMPLEMENT(dir, design) -> Diff展示`
+CMD: `RUN_DIR_BATCH(depth_desc) -> IMPLEMENT(dir, design) -> [WAITING_FOR_CODE_REVIEW]`
 
-**Stop Point**: Show diff for review
+**Stop Point**: `[WAITING_FOR_CODE_REVIEW]`
 
-### Step 8: Document Maintenance
+### Step 8: Code Review
+
+**Purpose**: Validate changes against design docs and common practices
+
+CMD: `CODE_REVIEW(diff, design_refs) -> Diff展示`
+
+### Step 9: Document Maintenance
 
 **Purpose**: Sync docs
 

@@ -1,8 +1,11 @@
 # SOP 文档审查报告
 
+> ⚠️ **历史快照**：本文件记录 2026-02-10 的一次性审查结果，不作为 SSOT。  
+> 最新审查报告请见：`sop/reviews/2026-02-11/05_review_report.md`
+
 > **审查日期**: 2026-02-10  
 > **审查人**: AI Agent  
-> **审查范围**: docs/参考/sop/ 目录下所有核心文档  
+> **审查范围**: sop/ 目录下所有核心文档  
 > **审查依据**: sop_GUIDE.md
 
 ---
@@ -125,7 +128,7 @@ AGENT_SOP.md 第 35-47 行的角色表中明确列出了这些停止点，但 03
 
 | 标记 | 触发 | 等待 |
 |------|------|------|
-| `[WAITING_FOR_TEST_IMPLEMENTATION]` | TestWorker完成 | 测试代码审查 |
+| `[WAITING_FOR_TEST_IMPLEMENTATION]` | TestWorker完成 | CodeReviewer审查测试代码 |
 | `[FUSION_TRIGGERED]` | 连续3次失败 | Supervisor介入 |
 | `[已完成]` | Librarian完成 | 文档更新确认 |
 ```

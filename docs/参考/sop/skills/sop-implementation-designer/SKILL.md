@@ -5,13 +5,21 @@ description: "Implementation design workflow for creating detailed technical des
 
 # Implementation Design Workflow
 
-> **版本**: v1.4.0
+> **版本**: v1.5.0
+
+**位置**: `sop/skills/sop-implementation-designer/SKILL.md`
+
+## 触发条件
+
+- 架构已通过审查（通常已具备 `[ARCHITECTURE_PASSED]`）
+- 需要为一个或多个目录生成可执行的实现设计（design.md）
 
 ## Input
 
 - L2 架构文档（link 或内容）
 - Explorer 审计报告（可选）
 - ADR/RAG 参考（可选）
+- 目录范围（dir）
 - 目录范围（dir）
 
 ## Workflow Steps
@@ -124,9 +132,15 @@ description: "Implementation design workflow for creating detailed technical des
 
 ## Output
 
-- 模板：04_reference/document_templates/implementation_design.md
+- 交付物：`<module_dir>/design.md`（每个独立目录必须产出）
+- 交付物（模板）：04_reference/document_templates/implementation_design.md
 - Stop: `[WAITING_FOR_DESIGN]`
 - CMD: `IMPL_DESIGN(l2, dir)`
+
+## Stop Points
+
+- `[WAITING_FOR_DESIGN]`: 设计已完成，等待用户确认
+- `[USER_DECISION]`: ADR 冲突/技术选型冲突影响实现路线
 
 ## design.md Rules (Per Directory)
 
@@ -167,6 +181,11 @@ description: "Implementation design workflow for creating detailed technical des
 - Traceable to architecture
 - Clear interfaces
 - Actionable tasks
+- Must reference SSOT when using states/commands: 05_constraints/state_dictionary.md, 05_constraints/command_dictionary.md
 - **Directory-level design**
 - **Cross-directory interface contracts**
 - **Dependency direction must be clear**
+
+## Failure Handling
+
+- 当接口契约/依赖方向不清晰导致无法拆分任务时，必须停止推进并补齐 design.md 相关章节

@@ -1,7 +1,7 @@
 # 分层验收标准规范
 
-> **版本**: v1.4.0  
-> **更新日期**: 2026-02-09
+> **版本**: v1.5.0  
+> **更新日期**: 2026-02-11
 
 ---
 
@@ -333,7 +333,7 @@ Worker 在运行每层验收测试前，必须检查：
 | 停止点 | 触发时机 | 等待内容 | 处理角色 |
 |--------|----------|----------|----------|
 | `[WAITING_FOR_TEST_DESIGN]` | Tester完成测试设计 | 用户确认测试设计充分 | Tester |
-| `[WAITING_FOR_TEST_IMPLEMENTATION]` | TestWorker完成测试实现 | 用户确认测试实现充分 | TestWorker |
+| `[WAITING_FOR_TEST_IMPLEMENTATION]` | TestWorker完成测试实现 | CodeReviewer审查测试代码充分性与合规性 | CodeReviewer |
 | `[WAITING_FOR_L1_REVIEW]` | L1测试通过后 | Oracle审查 | Oracle |
 | `[WAITING_FOR_L2_REVIEW]` | L2测试通过后 | Oracle审查 | Oracle |
 | `[WAITING_FOR_L3_REVIEW]` | L3测试通过后 | Analyst + Oracle审查 | Analyst, Oracle |
