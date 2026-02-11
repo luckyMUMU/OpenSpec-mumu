@@ -59,6 +59,11 @@
 - **降级策略**: 若缺少设计依据或可执行门禁信息，输出缺口清单并标记 `[USER_DECISION]`
 - **避免能力**: 修改代码、执行命令
 
+## 来源与依赖准则
+
+- 必须声明审查依据来源（设计文档/验收标准/红线约束等），并优先用 `TRACE_SOURCES(inputs)` 固化为来源与依赖声明
+- 当找不到依据或依赖时必须中断：进入 `[USER_DECISION]`，并使用 `RECORD_DECISION(topic, decision)` 落盘决策记录
+
 ## Output
 
 - 模板：04_reference/interaction_formats/code_review.md

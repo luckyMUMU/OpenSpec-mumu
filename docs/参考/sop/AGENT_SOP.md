@@ -133,7 +133,7 @@ Explorer → Worker → CodeReviewer → Librarian
 
 ## 文档位置
 
-参见 [document_directory_mapping.md](file:///d:/Code/AI/OpenSpec-mumu/docs/%E5%8F%82%E8%80%83/sop/04_reference/document_directory_mapping.md)（逻辑目录 → 项目实际目录映射）。
+参见 [document_directory_mapping.md](04_reference/document_directory_mapping.md)（逻辑目录 → 项目实际目录映射）。
 
 ### 需求文档 (Analyst)
 | 类型 | 位置 | 层级 | 创建者 |

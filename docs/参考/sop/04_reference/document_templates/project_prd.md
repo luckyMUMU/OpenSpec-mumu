@@ -9,6 +9,9 @@
 
 ## 1. 项目概述
 
+### 0. 来源与依赖声明
+> 必须引用 [Source and Dependency](../interaction_formats/source_dependency.md) 标准格式
+
 ### 1.1 一句话定义
 [用一句话描述这个项目是什么]
 

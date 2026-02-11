@@ -1,23 +1,17 @@
----
-date: 2026-02-11
-scope: docs/参考/sop
----
+# 链接检查结果
 
-# 03 链接检查结果
-
-## 检查原则
-
-- 仅记录 **FAIL** 的内部链接（目标不存在/路径错误/文件已移动）
-- 修复动作必须使用命令式描述
-
-## 检查结果
+## 元信息
+- **日期**: 2026-02-11
+- **检查范围**: 核心文档与工作流
 
 | 来源文件 | 链接文本 | 目标 | 结果（OK/FAIL） | 修复动作（命令式） |
 |----------|----------|------|------------------|--------------------|
-
-本次未记录到 FAIL 链接。
+| `AGENT_SOP.md` | `document_directory_mapping.md` | `file:///d:/Code/AI/OpenSpec-mumu/docs/...` | **FAIL** | 必须将绝对路径修改为相对路径 `04_reference/document_directory_mapping.md` |
+| `AGENT_SOP.md` | `[查看完整黑白名单]` | `05_constraints/constraint_matrix.md` | OK | - |
+| `AGENT_SOP.md` | `[快速路径]` | `03_workflow/fast_path.md` | OK | - |
+| `deep_path.md` | `[分层验收标准详情]` | `../05_constraints/acceptance_criteria.md` | OK | - |
+| `deep_path.md` | `[目录维度工作策略详情]` | `04_reference/design_directory_strategy.md` | **FAIL** | `deep_path.md` 在 `03_workflow/` 下，引用 `04_reference/` 需要向上两级或一级？应为 `../04_reference/design_directory_strategy.md` |
 
 ## 备注
-
-- 本次检查以“关键引用优先”为策略：SSOT 文件、工作流索引、约束字典、交互格式与 Skill/Prompt 的相互引用优先检查。
-- 未发现关键引用的 FAIL 链接；若需要全量检查，建议补充脚本化扫描并将 FAIL 结果落盘到本文件。
+- 绝对路径会导致在不同机器或容器中无法跳转。
+- 相对路径层级必须准确（`../` vs `./`）。

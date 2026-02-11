@@ -34,6 +34,8 @@ Analyst → Prometheus ↔ Skeptic → Oracle → Supervisor → [多 Worker 并
 7. 所有目录完成且代码审查通过后，Librarian 更新文档
 ```
 
+👉 [目录维度工作策略详情](../04_reference/design_directory_strategy.md)
+
 ---
 
 ## 标准深度路径（单目录）

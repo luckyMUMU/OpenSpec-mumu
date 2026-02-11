@@ -18,6 +18,9 @@
 - [ ] 已废弃
 - [ ] 已替代 (被 ADR-XXX 替代)
 
+## 0. 来源与依赖声明
+> 必须引用 [Source and Dependency](../interaction_formats/source_dependency.md) 标准格式
+
 ## 背景 (Context)
 
 ### 问题描述

@@ -1,24 +1,37 @@
----
-date: 2026-02-11
-scope: sop
-baseline: v1.5.0
----
+# 审查范围 (Scope)
 
-# 00 Scope
+## 元信息
+- **日期**: 2026-02-11
+- **审查人**: AI Assistant
+- **基线版本**: v1.5.0
+- **审查标准**: `docs/参考/sop_GUIDE.md` (v1.5.0)
 
-## 审查范围
+## 核心文档
+- `docs/参考/sop/AGENT_SOP.md`
+- `docs/参考/sop/sop_for_human.md`
+- `docs/参考/sop/ROLE_CHEATSHEET.md`
 
-- 目录：`sop/`
-- 指南：`sop/sop_GUIDE.md`
+## 角色定义 (00_roles / prompts)
+- `docs/参考/sop/prompts/*.md` (12 files)
+- `docs/参考/sop/02_role_matrix/index.md`
 
-## 不在本次范围
+## 工作流 (01_workflow)
+- `docs/参考/sop/03_workflow/index.md`
+- `docs/参考/sop/03_workflow/fast_path.md`
+- `docs/参考/sop/03_workflow/deep_path.md`
+- `docs/参考/sop/03_workflow/three_strike_rule.md`
 
-- `sop/sop_for_human.md` 与 AGENT 版本的逐章对照（仅在本次报告中列为可选扩展项）
+## 模板与参考 (04_reference)
+- `docs/参考/sop/04_reference/document_templates/*.md`
+- `docs/参考/sop/04_reference/interaction_formats/*.md`
+- `docs/参考/sop/04_reference/review_standards/*.md`
 
-## SSOT（单一真源）
+## 约束 (05_constraints)
+- `docs/参考/sop/05_constraints/*.md`
 
-- 角色与权限：`sop/02_role_matrix/index.md`
-- 工作流：`sop/03_workflow/index.md`
-- 状态字典：`sop/05_constraints/state_dictionary.md`
-- 命令字典：`sop/05_constraints/command_dictionary.md`
-- 变更历史：`sop/CHANGELOG.md`
+## Skill 定义
+- `docs/参考/sop/skills/*/SKILL.md`
+
+## 排除项
+- `docs/参考/sop/reviews/` (历史审查记录)
+- `docs/参考/sop/CHANGELOG.md`

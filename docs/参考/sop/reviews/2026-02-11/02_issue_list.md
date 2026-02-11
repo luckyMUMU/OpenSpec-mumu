@@ -1,24 +1,31 @@
----
-date: 2026-02-11
-baseline: v1.5.0
----
+# 问题清单 (Issue List)
 
-# 02 问题清单
+## 元信息
+- **日期**: 2026-02-11
+- **审查范围**: 模板、Prompt、工作流
+- **优先级**: High/Medium/Low
 
-## 🔴 高优先级
+## 高优先级 (High)
 
-| 问题 | 位置 | 描述 | 修复动作（命令式） | 状态 |
-|------|------|------|--------------------|------|
-| 1 | `sop/sop_GUIDE.md` | 指南包含现状化内容（写死角色数量、写死流程串、当前版本状态表），会随 SOP 演进而过期 | 必须将指南重构为“纯规范”，所有现状信息只能来自 SSOT；禁止在指南内写死数量/流程/版本状态 | ✅ 已修复 |
+| 问题ID | 位置 | 描述 | 建议修复 |
+|--------|------|------|----------|
+| H-001 | `sop_for_human.md` | **文件丢失**：SOP核心文档缺失 | 必须立即根据 `AGENT_SOP.md` 重建 |
+| H-002 | `04_reference/document_templates/project_prd.md` | **缺少来源与依赖声明**：模板未包含 `Source and Dependency` 章节 | 必须在文档头部或尾部添加 `source_dependency.md` 引用或内联模板 |
+| H-003 | `04_reference/document_templates/module_mrd.md` | **缺少来源与依赖声明**：模板未包含 `Source and Dependency` 章节 | 同上 |
+| H-004 | `04_reference/document_templates/feature_frd.md` | **缺少来源与依赖声明**：模板未包含 `Source and Dependency` 章节 | 同上 |
+| H-005 | `04_reference/document_templates/architecture_design.md` | **缺少来源与依赖声明**：模板未包含 `Source and Dependency` 章节 | 同上 |
+| H-006 | `04_reference/document_templates/implementation_design.md` | **缺少来源与依赖声明**：模板未包含 `Source and Dependency` 章节 | 同上 |
+| H-007 | `04_reference/document_templates/adr.md` | **缺少来源与依赖声明**：ADR模板未包含决策来源声明 | 需增加 `Context/Source` 字段明确决策依据来源 |
 
-## 🟠 中优先级
+## 中优先级 (Medium)
 
-| 问题 | 位置 | 描述 | 修复动作（命令式） | 状态 |
-|------|------|------|--------------------|------|
-| 1 | `sop/PROMPT_SKILL_CONSISTENCY_REPORT.md`、`sop/SOP_REVIEW_REPORT.md` | 历史审查报告位于 SOP 根目录，容易被误解为当前 SSOT 或最新结论 | 必须迁移到 `sop/reviews/YYYY-MM-DD/` 并标注基线版本；或在文件头部显式标记为“历史快照” | ✅ 已修复（已标记历史快照） |
+| 问题ID | 位置 | 描述 | 建议修复 |
+|--------|------|------|----------|
+| M-001 | `prompts/*.md` | **指令一致性**：虽然 Analyst/Prometheus 已更新，需确保 Worker/TestWorker/CodeReviewer 也包含明确的 `[TRACE_SOURCES]` 指令 | 批量检查所有 Prompt，补全缺失的指令 |
+| M-002 | `skills/*/SKILL.md` | **Skill输入声明**：Skill 定义中的 `input` 字段需明确引用 `Source and Dependency` 标准 | 更新 SKILL.md 的 input/output 描述 |
 
-## 🟡 低优先级
+## 低优先级 (Low)
 
-| 问题 | 位置 | 描述 | 修复动作（命令式） | 状态 |
-|------|------|------|--------------------|------|
-| 1 | `05_constraints/state_dictionary.md`（命名层面） | `[WAITING_FOR_TEST_IMPLEMENTATION]` 语义已变为“等待测试代码审查”，名称可能产生误读 | 仅当需要消除歧义时：必须新增别名状态或新状态，并在兼容性段落说明迁移策略 | ⏳ 待处理 |
+| 问题ID | 位置 | 描述 | 建议修复 |
+|--------|------|------|----------|
+| L-001 | `03_workflow/index.md` | **索引更新**：可能缺少对新准则的引用 | 在索引页提及“来源与依赖合规” |
