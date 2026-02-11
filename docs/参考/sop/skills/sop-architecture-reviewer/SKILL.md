@@ -68,6 +68,11 @@ Round 2: Verify fixes → New issues?
 Round 3: Final check → Pass or deadlock
 ```
 
+## 来源与依赖准则
+
+- 审查报告必须包含“来源与依赖声明”（标准：04_reference/review_standards/source_dependency.standard.md），并优先用 `TRACE_SOURCES(inputs)` 固化
+- 当审查依据缺失或冲突无法消解时，必须进入 `[USER_DECISION]`，并使用 `RECORD_DECISION(topic, decision)` 落盘决策记录
+
 ## Output
 
 - 交付物（模板）：04_reference/interaction_formats/design_review.md

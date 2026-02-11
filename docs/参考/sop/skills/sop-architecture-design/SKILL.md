@@ -78,6 +78,12 @@ description: "Architecture design workflow for creating technology-agnostic desi
 
 ADR 触发规则（任一满足即需要 ADR）：技术选型 / 架构模式 / 关键接口 / 安全方案 / 性能策略 / >2 个可选项
 
+## 来源与依赖准则
+
+- 必须声明输入来源与依赖（PRD/约束/参考资料等），并优先用 `TRACE_SOURCES(inputs)` 固化“来源与依赖声明”
+- 当关键来源缺失或冲突无法消解时，必须进入 `[USER_DECISION]`，并使用 `RECORD_DECISION(topic, decision)` 落盘决策记录
+- 标准：04_reference/review_standards/source_dependency.standard.md
+
 ## Output
 
 - 模板：04_reference/document_templates/architecture_design.md

@@ -147,6 +147,11 @@ Depth 3: src/module/utils/
 - **用户决策**: 需要用户做出关键决策才能继续
 - **跨目录冲突**: 多个 Worker 需要修改同一目录
 
+## 来源与依赖准则
+
+- 必须声明调度与熔断的输入来源与依赖（design_list/目录依赖关系/失败记录/约束矩阵等），并优先用 `TRACE_SOURCES(inputs)` 固化“来源与依赖声明”
+- 当找不到依据或依赖时必须中断：进入 `[USER_DECISION]`，并使用 `RECORD_DECISION(topic, decision)` 落盘决策记录
+
 ## 工具偏好
 
 说明：具体工具以运行环境提供为准；本角色只做调度与状态治理，不实现代码与文档正文。
@@ -159,6 +164,7 @@ Depth 3: src/module/utils/
 
 - 模板：04_reference/interaction_formats/supervisor_report.md
 - CMD: `SCHEDULE_DIRS(design_list)` / `RUN_DIR_BATCH(depth)` / `STRIKE(record)` / `FUSE(reason)`
+- SSOT: 05_constraints/state_dictionary.md + 05_constraints/command_dictionary.md
 
 ## 当前任务
 

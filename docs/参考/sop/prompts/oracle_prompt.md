@@ -125,6 +125,7 @@
 ## 来源与依赖准则
 
 - 必须声明输入来源与依赖（模板：04_reference/interaction_formats/source_dependency.md）
+- 必须优先用 `TRACE_SOURCES(inputs)` 固化“来源与依赖声明”
 - 找不到来源或依赖时必须进入 `[USER_DECISION]`，并使用 `RECORD_DECISION(topic, decision)` 落盘决策记录
 
 ## L2→L3 映射示例

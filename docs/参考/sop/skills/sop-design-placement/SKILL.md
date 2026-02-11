@@ -92,6 +92,12 @@ description: "指导AI Agent正确放置设计文档和创建design.md。Invoke 
 
 CMD: `IMPL_DESIGN(l2, dir) -> design.md`
 
+## 来源与依赖准则
+
+- 必须声明放置决策的来源与依赖（目录结构/复杂度判定依据/约束等），并优先用 `TRACE_SOURCES(inputs)` 固化“来源与依赖声明”
+- 当文档放置存在争议或关键依据缺失时，必须进入 `[USER_DECISION]`，并使用 `RECORD_DECISION(topic, decision)` 落盘决策记录
+- 标准：04_reference/review_standards/source_dependency.standard.md
+
 ## 输入
 - module_name/path
 - depth(optional)

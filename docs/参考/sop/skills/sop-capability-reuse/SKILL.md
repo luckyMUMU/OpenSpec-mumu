@@ -99,6 +99,12 @@ description: "指导AI Agent复用和优化已有能力。Invoke when needing to
 ## 决策树
 规则：先搜（skills/prompts/代码）→ 可复用则复用；否则评估改进 vs 新建；新建后必须清理重复/过时代码。
 
+## 来源与依赖准则
+
+- 必须声明决策依据来源与依赖（命中项/约束/代码现状等），并优先用 `TRACE_SOURCES(inputs)` 固化“来源与依赖声明”
+- 当关键来源缺失或冲突无法消解时，必须进入 `[USER_DECISION]`，并使用 `RECORD_DECISION(topic, decision)` 落盘决策记录
+- 标准：04_reference/review_standards/source_dependency.standard.md
+
 ## 输入
 - capability_need
 - searched: skills/prompts/code

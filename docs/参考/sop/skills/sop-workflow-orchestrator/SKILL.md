@@ -82,6 +82,12 @@ Analyst → Prometheus ↔ Skeptic → Oracle → Tester → Supervisor → [多
 
 CMD: `SCHEDULE_DIRS(design_list) -> dir_map`
 
+## 来源与依赖准则
+
+- 必须声明分诊/编排依据来源与依赖（变更范围/风险/目录结构/约束等），并优先用 `TRACE_SOURCES(inputs)` 固化“来源与依赖声明”
+- 当无法判断或存在冲突时必须中断：进入 `[USER_DECISION]`，并使用 `RECORD_DECISION(topic, decision)` 落盘决策记录
+- 标准：04_reference/review_standards/source_dependency.standard.md
+
 ## Output
 
 - 交付物（模板）：04_reference/interaction_formats/router_triage.md

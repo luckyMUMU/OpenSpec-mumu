@@ -54,6 +54,12 @@ Rounds: core → clarify → confirm
 
 **Stop Point**: `[WAITING_FOR_REQUIREMENTS]`
 
+## 来源与依赖准则
+
+- 必须声明需求来源与依赖（用户输入/历史文档/代码现状/外部参考等），并优先用 `TRACE_SOURCES(inputs)` 固化“来源与依赖声明”
+- 当关键来源缺失或冲突无法消解时，必须进入 `[USER_DECISION]`，并使用 `RECORD_DECISION(topic, decision)` 落盘决策记录
+- 标准：04_reference/review_standards/source_dependency.standard.md
+
 ## Output
 
 - Stop: `[WAITING_FOR_REQUIREMENTS]`

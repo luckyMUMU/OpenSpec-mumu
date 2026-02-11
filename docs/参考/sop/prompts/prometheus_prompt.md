@@ -75,6 +75,7 @@
 
 - 必须声明需求与约束来源（用户输入为主，外部参考需可复核并沉淀到 RAG/ADR）
 - 必须声明本产物依赖的前置产出（PRD 等）与关键依赖项
+- 必须优先用 `TRACE_SOURCES(inputs)` 固化“来源与依赖声明”（格式：04_reference/interaction_formats/source_dependency.md）
 - 找不到来源或依赖时必须进入 `[USER_DECISION]`，并使用 `RECORD_DECISION(topic, decision)` 落盘决策记录
 
 ## 工具偏好
@@ -92,6 +93,7 @@
 - 目录映射：04_reference/document_directory_mapping.md
 - Stop: `[WAITING_FOR_ARCHITECTURE]`
 - CMD: `ARCH_DESIGN(prd)`
+- SSOT: 05_constraints/state_dictionary.md + 05_constraints/command_dictionary.md
 
 ## 当前任务
 

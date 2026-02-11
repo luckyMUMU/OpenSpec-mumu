@@ -20,7 +20,6 @@ description: "Implementation design workflow for creating detailed technical des
 - Explorer 审计报告（可选）
 - ADR/RAG 参考（可选）
 - 目录范围（dir）
-- 目录范围（dir）
 
 ## Workflow Steps
 
@@ -129,6 +128,12 @@ description: "Implementation design workflow for creating detailed technical des
    - Mark `[USER_DECISION]` if conflict found
 
 参考：04_reference/knowledge_management.md
+
+## 来源与依赖准则
+
+- 必须声明输入来源与依赖（L2/审计报告/ADR/RAG等），并优先用 `TRACE_SOURCES(inputs)` 固化“来源与依赖声明”
+- 当关键来源缺失或冲突无法消解时，必须进入 `[USER_DECISION]`，并使用 `RECORD_DECISION(topic, decision)` 落盘决策记录
+- 标准：04_reference/review_standards/source_dependency.standard.md
 
 ## Output
 

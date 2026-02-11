@@ -53,6 +53,11 @@
 - 04_reference/review_standards/review_report.standard.md
 - 项目可覆写（可选）：04_reference/review_standards/profiles/<project>.md（模板：04_reference/review_standards/_project_profile.md）
 
+## 来源与依赖准则
+
+- 必须声明输入来源与依赖（CSV/测试设计/关键接口契约等），并优先用 `TRACE_SOURCES(inputs)` 固化“来源与依赖声明”
+- 当找不到来源或依赖时必须中断：进入 `[USER_DECISION]`，并使用 `RECORD_DECISION(topic, decision)` 落盘决策记录
+
 ## 权限声明
 
 ⚠️ **重要**: 你对测试用例CSV**只读，禁止修改**

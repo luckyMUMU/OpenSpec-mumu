@@ -90,6 +90,7 @@ docs/01_requirements/prototypes/[module]/
 
 - 需求来源：以用户输入为主，必须在文档中明确“来源摘要”
 - 补充来源：历史文档/代码现状/行业规范等必须可复核，并在文档中引用（RAG/链接）
+- 必须优先用 `TRACE_SOURCES(inputs)` 固化“来源与依赖声明”（格式：04_reference/interaction_formats/source_dependency.md）
 - 当关键来源缺失或冲突无法消解时，必须进入 `[USER_DECISION]` 并使用 `RECORD_DECISION(topic, decision)` 落盘决策记录
 
 ## 工具偏好
@@ -107,6 +108,7 @@ docs/01_requirements/prototypes/[module]/
 - 目录：04_reference/document_directory_mapping.md
 - Stop: `[WAITING_FOR_REQUIREMENTS]`
 - CMD: `REQ_ANALYZE(input)`
+- SSOT: 05_constraints/state_dictionary.md + 05_constraints/command_dictionary.md
 
 ## 当前任务
 

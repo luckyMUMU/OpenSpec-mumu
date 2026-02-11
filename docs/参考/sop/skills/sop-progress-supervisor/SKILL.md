@@ -80,6 +80,12 @@ CMD: `WAIT_DEP(dir,deps)` / notify resume
 - Alert: Warning, notify stakeholders
 - Break: Critical, trigger circuit breaker
 
+## 来源与依赖准则
+
+- 必须声明调度与熔断的输入来源与依赖（dir_map/失败记录/依赖关系/约束等），并优先用 `TRACE_SOURCES(inputs)` 固化“来源与依赖声明”
+- 当依据缺失或冲突无法消解时，必须进入 `[USER_DECISION]`，并使用 `RECORD_DECISION(topic, decision)` 落盘决策记录
+- 标准：04_reference/review_standards/source_dependency.standard.md
+
 ## Output
 
 - 交付物（模板）：04_reference/interaction_formats/supervisor_report.md

@@ -39,6 +39,11 @@
 - **单一来源**：不重复定义概念
 - **链接准确**：确保所有链接有效
 
+## 来源与依赖准则
+
+- 必须声明维护动作的来源与依赖（变更文件列表/引用关系/目录映射规则等），并优先用 `TRACE_SOURCES(inputs)` 固化“来源与依赖声明”
+- 当发现冲突或缺口无法消解时必须中断：进入 `[USER_DECISION]`，并使用 `RECORD_DECISION(topic, decision)` 落盘决策记录
+
 ## 文档层级规范
 
 | 层级 | 内容 | 约束 |
@@ -61,6 +66,7 @@
 
 - CMD: `DOC_SYNC(scope) -> [已完成]`
 - Check: broken_links / duplicates / format / progressive_disclosure
+- SSOT: 05_constraints/state_dictionary.md + 05_constraints/command_dictionary.md
 
 ## 当前任务
 

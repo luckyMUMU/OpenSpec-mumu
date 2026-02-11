@@ -81,6 +81,12 @@ CMD: `LIST_DESIGN_MD(root) -> design_list`
 - Deep dependency chains
 - Shared state between directories
 
+## 来源与依赖准则
+
+- 必须声明审计依据来源与依赖（范围/目标文件/关键证据等），并优先用 `TRACE_SOURCES(inputs)` 固化“来源与依赖声明”
+- 当找不到来源或依赖时必须中断：进入 `[USER_DECISION]`，并使用 `RECORD_DECISION(topic, decision)` 落盘决策记录
+- 标准：04_reference/review_standards/source_dependency.standard.md
+
 ## Output
 
 - 交付物（模板）：04_reference/interaction_formats/code_audit_report.md
