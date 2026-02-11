@@ -1,5 +1,5 @@
 ---
-version: v1.5.0
+version: v1.5.1
 updated: 2026-02-11
 scope: docs/参考/sop
 ---
@@ -15,6 +15,7 @@ scope: docs/参考/sop
 - 单条命令：`CMD <NAME>(<args>) -> <out> | pre:<STATE> | post:<STATE>`
 - 命令序列：`CMD A -> CMD B -> CMD C`
 - 状态标记以 05_constraints/state_dictionary.md 为准。
+- 术语澄清：本 DSL 中的 `task`（如 `ROUTE(task)`）指用户请求体/任务描述，不是运行环境的 “Task 工具”。
 
 ---
 
@@ -89,7 +90,7 @@ scope: docs/参考/sop
 
 | CMD | 角色 | args | out | pre | post |
 |---|---|---|---|---|---|
-| `DOC_SYNC(scope)` | Librarian | indexes/links | updated_docs | - | `[已完成]` |
+| `DOC_SYNC(scope)` | Librarian | indexes/links/adr/rag | updated_docs | - | `[已完成]` |
 
 ### 治理
 

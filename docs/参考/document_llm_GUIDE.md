@@ -1,174 +1,246 @@
-基于伪代码逻辑与分级目录的 LLM 技术规范
+---
+version: v1.5.0
+updated: 2026-02-11
+scope: 文档规范（对齐 docs/参考/sop）
+---
+
+# 基于分层文档与伪代码的文档规范
+
+本文档定义项目在 AI 协作场景下的“文档分层、放置、命名、引用、SSOT（唯一来源）”规范；不描述流程执行细节。
+
+相关 SSOT（以其内容为准）：
+- 文档目录映射：`sop/04_reference/document_directory_mapping.md`（本仓库参考位置：`docs/参考/sop/04_reference/document_directory_mapping.md`）
+- 来源与依赖声明格式：`sop/04_reference/interaction_formats/source_dependency.md`（本仓库参考位置：`docs/参考/sop/04_reference/interaction_formats/source_dependency.md`）
+- RAG 与知识沉淀：`sop/04_reference/knowledge_management.md`（本仓库参考位置：`docs/参考/sop/04_reference/knowledge_management.md`）
+- 状态字典：`sop/05_constraints/state_dictionary.md`（本仓库参考位置：`docs/参考/sop/05_constraints/state_dictionary.md`）
+- 命令字典：`sop/05_constraints/command_dictionary.md`（本仓库参考位置：`docs/参考/sop/05_constraints/command_dictionary.md`）
 
 ---
 
-### 一、 分级存储架构 (Storage Hierarchy)
+## 1. 渐进式披露分层（L1-L4）与核心目录
 
-文档不再是一个巨大的 `README.md`，而是根据“披露深度”拆分为不同的文件/文件夹：
+项目文档按披露深度分层组织，避免把所有信息堆在单一 README 中。
 
 ```text
 docs/
-├── 01_concept_overview.md   # L1: 核心概念与价值（极简文字）
-├── 02_logical_workflow/     # L2: 逻辑工作流（Markdown 文档，伪代码在 pseudo 代码块内）
-│   ├── auth_flow.md         # 鉴权逻辑工作流
-│   └── data_pipeline.md     # 数据处理逻辑工作流
-├── 03_technical_spec/       # L3: 技术规格（接口、数据结构定义）
-│   ├── api_schema.yaml      # OpenAPI/Swagger 定义
-│   └── data_models.json     # 数据模型定义
-└── 04_context_reference/    # L4: 决策背景与长尾细节
-    └── adr_auth_001.md      # 架构设计决策记录 (ADR)
+├── 01_concept_overview.md            # L1: 概念层（极简）
+├── 01_requirements/                  # L1-L3: 需求分层（PRD/MRD/FRD/原型）
+├── 02_logical_workflow/              # L2: 逻辑工作流（Markdown + pseudo 伪代码）
+├── 03_technical_spec/                # L3: 技术规格（接口/数据/测试资产）
+├── 04_context_reference/             # L4: ADR + RAG + 决策记录
+└── 参考/                             # SOP 参考文档（非指定不变更）
 ```
 
 ---
 
-### 二、 每一层的内容分配规范
+## 2. 逻辑目录 ↔ 仓库落地目录映射
 
-#### L1: 核心概念层 (Concept Layer)
+为避免“参考 SOP 的目录结构”和“实际项目目录结构”不一致导致的断链与误放置，所有文档/产物路径在表达时遵循：
 
-- **存放位置：** 根目录 `README.md` 或 `01_overview.md`。
-    
-- **内容：** * 一句话定义该模块。
-    
-    - 解决的核心痛点。
-        
-    - **禁止：** 出现任何代码、路径或配置。
-        
+1. Prompts / Skills 输出路径以“逻辑目录（SOP 约定）”为准。
+2. 若项目采用不同目录结构，必须维护映射表，并要求所有产出引用该表。
+3. 跨文档链接优先使用“逻辑目录 + 文件名”的表达，并在需要时通过映射表落地到实际路径。
 
-#### L2: 逻辑流转层 (Logic Layer) —— **核心改进点**
+映射表（逻辑 → 建议落地）：
 
-- **存放位置：** `docs/02_logical_workflow/` 文件夹。
-    
-- **编写原则：使用“结构化伪代码”**。
-    
-- **规范：**
-    
-    - **忽略语法：** 不使用特定的编程语言（如 Python 或 JS），使用 `IF`, `THEN`, `FOR EACH`, `TRY-CATCH` 等通用描述。
-        
-    - **屏蔽实现：** 不要写 `db.connect()`，而是写 `CONNECT_TO_DATABASE`。
-        
-    - **示例：**
-
-        ```pseudo
-        // 伪代码示例：用户意图识别流程
-        FUNCTION identify_intent(user_input):
-            INITIALIZE context_buffer
-            PRE_PROCESS user_input (remove_noise, normalize)
-
-            IF user_input contains "urgent":
-                SET priority = HIGH
-            ELSE:
-                SET priority = NORMAL
-
-            RETURN CALL_LLM_MODEL(prompt_template, user_input)
-        END FUNCTION
-        ```
-        
-
-#### L3: 技术规格层 (Spec Layer)
-
-- **存放位置：** `03_technical_spec/`。
-    
-- **内容：** * **数据合同：** 定义输入/输出的具体字段、类型（Int, String, Boolean）。
-    
-    - **状态码定义：** 逻辑流转中可能出现的错误代码及其含义。
-        
-    - **禁止：** 描述业务逻辑，只定义数据边界。
-        
-
-#### L4: 决策参考层 (Context Layer)
-
-- **存放位置：** `04_context_reference/`。
-    
-- **内容：** * **Why：** 为什么选择伪代码中的逻辑 A 而不是 B？
-    
-    - **限制：** 当前逻辑在并发超过 1000 时可能失效。
-        
-    - **历史：** 旧版本逻辑的废弃原因。
-        
+| 逻辑目录（SOP 约定） | 用途 | 默认落地目录（建议） |
+|---|---|---|
+| `sop/` | SOP 配置（约束/工作流/Prompts/Skills/模板/审查标准） | `sop/` |
+| `docs/01_requirements/` | 需求文档（PRD/MRD/FRD、原型） | `docs/01_requirements/` |
+| `docs/01_requirements/frontend/` | 前端需求文档与原型 | `docs/01_requirements/frontend/` |
+| `docs/01_requirements/backend/` | 后端需求文档 | `docs/01_requirements/backend/` |
+| `docs/02_logical_workflow/` | L2 逻辑工作流（技术无关） | `docs/02_logical_workflow/` |
+| `docs/02_logical_workflow/frontend/` | L2 前端逻辑工作流（技术无关） | `docs/02_logical_workflow/frontend/` |
+| `docs/02_logical_workflow/backend/` | L2 后端逻辑工作流（技术无关） | `docs/02_logical_workflow/backend/` |
+| `docs/03_technical_spec/` | L3 技术规格、测试资产（CSV 等） | `docs/03_technical_spec/` |
+| `docs/03_technical_spec/frontend/` | L3 前端技术规格与测试资产 | `docs/03_technical_spec/frontend/` |
+| `docs/03_technical_spec/backend/` | L3 后端技术规格与测试资产 | `docs/03_technical_spec/backend/` |
+| `docs/04_context_reference/` | ADR + RAG + 决策记录 | `docs/04_context_reference/` |
+| `src/**/design.md` | 目录级实现设计（L3） | `src/**/design.md` |
+| `src/frontend/**/design.md` | 前端目录级实现设计（L3） | `src/frontend/**/design.md` |
+| `src/backend/**/design.md` | 后端目录级实现设计（L3） | `src/backend/**/design.md` |
+| `tests/acceptance/` | 分层验收测试（代码与设计） | `tests/acceptance/` |
+| `.temp/` | 临时产物/报告（非持久化） | `.temp/` |
 
 ---
 
-### 三、 伪代码编写的三项准则
+## 3. 文档放置规则（含“参考文档”约束）
 
-为了确保伪代码既能被人读懂，也能被 LLM 精准解析，建议遵循以下标准：
-
-1. **原子化操作命名：** 使用 `UPPER_SNAKE_CASE` 表示底层原子操作（如 `FETCH_USER_PROFILE`），这些操作在实际代码中可能对应一个复杂的函数。
-    
-2. **缩进体现分层：** 严格使用 4 空格缩进，表示逻辑的嵌套关系，这有助于 LLM 构建抽象语法树。
-    
-3. **注释意图而非步骤：** 注释应说明“为什么这里需要分支”，而不是解释“这是一个 If 语句”。
-    
+1. `/docs` 用于项目文档与设计资产，允许随项目演进增删改。
+2. `/docs/参考/` 为 SOP 参考文档，除非明确指定，否则不对其做结构性改动（避免漂移）。
+3. 需求、设计、测试、决策必须按层级目录放置，不得混放。
 
 ---
 
-### 四、 这种规范的优势
+## 4. 各层内容规范（应写什么 / 禁止写什么）
 
-1. **架构与实现解耦：** 即使你的项目从 Python 迁移到了 Go，`02_logical_workflow` 下的伪代码文档完全不需要修改。
-    
-2. **降低 LLM 的 Token 噪音：** LLM 在学习你的技术文档时，不需要被大量的 `import`, `try...except`, `logger.info` 干扰，能更直接地捕获业务逻辑。
-    
-3. **渐进式认知：** * 开发者想看逻辑？去 L2 看伪代码。
-    
-    - 开发者要写代码？去 L3 看字段定义。
-        
-    - 开发者遇到 Bug？去 L4 看设计背景。
-    
----
+### 4.1 L1 概念层（01_concept_overview.md）
 
-### 五、 技术栈描述规范 (Technology Stack)
+存放位置：`docs/01_concept_overview.md`
 
-技术描述遵循分层结构，提供完整的技术选型参考框架：
+必须包含：
+- 一句话定义（模块/系统是什么）
+- 核心痛点（解决什么问题）
+- 关键术语表（必要时）
 
-#### 核心技术选型 (Core Technology)
+禁止包含：
+- 任何代码片段
+- 任何实现细节（框架/库/具体函数）
+- 具体文件路径与配置细节
 
-**语言与运行时：**
-- **编程语言** - 系统级性能与内存安全
-- **异步运行时** - 支持高并发执行
-- **版本要求** - 最低语言版本要求
+### 4.2 L1-L3 需求分层（docs/01_requirements/）
 
+存放位置（推荐结构）：
 
-#### 构建与开发 (Build & Development)
-
-**标准构建流程：**
-```bash
-
+```text
+docs/01_requirements/
+├── project_prd.md                    # L1: 项目级需求
+├── modules/
+│   ├── [module]_mrd.md               # L2: 模块级需求
+│   └── [module]/
+│       └── [feature]_frd.md          # L3: 功能级需求
+└── prototypes/                       # L3: 原型与交互补充
+    └── [module]/
+        └── [feature]_interaction.md
 ```
 
-**特性标志管理：**
+约束：
+- 需求文档只描述业务目标、边界、规则、交互与验收，不写实现方案。
+- 需求分层必须保持引用链：FRD 引用 MRD，MRD 引用 PRD（以“来源与依赖声明”体现）。
 
+前后端拆分（可选，推荐用于全栈项目）：
 
-#### 架构设计原则 (Architecture Principles)
+```text
+docs/01_requirements/
+├── project_prd.md
+├── modules/
+│   └── [module]_mrd.md
+├── frontend/
+│   ├── modules/
+│   │   └── [module]/
+│   │       └── [feature]_frd.md
+│   └── prototypes/
+│       └── [module]/
+│           └── [feature]_interaction.md
+└── backend/
+    └── modules/
+        └── [module]/
+            └── [feature]_frd.md
+```
 
-**模块组织规范：**
-- 设计文档完整性要求
-- 模块组织结构标准
-- 测试策略覆盖范围
-- 示例代码组织方式
+### 4.3 L2 逻辑工作流（docs/02_logical_workflow/*.md）
 
-#### 性能与质量保障 (Performance & Quality)
+存放位置：`docs/02_logical_workflow/`
 
-**性能基准指标：**
-- 并发处理能力指标
-- 响应延迟性能要求
-- 可靠性机制保障
+前后端拆分（可选）：`docs/02_logical_workflow/frontend/`、`docs/02_logical_workflow/backend/`
 
-**代码质量规范：**
-- 代码格式化标准
-- 静态分析检查要求
-- 文档完整性规范
-- 日志记录最佳实践
+编写原则：技术无关，使用结构化伪代码表达业务逻辑。
 
-#### 配置与环境 (Configuration)
+伪代码规范（强制）：
+1. 原子操作命名：`UPPER_SNAKE_CASE`（例：`VALIDATE_INPUT`）
+2. 函数命名：`lower_snake_case`（例：`process_order`）
+3. 缩进：4 空格
+4. 注释：解释“为什么需要该分支/约束”，不解释语法
+5. 伪代码代码块语言标记必须为 `pseudo`
 
-**配置管理体系：**
-- 主配置文件位置
-- 环境配置覆盖机制
-- 环境变量管理规范
+禁止：
+- 具体编程语言语法（如 JS/Python 语法糖）
+- 具体实现调用（如 `db.connect()`、`redis.get()`、`logger.info`、`import`）
 
-**项目开发约定：**
-- 命名规范标准
-- 文件组织结构
-- 版本控制策略
-    
+示例：
+
+```pseudo
+FUNCTION main(input):
+    VALIDATE_INPUT input
+
+    IF input.type == "A":
+        result = PROCESS_TYPE_A(input)
+    ELSE:
+        RAISE_ERROR "Invalid type"
+    END IF
+
+    RETURN result
+END FUNCTION
+```
+
+### 4.4 L3 技术规格（docs/03_technical_spec/ 与 src/**/design.md）
+
+存放位置：
+- `src/**/design.md`：目录级实现设计（推荐作为实现设计主载体）
+- 前后端拆分（可选）：`src/frontend/**/design.md`、`src/backend/**/design.md`
+- `docs/03_technical_spec/`：跨目录或全局可复用的技术规格（如 OpenAPI、共享数据模型、测试资产等）
+- 前后端拆分（可选）：`docs/03_technical_spec/frontend/`、`docs/03_technical_spec/backend/`
+
+必须包含（以实现设计模板为准）：
+- 技术选型表（语言/框架/存储/版本/理由）
+- L2 → L3 映射表（将 L2 原子操作映射到 L3 实现构件）
+- 接口契约（输入/输出/错误/异常）
+- 数据模型（表/结构/索引等）
+- 测试策略与验收清单（与需求/设计一致）
+
+禁止：
+- 重复叙述 L2 已定义的业务逻辑（除非为“映射解释”所必需）
+- 把大段业务流程写进技术规格（业务流程应留在 L2）
+
+### 4.5 L4 决策参考层（docs/04_context_reference/）
+
+存放位置：`docs/04_context_reference/`
+
+包含范围：
+- ADR：`adr_[module]_[topic].md`
+- RAG：`rag/`（用户输入、外部资料、项目沉淀）
+- 决策记录：`decisions/`（当触发用户决策点时落盘）
+
+L4 只记录：
+- Why：为何选择 A 而不是 B
+- 约束与风险：哪些条件下可能失效
+- 历史：替代方案与废弃原因
+
+禁止：
+- 重写 L2 的业务流程
+- 把实现细节当作决策理由（实现细节应在 L3）
+
 ---
-    
+
+## 5. 来源与依赖声明（强制）
+
+以下产物必须包含 `## 来源与依赖声明` 章节并按统一格式填写：
+- 需求文档（PRD/MRD/FRD）
+- L2 逻辑工作流文档
+- L3 实现设计（design.md / 技术规格）
+- 测试设计与测试代码（若以文档形式交付）
+- 代码审查报告（若以文档形式交付）
+
+格式 SSOT：`sop/04_reference/interaction_formats/source_dependency.md`
+
+硬性约束：
+- 后续阶段必须声明其依赖的前置产出（路径 + 摘要），不得“隐式依赖”。
+- 当出现来源缺失、依赖缺口、信息冲突、不可复核外部资料时，必须在文档中显式标记 `[USER_DECISION]`，并落盘决策记录到 `docs/04_context_reference/decisions/`。
+
+---
+
+## 6. RAG 与知识沉淀（引用与命名）
+
+RAG 与知识沉淀的目录结构、命名与引用方式以 `sop/04_reference/knowledge_management.md` 为准。
+
+最小要求：
+- RAG 必须区分：`rag/user_input/`、`rag/external/`、`rag/project/`
+- 文件命名格式：`[YYYYMMDD]_[source]_[brief].[ext]`
+- 在 L2/L3/ADR 中引用 RAG 时，必须提供“来源/类型/摘要/链接”的表格（参见 SSOT）
+
+---
+
+## 7. SSOT 与一致性约束（禁止自造）
+
+1. 状态标记必须引用 `sop/05_constraints/state_dictionary.md`，禁止在文档中自造新状态或使用历史别名混用。
+2. 命令字典（如需在文档中表达流程的命令序列）必须引用 `sop/05_constraints/command_dictionary.md`，禁止自造命令语义。
+3. 目录结构与路径表达必须遵循 `sop/04_reference/document_directory_mapping.md`，避免跨仓库结构变更导致文档失效。
+
+---
+
+## 8. 模板（可复用，不在本文复制）
+
+建议直接复用以下模板（以 SOP 为准）：
+- L2 架构设计模板：`sop/04_reference/document_templates/architecture_design.md`
+- L3 实现设计模板：`sop/04_reference/document_templates/implementation_design.md`
+- ADR 模板：`sop/04_reference/document_templates/adr.md`

@@ -99,6 +99,8 @@
 - 模板：04_reference/interaction_formats/router_triage.md
 - CMD: `ROUTE(task)`
 - SSOT: 05_constraints/state_dictionary.md + 05_constraints/command_dictionary.md
+- 说明：此处“机器可读输出”指按上述模板输出的分诊工件，不是子智能体（Subagent）规格 JSON
+- 若用户请求目标是“创建/更新子智能体（Prompt）”，分诊结果必须引用子智能体规格 SSOT：[subagent_GUIDE.md](../../subagent_GUIDE.md)
 
 ## 当前任务
 

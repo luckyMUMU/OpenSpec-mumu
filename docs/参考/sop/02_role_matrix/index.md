@@ -1,6 +1,6 @@
 # 角色矩阵
 
-> **版本**: v1.5.0
+> **版本**: v1.5.1
 
 ## 角色总览
 
@@ -16,10 +16,30 @@
 | Worker | 实现 | 编码实现 | Full-Write | **design.md 所在目录** | Diff展示 |
 | CodeReviewer | 监管 | 代码审查 | 写入审查意见（不改代码） | 全局 | `[WAITING_FOR_CODE_REVIEW]` |
 | **TestWorker** | **实现** | **分层验收测试实现者** | **读写测试代码，只读设计** | **design.md 所在目录** | `[WAITING_FOR_TEST_IMPLEMENTATION]` |
-| Librarian | 监管 | 文档维护 | 仅文档文件 | 全局 | `[已完成]` |
+| Librarian | 监管 | 文档维护（SOP/ADR/RAG/索引/链接） | 仅文档文件 | 全局 | `[已完成]` |
 | Supervisor | 监管 | 进度监管，熔断决策，**并行协调** | 状态更新 | 全局 | `[FUSION_TRIGGERED]` |
 
 ---
+
+## 前后端分离约定（目录与产物）
+
+为确保职责边界清晰、避免在同一设计/代码目录内混合前后端实现，SOP 引入前后端分流的逻辑目录（以 `04_reference/document_directory_mapping.md` 为准）：
+- 前端：`docs/01_requirements/frontend/`、`docs/02_logical_workflow/frontend/`、`docs/03_technical_spec/frontend/`、`src/frontend/**/design.md`
+- 后端：`docs/01_requirements/backend/`、`docs/02_logical_workflow/backend/`、`docs/03_technical_spec/backend/`、`src/backend/**/design.md`
+
+角色影响（要点）：
+- Analyst：同一业务功能同时涉及前端与后端时，拆分为前端 FRD + 后端 FRD，并互相引用。
+- Prometheus：前端/后端逻辑分别落盘到对应 L2 目录，保持技术无关。
+- Oracle：前端与后端各自产出 design.md，不得用同一份 design.md 覆盖两端实现。
+- Worker/TestWorker：严格遵守 design.md 所在目录边界，不跨目录修改他端实现。
+
+---
+
+## Librarian 管理边界（ADR / 知识沉淀）
+
+- ADR：维护状态、索引、交叉引用与断链修复；保障 ADR 仅回答 Why，不展开实现细节。
+- RAG（知识沉淀）：负责分类入库、命名、来源记录、索引维护、去重与过期标记；保障设计文档引用可追溯。
+- 冲突：发现 ADR/RAG/设计之间冲突时，输出冲突报告并标记 `[USER_DECISION]`，等待决策后回写相关文档与索引。
 
 ## 目录维度工作范围
 
@@ -34,15 +54,16 @@ Worker 工作范围 = design.md 所在目录及其子目录（不含嵌套 desig
 **示例**：
 ```
 src/
-├── module_a/
-│   ├── design.md          ← Worker A 负责
-│   ├── src/
-│   └── utils/
-├── module_b/
-│   ├── design.md          ← Worker B 负责
-│   └── src/
-└── shared/
-    └── design.md          ← Worker C 负责
+├── frontend/
+│   ├── app/
+│   │   └── design.md      ← Worker FE-App 负责
+│   └── ui/
+│       └── design.md      ← Worker FE-UI 负责
+└── backend/
+    ├── api/
+    │   └── design.md      ← Worker BE-API 负责
+    └── core/
+        └── design.md      ← Worker BE-Core 负责
 ```
 
 ### 目录层级处理顺序

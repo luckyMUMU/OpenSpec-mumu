@@ -74,6 +74,10 @@ docs/04_context_reference/
 
 ### 处理流程
 
+执行者：Librarian（入库、命名、索引、引用一致性检查）
+
+参与者：Analyst/Prometheus/Oracle 等（在各自文档中引用 RAG；当触发“架构参考”时负责撰写/更新 ADR）
+
 ```
 接收用户输入
     ↓
@@ -121,6 +125,10 @@ docs/04_context_reference/
 4. **可查找**: 在索引中登记所有参考资料
 
 ### 处理流程
+
+执行者：Librarian（入库、来源记录、索引、引用一致性检查）
+
+参与者：Prometheus/Oracle/Skeptic 等（在各自文档中引用外部知识；当触发“架构决策”时负责撰写/更新 ADR）
 
 ```
 获取外部知识
@@ -190,6 +198,12 @@ docs/04_context_reference/
 
 ### 处理流程
 
+冲突报告生成者：Librarian（比对、引用追溯、产出冲突报告并标记 `[USER_DECISION]`）
+
+决策者：用户
+
+回写执行：设计/架构内容由对应角色更新（Prometheus/Oracle/Analyst）；ADR/RAG/索引与引用表由 Librarian 回写维护
+
 ```
 发现冲突
     ↓
@@ -223,9 +237,9 @@ docs/04_context_reference/
 等待用户决策
     ↓
 根据决策执行
-    ├─ 遵循ADR/RAG → 更新设计
-    ├─ 更新ADR → 修改ADR文档
-    └─ 更新RAG → 修改RAG文档
+    ├─ 遵循ADR/RAG → 更新设计（对应角色）
+    ├─ 更新ADR → 修改 ADR 文档与索引（Librarian 维护索引，内容由决策提出者负责）
+    └─ 更新RAG → 修改 RAG 文档与索引（Librarian）
 ```
 
 ---

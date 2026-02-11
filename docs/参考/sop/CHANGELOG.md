@@ -1,6 +1,6 @@
 # SOP 版本变更历史
 
-> **当前版本**: v1.5.0  
+> **当前版本**: v1.5.1  
 > **更新日期**: 2026-02-11
 
 ---
@@ -20,6 +20,35 @@ v[主版本].[次版本].[修订版本]
 ---
 
 ## 版本历史
+
+### v1.5.1 (2026-02-11)
+
+**对齐 Subagent 规范与 SOP 全局一致性修复** - 建立可复用子智能体规格索引并修复文档偏差
+
+#### 新增内容
+- **Subagent 规格模板**: 增加 `subagent_spec.md` 示例模板，指向 `docs/参考/subagent_GUIDE.md` 作为 SSOT
+- **Subagent JSON 落盘**: 新增 `sop/subagents/`，为 12 个核心角色提供有效 JSON 规格（identifier/whenToUse/systemPrompt）
+
+#### 修正与优化
+- **全局版本统一**: 将 `sop/` 目录下所有核心文档及 `sop_GUIDE.md` 统一至 v1.5.1，消除 v1.5.0/v1.5.1 混用
+- **路径错误修复**: 修正 `sop_GUIDE.md` 中指向 SSOT 的相对路径错误（补全 `sop/` 前缀）
+- **角色体系对齐**: 确保 `AGENT_SOP.md`、`02_role_matrix/index.md`、`ROLE_CHEATSHEET.md` 中的角色数量（12个）与停止点定义完全对齐
+- **停止点一致性**: 修正 `ROLE_CHEATSHEET.md` 中 Worker/TestWorker 的停止点描述，使其对齐 `state_dictionary.md`
+- **概念对齐**: 明确 Role/Skill/Subagent/Prompt 边界与默认映射
+- **术语消歧**: 明确 `ROUTE(task)` 的 `task` 是用户请求体，不是运行环境的 Task 工具
+
+#### 更新文档
+| 类别 | 更新文件 |
+|------|----------|
+| 核心 | 01_concept_overview.md, AGENT_SOP.md, sop_for_human.md |
+| 约束 | 05_constraints/command_dictionary.md |
+| Prompt | prompts/router_prompt.md |
+| Skill | skills/sop-workflow-orchestrator/SKILL.md |
+| 参考 | 04_reference/index.md |
+| 交互格式 | 04_reference/interaction_formats/subagent_spec.md |
+| Subagent | subagents/*.json |
+
+---
 
 ### v1.5.0 (2026-02-11)
 

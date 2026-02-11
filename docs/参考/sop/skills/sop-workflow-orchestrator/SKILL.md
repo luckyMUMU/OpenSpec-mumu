@@ -5,7 +5,7 @@ description: "Workflow orchestration for task triage and path selection. Invoke 
 
 # Workflow Orchestration
 
-> **版本**: v1.5.0
+> **版本**: v1.5.1
 
 **位置**: `sop/skills/sop-workflow-orchestrator/SKILL.md`
 
@@ -92,6 +92,8 @@ CMD: `SCHEDULE_DIRS(design_list) -> dir_map`
 
 - 交付物（模板）：04_reference/interaction_formats/router_triage.md
 - CMD: `ROUTE(task)`（必须输出：路径、角色链路、下一步命令式指令）
+- 术语澄清：这里的 `task` 指用户请求体/任务描述，不是运行环境的 “Task 工具”
+- 若 user_request 目标是“创建/更新子智能体（Prompt）”，输出必须引用子智能体规格 SSOT：[subagent_GUIDE.md](../../../subagent_GUIDE.md)
 
 ## Stop Points
 

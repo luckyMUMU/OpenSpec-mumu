@@ -1,6 +1,6 @@
 # AI Agent SOP
 
-> **版本**: v1.5.0  
+> **版本**: v1.5.1  
 > **更新日期**: 2026-02-11  
 > AI Agent专用 | 命令式 | 最小Token
 
@@ -19,6 +19,28 @@
 **禁止项矩阵**: [查看完整黑白名单](05_constraints/constraint_matrix.md)
 
 ---
+
+## 子智能体（Subagent）规范（Prompt即Subagent）
+
+本 SOP 中，`prompts/*.md` 视为子智能体（Subagent）的系统提示词载体（至少等价于 Subagent 的 `systemPrompt`）。
+
+### 何时需要
+
+- 目标是“新增/优化某个角色的 Prompt”
+- 目标是“新增一个可复用的专用能力”（例如：特定格式审查、特定文档生成、特定检查器）
+
+### 交付物（SSOT）
+
+子智能体规格必须遵循 [subagent_GUIDE.md](../subagent_GUIDE.md)，交付为仅含以下字段的有效 JSON 对象：
+
+- `identifier`
+- `whenToUse`
+- `systemPrompt`
+
+### 术语澄清
+
+- SOP 文档中的 `task`（例如 `ROUTE(task)`）指“用户请求体/任务描述”
+- “Task 工具”指运行环境提供的一个调用机制（用于启动子智能体），与上面的 `task` 不是一回事
 
 ## 路径选择
 
@@ -136,20 +158,27 @@ Explorer → Worker → CodeReviewer → Librarian
 参见 [document_directory_mapping.md](04_reference/document_directory_mapping.md)（逻辑目录 → 项目实际目录映射）。
 
 ### 需求文档 (Analyst)
-| 类型 | 位置 | 层级 | 创建者 |
-|------|------|------|--------|
-| 项目PRD | `docs/01_requirements/project_prd.md` | L1 | Analyst |
-| 模块MRD | `docs/01_requirements/modules/[module]_mrd.md` | L2 | Analyst |
-| 功能FRD | `docs/01_requirements/modules/[module]/[feature]_frd.md` | L3 | Analyst |
-| 原型 | `docs/01_requirements/prototypes/[module]/` | L3 | Analyst |
+| 类型 | 端 | 位置 | 层级 | 创建者 |
+|------|----|------|------|--------|
+| 项目PRD | 通用 | `docs/01_requirements/project_prd.md` | L1 | Analyst |
+| 模块MRD | 通用 | `docs/01_requirements/modules/[module]_mrd.md` | L2 | Analyst |
+| 功能FRD | 前端 | `docs/01_requirements/frontend/modules/[module]/[feature]_frd.md` | L3 | Analyst |
+| 原型 | 前端 | `docs/01_requirements/frontend/prototypes/[module]/` | L3 | Analyst |
+| 功能FRD | 后端 | `docs/01_requirements/backend/modules/[module]/[feature]_frd.md` | L3 | Analyst |
 
 ### 设计文档
-| 类型 | 位置 | 层级 | 创建者 |
-|------|------|------|--------|
-| 架构设计 | `docs/02_logical_workflow/*.md` | L2 | Prometheus |
-| 实现设计 | `src/**/design.md` | L3 | Oracle |
-| 测试用例 | `docs/03_technical_spec/test_cases/*.csv` | L3 | Tester |
-| 测试代码 | `tests/*.test.[ext]` | L3 | TestWorker |
+| 类型 | 端 | 位置 | 层级 | 创建者 |
+|------|----|------|------|--------|
+| 架构设计 | 通用 | `docs/02_logical_workflow/*.md` | L2 | Prometheus |
+| 架构设计 | 前端 | `docs/02_logical_workflow/frontend/*.md` | L2 | Prometheus |
+| 架构设计 | 后端 | `docs/02_logical_workflow/backend/*.md` | L2 | Prometheus |
+| 实现设计 | 通用 | `src/**/design.md` | L3 | Oracle |
+| 实现设计 | 前端 | `src/frontend/**/design.md` | L3 | Oracle |
+| 实现设计 | 后端 | `src/backend/**/design.md` | L3 | Oracle |
+| 测试用例 | 通用 | `docs/03_technical_spec/test_cases/*.csv` | L3 | Tester |
+| 测试用例 | 前端 | `docs/03_technical_spec/frontend/test_cases/*.csv` | L3 | Tester |
+| 测试用例 | 后端 | `docs/03_technical_spec/backend/test_cases/*.csv` | L3 | Tester |
+| 测试代码 | 通用 | `tests/*.test.[ext]` | L3 | TestWorker |
 
 **约束**: `/docs/参考/` **非指定不变更**
 
@@ -205,7 +234,7 @@ v[主版本].[次版本].[修订版本]
 | 修订版本 | 文档修正、错误修复、格式统一 | v6.0.0→v6.0.1 |
 
 ### 当前版本
-**v1.5.0**
+**v1.5.1**
 
 👉 [查看版本历史](CHANGELOG.md)
 

@@ -1,6 +1,6 @@
 # 角色速查
 
-> **版本**: v1.5.0
+> **版本**: v1.5.1
 
 ---
 
@@ -15,8 +15,8 @@
 | Skeptic | 设计 | 架构审查 | `[ARCHITECTURE_PASSED]` | 全局 |
 | Oracle | 设计 | 实现设计 | `[WAITING_FOR_DESIGN]` | 按目录 |
 | **Tester** | **设计** | **CSV测试用例唯一维护者，分层验收测试设计者** | **`[WAITING_FOR_TEST_DESIGN]`** | 按目录 |
-| **Worker** | **实现** | **编码实现** | **Diff展示** | **design.md 所在目录** |
-| **TestWorker** | **实现** | **编写测试代码（只读CSV）** | **-** | **design.md 所在目录** |
+| **Worker** | **实现** | **编码实现** | **`[WAITING_FOR_CODE_REVIEW]`** | **design.md 所在目录** |
+| **TestWorker** | **实现** | **编写测试代码（只读CSV）** | **`[WAITING_FOR_TEST_IMPLEMENTATION]`** | **design.md 所在目录** |
 | **CodeReviewer** | **监管** | **代码审查** | **`[WAITING_FOR_CODE_REVIEW]`** | **全局** |
 | Librarian | 监管 | 文档维护 | `[已完成]` | 全局 |
 | **Supervisor** | **监管** | **进度监管，熔断，并行协调** | **`[FUSION_TRIGGERED]`** | **全局协调** |
@@ -24,6 +24,13 @@
 ---
 
 ## 路径
+
+### 前端路径（适配）
+```
+（不新增流程）将前端任务映射到 快速/深度/TDD，并强制前后端目录分离
+```
+
+👉 [前端路径详情](03_workflow/frontend_path.md)
 
 ### 目录维度深度路径（推荐）
 ```
@@ -58,12 +65,23 @@ Analyst → Prometheus ↔ Skeptic → Oracle → Tester → Supervisor → [多
 |------|------|--------|
 | Project PRD | `docs/01_requirements/project_prd.md` | Analyst |
 | Module MRD | `docs/01_requirements/modules/[module]_mrd.md` | Analyst |
-| Feature FRD | `docs/01_requirements/modules/[module]/[feature]_frd.md` | Analyst |
-| **原型** | **`docs/01_requirements/prototypes/[module]/`** | **Analyst** |
+| Feature FRD（前端） | `docs/01_requirements/frontend/modules/[module]/[feature]_frd.md` | Analyst |
+| Feature FRD（后端） | `docs/01_requirements/backend/modules/[module]/[feature]_frd.md` | Analyst |
+| **原型（前端）** | **`docs/01_requirements/frontend/prototypes/[module]/`** | **Analyst** |
 | 架构设计 | `docs/02_logical_workflow/*.md` | Prometheus |
+| 架构设计（前端） | `docs/02_logical_workflow/frontend/*.md` | Prometheus |
+| 架构设计（后端） | `docs/02_logical_workflow/backend/*.md` | Prometheus |
+| ADR（架构决策记录） | `docs/04_context_reference/adr_*.md` | 决策提出者（Prometheus/Oracle/Analyst），归档与索引由 Librarian 维护 |
 | 实现设计 | `src/**/design.md` | Oracle |
+| 实现设计（前端） | `src/frontend/**/design.md` | Oracle |
+| 实现设计（后端） | `src/backend/**/design.md` | Oracle |
 | **测试用例** | **`docs/03_technical_spec/test_cases/*.csv`** | **Tester** |
+| **测试用例（前端）** | **`docs/03_technical_spec/frontend/test_cases/*.csv`** | **Tester** |
+| **测试用例（后端）** | **`docs/03_technical_spec/backend/test_cases/*.csv`** | **Tester** |
 | **测试代码** | **`tests/*.test.[ext]`** | **TestWorker** |
+| RAG（知识沉淀） | `docs/04_context_reference/rag/**` | Librarian |
+
+ADR / RAG 与设计文档引用冲突时，必须进入 `[USER_DECISION]` 后再回写更新。
 
 ---
 
@@ -92,7 +110,7 @@ v[主版本].[次版本].[修订版本]
 | 修订版本 | 文档修正、错误修复、格式统一 | v6.0.0→v6.0.1 |
 
 ### 当前版本
-**v1.4.0** - L2架构文档Markdown化
+**v1.5.1** - 目录维度并行、来源依赖合规与子智能体规格统一
 
 👉 [查看版本历史](CHANGELOG.md)
 
@@ -107,6 +125,7 @@ v[主版本].[次版本].[修订版本]
 | **先标记状态** | ❌ 未标记`[进行中]`直接修改 | 状态混乱 |
 | **父目录摘要** | ❌ 在父目录放详细内容 | 破坏渐进披露 |
 | **参考目录** | ❌ 非Librarian修改`/docs/参考/` | SOP被破坏 |
+| **ADR/RAG 目录** | ❌ 非Librarian修改`/docs/04_context_reference/` | 证据链断裂 |
 
 ### 角色特定禁止
 

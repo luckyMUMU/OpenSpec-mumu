@@ -1,6 +1,6 @@
 # SOP 核心概念
 
-> **版本**: v1.5.0  
+> **版本**: v1.5.1  
 > **更新日期**: 2026-02-11
 
 **定义**: AI辅助开发工作流标准
@@ -25,6 +25,31 @@
 | L4 | 模板 | [参考文档](04_reference/index.md) |
 
 ---
+
+## 子智能体（Subagent）与 Prompt
+
+本仓库将 `prompts/` 视为可复用的 **子智能体（Subagent）** 资产（至少等价于 Subagent 的 `systemPrompt` 载体），用于被调度与复用。
+
+### 概念边界
+
+- **Role（角色）**：工作流阶段的职责标签（如 Router/Explorer/Worker），用于分工与产出定义
+- **Skill（技能）**：编排流程与步骤（何时触发、输入输出、停止点、约束）
+- **Subagent（子智能体）**：面向特定问题域的可复用智能体配置，可被调用执行
+- **Prompt**：Subagent 的系统提示词载体（当前落盘在 `prompts/*.md`）
+
+### 默认映射
+
+- 默认情况下：一个 Role 对应一个 Prompt/Subagent（可按需扩展为多个 Subagent）
+- 当用户请求目标是“新增/优化 Prompt”，等价于“新增/优化 Subagent 能力”
+
+### Subagent 规格（SSOT）
+
+Subagent 的规格输出必须遵循 [subagent_GUIDE.md](../subagent_GUIDE.md)：
+
+- 交付物是 **有效 JSON 对象**，且仅包含 `identifier` / `whenToUse` / `systemPrompt`
+- `identifier` 使用小写字母/数字/连字符，语义清晰
+- `whenToUse` 必须以 “Use this agent when...” 开头并包含示例
+- `systemPrompt` 是可独立执行的完整操作手册
 
 ## 角色概览 (11个角色)
 

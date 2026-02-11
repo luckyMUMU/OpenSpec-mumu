@@ -5,7 +5,7 @@ description: "指导AI Agent复用和优化已有能力。Invoke when needing to
 
 # 能力复用与优化
 
-> **版本**: v1.5.0
+> **版本**: v1.5.1
 
 **位置**: `sop/skills/sop-capability-reuse/SKILL.md`
 

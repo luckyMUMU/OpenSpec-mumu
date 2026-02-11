@@ -5,7 +5,7 @@ description: "Progress monitoring workflow for tracking execution and triggering
 
 # Progress Monitoring Workflow
 
-> **版本**: v1.5.0
+> **版本**: v1.5.1
 
 **位置**: `sop/skills/sop-progress-supervisor/SKILL.md`
 

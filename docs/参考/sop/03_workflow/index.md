@@ -1,6 +1,6 @@
 # 工作流规范
 
-> **版本**: v1.5.0
+> **版本**: v1.5.1
 
 ## 路径选择
 
@@ -9,6 +9,19 @@
 | 快速 | 单文件+<30行+无逻辑变更 |
 | 深度 | 其他所有情况 |
 | TDD | 深度+启用TDD(可选) |
+
+---
+
+## 前端路径（适配说明）
+
+前端工作流不引入新流程，而是将“前端任务”映射到既有 快速/深度/TDD 路径，并要求前后端在文档与代码位置上显式分离：
+
+- 前端需求与原型：`docs/01_requirements/frontend/`
+- 前端 L2：`docs/02_logical_workflow/frontend/`
+- 前端 L3：`src/frontend/**/design.md`（或映射到 `apps/web/**/design.md` / `packages/ui/**/design.md`）
+- 后端 L2/L3：`docs/02_logical_workflow/backend/` + `src/backend/**/design.md`（或映射到 `apps/api/**/design.md`）
+
+👉 [前端路径详情](frontend_path.md)
 
 ---
 

@@ -7,8 +7,8 @@
 | 层级 | 目录 | 内容 | 格式 | 创建者 |
 |------|------|------|------|--------|
 | L1 | `01_concept_overview.md` | 核心概念 | Markdown | - |
-| L2 | `docs/02_logical_workflow/` | 逻辑工作流 | `.md` | Prometheus |
-| L3 | `docs/03_technical_spec/` / `src/**/design.md` | 技术规格 | Markdown/YAML | Oracle |
+| L2 | `docs/02_logical_workflow/`（可拆：`frontend/`、`backend/`） | 逻辑工作流 | `.md` | Prometheus |
+| L3 | `docs/03_technical_spec/`（可拆：`frontend/`、`backend/`） / `src/**/design.md`（可拆：`src/frontend/**`、`src/backend/**`） | 技术规格 | Markdown/YAML | Oracle |
 | L4 | `docs/04_context_reference/` | 决策参考 | `adr_*.md` | Prometheus/Oracle |
 
 ---
@@ -22,11 +22,19 @@
 | `/docs/01_requirements/` | **需求文档 (L1-L3)** | **Analyst创建** |
 | `/docs/01_requirements/modules/` | **模块/功能需求 (L2-L3)** | **Analyst创建** |
 | `/docs/01_requirements/prototypes/` | **原型设计 (L3)** | **Analyst创建** |
+| `/docs/01_requirements/frontend/` | **前端需求文档与原型 (L1-L3)** | **Analyst创建** |
+| `/docs/01_requirements/backend/` | **后端需求文档 (L1-L3)** | **Analyst创建** |
 | `/docs/02_logical_workflow/` | 架构设计 (L2) | Prometheus创建 |
+| `/docs/02_logical_workflow/frontend/` | 前端逻辑工作流 (L2) | Prometheus创建 |
+| `/docs/02_logical_workflow/backend/` | 后端逻辑工作流 (L2) | Prometheus创建 |
 | `/docs/03_technical_spec/` | 技术规格 (L3) | Oracle创建 |
 | `/docs/03_technical_spec/test_cases/` | **测试用例** | **Tester创建** |
+| `/docs/03_technical_spec/frontend/` | 前端技术规格与测试资产 (L3) | Oracle创建 |
+| `/docs/03_technical_spec/backend/` | 后端技术规格与测试资产 (L3) | Oracle创建 |
 | `/docs/04_context_reference/` | 决策参考 (L4) | Prometheus/Oracle创建 |
 | `src/**/design.md` | 实现设计 (L3) | Oracle创建 |
+| `src/frontend/**/design.md` | 前端实现设计 (L3) | Oracle创建 |
+| `src/backend/**/design.md` | 后端实现设计 (L3) | Oracle创建 |
 | `tests/` | **测试代码** | **TestWorker创建** |
 
 ---
@@ -56,6 +64,26 @@ docs/01_requirements/
         ├── [feature]_wireframe.drawio
         ├── [feature]_mockup.fig
         └── [feature]_interaction.md
+```
+
+前后端拆分（可选，推荐用于全栈项目）：
+
+```
+docs/01_requirements/
+├── project_prd.md
+├── modules/
+│   └── [module]_mrd.md
+├── frontend/
+│   ├── modules/
+│   │   └── [module]/
+│   │       └── [feature]_frd.md
+│   └── prototypes/
+│       └── [module]/
+│           └── [feature]_interaction.md
+└── backend/
+    └── modules/
+        └── [module]/
+            └── [feature]_frd.md
 ```
 
 ### 原型文件格式
@@ -113,6 +141,14 @@ ADR-[模块]-[序号]: [标题]
 
 ---
 
+## 子智能体（Subagent）与 Prompt
+
+- 子智能体规格（JSON）SSOT：[`docs/参考/subagent_GUIDE.md`](../subagent_GUIDE.md)
+- 角色 Prompt（systemPrompt 载体）：[prompts/](../prompts/)
+- 子智能体规格落盘（JSON）：[subagents/](../subagents/)
+
+---
+
 ## TDD测试文档
 
 **创建者**: Tester / TestWorker  
@@ -123,6 +159,16 @@ ADR-[模块]-[序号]: [标题]
 docs/03_technical_spec/test_cases/
 ├── [module]_test_cases.csv      # 测试用例 (Tester创建)
 └── [module]_test_plan.md        # 测试计划 (可选)
+```
+
+前后端拆分（可选）：
+
+```
+docs/03_technical_spec/frontend/test_cases/
+└── [module]_test_cases.csv
+
+docs/03_technical_spec/backend/test_cases/
+└── [module]_test_cases.csv
 ```
 
 ---
@@ -147,6 +193,18 @@ docs/03_technical_spec/test_cases/
 | 格式 | 用途 | 角色 |
 |------|------|------|
 | [Supervisor报告](interaction_formats/supervisor_report.md) | 进度/熔断/决策 | Supervisor |
+| [Subagent规格（JSON）](interaction_formats/subagent_spec.md) | 子智能体规格示例模板 | 任意 |
+
+---
+
+## 核心资产与子智能体
+
+| 资产类型 | 位置 | 说明 |
+|----------|------|------|
+| **子智能体规格 (JSON)** | `sop/subagents/` | **SSOT**: 机器可读的 identifier/whenToUse/systemPrompt |
+| **角色指令 (Prompt)** | `sop/prompts/` | 对应各角色的详细系统提示词（Markdown） |
+| **子智能体指南** | `docs/参考/subagent_GUIDE.md` | 子智能体设计、创建与管理规范 |
+| **Skill 定义** | `sop/skills/` | SOP 流程中可执行能力的定义（SKILL.md） |
 
 ---
 

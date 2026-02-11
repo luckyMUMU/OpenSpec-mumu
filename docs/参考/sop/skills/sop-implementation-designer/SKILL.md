@@ -5,7 +5,7 @@ description: "Implementation design workflow for creating detailed technical des
 
 # Implementation Design Workflow
 
-> **版本**: v1.5.0
+> **版本**: v1.5.1
 
 **位置**: `sop/skills/sop-implementation-designer/SKILL.md`
 
@@ -73,6 +73,13 @@ description: "Implementation design workflow for creating detailed technical des
 
 **Interface Contract Template**:
 写入位置：design.md 的“Interface Contract / Directory Dependencies”章节
+
+**Frontend Contract Checklist**（前端目录常见契约类型，按需选择，不绑定框架）：
+- Route Contract：路由路径、参数、鉴权前置条件、页面级错误处理
+- UI Component Contract：Props/Events/Slots、受控/非受控状态、默认值与禁用态
+- State Boundary：状态归属（页面/模块/全局）、状态机转换、缓存策略（如适用）
+- API Client Contract：请求/响应 DTO、错误码映射、重试与超时策略
+- Design Token Contract：颜色/间距/字体等 Token 约束与兼容策略（如有设计系统）
 
 ### Step 4: Cross-Directory Dependency Design
 

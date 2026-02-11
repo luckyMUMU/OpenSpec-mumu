@@ -5,7 +5,7 @@ description: "指导AI Agent正确放置设计文档和创建design.md。Invoke 
 
 # 设计文档放置指南
 
-> **版本**: v1.5.0
+> **版本**: v1.5.1
 
 **位置**: `sop/skills/sop-design-placement/SKILL.md`
 
@@ -43,7 +43,12 @@ description: "指导AI Agent正确放置设计文档和创建design.md。Invoke 
 | 模块位置 | design.md 位置 | 深度示例 |
 |----------|----------------|----------|
 | `src/module/` | `src/module/design.md` | depth 2 |
+| `src/frontend/module/` | `src/frontend/module/design.md` | depth 3 |
+| `src/backend/module/` | `src/backend/module/design.md` | depth 3 |
 | `packages/package/` | `packages/package/design.md` | depth 2 |
+| `apps/web/` | `apps/web/design.md` | depth 2 |
+| `apps/api/` | `apps/api/design.md` | depth 2 |
+| `packages/ui/` | `packages/ui/design.md` | depth 2 |
 | 顶层模块 | `docs/module/design.md` | depth 2 |
 | 子模块 | `src/module/sub/design.md` | depth 3 |
 
@@ -87,7 +92,11 @@ description: "指导AI Agent正确放置设计文档和创建design.md。Invoke 
 | 文档类型 | 创建者 | 放置位置 |
 |----------|--------|----------|
 | PRD | Analyst | `docs/01_requirements/*.md` |
+| 前端需求 | Analyst | `docs/01_requirements/frontend/` |
+| 后端需求 | Analyst | `docs/01_requirements/backend/` |
 | 架构设计 | Prometheus | `docs/02_logical_workflow/*.md` |
+| 前端逻辑工作流 | Prometheus | `docs/02_logical_workflow/frontend/*.md` |
+| 后端逻辑工作流 | Prometheus | `docs/02_logical_workflow/backend/*.md` |
 | 实现设计 | Oracle | `src/**/design.md` 或 `docs/**/design.md` |
 
 CMD: `IMPL_DESIGN(l2, dir) -> design.md`
@@ -123,6 +132,7 @@ CMD: `IMPL_DESIGN(l2, dir) -> design.md`
 6. **目录深度标记** - 记录目录深度用于并行执行调度
 7. **跨目录依赖声明** - 必须声明与其他目录的依赖关系
 8. 必须引用SSOT：05_constraints/state_dictionary.md、05_constraints/command_dictionary.md
+9. **前后端分离** - 不得在同一 module_dir 下混合前端与后端实现
 
 ## Failure Handling
 

@@ -1,6 +1,6 @@
 # SOP 文档审查指南
 
-> **版本**: v1.5.0  
+> **版本**: v1.5.1  
 > **更新日期**: 2026-02-11  
 > **用途**: SOP文档系统性审查标准与版本管理规范
 
@@ -20,8 +20,8 @@ v[主版本].[次版本].[修订版本]
 
 | 版本类型 | 命名 | 更新规则 | 影响范围 |
 |----------|------|----------|----------|
-| **主版本** | v1.x.x | 架构级变更、新增核心流程、新增角色 | 全局统一 |
-| **次版本** | vx.1.x | 新增功能、新增路径、新增约束 | 全局统一 |
+| **主版本** | v1.x.x | 架构级变更、新增核心AI角色 | 全局统一 |
+| **次版本** | vx.1.x | 新增功能、新增路径、新增约束、**新增子智能体规格(JSON)** | 全局统一 |
 | **修订版本** | vx.x.1 | 文档修正、错别字、格式调整 | 可差异化 |
 
 ### 1.3 全局统一规则
@@ -114,8 +114,8 @@ v[主版本].[次版本].[修订版本]
 | **角色定义** | AGENT_SOP.md 角色表 | sop_for_human.md 第2章 | 逐角色对比 |
 | **流程描述** | AGENT_SOP.md 工作流 | sop_for_human.md 第4章 | 逐路径对比 |
 | **停止点** | AGENT_SOP.md 停止点 | sop_for_human.md 停止点 | 列表对比 |
-| **约束定义** | 05_constraints/ | sop_for_human.md 第14章 | 内容对比 |
-| **验收机制** | 05_constraints/acceptance_criteria.md | sop_for_human.md 第15章 | 层级对比 |
+| **约束定义** | sop/05_constraints/ | sop_for_human.md 第14章 | 内容对比 |
+| **验收机制** | sop/05_constraints/acceptance_criteria.md | sop_for_human.md 第15章 | 层级对比 |
 
 #### 术语一致性检查清单
 
@@ -134,10 +134,11 @@ v[主版本].[次版本].[修订版本]
 |----------|----------|--------|
 | **核心文档** | AGENT_SOP.md | 角色、流程、约束完整 |
 | **人类文档** | sop_for_human.md | 所有章节完整 |
-| **角色文档** | 02_role_matrix/index.md | 角色定义完整（数量以表格为准） |
-| **工作流文档** | 03_workflow/*.md | 路径定义完整（以索引为准） |
-| **约束文档** | 05_constraints/*.md | 禁止项/验收标准完整 |
-| **角色指令** | prompts/*.md | 覆盖所有角色（与角色矩阵一致） |
+| **角色文档** | sop/02_role_matrix/index.md | 角色定义完整（数量以表格为准） |
+| **工作流文档** | sop/03_workflow/*.md | 路径定义完整（以索引为准） |
+| **约束文档** | sop/05_constraints/*.md | 禁止项/验收标准完整 |
+| **角色指令** | sop/prompts/*.md | 覆盖所有角色（与角色矩阵一致） |
+| **子智能体规格** | sop/subagents/*.json | 覆盖所有角色（SSOT） |
 
 #### 流程完整性检查清单
 
@@ -198,7 +199,7 @@ SOP流程/规则必须使用可验证的命令式表达，推荐结构：
 
 - [ ] 规则使用“必须/禁止/仅当/否则”表达，不使用“建议/尽量/可能/一般/视情况”等
 - [ ] 规则同时包含触发条件、动作、输出（交付物与路径）
-- [ ] 状态/命令的名称引用有唯一来源（SSOT）：05_constraints/state_dictionary.md、05_constraints/command_dictionary.md
+- [ ] 状态/命令的名称引用有唯一来源（SSOT）：sop/05_constraints/state_dictionary.md、sop/05_constraints/command_dictionary.md
 
 ### 3.6 Skill合规性审查（对齐SOP流程设计）
 
@@ -209,7 +210,7 @@ Skill文件必须体现SOP流程的可执行闭环：输入明确、步骤可执
 - [ ] Skill描述以命令式步骤为主（可映射到命令字典）
 - [ ] Skill定义包含：适用条件、输入、输出、停止点、失败处理、持久化交付物
 - [ ] Skill引用的状态/停止点/命令与SSOT一致
-- [ ] Skill/Prompt 若要求产出设计/审查/测试资产，必须要求“来源与依赖声明”或引用 `04_reference/review_standards/source_dependency.standard.md`
+- [ ] Skill/Prompt 若要求产出设计/审查/测试资产，必须要求“来源与依赖声明”或引用 `sop/04_reference/review_standards/source_dependency.standard.md`
 
 ---
 

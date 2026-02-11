@@ -5,7 +5,7 @@ description: "Document synchronization workflow for index updates and progressiv
 
 # Document Synchronization Workflow
 
-> **版本**: v1.5.0
+> **版本**: v1.5.1
 
 **位置**: `sop/skills/sop-document-sync/SKILL.md`
 

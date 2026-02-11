@@ -1,6 +1,6 @@
 # SOP for Human (人类阅读版)
 
-> **版本**: v1.5.0
+> **版本**: v1.5.1
 > **更新日期**: 2026-02-11
 > **用途**: 帮助人类理解 AI Agent 的工作流程、角色分工与协作规范。
 
@@ -38,6 +38,14 @@
 | **Supervisor** | 进度监控与并行调度 | 执行状态 | 调度指令 / 熔断信号 |
 
 ---
+
+## 2.1 子智能体（Subagent）与 Prompt
+
+本仓库中，`docs/参考/sop/prompts/` 下的各角色 Prompt 视为可复用的子智能体资产（至少等价于子智能体的 `systemPrompt`）。
+
+- 子智能体规格（JSON）规范以 [`docs/参考/subagent_GUIDE.md`](../subagent_GUIDE.md) 为准（SSOT）
+- SOP 内的子智能体规格落盘位置：`docs/参考/sop/subagents/`
+- Prompt 作为 systemPrompt 载体：`docs/参考/sop/prompts/`
 
 ## 3. 工作流路径
 
