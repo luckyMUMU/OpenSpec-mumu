@@ -51,6 +51,10 @@ Explorer → Worker → CodeReviewer → Librarian
 | CodeReviewer | Diff+设计文档 | 审查报告 | Diff展示 |
 | Librarian | 代码修改 | 文档更新 | `[已完成]` |
 
+来源与依赖准则：
+- Worker/CodeReviewer 必须声明来源与依赖（模板：`04_reference/interaction_formats/source_dependency.md`）
+- 当找不到来源或依赖时，必须进入 `[USER_DECISION]` 并落盘决策记录
+
 **注意**：快速路径不涉及多目录并行，单文件修改直接执行。
 
 👉 [快速路径详情](fast_path.md)

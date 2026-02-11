@@ -66,6 +66,7 @@
 - CMD: `ARCH_REVIEW(l2)`
 - 审查标准：
   - 04_reference/review_standards/architecture_design.standard.md
+  - 04_reference/review_standards/source_dependency.standard.md
   - 04_reference/review_standards/review_report.standard.md
   - 项目可覆写（可选）：04_reference/review_standards/profiles/<project>.md（模板：04_reference/review_standards/_project_profile.md）
 

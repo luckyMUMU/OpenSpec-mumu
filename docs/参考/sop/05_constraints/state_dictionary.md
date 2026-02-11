@@ -110,6 +110,12 @@
 | `[USER_DECISION]` | 任意角色 → 用户 | 当前存在冲突/风险/分歧，需要用户做出决策 | 用户选择方案或给出新方案 |
 | `[USER_DECISION_REQUIRED]` | 任意角色 → 用户 | `[USER_DECISION]` 的历史别名；新文档统一使用 `[USER_DECISION]` | 同上 |
 
+决策记录要求：
+- 当触发原因是“找不到来源或依赖”（例如 SOURCE_MISSING / DEPENDENCY_MISSING / CONFLICT）时，必须同时：
+  - 使用 `ASK_USER_DECISION(topic, options)` 输出选项
+  - 使用 `RECORD_DECISION(topic, decision)` 落盘决策记录文件
+  - 在后续产物中引用该决策记录路径
+
 ---
 
 ## 熔断状态（Fusion State）

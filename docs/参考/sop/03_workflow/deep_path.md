@@ -6,6 +6,12 @@
 
 ---
 
+## 来源与依赖准则（全路径通用）
+
+- Analyst：除“需求主要来源于用户”外，必须在产物中声明补充来源与依赖
+- Prometheus/Oracle/Tester/Worker/TestWorker/CodeReviewer：必须声明其输入来源于前置阶段产出，并列出依赖清单（模板：`04_reference/interaction_formats/source_dependency.md`）
+- 当找不到来源或依赖时：必须进入 `[USER_DECISION]` 并同时落盘决策记录
+
 ## 目录维度深度路径
 
 ### 核心流程

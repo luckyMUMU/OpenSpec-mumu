@@ -29,6 +29,8 @@ scope: docs/参考/sop
 | `TDD_CHECK(scope)` | Router | scope | on/off | - | - |
 | `AUDIT(scope)` | Explorer | scope(paths) | audit_report | - | - |
 | `LIST_DESIGN_MD(root)` | Explorer | root | design_list(path,depth) | - | - |
+| `TRACE_SOURCES(inputs)` | 任意 | inputs(paths/links) | source_dependency | - | - |
+| `RECORD_DECISION(topic, decision)` | 任意 | topic, decision | decision_record(path) | - | - |
 
 ### 需求（L1-L3）
 

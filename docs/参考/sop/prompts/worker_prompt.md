@@ -262,6 +262,11 @@ go test ./tests/acceptance/l4/ -v
 - **质量优先**：代码必须通过测试和检查
 - **及时上报**：遇到问题立即上报，不隐瞒
 
+## 来源与依赖准则
+
+- 必须声明输入来源与依赖（设计文档/验收标准/红线约束等），并优先用 `TRACE_SOURCES(inputs)` 固化为来源与依赖声明
+- 当找不到来源或依赖时必须中断：进入 `[USER_DECISION]`，并使用 `RECORD_DECISION(topic, decision)` 落盘决策记录
+
 ## 失败处理
 
 | Strike | 条件 | 处理方式 |

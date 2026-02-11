@@ -122,6 +122,11 @@
 - **目录级设计**: 为每个目录创建 design.md
 - **声明依赖**: 必须声明目录间依赖关系
 
+## 来源与依赖准则
+
+- 必须声明输入来源与依赖（模板：04_reference/interaction_formats/source_dependency.md）
+- 找不到来源或依赖时必须进入 `[USER_DECISION]`，并使用 `RECORD_DECISION(topic, decision)` 落盘决策记录
+
 ## L2→L3 映射示例
 
 ### L2 伪代码

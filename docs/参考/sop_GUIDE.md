@@ -122,6 +122,7 @@ v[主版本].[次版本].[修订版本]
 - [ ] L1/L2/L3/L4 定义一致
 - [ ] 角色名称集合一致（以角色矩阵为准）
 - [ ] 停止点标记一致
+- [ ] 来源与依赖合规术语一致（source/dependency/decision record），并引用唯一来源（SSOT）
 - [ ] 文件路径格式一致
 - [ ] 版本号一致
 
@@ -155,6 +156,7 @@ v[主版本].[次版本].[修订版本]
 - [ ] 停止点触发条件正确
 - [ ] 约束定义合理可执行
 - [ ] 验收层级逻辑正确（L1→L2→L3→L4）
+- [ ] 来源与依赖缺口必须中断：进入 `[USER_DECISION]`，并落盘决策记录；后续产物必须引用该记录
 
 #### 交叉引用正确性检查清单
 
@@ -207,6 +209,7 @@ Skill文件必须体现SOP流程的可执行闭环：输入明确、步骤可执
 - [ ] Skill描述以命令式步骤为主（可映射到命令字典）
 - [ ] Skill定义包含：适用条件、输入、输出、停止点、失败处理、持久化交付物
 - [ ] Skill引用的状态/停止点/命令与SSOT一致
+- [ ] Skill/Prompt 若要求产出设计/审查/测试资产，必须要求“来源与依赖声明”或引用 `04_reference/review_standards/source_dependency.standard.md`
 
 ---
 
@@ -505,6 +508,37 @@ sop/reviews/YYYY-MM-DD/
 ```
 
 ---
+
+### 7.1 决策记录模板（Decision Record）
+
+当触发 `[USER_DECISION]` 且原因是“来源/依赖缺口”时，必须创建决策记录文件并在后续产物引用。
+
+推荐落盘目录：`docs/04_context_reference/decisions/`
+
+```markdown
+# 决策记录（Decision Record）
+
+## 元信息
+- **日期**: YYYY-MM-DD
+- **主题**: SOURCE_MISSING / DEPENDENCY_MISSING / CONFLICT
+- **触发状态**: [USER_DECISION]
+
+## 缺口描述
+- 缺少的来源/依赖: ...
+- 影响: ...
+
+## 选项
+- A: ...
+- B: ...
+- C: ...
+
+## 用户选择
+- 选择: A/B/C/自定义
+- 理由: ...
+
+## 后续引用
+- 必须在后续产物中引用本文件路径
+```
 
 ### 7.2 差异矩阵模板（AGENT vs 人类）
 

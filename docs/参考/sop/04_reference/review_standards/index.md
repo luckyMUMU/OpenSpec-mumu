@@ -30,6 +30,7 @@ updated: 2026-02-11
 - L2 架构审查标准：`architecture_design.standard.md`
 - L3 实现设计审查标准：`implementation_design.standard.md`
 - ADR 审查标准：`adr.standard.md`
+- 来源与依赖合规标准：`source_dependency.standard.md`
 - 代码 Diff 审查标准：`code_diff.standard.md`
 - 测试设计审查标准：`test_design.standard.md`
 - 测试代码审查标准：`test_code.standard.md`
