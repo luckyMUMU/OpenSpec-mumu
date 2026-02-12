@@ -19,6 +19,7 @@ updated: 2026-02-12
 - 需要理解体系概念（L1-L4、渐进披露、SSOT）：[01_concept_overview.md](01_concept_overview.md)
 - 需要查看 Skill 清单与边界（唯一真源）：[02_skill_matrix/index.md](02_skill_matrix/index.md)
 - 需要选择路径与执行流程（fast/deep/TDD、三错即停）：[03_workflow/index.md](03_workflow/index.md)
+- 需要状态机速查（状态/转移/子流程图）：[sop_state_machine.md](../sop_state_machine.md)
 - 需要模板/交互格式/审查标准入口（L2/L3/L4 模板与规范）：[04_reference/index.md](04_reference/index.md)
 - 需要全局约束/红线/状态与命令字典（SSOT）：[05_constraints/index.md](05_constraints/index.md)
 
