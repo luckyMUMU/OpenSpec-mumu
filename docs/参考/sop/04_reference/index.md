@@ -153,9 +153,3 @@ docs/03_technical_spec/test_cases/
 ## 状态标记
 
 - SSOT: 05_constraints/state_dictionary.md + 05_constraints/command_dictionary.md
-- `[DIR_WORKING]` - 正在处理当前目录
-- `[DIR_WAITING_DEP]` - 等待依赖目录完成
-- `[DIR_COMPLETED]` - 当前目录处理完成
-- `[DIR_FAILED]` - 当前目录处理失败
-- `[USER_DECISION]` - 需要用户决策
-- `[已完成]` - 全流程收尾完成（终态）

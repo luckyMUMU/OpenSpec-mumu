@@ -1,6 +1,7 @@
 # 工作流规范
 
-> **版本**: v1.5.0
+> **版本**: v1.5.1  
+> **更新日期**: 2026-02-12
 
 ## 路径选择
 
@@ -134,40 +135,6 @@ Analyst → Prometheus ↔ Skeptic → Oracle → Tester → Supervisor → Work
 
 ## 停止点
 
-### 常规停止点
-
-| 标记 | 触发 | 等待 |
-|------|------|------|
-| `[WAITING_FOR_REQUIREMENTS]` | Analyst完成 | 用户确认PRD |
-| `[WAITING_FOR_ARCHITECTURE]` | Prometheus完成 | 架构审批 |
-| `[ARCHITECTURE_PASSED]` | Skeptic通过 | - |
-| `[WAITING_FOR_DESIGN]` | Oracle完成 | 设计审批 |
-| `[WAITING_FOR_TEST_DESIGN]` | Tester完成 | 用户确认测试设计 |
-| `[WAITING_FOR_CODE_REVIEW]` | Worker完成实现 | CodeReviewer输出审查报告 |
-| Diff展示 | Worker完成（代码审查通过后） | 用户审批代码 |
-
-### 目录维度状态标记
-
-| 标记 | 触发 | 说明 |
-|------|------|------|
-| `[DIR_WORKING]` | Worker 开始处理 | 当前目录正在处理中 |
-| `[DIR_WAITING_DEP]` | Worker 遇到依赖 | 等待依赖目录完成 |
-| `[DIR_COMPLETED]` | Worker 完成 | 当前目录处理完成 |
-| `[DIR_FAILED]` | Worker 失败 | 当前目录处理失败 |
-
-### 测试与监管停止点
-
-| 标记 | 触发 | 等待 |
-|------|------|------|
-| `[WAITING_FOR_TEST_IMPLEMENTATION]` | TestWorker完成 | CodeReviewer审查测试代码 |
-| `[FUSION_TRIGGERED]` | 连续3次失败 | Supervisor介入 |
-| `[已完成]` | Librarian完成 | 文档更新确认 |
-
-### Supervisor 协调标记
-
-| 标记 | 触发 | 说明 |
-|------|------|------|
-| `[SCHEDULING]` | Supervisor 开始调度 | 正在创建目录-Worker 映射 |
-| `[PARALLEL_EXECUTING]` | 多 Worker 并行 | 同深度目录并行执行中 |
-| `[WAITING_DEPENDENCY]` | 依赖等待 | 有 Worker 等待依赖完成 |
-| `[ALL_COMPLETED]` | 全部完成 | 所有目录处理完成 |
+- SSOT: 05_constraints/state_dictionary.md（所有状态标记与停止点定义以该文件为准）
+- 命令契约: 05_constraints/command_dictionary.md
+- 人工审批点: Diff 展示（代码审查通过后，展示变更 Diff 等待用户审批）

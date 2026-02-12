@@ -1,7 +1,7 @@
 # SOP 版本变更历史
 
-> **当前版本**: v1.5.0  
-> **更新日期**: 2026-02-11
+> **当前版本**: v1.5.1  
+> **更新日期**: 2026-02-12
 
 ---
 
@@ -20,6 +20,26 @@ v[主版本].[次版本].[修订版本]
 ---
 
 ## 版本历史
+
+### v1.5.1 (2026-02-12)
+
+**整体一致性修复** - 版本治理与 SSOT 引用收敛
+
+#### 修复内容
+- **版本治理**: 清理文档内“当前版本”残留，统一以 CHANGELOG 为准，避免版本自相矛盾
+- **状态一致性**: 示例与速查统一以 `05_constraints/state_dictionary.md` 为唯一来源（SSOT）
+- **审查闭环语义**: 收敛 `CODE_REVIEW` 的结论语义与返工回路表达（以命令字典/交互模板为准）
+- **决策治理**: 明确 `docs/04_context_reference/decisions/` 的定位与引用规范（与来源依赖合规闭环）
+
+#### 更新文档
+| 类别 | 更新文件 |
+|------|----------|
+| 核心 | AGENT_SOP.md, ROLE_CHEATSHEET.md, 01_concept_overview.md |
+| 工作流 | 03_workflow/index.md |
+| 参考 | 04_reference/index.md, 04_reference/document_directory_mapping.md, 04_reference/knowledge_management.md |
+| 交互格式 | 04_reference/interaction_formats/code_review.md |
+| 约束 | 05_constraints/constraint_matrix.md, 05_constraints/index.md, 05_constraints/command_dictionary.md |
+| 工具 | scripts/sop-lint.mjs |
 
 ### v1.5.0 (2026-02-11)
 

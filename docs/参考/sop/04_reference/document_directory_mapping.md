@@ -1,6 +1,6 @@
 ---
-version: v1.5.0
-updated: 2026-02-11
+version: v1.5.1
+updated: 2026-02-12
 ---
 
 # 文档目录映射表
@@ -22,7 +22,7 @@ updated: 2026-02-11
 | `docs/01_requirements/` | 需求文档（PRD/MRD/FRD、原型） | `docs/01_requirements/` | `docs/参考/sop/04_reference/document_templates/` |
 | `docs/02_logical_workflow/` | L2 架构设计（技术无关） | `docs/02_logical_workflow/` | `docs/参考/sop/04_reference/document_templates/architecture_design.md` |
 | `docs/03_technical_spec/` | L3 技术规格、测试用例资产（CSV 等） | `docs/03_technical_spec/` | `docs/参考/sop/04_reference/document_templates/implementation_design.md` |
-| `docs/04_context_reference/` | ADR + RAG（决策与参考资料） | `docs/04_context_reference/` | `docs/参考/sop/04_reference/knowledge_management.md` |
+| `docs/04_context_reference/` | ADR + RAG + Decision Records（决策与参考资料） | `docs/04_context_reference/` | `docs/参考/sop/04_reference/knowledge_management.md` |
 | `src/**/design.md` | 目录级实现设计（Oracle 输出） | `src/**/design.md` | `docs/参考/sop/AGENT_SOP.md` |
 | `tests/acceptance/` | 分层验收测试代码与设计 | `tests/acceptance/` | `docs/参考/sop/05_constraints/acceptance_criteria.md` |
 | `temp/` | 临时产物/调度状态/报告（非持久化） | `temp/` | （无） |
@@ -32,6 +32,7 @@ updated: 2026-02-11
 ## 关键文件约定（逻辑路径）
 
 - ADR：`docs/04_context_reference/adr_[模块]_[决策主题].md`
+- Decision Record：`docs/04_context_reference/decisions/[YYYYMMDD]_[topic].md`
 - RAG：
   - 用户输入：`docs/04_context_reference/rag/user_input/`
   - 外部资料：`docs/04_context_reference/rag/external/`

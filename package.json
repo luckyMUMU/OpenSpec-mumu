@@ -52,6 +52,7 @@
     "prepublishOnly": "pnpm run build",
     "postinstall": "node scripts/postinstall.js",
     "check:pack-version": "node scripts/pack-version-check.mjs",
+    "check:sop": "node scripts/sop-lint.mjs",
     "release": "pnpm run release:ci",
     "release:ci": "pnpm run check:pack-version && pnpm exec changeset publish",
     "changeset": "changeset"

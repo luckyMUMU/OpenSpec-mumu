@@ -1,6 +1,7 @@
 # 参考资料与知识沉淀规范
 
-> **版本**: v1.5.0  
+> **版本**: v1.5.1  
+> **更新日期**: 2026-02-12  
 > **位置**: `docs/04_context_reference/`  
 > **用途**: 管理用户输入和外部获取的知识
 > **目录映射**: 参见 04_reference/document_directory_mapping.md
@@ -28,6 +29,7 @@ L3: 技术规格 (src/**/design.md)
     ↓
 L4: 决策参考 (04_context_reference/)
     ├── adr_*.md              # 架构决策记录
+    ├── decisions/            # 决策记录（触发 `[USER_DECISION]` 时必须落盘）
     ├── rag/                  # 参考资料 (RAG - Retrieval Augmented Generation)
     │   ├── user_input/       # 用户提供的资料
     │   ├── external/         # 外部获取的知识
@@ -42,6 +44,7 @@ L4: 决策参考 (04_context_reference/)
 ```
 docs/04_context_reference/
 ├── adr_*.md                    # 架构决策记录
+├── decisions/                  # 决策记录（RECORD_DECISION 产物）
 ├── knowledge_management.md     # 本规范文件
 └── rag/                        # 参考资料根目录
     ├── README.md              # RAG 使用指南
@@ -56,8 +59,19 @@ docs/04_context_reference/
     └── project/               # 项目沉淀知识
         ├── patterns.md        # 设计模式
         ├── lessons.md         # 经验教训
-        └── decisions.md       # 决策记录摘要
+        └── decisions.md       # 决策记录摘要（可选）
 ```
+
+---
+
+## 决策记录（Decision Record）
+
+当触发 `[USER_DECISION]` 且原因是“来源/依赖缺口”或“冲突无法消解”时，必须落盘决策记录文件，并在后续产物中引用。
+
+- 命令：`RECORD_DECISION(topic, decision)`（参见 05_constraints/command_dictionary.md）
+- 模板：04_reference/interaction_formats/source_dependency.md
+- 逻辑目录：`docs/04_context_reference/decisions/`
+- 命名建议：`[YYYYMMDD]_[topic].md`
 
 ---
 

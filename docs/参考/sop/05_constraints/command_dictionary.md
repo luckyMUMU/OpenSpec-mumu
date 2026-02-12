@@ -1,6 +1,6 @@
 ---
-version: v1.5.0
-updated: 2026-02-11
+version: v1.5.1
+updated: 2026-02-12
 scope: docs/参考/sop
 ---
 
@@ -74,7 +74,7 @@ scope: docs/参考/sop
 
 | CMD | 角色 | args | out | pre | post |
 |---|---|---|---|---|---|
-| `CODE_REVIEW(diff, design_refs)` | CodeReviewer | diff, refs(L2/L3/tests) | review_report | `[WAITING_FOR_CODE_REVIEW]` / `[WAITING_FOR_TEST_IMPLEMENTATION]` | `Diff展示` / `[DIR_WORKING]` / `[USER_DECISION]` |
+| `CODE_REVIEW(diff, design_refs)` | CodeReviewer | diff, refs(L2/L3/tests) | review_report | `[WAITING_FOR_CODE_REVIEW]` / `[WAITING_FOR_TEST_IMPLEMENTATION]` | `Diff展示(通过) / [DIR_WORKING](需修改) / [USER_DECISION](僵局或>=3轮)` |
 
 ### 测试（分层验收 / 可选 TDD）
 
@@ -83,7 +83,7 @@ scope: docs/参考/sop
 | `TEST_DESIGN(design)` | Tester | design.md | test_design/CSV | - | `[WAITING_FOR_TEST_DESIGN]` |
 | `TEST_IMPLEMENT(test_design)` | TestWorker | test_design | test_code | - | `[WAITING_FOR_TEST_IMPLEMENTATION]` |
 | `RUN_ACCEPTANCE(level)` | Worker | L1/L2/L3/L4 | test_result | - | `[WAITING_FOR_Lx_REVIEW]` / Diff展示 |
-| `REVIEW_ACCEPTANCE(level)` | Oracle/Analyst/Prometheus | Lx_result | pass/fail | `[WAITING_FOR_Lx_REVIEW]` | - |
+| `REVIEW_ACCEPTANCE(level)` | Oracle/Analyst/Prometheus | Lx_result | pass/fail | `[WAITING_FOR_Lx_REVIEW]` | `pass:- / fail:[DIR_WORKING] / deadlock:[USER_DECISION]` |
 
 ### 文档维护
 
