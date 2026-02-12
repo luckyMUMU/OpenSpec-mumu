@@ -73,3 +73,12 @@ Prompt Pack 必须确保每次 Skill 调用满足：
 
 - SKILL.md 是“可审查的骨架合约”（SSOT），Prompt Pack 是“可替换的运行时风格”。
 - Prompt Pack 只能收敛“怎么说/怎么呈现/怎么偏好”，不能改变“做什么/做到什么程度”。
+
+---
+
+## 6. 手动模式模板（推荐）
+
+Prompt Pack 不依赖任何运行时自动注入机制。仅当需要表达“强闭环/并行探索/续跑交接”等意图时，推荐在用户请求中手动粘贴模板块：
+
+- 模式与路径模板：`04_reference/interaction_formats/manual_mode_templates.md`
+- 续跑与恢复请求：`04_reference/interaction_formats/continuation_request.md`

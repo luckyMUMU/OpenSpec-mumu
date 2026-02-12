@@ -146,6 +146,16 @@ docs/03_technical_spec/test_cases/
 | 格式 | 用途 | Skill |
 |------|------|------|
 | [Progress Supervisor报告](interaction_formats/supervisor_report.md) | 进度/熔断/决策 | sop-progress-supervisor |
+| [手动模式模板](interaction_formats/manual_mode_templates.md) | 手动触发路径/模式的请求模板 | sop-workflow-orchestrator |
+| [续跑与恢复请求](interaction_formats/continuation_request.md) | 未完成/依赖等待/验证失败的续跑交接 | sop-workflow-orchestrator |
+
+---
+
+## 审查标准
+
+| 标准 | 用途 |
+|------|------|
+| [上下文压缩与交接标准](review_standards/context_handoff.standard.md) | 压缩/交接后可恢复执行与证据可追溯 |
 
 ---
 
