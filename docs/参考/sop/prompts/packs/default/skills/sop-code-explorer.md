@@ -1,6 +1,9 @@
-# sop-code-explorer (default pack)
+---
+version: v2.0.0
+updated: 2026-02-12
+---
 
-> **版本**: v2.0.0
+# sop-code-explorer (default pack)
 
 ## 侧重点
 
@@ -10,4 +13,3 @@
 ## 输出风格（固定）
 
 - 必须输出：范围、关键发现、证据索引、风险点、建议下一步 Skill
-

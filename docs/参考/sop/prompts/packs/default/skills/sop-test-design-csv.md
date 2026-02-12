@@ -1,6 +1,9 @@
-# sop-test-design-csv (default pack)
+---
+version: v2.0.0
+updated: 2026-02-12
+---
 
-> **版本**: v2.0.0
+# sop-test-design-csv (default pack)
 
 ## 侧重点
 
@@ -10,4 +13,3 @@
 ## 输出风格（固定）
 
 - 必须输出：覆盖矩阵（设计章节→用例ID）、CSV 路径、版本变更
-

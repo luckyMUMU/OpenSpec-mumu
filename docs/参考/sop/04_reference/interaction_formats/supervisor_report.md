@@ -1,3 +1,8 @@
+---
+version: v2.0.0
+updated: 2026-02-12
+---
+
 # 进度调度报告格式
 
 **使用**: sop-progress-supervisor

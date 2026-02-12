@@ -1,11 +1,11 @@
 ---
 name: "sop-document-sync"
 description: "Document synchronization workflow for index updates and progressive disclosure. Invoke when documents need synchronization or status updates."
+version: v2.0.0
+updated: 2026-02-12
 ---
 
 # Document Synchronization Workflow
-
-> **版本**: v2.0.0
 
 **位置**: `sop/skills/sop-document-sync/SKILL.md`
 

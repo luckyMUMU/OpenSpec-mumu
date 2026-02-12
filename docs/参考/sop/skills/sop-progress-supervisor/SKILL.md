@@ -1,11 +1,11 @@
 ---
 name: "sop-progress-supervisor"
 description: "Progress monitoring workflow for tracking execution and triggering circuit breakers. Invoke when monitoring task execution or detecting anomalies."
+version: v2.0.0
+updated: 2026-02-12
 ---
 
 # Progress Monitoring Workflow
-
-> **版本**: v2.0.0
 
 **位置**: `sop/skills/sop-progress-supervisor/SKILL.md`
 

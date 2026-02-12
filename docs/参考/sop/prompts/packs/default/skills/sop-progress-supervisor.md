@@ -1,6 +1,9 @@
-# sop-progress-supervisor (default pack)
+---
+version: v2.0.0
+updated: 2026-02-12
+---
 
-> **版本**: v2.0.0
+# sop-progress-supervisor (default pack)
 
 ## 侧重点
 
@@ -10,4 +13,3 @@
 ## 输出风格（固定）
 
 - 必须输出：dir_map、当前状态汇总、调度动作、熔断/停止点、落盘路径
-

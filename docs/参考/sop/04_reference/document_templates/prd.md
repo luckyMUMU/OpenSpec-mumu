@@ -1,3 +1,8 @@
+---
+version: v2.0.0
+updated: 2026-02-12
+---
+
 # PRD模板
 
 **位置**: `docs/01_requirements/[feature]_prd.md`  

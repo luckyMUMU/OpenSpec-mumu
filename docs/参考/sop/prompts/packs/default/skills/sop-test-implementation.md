@@ -1,6 +1,9 @@
-# sop-test-implementation (default pack)
+---
+version: v2.0.0
+updated: 2026-02-12
+---
 
-> **版本**: v2.0.0
+# sop-test-implementation (default pack)
 
 ## 侧重点
 
@@ -10,4 +13,3 @@
 ## 输出风格（固定）
 
 - 必须输出：受影响测试文件、映射的用例ID、如何运行、落盘路径
-

@@ -1,8 +1,9 @@
-# SOP for Human（Skill-first 人类阅读版）
+---
+version: v2.0.0
+updated: 2026-02-12
+---
 
-> **版本**: v2.0.0  
-> **更新日期**: 2026-02-12  
-> **用途**: 帮助人类理解 Skill-first 的工作流、Prompt Pack 与协作规范
+# SOP for Human（Skill-first 人类阅读版）
 
 ---
 

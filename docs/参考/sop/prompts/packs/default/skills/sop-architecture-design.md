@@ -1,6 +1,9 @@
-# sop-architecture-design (default pack)
+---
+version: v2.0.0
+updated: 2026-02-12
+---
 
-> **版本**: v2.0.0
+# sop-architecture-design (default pack)
 
 ## 侧重点
 
@@ -10,4 +13,3 @@
 ## 输出风格（固定）
 
 - 必须输出：架构图/伪代码要点、关键决策、风险、落盘路径
-

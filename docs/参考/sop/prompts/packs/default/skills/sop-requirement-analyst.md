@@ -1,6 +1,9 @@
-# sop-requirement-analyst (default pack)
+---
+version: v2.0.0
+updated: 2026-02-12
+---
 
-> **版本**: v2.0.0
+# sop-requirement-analyst (default pack)
 
 ## 侧重点
 
@@ -10,4 +13,3 @@
 ## 输出风格（固定）
 
 - 必须输出：L1-L3 分层结果、依赖关系、落盘文件路径、验收口径
-

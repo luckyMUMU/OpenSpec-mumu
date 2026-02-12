@@ -1,11 +1,11 @@
 ---
 name: "sop-tdd-workflow"
 description: "TDD工作流定义。Invoke when 用户启用TDD测试驱动开发流程。"
+version: v2.0.0
+updated: 2026-02-12
 ---
 
 # TDD 工作流（可选 / Skill-first）
-
-> **版本**: v2.0.0
 
 **类型**: 可选项  
 **触发**: `sop-workflow-orchestrator` 判断启用 TDD 时  

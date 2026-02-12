@@ -1,3 +1,8 @@
+---
+version: v2.0.0
+updated: 2026-02-12
+---
+
 # RAG 参考资料目录
 
 > **RAG** = Retrieval Augmented Generation (检索增强生成)

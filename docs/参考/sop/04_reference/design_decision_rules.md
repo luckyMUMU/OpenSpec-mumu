@@ -1,7 +1,9 @@
-# design.md 创建判断规则
+---
+version: v2.0.0
+updated: 2026-02-12
+---
 
-> **版本**: v2.0.0  
-> **关联文档**: AGENT_SOP.md, design_directory_strategy.md, skills/sop-design-placement/SKILL.md  
+# design.md 创建判断规则
 
 本文档定义 `sop-implementation-designer` 在创建 design.md 时的统一判断逻辑，整合目录层级和代码复杂度两个维度的判断标准。
 

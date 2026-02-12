@@ -1,6 +1,9 @@
-# sop-design-placement (default pack)
+---
+version: v2.0.0
+updated: 2026-02-12
+---
 
-> **版本**: v2.0.0
+# sop-design-placement (default pack)
 
 ## 侧重点
 
@@ -10,4 +13,3 @@
 ## 输出风格（固定）
 
 - 必须输出：候选落点、选择理由、影响面、落盘路径
-

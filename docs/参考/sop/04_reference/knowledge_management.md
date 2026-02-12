@@ -1,10 +1,9 @@
-# 参考资料与知识沉淀规范
+---
+version: v2.0.0
+updated: 2026-02-12
+---
 
-> **版本**: v2.0.0  
-> **更新日期**: 2026-02-12  
-> **位置**: `docs/04_context_reference/`  
-> **用途**: 管理用户输入和外部获取的知识
-> **目录映射**: 参见 04_reference/document_directory_mapping.md
+# 参考资料与知识沉淀规范
 
 ---
 

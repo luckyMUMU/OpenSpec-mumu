@@ -1,11 +1,11 @@
 ---
 name: "sop-implementation-designer"
 description: "Implementation design workflow for creating detailed technical designs. Invoke when architecture is approved and ready for implementation design."
+version: v2.0.0
+updated: 2026-02-12
 ---
 
 # Implementation Design Workflow
-
-> **版本**: v2.0.0
 
 **位置**: `sop/skills/sop-implementation-designer/SKILL.md`
 

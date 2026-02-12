@@ -1,3 +1,8 @@
+---
+version: v2.0.0
+updated: 2026-02-12
+---
+
 # 参考文档
 
 ## 渐进式披露层级 (L1-L4)
@@ -132,6 +137,7 @@ docs/03_technical_spec/test_cases/
 | 模板 | 层级 | 用途 | Skill |
 |------|------|------|------|
 | **[项目PRD](document_templates/project_prd.md)** | **L1** | **项目级需求** | **sop-requirement-analyst** |
+| [PRD（旧：单功能）](document_templates/prd.md) | L3 | 单功能PRD（不推荐） | sop-requirement-analyst |
 | **[模块MRD](document_templates/module_mrd.md)** | **L2** | **模块级需求** | **sop-requirement-analyst** |
 | **[功能FRD](document_templates/feature_frd.md)** | **L3** | **功能级需求** | **sop-requirement-analyst** |
 | **[原型规范](document_templates/prototype_guide.md)** | **L3** | **原型设计** | **sop-requirement-analyst** |
@@ -141,11 +147,30 @@ docs/03_technical_spec/test_cases/
 
 ---
 
+## 规范与策略
+
+| 文档 | 用途 |
+|------|------|
+| [设计决策规则](design_decision_rules.md) | 设计决策的硬门槛与记录要求 |
+| [设计目录策略](design_directory_strategy.md) | Scope/边界与 design.md 落点策略 |
+| [Prompt Pack 规范](prompt_pack.standard.md) | Prompt Pack 的组织形式与覆盖机制 |
+| [知识沉淀规范](knowledge_management.md) | 外部知识/用户输入/RAG 的沉淀与更新规则 |
+| [RAG 目录说明](rag/README.md) | RAG 子目录与维护规则 |
+
+---
+
 ## 交互格式
 
 | 格式 | 用途 | Skill |
 |------|------|------|
 | [Progress Supervisor报告](interaction_formats/supervisor_report.md) | 进度/熔断/决策 | sop-progress-supervisor |
+| [分诊输出](interaction_formats/router_triage.md) | 路径选择/调用链编排 | sop-workflow-orchestrator |
+| [代码审计报告](interaction_formats/code_audit_report.md) | 只读检索/定位/证据输出 | sop-code-explorer |
+| [设计审查报告](interaction_formats/design_review.md) | 架构审查结论 | sop-architecture-reviewer |
+| [测试用例CSV格式](interaction_formats/test_case_csv.md) | CSV 用例格式与字段 | sop-test-design-csv |
+| [执行结果](interaction_formats/worker_execution_result.md) | 执行变更汇总与落盘 | sop-code-implementation / sop-document-sync |
+| [代码审查报告](interaction_formats/code_review.md) | 基于证据的审查输出 | sop-code-review |
+| [来源与依赖声明](interaction_formats/source_dependency.md) | 来源/依赖/Gaps/决策声明 | sop-capability-reuse |
 | [手动模式模板](interaction_formats/manual_mode_templates.md) | 手动触发路径/模式的请求模板 | sop-workflow-orchestrator |
 | [续跑与恢复请求](interaction_formats/continuation_request.md) | 未完成/依赖等待/验证失败的续跑交接 | sop-workflow-orchestrator |
 
@@ -156,6 +181,9 @@ docs/03_technical_spec/test_cases/
 | 标准 | 用途 |
 |------|------|
 | [上下文压缩与交接标准](review_standards/context_handoff.standard.md) | 压缩/交接后可恢复执行与证据可追溯 |
+| [标准索引](review_standards/index.md) | 全量审查标准入口 |
+| [来源与依赖合规标准](review_standards/source_dependency.standard.md) | 来源/依赖/Gaps 与决策闭环门槛 |
+| [测试代码审查标准](review_standards/test_code.standard.md) | 测试实现质量门槛 |
 
 ---
 

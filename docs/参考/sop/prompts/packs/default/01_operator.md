@@ -1,7 +1,9 @@
-# Prompt Pack: default / operator
+---
+version: v2.0.0
+updated: 2026-02-12
+---
 
-> **版本**: v2.0.0  
-> **用途**: 以 Skill 为单位编排全流程调用链（不使用旧术语）
+# Prompt Pack: default / operator
 
 ---
 

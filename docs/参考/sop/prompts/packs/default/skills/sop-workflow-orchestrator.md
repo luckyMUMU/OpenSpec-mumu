@@ -1,6 +1,9 @@
-# sop-workflow-orchestrator (default pack)
+---
+version: v2.0.0
+updated: 2026-02-12
+---
 
-> **版本**: v2.0.0
+# sop-workflow-orchestrator (default pack)
 
 ## 侧重点
 
@@ -10,4 +13,3 @@
 ## 输出风格（固定）
 
 - 必须输出：路径选择、Skill 调用链、每一步输入/输出、落盘交付物路径
-

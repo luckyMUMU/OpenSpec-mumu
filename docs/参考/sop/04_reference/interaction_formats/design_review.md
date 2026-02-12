@@ -1,3 +1,8 @@
+---
+version: v2.0.0
+updated: 2026-02-12
+---
+
 # 设计审查格式
 
 **使用**: sop-architecture-reviewer ↔ sop-architecture-design

@@ -1,6 +1,9 @@
-# sop-code-review (default pack)
+---
+version: v2.0.0
+updated: 2026-02-12
+---
 
-> **版本**: v2.0.0
+# sop-code-review (default pack)
 
 ## 侧重点
 
@@ -10,4 +13,3 @@
 ## 输出风格（固定）
 
 - 必须输出：问题分级、证据链接、修复动作、是否放行、落盘路径
-

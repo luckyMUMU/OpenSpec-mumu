@@ -1,7 +1,9 @@
-# Skill 矩阵（SSOT）
+---
+version: v2.0.0
+updated: 2026-02-12
+---
 
-> **版本**: v2.0.0  
-> **用途**: Skill 清单、合约边界、Prompt Pack 映射的唯一权威来源（SSOT）
+# Skill 矩阵（SSOT）
 
 ---
 

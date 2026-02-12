@@ -1,11 +1,11 @@
 ---
 name: "sop-code-implementation"
 description: "Code implementation workflow for physical coding. Invoke when implementation design is approved and ready for coding."
+version: v2.0.0
+updated: 2026-02-12
 ---
 
 # Code Implementation Workflow
-
-> **版本**: v2.0.0
 
 ## 触发条件
 

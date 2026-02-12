@@ -1,7 +1,9 @@
-# Prompt Pack 规范（Standard）
+---
+version: v2.0.0
+updated: 2026-02-12
+---
 
-> **版本**: v2.0.0  
-> **用途**: 定义“定制化 prompt”的组织形式与覆盖机制，使全流程可通过调用 Skill 执行
+# Prompt Pack 规范（Standard）
 
 ---
 

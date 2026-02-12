@@ -1,6 +1,9 @@
-# sop-document-sync (default pack)
+---
+version: v2.0.0
+updated: 2026-02-12
+---
 
-> **版本**: v2.0.0
+# sop-document-sync (default pack)
 
 ## 侧重点
 
@@ -10,4 +13,3 @@
 ## 输出风格（固定）
 
 - 必须输出：同步清单、变更文件、链接/版本核对、落盘路径
-

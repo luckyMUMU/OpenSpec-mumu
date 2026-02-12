@@ -1,6 +1,9 @@
-# sop-tdd-workflow (default pack)
+---
+version: v2.0.0
+updated: 2026-02-12
+---
 
-> **版本**: v2.0.0
+# sop-tdd-workflow (default pack)
 
 ## 侧重点
 
@@ -10,4 +13,3 @@
 ## 输出风格（固定）
 
 - 必须输出：启用条件、叠加调用链、验收门禁、落盘路径
-

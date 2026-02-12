@@ -1,6 +1,9 @@
-# Prompt Pack: default / system
+---
+version: v2.0.0
+updated: 2026-02-12
+---
 
-> **版本**: v2.0.0
+# Prompt Pack: default / system
 
 ## 启用条件
 
