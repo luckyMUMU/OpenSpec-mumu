@@ -1,6 +1,6 @@
 ---
 version: v2.0.0
-updated: 2026-02-11
+updated: 2026-02-12
 artifact: Code Diff
 ---
 
@@ -18,6 +18,7 @@ artifact: Code Diff
 - 状态/命令：`05_constraints/state_dictionary.md`、`05_constraints/command_dictionary.md`
 - 安全与供应链红线：`05_constraints/security_supply_chain.md`
 - 分层验收标准：`05_constraints/acceptance_criteria.md`
+- 编码原则：`05_constraints/coding_principles.md`
 
 ## 严重等级与通过规则
 
@@ -33,6 +34,7 @@ artifact: Code Diff
 - 测试与验收：必要层级测试已补齐，且审查范围内可证明可运行
 - 安全与供应链：不引入密钥泄露/权限扩大/未校验输入/危险依赖等红线问题
 - 回归风险：变更影响面可解释，关键行为变更有测试/验收覆盖
+- 抽象层级一致性：同一方法内调用应处于统一抽象层；对表操作优先复用 CRUD/Repository/DAO，避免业务方法混写持久化细节
 
 ## 推荐项（Soft requirements）
 

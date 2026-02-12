@@ -18,6 +18,7 @@ updated: 2026-02-12
 | 文档 | 说明 | 适用对象 |
 |------|------|----------|
 | [禁止项矩阵](constraint_matrix.md) | 完整的黑白名单定义，包含 Skill、阶段、文件类型的禁止项 | 所有 Skill |
+| [编码原则](coding_principles.md) | 六大设计原则 + 方法逻辑层级一致性 + CRUD 分层复用 | sop-code-implementation / sop-code-review |
 | [状态字典](state_dictionary.md) | 状态标记的唯一来源（停止点/目录状态/熔断状态） | 所有 Skill |
 | [安全与供应链红线](security_supply_chain.md) | 安全边界与依赖治理的硬性要求 | 所有 Skill |
 
