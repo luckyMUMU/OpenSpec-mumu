@@ -61,6 +61,11 @@ CMD: `DOC_SYNC(scope) -> [已完成]`
 - 状态：`[已完成]`
 - 模板：04_reference/interaction_formats/worker_execution_result.md
 
+## Stop Points
+
+- `[WAITING_FOR_CODE_REVIEW]`: 代码变更已就绪，等待 `sop-code-review`
+- `[USER_DECISION]`: 无法证明无行为变化或发现跨文件/跨目录影响（必须升级到 deep path）
+
 ## Constraints
 
 - Single file only

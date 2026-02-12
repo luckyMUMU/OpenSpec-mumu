@@ -70,6 +70,11 @@ Rounds: core → clarify → confirm
 - Stop: `[WAITING_FOR_REQUIREMENTS]`
 - CMD: `REQ_ANALYZE(input)`
 
+## Stop Points
+
+- `[WAITING_FOR_REQUIREMENTS]`: 需求已落盘，等待确认
+- `[USER_DECISION]`: 关键需求冲突不可消解或缺口影响后续设计/实现
+
 ## Constraints
 
 - Must have multi-round dialogue

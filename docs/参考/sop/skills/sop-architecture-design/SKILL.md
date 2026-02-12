@@ -96,6 +96,11 @@ ADR 触发规则（任一满足即需要 ADR）：技术选型 / 架构模式 / 
 - Stop: `[WAITING_FOR_ARCHITECTURE]`
 - CMD: `ARCH_DESIGN(prd)`
 
+## Stop Points
+
+- `[WAITING_FOR_ARCHITECTURE]`: 架构设计已落盘，等待确认或进入审查
+- `[USER_DECISION]`: 关键技术选型/约束依据不足或冲突不可消解
+
 ## Constraints
 
 - Technology-agnostic

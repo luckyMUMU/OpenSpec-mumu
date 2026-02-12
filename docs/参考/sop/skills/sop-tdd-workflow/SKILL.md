@@ -18,6 +18,12 @@ updated: 2026-02-12
 - 仅当深度路径且要求高覆盖/复杂逻辑时 → 允许启用本 Skill
 - 仅当测试资产隔离规则无法满足或输入缺口影响测试生成时 → 必须进入 `[USER_DECISION]`
 
+## 输入
+
+- deep path 调用链（或当前任务上下文）
+- L2/L3 设计依据（`.md` / `design.md`）
+- 分层验收门禁：`05_constraints/acceptance_criteria.md`
+
 ## 概述
 
 TDD（测试驱动开发）作为深度路径的可选增强：在编码前先落盘测试用例与测试代码，以保证测试覆盖设计场景。
@@ -132,6 +138,20 @@ L2原子操作 ←→ CSV测试用例 ←→ 测试代码
 - TDD 路径下的关键产物（CSV测试用例/测试代码/审查报告）必须包含“来源与依赖声明”（标准：04_reference/review_standards/source_dependency.standard.md），并优先用 `TRACE_SOURCES(inputs)` 固化
 - 当关键来源/依赖缺口无法消解时，必须进入 `[USER_DECISION]`，并使用 `RECORD_DECISION(topic, decision)` 落盘决策记录
 
+## Workflow Steps
+
+### Step 1: Test Design (CSV)
+
+CMD: `TEST_DESIGN_CSV(design) -> [WAITING_FOR_TEST_DESIGN]`
+
+### Step 2: Test Implementation
+
+CMD: `TEST_IMPLEMENT(test_design) -> [WAITING_FOR_TEST_IMPLEMENTATION]`
+
+### Step 3: Run Acceptance & Fix
+
+CMD: `RUN_ACCEPTANCE(level) -> [WAITING_FOR_Lx_REVIEW]`
+
 ## 停止点
 
 | 标记 | 触发 | 等待 |
@@ -161,3 +181,14 @@ L2原子操作 ←→ CSV测试用例 ←→ 测试代码
 ## 模板
 
 - [测试用例CSV模板](../../04_reference/document_templates/test_cases.csv)
+
+## 输出
+
+- 交付物：测试用例 CSV + 测试代码 + 运行/验收证据
+- 状态：`[WAITING_FOR_TEST_DESIGN]` / `[WAITING_FOR_TEST_IMPLEMENTATION]` / `[WAITING_FOR_Lx_REVIEW]`
+
+## 约束
+
+- 测试资产隔离：CSV 仅 `sop-test-design-csv` 可写；测试代码仅 `sop-test-implementation` 可写
+- 测试用例来源：仅基于设计，不从代码倒推
+- 目录边界与状态引用：以 `05_constraints/*_dictionary.md` 为准

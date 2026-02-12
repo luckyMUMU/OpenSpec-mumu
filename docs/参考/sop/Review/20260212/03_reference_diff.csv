@@ -1,0 +1,10 @@
+source,ref,target,result,fix
+sop_GUIDE.md,sop/02_skill_matrix/index.md,sop/02_skill_matrix/index.md,OK,
+sop_GUIDE.md,sop/04_reference/index.md,sop/04_reference/index.md,OK,
+sop_GUIDE.md,sop/04_reference/interaction_formats/continuation_request.md,sop/04_reference/interaction_formats/continuation_request.md,OK,
+sop_GUIDE.md,sop/04_reference/interaction_formats/manual_mode_templates.md,sop/04_reference/interaction_formats/manual_mode_templates.md,OK,
+sop_GUIDE.md,sop/04_reference/prompt_pack.standard.md,sop/04_reference/prompt_pack.standard.md,OK,
+sop_GUIDE.md,sop/04_reference/review_standards/context_handoff.standard.md,sop/04_reference/review_standards/context_handoff.standard.md,OK,
+sop_GUIDE.md,sop/05_constraints/command_dictionary.md,sop/05_constraints/command_dictionary.md,OK,
+sop_GUIDE.md,sop/05_constraints/constraint_matrix.md,sop/05_constraints/constraint_matrix.md,OK,
+sop_GUIDE.md,sop/05_constraints/state_dictionary.md,sop/05_constraints/state_dictionary.md,OK,

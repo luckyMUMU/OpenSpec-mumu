@@ -100,6 +100,16 @@ CMD: `DOC_SYNC(scope) -> [已完成]`
 - 产物：PRD / L2 / design.md / code / indexes
 - 参考：05_constraints/command_dictionary.md
 
+## Stop Points
+
+- `[WAITING_FOR_REQUIREMENTS]`: 需求文档已落盘，等待确认
+- `[WAITING_FOR_ARCHITECTURE]`: 架构设计已落盘，等待确认/进入审查
+- `[ARCHITECTURE_PASSED]`: 架构审查通过，可进入实现设计
+- `[WAITING_FOR_DESIGN]`: 目录级实现设计已落盘，等待确认
+- `[SCHEDULING]`: 目录调度计划已生成，等待启动批次
+- `[WAITING_FOR_CODE_REVIEW]`: 代码变更已就绪，等待代码审查
+- `[USER_DECISION]`: 输入不足/冲突/依赖缺口影响后续阶段，必须中断等待决策
+
 ## Constraints
 
 - Must follow all stages
