@@ -74,7 +74,7 @@ scope: docs/参考/sop
 
 | CMD | 主体（Skill/用户） | args | out | pre | post |
 |---|---|---|---|---|---|
-| `CODE_REVIEW(diff, design_refs)` | sop-code-review | diff, refs(L2/L3/tests) | review_report | `[WAITING_FOR_CODE_REVIEW]` / `[WAITING_FOR_TEST_IMPLEMENTATION]` | `Diff展示(通过) / [DIR_WORKING](需修改) / [USER_DECISION](僵局或>=3轮)` |
+| `CODE_REVIEW(diff, design_refs)` | sop-code-review | diff, refs(L2/L3/tests) | review_report | `[WAITING_FOR_CODE_REVIEW]` / `[WAITING_FOR_TEST_IMPLEMENTATION]` | `Diff展示(通过) / [DIR_WORKING]（需修改） / [USER_DECISION]（僵局或>=3轮）` |
 
 ### 测试（分层验收 / 可选 TDD）
 

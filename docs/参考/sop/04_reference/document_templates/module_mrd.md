@@ -21,7 +21,7 @@ updated: 2026-02-12
 [一句话描述这个模块是什么]
 
 ### 1.2 所属项目
-👉 [项目PRD](../project_prd.md)
+👉 项目PRD：`docs/01_requirements/project_prd.md`
 
 ### 1.3 模块目标
 [这个模块解决什么问题？]
@@ -38,8 +38,8 @@ updated: 2026-02-12
 ### 2.1 功能列表
 | 功能 | 描述 | 优先级 | 链接 |
 |------|------|--------|------|
-| [功能A] | [描述] | P0 | [FRD](./[module]/[feature]_frd.md) |
-| [功能B] | [描述] | P1 | [FRD](./[module]/[feature]_frd.md) |
+| [功能A] | [描述] | P0 | `docs/01_requirements/modules/[module]/[feature]_frd.md` |
+| [功能B] | [描述] | P1 | `docs/01_requirements/modules/[module]/[feature]_frd.md` |
 
 ### 2.2 功能依赖图
 ```

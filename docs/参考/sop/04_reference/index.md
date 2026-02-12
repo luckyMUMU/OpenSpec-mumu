@@ -7,7 +7,7 @@ updated: 2026-02-12
 
 ## 渐进式披露层级 (L1-L4)
 
-参见 [document_directory_mapping.md](file:///d:/Code/AI/OpenSpec-mumu/docs/%E5%8F%82%E8%80%83/sop/04_reference/document_directory_mapping.md)（逻辑目录 → 项目实际目录映射）。
+参见 [document_directory_mapping.md](document_directory_mapping.md)（逻辑目录 → 项目实际目录映射）。
 
 | 层级 | 目录 | 内容 | 格式 | 创建者 |
 |------|------|------|------|--------|

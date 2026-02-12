@@ -3,10 +3,8 @@ version: v2.0.0
 updated: 2026-02-12
 ---
 
-# Prompt Pack: default / system
-
+# Prompt Pack: default/system
 ## 启用条件
-
 - 仅当用户请求包含 `ultrawork` 或明确要求“全自动/持续执行直到完成”时 → 允许按 `01_operator.md` 的编排连续调用多个 Skill。
 - 否则 → 每次仅执行一个 Skill，并在输出中给出下一步可调用的 Skill。
 

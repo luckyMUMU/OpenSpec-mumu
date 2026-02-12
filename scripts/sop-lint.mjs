@@ -8,6 +8,10 @@ import url from 'url';
 const REPO_ROOT = path.resolve(path.dirname(url.fileURLToPath(import.meta.url)), '..');
 const SOP_ROOT = path.join(REPO_ROOT, 'docs', '参考', 'sop');
 
+function toGlobPattern(p) {
+  return String(p).replaceAll('\\', '/');
+}
+
 /**
  * @param {string} filePath
  * @returns {string}
@@ -40,8 +44,9 @@ function toMajorMinor(version) {
  */
 function parseChangelogCurrentVersion(changelogText) {
   const m = changelogText.match(/^\s*>\s*\*\*当前版本\*\*:\s*(v\d+\.\d+\.\d+)/m);
-  if (!m) fatal('CHANGELOG.md missing current version line');
-  return { full: m[1], majorMinor: toMajorMinor(m[1]) };
+  const v = m?.[1] ?? parseDeclaredVersion(changelogText);
+  if (!v) fatal('CHANGELOG.md missing current version line');
+  return { full: v, majorMinor: toMajorMinor(v) };
 }
 
 /**
@@ -61,13 +66,40 @@ function parseDeclaredVersion(fileText) {
 }
 
 /**
+ * Ensures prompt pack markdown files have version+updated in YAML frontmatter.
+ *
+ * @returns {Promise<string[]>}
+ */
+async function lintPromptPackMetadata() {
+  const errors = [];
+  const promptPackFiles = await fg(
+    [
+      toGlobPattern(path.join(SOP_ROOT, 'prompts', 'packs', '**', '00_system.md')),
+      toGlobPattern(path.join(SOP_ROOT, 'prompts', 'packs', '**', '01_operator.md')),
+      toGlobPattern(path.join(SOP_ROOT, 'prompts', 'packs', '**', 'skills', '*.md')),
+    ],
+    { onlyFiles: true },
+  );
+
+  for (const filePath of promptPackFiles) {
+    const text = readText(filePath);
+    const version = parseDeclaredVersion(text);
+    const hasUpdated = /^\s*updated:\s*\d{4}-\d{2}-\d{2}\s*$/m.test(text);
+    if (!version) errors.push(`${path.relative(REPO_ROOT, filePath)}: missing version`);
+    if (!hasUpdated) errors.push(`${path.relative(REPO_ROOT, filePath)}: missing updated`);
+  }
+
+  return errors;
+}
+
+/**
  * @returns {Promise<string[]>}
  */
 async function listSopMarkdownFiles() {
-  const patterns = [path.join(SOP_ROOT, '**', '*.md')];
+  const patterns = [toGlobPattern(path.join(SOP_ROOT, '**', '*.md'))];
   const ignore = [
-    path.join(SOP_ROOT, 'reviews', '**'),
-    path.join(SOP_ROOT, 'SOP_REVIEW_REPORT.md'),
+    toGlobPattern(path.join(SOP_ROOT, 'reviews', '**')),
+    toGlobPattern(path.join(SOP_ROOT, 'SOP_REVIEW_REPORT.md')),
   ];
   return fg(patterns, { ignore, dot: true, onlyFiles: true });
 }
@@ -125,16 +157,15 @@ function lintStaleCurrentVersionSections(mdFiles) {
 }
 
 /**
- * Ensures prompts and skills require TRACE_SOURCES and RECORD_DECISION.
+ * Ensures skills require TRACE_SOURCES and RECORD_DECISION.
  *
  * @returns {Promise<string[]>}
  */
 async function lintTraceSourcesRequirements() {
   const errors = [];
-  const promptFiles = await fg([path.join(SOP_ROOT, 'prompts', '*.md')], { onlyFiles: true });
-  const skillFiles = await fg([path.join(SOP_ROOT, 'skills', '*', 'SKILL.md')], { onlyFiles: true });
+  const skillFiles = await fg([toGlobPattern(path.join(SOP_ROOT, 'skills', '*', 'SKILL.md'))], { onlyFiles: true });
 
-  for (const filePath of [...promptFiles, ...skillFiles]) {
+  for (const filePath of skillFiles) {
     const text = readText(filePath);
     if (!text.includes('TRACE_SOURCES(')) errors.push(`${path.relative(REPO_ROOT, filePath)}: missing TRACE_SOURCES(`);
     if (!text.includes('RECORD_DECISION(')) errors.push(`${path.relative(REPO_ROOT, filePath)}: missing RECORD_DECISION(`);
@@ -178,6 +209,7 @@ async function main() {
   const mdFiles = await listSopMarkdownFiles();
   const errors = [];
 
+  errors.push(...(await lintPromptPackMetadata()));
   errors.push(...lintDeclaredVersions(mdFiles, baseline));
   errors.push(...lintStaleCurrentVersionSections(mdFiles));
   errors.push(...(await lintTraceSourcesRequirements()));

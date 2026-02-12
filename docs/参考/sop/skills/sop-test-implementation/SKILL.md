@@ -22,6 +22,7 @@ updated: 2026-02-12
 
 ### Step 1: Validate CSV Contract
 
+- CMD: `TRACE_SOURCES(inputs) -> source_dependency_block`
 - 必须校验 CSV 是否满足模板字段（参见 `04_reference/interaction_formats/test_case_csv.md`）
 - 仅当字段缺失/冲突 → 必须进入 `[USER_DECISION]`
 
@@ -38,7 +39,7 @@ updated: 2026-02-12
 ## 来源与依赖准则
 
 - 测试代码产出必须声明来源与依赖（CSV/设计依据/验收门禁）
-- 当依据缺失或冲突无法消解时 → 必须进入 `[USER_DECISION]` 并落盘决策记录
+- 当依据缺失或冲突无法消解时 → 必须进入 `[USER_DECISION]` 并使用 `RECORD_DECISION(topic, decision)` 落盘决策记录
 
 ## Output
 

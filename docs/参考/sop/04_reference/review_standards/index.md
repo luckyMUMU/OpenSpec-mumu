@@ -1,6 +1,6 @@
 ---
 version: v2.0.0
-updated: 2026-02-11
+updated: 2026-02-12
 ---
 
 # 审查规范（Review Standards）
@@ -27,17 +27,17 @@ updated: 2026-02-11
 
 ## 标准清单
 
-- L2 架构审查标准：`architecture_design.standard.md`
-- L3 实现设计审查标准：`implementation_design.standard.md`
-- ADR 审查标准：`adr.standard.md`
-- 来源与依赖合规标准：`source_dependency.standard.md`
-- 代码 Diff 审查标准：`code_diff.standard.md`
-- 测试设计审查标准：`test_design.standard.md`
-- 测试代码审查标准：`test_code.standard.md`
-- 审查报告质量标准：`review_report.standard.md`
+- L2 架构审查标准：[architecture_design.standard.md](architecture_design.standard.md)
+- L3 实现设计审查标准：[implementation_design.standard.md](implementation_design.standard.md)
+- ADR 审查标准：[adr.standard.md](adr.standard.md)
+- 来源与依赖合规标准：[source_dependency.standard.md](source_dependency.standard.md)
+- 代码 Diff 审查标准：[code_diff.standard.md](code_diff.standard.md)
+- 测试设计审查标准：[test_design.standard.md](test_design.standard.md)
+- 测试代码审查标准：[test_code.standard.md](test_code.standard.md)
+- 审查报告质量标准：[review_report.standard.md](review_report.standard.md)
 
 ## 项目可配置（Profile）
 
-- 模板：`_project_profile.md`
+- 模板：[_project_profile.md](_project_profile.md)
 - 建议位置：`profiles/<project>.md`
 - 规则：Profile 只能覆写标准文件中声明的“项目可配置项（Project knobs）”；禁止在 Profile 内重写标准全文。

@@ -110,7 +110,7 @@ sop-requirement-analyst
 - **类型**: 接口变更/行为变更/依赖变更
 - **描述**: ...
 - **影响**: ...
-- **状态**: [WAITING_FOR_WORK]
+- **状态**: [WAITING_FOR_WORKER]
 ```
 
 ---

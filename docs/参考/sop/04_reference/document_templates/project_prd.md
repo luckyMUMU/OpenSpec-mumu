@@ -65,8 +65,8 @@ updated: 2026-02-12
 ### 4.1 模块清单
 | 模块 | 描述 | 优先级 | 链接 |
 |------|------|--------|------|
-| [模块A] | [描述] | P0 | [MRD](./modules/[module]_mrd.md) |
-| [模块B] | [描述] | P1 | [MRD](./modules/[module]_mrd.md) |
+| [模块A] | [描述] | P0 | `docs/01_requirements/modules/[module]_mrd.md` |
+| [模块B] | [描述] | P1 | `docs/01_requirements/modules/[module]_mrd.md` |
 
 ### 4.2 模块关系图
 ```

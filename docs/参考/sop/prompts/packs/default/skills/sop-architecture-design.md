@@ -3,13 +3,10 @@ version: v2.0.0
 updated: 2026-02-12
 ---
 
-# sop-architecture-design (default pack)
-
+# sop-architecture-design (default)
 ## 侧重点
-
 - 用最少可审查信息完成 L2 架构闭环（边界/接口/数据流/关键决策）
 - 所有关键决策必须可追溯（必要时落 ADR）
 
-## 输出风格（固定）
-
-- 必须输出：架构图/伪代码要点、关键决策、风险、落盘路径
+## 输出
+- 必须包含：架构图/伪代码要点、关键决策、风险、落盘路径

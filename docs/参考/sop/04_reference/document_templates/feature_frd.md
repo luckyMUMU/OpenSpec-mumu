@@ -21,7 +21,7 @@ updated: 2026-02-12
 [一句话描述这个功能是什么]
 
 ### 1.2 所属模块
-👉 [模块MRD](../../[module]_mrd.md)
+👉 模块MRD：`docs/01_requirements/modules/[module]_mrd.md`
 
 ### 1.3 功能目标
 [这个功能解决什么问题？]
@@ -64,13 +64,13 @@ updated: 2026-02-12
 ## 3. 界面原型 (UI项目)
 
 ### 3.1 线框图
-👉 [线框图](../../prototypes/[module]/[feature]_wireframe.drawio)
+👉 线框图：`docs/01_requirements/prototypes/[module]/[feature]_wireframe.drawio`
 
 ### 3.2 高保真原型
-👉 [高保真原型](../../prototypes/[module]/[feature]_mockup.fig)
+👉 高保真原型：`docs/01_requirements/prototypes/[module]/[feature]_mockup.fig`
 
 ### 3.3 交互说明
-👉 [交互说明](../../prototypes/[module]/[feature]_interaction.md)
+👉 交互说明：`docs/01_requirements/prototypes/[module]/[feature]_interaction.md`
 
 ### 3.4 界面元素清单
 | 元素 | 类型 | 说明 | 校验规则 |

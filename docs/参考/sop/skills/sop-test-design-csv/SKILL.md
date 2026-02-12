@@ -39,7 +39,7 @@ CMD: `TRACE_SOURCES(inputs) -> source_dependency_block`
 ## 来源与依赖准则
 
 - CSV 必须包含“来源与依赖声明”（标准：`04_reference/review_standards/source_dependency.standard.md`）
-- 当依据缺失或冲突无法消解时 → 必须进入 `[USER_DECISION]` 并落盘决策记录
+- 当依据缺失或冲突无法消解时 → 必须进入 `[USER_DECISION]` 并使用 `RECORD_DECISION(topic, decision)` 落盘决策记录
 
 ## Output
 
