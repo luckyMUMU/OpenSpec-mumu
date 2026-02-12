@@ -27,5 +27,5 @@ artifact: Quality Gate
 
 ```
 ✓ docs/参考/sop link graph > has no missing internal link targets
-✓ docs/参考/sop link graph > keeps max shortest-link depth <= 3 from LLM_INDEX.md
+✓ docs/参考/sop link graph > keeps max shortest-link depth <= 3 from AGENT_SOP.md (v2.1.0 合并原 LLM_INDEX.md)
 ```

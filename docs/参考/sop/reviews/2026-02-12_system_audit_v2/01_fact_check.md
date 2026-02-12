@@ -15,7 +15,7 @@ artifact: Fact Check
 
 ## 已修复的闭环问题（可发现性）
 
-- 增加单入口：新增 `LLM_INDEX.md`，用于单入口分诊与渐进式披露。
+- 增加单入口：新增 `LLM_INDEX.md`，用于单入口分诊与渐进式披露。（v2.1.0 已合并至 `AGENT_SOP.md`）
 - 增加模块索引：补齐 `skills/index.md`、`prompts/packs/default/index.md`、`reviews/index.md` 与各 review 目录索引，避免“存在但不可发现”。
 - 审查标准可达性：`review_standards/index.md` 的“标准清单”由纯文本改为可点击链接。
 

@@ -1,7 +1,7 @@
 ---
 name: "sop-document-sync"
-description: "Document synchronization workflow for index updates and progressive disclosure. Invoke when documents need synchronization or status updates."
-version: v2.0.0
+description: "Document synchronization workflow for index updates, progressive disclosure, and task archiving. Invoke when documents need synchronization, status updates, or task archiving."
+version: v2.1.0
 updated: 2026-02-12
 ---
 
@@ -58,6 +58,29 @@ updated: 2026-02-12
 1. Validate links
 2. Check structure
 3. Verify format
+
+### Step 5: Task Archive
+
+**Purpose**: Archive completed tasks when directory is completed
+
+**触发条件**: 目录状态从 `[DIR_WORKING]` 变为 `[DIR_COMPLETED]`
+
+**Actions**:
+1. Read design.md in completed directory
+2. Identify tasks with status `[x]` (completed)
+3. Move completed tasks to "归档任务" section in design.md
+4. Update archive metadata (date, reason: "目录归档同步")
+5. Clear completed tasks from "活跃任务" section
+6. Update document index
+
+CMD: `TASK_ARCHIVE(dir) -> archived_tasks`
+
+**归档规则**:
+| 规则 | 说明 |
+|------|------|
+| 仅归档已完成任务 | 状态为 `[x]` 的任务移入归档 |
+| 保留未完成任务 | 状态为 `[ ]`、`[-]`、`[!]` 的任务保留在活跃清单 |
+| 记录归档元数据 | 归档日期、归档原因（目录归档同步） |
 
 ## 来源与依赖准则
 

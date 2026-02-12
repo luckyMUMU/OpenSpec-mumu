@@ -1,5 +1,5 @@
 ---
-version: v2.0.0
+version: v2.1.0
 updated: 2026-02-12
 scope: docs/参考/sop
 ---
@@ -99,3 +99,13 @@ scope: docs/参考/sop
 | `STRIKE(record)` | sop-progress-supervisor | failure | strike_count | - | - |
 | `FUSE(reason)` | sop-progress-supervisor | reason | report | - | `[FUSION_TRIGGERED]` |
 | `ASK_USER_DECISION(topic, options)` | 任意→用户 | topic, options | decision | `[USER_DECISION]` | - |
+
+### 任务管理
+
+| CMD | 主体（Skill/用户） | args | out | pre | post |
+|---|---|---|---|---|---|
+| `TASK_START(task_id)` | sop-code-implementation | task_id | task_status | - | `[-]` (进行中) |
+| `TASK_COMPLETE(task_id)` | sop-code-implementation | task_id | task_status | 验证通过 | `[x]` (已完成) |
+| `TASK_BLOCK(task_id, reason)` | sop-code-implementation | task_id, reason | task_status | - | `[!]` (已阻塞) |
+| `TASK_UNBLOCK(task_id)` | sop-code-implementation | task_id | task_status | 依赖解决 | `[-]` (进行中) |
+| `TASK_ARCHIVE(dir)` | sop-document-sync | dir | archived_tasks | `[DIR_COMPLETED]` | 归档清单更新 |

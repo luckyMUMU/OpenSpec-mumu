@@ -1,5 +1,5 @@
 ---
-version: v2.0.0
+version: v2.1.0
 updated: 2026-02-12
 ---
 
@@ -125,6 +125,28 @@ updated: 2026-02-12
 | 状态 | 触发者 | 含义 | 恢复条件 |
 |------|--------|------|----------|
 | `[FUSION_TRIGGERED]` | sop-progress-supervisor | 连续失败触发熔断，停止执行 | 用户决策 + 方案调整 + 重置计数器 |
+
+---
+
+## 任务状态（Task States）
+
+| 状态 | 标记 | 触发者 | 含义 | 继续条件 |
+|------|------|--------|------|----------|
+| `[TASK_PENDING]` | `[ ]` | sop-implementation-designer | 任务待处理 | 任务开始 |
+| `[TASK_IN_PROGRESS]` | `[-]` | sop-code-implementation | 任务执行中 | 任务完成或阻塞 |
+| `[TASK_COMPLETED]` | `[x]` | sop-code-implementation | 任务已完成 | 自动进入下一任务或归档 |
+| `[TASK_BLOCKED]` | `[!]` | sop-code-implementation | 任务被阻塞 | 依赖解决后手动解除 |
+| `[TASK_ARCHIVED]` | `[archived]` | sop-document-sync | 任务已归档 | - |
+
+### 任务状态转移
+
+```
+[TASK_PENDING] → TASK_START() → [TASK_IN_PROGRESS]
+[TASK_IN_PROGRESS] → TASK_COMPLETE() → [TASK_COMPLETED]
+[TASK_IN_PROGRESS] → TASK_BLOCK() → [TASK_BLOCKED]
+[TASK_BLOCKED] → TASK_UNBLOCK() → [TASK_IN_PROGRESS]
+[TASK_COMPLETED] → TASK_ARCHIVE() → [TASK_ARCHIVED]
+```
 
 ---
 

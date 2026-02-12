@@ -1,9 +1,15 @@
 ---
-version: v2.0.0
+version: v2.1.0
 updated: 2026-02-12
 ---
 
 # SOP for Human（Skill-first 人类阅读版）
+
+> **⚠️ 仅供参考**
+> 
+> 本文档为人类用户提供叙述化的 SOP 说明，便于理解体系设计。
+> 
+> **执行入口**：AI Agent 执行任务时，请使用 [AGENT_SOP.md](AGENT_SOP.md) 作为唯一入口。
 
 ---
 

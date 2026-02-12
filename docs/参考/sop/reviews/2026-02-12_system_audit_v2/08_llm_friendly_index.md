@@ -8,7 +8,7 @@ artifact: LLM Friendly Index
 
 ## 单入口
 
-- 入口文件：[LLM_INDEX.md](../../LLM_INDEX.md)
+- 入口文件：[AGENT_SOP.md](../../AGENT_SOP.md)（v2.1.0 合并原 LLM_INDEX.md）
 
 ## 设计要点
 

@@ -1,5 +1,5 @@
 ---
-version: v2.0.0
+version: v2.1.0
 updated: 2026-02-12
 ---
 
@@ -22,6 +22,32 @@ v[主版本].[次版本].[修订版本]
 ---
 
 ## 版本历史
+
+### v2.1.0 (2026-02-12)
+
+**入口统一与任务管理增强** - 合并入口文档，增强 design.md 任务管理能力
+
+#### 关键变更
+
+- **入口统一**：合并 `LLM_INDEX.md` 到 `AGENT_SOP.md` 作为唯一入口
+- **角色定位**：`sop_for_human.md` 标记为仅供参考
+- **任务状态管理**：新增任务状态（待处理/进行中/已完成/已阻塞/已归档）
+- **任务命令**：新增 `TASK_START`、`TASK_COMPLETE`、`TASK_BLOCK`、`TASK_ARCHIVE` 命令
+- **归档机制**：`sop-document-sync` 支持目录归档时自动清除已完成任务
+
+#### 主要更新文件
+
+- 入口：`AGENT_SOP.md`（合并原 `LLM_INDEX.md`）
+- 模板：`04_reference/document_templates/implementation_design.md`
+- 状态字典：`05_constraints/state_dictionary.md`
+- 命令字典：`05_constraints/command_dictionary.md`
+- Skill合约：`skills/sop-document-sync/SKILL.md`
+
+#### 删除文件
+
+- `LLM_INDEX.md`（已合并至 `AGENT_SOP.md`）
+
+---
 
 ### v2.0.0 (2026-02-12)
 

@@ -10,7 +10,7 @@ artifact: System Audit v2
 
 - 根目录：`docs/参考/sop/`
 - 文件类型：`.md`（当前目录内未发现 `.txt/.json`）
-- 入口定义（单一入口）：`LLM_INDEX.md`
+- 入口定义（单一入口）：`AGENT_SOP.md`（v2.1.0 合并原 LLM_INDEX.md）
 - 深度约束：从入口出发的最短引用跳数 ≤3
 
 ## 审查维度
