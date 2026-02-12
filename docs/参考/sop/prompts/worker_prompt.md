@@ -287,6 +287,7 @@ go test ./tests/acceptance/l4/ -v
 
 - 模板：04_reference/interaction_formats/worker_execution_result.md
 - CMD: `IMPLEMENT(dir, design)`
+- SSOT: 05_constraints/state_dictionary.md + 05_constraints/command_dictionary.md
 - 目录策略：04_reference/design_directory_strategy.md
 
 ## 当前任务

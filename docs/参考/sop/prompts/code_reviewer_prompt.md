@@ -68,6 +68,7 @@
 
 - 模板：04_reference/interaction_formats/code_review.md
 - CMD: `CODE_REVIEW(diff, design_refs)`（pre: `[WAITING_FOR_CODE_REVIEW]`）
+- SSOT: 05_constraints/state_dictionary.md + 05_constraints/command_dictionary.md
 - 审查标准：
   - 04_reference/review_standards/code_diff.standard.md
   - 04_reference/review_standards/test_code.standard.md

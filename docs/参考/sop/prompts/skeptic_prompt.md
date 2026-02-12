@@ -69,6 +69,7 @@
 
 - 模板：04_reference/interaction_formats/design_review.md
 - CMD: `ARCH_REVIEW(l2)`
+- SSOT: 05_constraints/state_dictionary.md + 05_constraints/command_dictionary.md
 - 审查标准：
   - 04_reference/review_standards/architecture_design.standard.md
   - 04_reference/review_standards/source_dependency.standard.md

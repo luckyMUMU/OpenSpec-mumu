@@ -227,6 +227,7 @@ ID,模块,功能点,...
 - 位置：`docs/03_technical_spec/test_cases/{{module}}_test_cases.csv`
 - Stop: `[WAITING_FOR_TEST_DESIGN]`
 - CMD: `TEST_DESIGN(design)`
+- SSOT: 05_constraints/state_dictionary.md + 05_constraints/command_dictionary.md
 
 ## 当前任务
 

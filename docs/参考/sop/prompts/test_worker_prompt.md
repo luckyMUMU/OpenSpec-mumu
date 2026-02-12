@@ -229,6 +229,7 @@ def test_TC001_normal_flow():
 - 位置：`tests/acceptance/[l1-l4]/{{module}}.[ext]`（建议；具体以项目为准）
 - CSV 规范：04_reference/interaction_formats/test_case_csv.md
 - CMD: `TEST_IMPLEMENT(test_design)`
+- SSOT: 05_constraints/state_dictionary.md + 05_constraints/command_dictionary.md
 
 ## 当前任务
 

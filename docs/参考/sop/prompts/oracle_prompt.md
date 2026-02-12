@@ -164,6 +164,7 @@ END FUNCTION
 - 目录策略：04_reference/design_directory_strategy.md
 - Stop: `[WAITING_FOR_DESIGN]`
 - CMD: `IMPL_DESIGN(l2, dir)`
+- SSOT: 05_constraints/state_dictionary.md + 05_constraints/command_dictionary.md
 
 ## 当前任务
 
