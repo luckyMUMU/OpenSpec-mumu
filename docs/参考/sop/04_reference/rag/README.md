@@ -127,11 +127,11 @@ rag/
 
 ### 定期审查
 
-| 频率 | 内容 | 负责人 |
+| 频率 | 内容 | 执行 Skill |
 |------|------|--------|
-| 每周 | 检查新增文件 | Librarian |
-| 每月 | 审查文件有效性 | Librarian |
-| 每季度 | 更新项目知识 | Oracle |
+| 每周 | 检查新增文件 | sop-document-sync |
+| 每月 | 审查文件有效性 | sop-document-sync |
+| 每季度 | 更新项目知识 | sop-document-sync |
 
 ### 文件状态
 

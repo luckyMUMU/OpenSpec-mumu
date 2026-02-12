@@ -2,7 +2,7 @@
 
 **层级**: L3 - 技术规格  
 **位置**: `src/**/design.md` 或 `docs/03_technical_spec/[module].md`  
-**创建者**: Oracle  
+**创建者**: sop-implementation-designer  
 **规范**: 将L2伪代码映射为具体技术实现
 
 ---
@@ -153,7 +153,7 @@ pytest tests/acceptance/l3/ -v
 - [ ] 符合FRD需求
 - [ ] 用户场景覆盖
 
-**审查检查点** (Analyst + Oracle审查):
+**审查检查点** (`sop-code-review` 审查):
 - [ ] 功能实现符合本design.md
 - [ ] 符合对应FRD需求
 - [ ] 用户场景完整覆盖
@@ -171,7 +171,7 @@ pytest tests/acceptance/l4/ -v
 - [ ] 系统性能达标
 - [ ] 架构约束满足
 
-**审查检查点** (Prometheus + Analyst + Oracle审查):
+**审查检查点** (`sop-code-review` 审查):
 - [ ] 符合架构设计文档
 - [ ] 符合本design.md整体设计
 - [ ] 系统级约束满足
@@ -232,11 +232,11 @@ END FUNCTION
 
 ## 与L2/L4的关系
 
-| 层级 | 文件 | 内容 | 创建者 |
+| 层级 | 文件 | 内容 | 产出 Skill |
 |------|------|------|--------|
-| L2 | `.md` | 逻辑工作流 | Prometheus |
-| L3 | `design.md` | 技术规格 | Oracle |
-| L4 | `adr_*.md` | 决策背景 | Prometheus/Oracle |
+| L2 | `.md` | 逻辑工作流 | sop-architecture-design |
+| L3 | `design.md` | 技术规格 | sop-implementation-designer |
+| L4 | `adr_*.md` | 决策背景 | sop-architecture-design / sop-implementation-designer |
 
 👉 L3 必须引用对应的 L2 文档  
 👉 L3 的关键技术决策可记录到 L4 ADR

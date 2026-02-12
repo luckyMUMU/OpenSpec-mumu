@@ -5,7 +5,7 @@ description: "Document synchronization workflow for index updates and progressiv
 
 # Document Synchronization Workflow
 
-> **版本**: v1.5.0
+> **版本**: v2.0.0
 
 **位置**: `sop/skills/sop-document-sync/SKILL.md`
 
@@ -94,21 +94,21 @@ description: "Document synchronization workflow for index updates and progressiv
 
 | Level | Path | Content | Creator |
 |-------|------|---------|---------|
-| L1 | `docs/01_requirements/` | PRD/MRD/FRD/Prototype | Analyst |
-| L2 | `docs/02_logical_workflow/` | Architecture (.md) | Prometheus |
-| L3 | `docs/03_technical_spec/` + `src/**/design.md` | Implementation + Test Cases | Oracle + Tester |
-| L4 | `docs/04_context_reference/` | ADR + Context | Prometheus/Oracle |
+| L1 | `docs/01_requirements/` | PRD/MRD/FRD/Prototype | sop-requirement-analyst |
+| L2 | `docs/02_logical_workflow/` | Architecture (.md) | sop-architecture-design |
+| L3 | `docs/03_technical_spec/` + `src/**/design.md` | Implementation + Test Cases | sop-implementation-designer + sop-test-design-csv |
+| L4 | `docs/04_context_reference/` | ADR + Context | sop-architecture-design / sop-implementation-designer |
 
 ## Document Types
 
 | Type | Location | Creator |
 |------|----------|---------|
-| Project PRD | `docs/01_requirements/project_prd.md` | Analyst |
-| Module MRD | `docs/01_requirements/modules/[module]_mrd.md` | Analyst |
-| Feature FRD | `docs/01_requirements/modules/[module]/[feature]_frd.md` | Analyst |
-| Prototype | `docs/01_requirements/prototypes/[module]/` | Analyst |
-| Architecture | `docs/02_logical_workflow/*.md` | Prometheus |
-| Implementation | `src/**/design.md` | Oracle |
-| Test Cases | `docs/03_technical_spec/test_cases/*.csv` | Tester |
-| Test Code | `tests/*.test.[ext]` | TestWorker |
-| ADR | `docs/04_context_reference/adr_*.md` | Prometheus/Oracle |
+| Project PRD | `docs/01_requirements/project_prd.md` | sop-requirement-analyst |
+| Module MRD | `docs/01_requirements/modules/[module]_mrd.md` | sop-requirement-analyst |
+| Feature FRD | `docs/01_requirements/modules/[module]/[feature]_frd.md` | sop-requirement-analyst |
+| Prototype | `docs/01_requirements/prototypes/[module]/` | sop-requirement-analyst |
+| Architecture | `docs/02_logical_workflow/*.md` | sop-architecture-design |
+| Implementation | `src/**/design.md` | sop-implementation-designer |
+| Test Cases | `docs/03_technical_spec/test_cases/*.csv` | sop-test-design-csv |
+| Test Code | `tests/*.test.[ext]` | sop-test-implementation |
+| ADR | `docs/04_context_reference/adr_*.md` | sop-architecture-design / sop-implementation-designer |

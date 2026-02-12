@@ -5,7 +5,12 @@ description: "Code implementation workflow for physical coding. Invoke when impl
 
 # Code Implementation Workflow
 
-> **版本**: v1.5.0
+> **版本**: v2.0.0
+
+## 触发条件
+
+- 仅当存在已确认的实现设计（design.md）且 Scope 明确时 → 必须调用本 Skill
+- 仅当出现跨目录依赖或 Scope 争议时 → 必须进入 `[DIR_WAITING_DEP]` 或 `[USER_DECISION]`
 
 ## Input
 
@@ -17,7 +22,7 @@ description: "Code implementation workflow for physical coding. Invoke when impl
 
 ### Step 1: Directory Scope Check
 
-**Purpose**: Confirm Worker work boundary
+**Purpose**: Confirm implementation scope boundary
 
 **Actions**:
 1. Read design.md in target directory
@@ -72,8 +77,8 @@ CMD: `REQUEST_CROSS_DIR(src_dir, target_dir, change) -> appended_request`
 **Actions**:
 1. Generate diff for review
 2. Mark `[WAITING_FOR_CODE_REVIEW]`
-3. Wait CodeReviewer review result
-4. If passed: mark `[DIR_COMPLETED]` and notify Supervisor
+3. Wait `sop-code-review` result
+4. If passed: mark `[DIR_COMPLETED]` and notify `sop-progress-supervisor`
 
 ## 来源与依赖准则
 
@@ -102,3 +107,13 @@ CMD: `REQUEST_CROSS_DIR(src_dir, target_dir, change) -> appended_request`
 | 1 | Test/quality fail | Auto-fix |
 | 2 | Fail again | Audit + redesign |
 | 3 | Fail again | **Break**, user decision |
+
+## Stop Points
+
+- `[DIR_WAITING_DEP]`: 发现跨目录依赖且需要调度
+- `[WAITING_FOR_CODE_REVIEW]`: 已产出 Diff，等待 `sop-code-review`
+- `[USER_DECISION]`: 设计依据/依赖缺口无法消解
+
+## Failure Handling
+
+- 当无法在 Scope 内完成设计要求且跨目录依赖无法通过追加“待处理变更”表达时，必须进入 `[USER_DECISION]` 并落盘决策记录

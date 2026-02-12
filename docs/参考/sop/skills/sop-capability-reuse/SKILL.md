@@ -5,7 +5,7 @@ description: "指导AI Agent复用和优化已有能力。Invoke when needing to
 
 # 能力复用与优化
 
-> **版本**: v1.5.0
+> **版本**: v2.0.0
 
 **位置**: `sop/skills/sop-capability-reuse/SKILL.md`
 
@@ -18,7 +18,7 @@ description: "指导AI Agent复用和优化已有能力。Invoke when needing to
 
 **搜索范围**:
 - `sop/skills/`
-- `sop/prompts/`
+- `sop/prompts/packs/`
 - 项目代码库
 
 **检查维度**:
@@ -72,7 +72,7 @@ description: "指导AI Agent复用和优化已有能力。Invoke when needing to
 
 **命名规范**:
 - Skill: `sop-[function]-[action]`
-- Prompt: `[role]_prompt`
+- Prompt Pack 模块: `prompts/packs/<pack>/skills/<skill>.md`
 
 ## Step 4: 清理过时/相似代码
 

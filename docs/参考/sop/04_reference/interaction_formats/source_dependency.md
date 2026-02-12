@@ -1,11 +1,11 @@
 ---
-version: v1.5.0
+version: v2.0.0
 updated: 2026-02-11
 ---
 
 # 来源与依赖声明格式
 
-**使用**: Analyst / Prometheus / Oracle / Tester / Worker / TestWorker / CodeReviewer
+**使用**: 任意 Skill（产出需可追溯时）
 
 ---
 

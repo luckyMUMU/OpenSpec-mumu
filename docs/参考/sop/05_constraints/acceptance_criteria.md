@@ -1,6 +1,6 @@
 # 分层验收标准规范
 
-> **版本**: v1.5.0  
+> **版本**: v2.0.0  
 > **更新日期**: 2026-02-11
 
 ---
@@ -10,32 +10,32 @@
 本文档定义 SOP 流程中的**分层验收标准**，明确 L1-L4 各层级的验收要求、测试充分性标准和审查流程。
 
 **核心原则**:
-- **Tester 设计**: 基于 design.md 设计分层验收测试
-- **TestWorker 实现**: 实现验收测试代码
-- **Worker 运行**: 仅运行测试，不创建测试
+- **sop-test-design-csv 设计**: 基于设计文档设计分层验收测试
+- **sop-test-implementation 实现**: 实现验收测试代码
+- **sop-code-implementation 运行**: 仅运行测试，不创建测试资产
 - **先低后高**: 必须先通过低层级，才能进行高层级
 - **逐层审查**: 每层验收通过后必须审查
 
 ---
 
-## 验收角色分工
+## 验收 Skill 分工
 
-| 角色 | 职责 | 禁止 |
+| Skill | 职责 | 禁止 |
 |------|------|------|
-| **Tester** | 设计分层验收测试（L1-L4） | 实现测试代码、运行测试 |
-| **TestWorker** | 实现验收测试代码 | 设计测试、修改验收标准 |
-| **Worker** | 运行验收测试 | 创建/修改测试、修改验收标准 |
+| **sop-test-design-csv** | 设计分层验收测试（L1-L4） | 实现测试代码、运行测试 |
+| **sop-test-implementation** | 实现验收测试代码 | 修改 CSV、修改验收标准 |
+| **sop-code-implementation** | 运行验收测试 | 创建/修改测试资产、修改验收标准 |
 
 ---
 
 ## TDD 路径的测试资产约定
 
 当启用 TDD 深度路径（参见 `skills/sop-tdd-workflow/SKILL.md`）时：
-- **Tester 的测试设计载体**：以 CSV 为准，建议位置 `docs/03_technical_spec/test_cases/*.csv`（参见 04_reference/document_directory_mapping.md）
-- **TestWorker 的测试代码落地**：将 CSV 用例实现为分层验收测试，建议目录 `tests/acceptance/l1-l4/`
-- **Worker 的边界不变**：仅运行测试，不创建/修改测试
+- **sop-test-design-csv 的测试设计载体**：以 CSV 为准，建议位置 `docs/03_technical_spec/test_cases/*.csv`（参见 04_reference/document_directory_mapping.md）
+- **sop-test-implementation 的测试代码落地**：将 CSV 用例实现为分层验收测试，建议目录 `tests/acceptance/l1-l4/`
+- **sop-code-implementation 的边界不变**：仅运行测试，不创建/修改测试资产
 
-当未启用 TDD 路径时：Tester 可继续使用本文档中描述的 `tests/acceptance/l*/[module]_l*_test_design.md` 作为测试设计载体。
+当未启用 TDD 路径时：仍建议优先使用 CSV；如项目已有其他测试设计载体，可在实现设计中明确并保持可复制执行。
 
 ---
 
@@ -43,7 +43,7 @@
 
 ### 命令适配原则
 
-SOP 不绑定具体语言/框架。每个项目应当明确以下“可执行命令契约”，供 Worker 在运行验收时直接使用：
+SOP 不绑定具体语言/框架。每个项目应当明确以下“可执行命令契约”，供 `sop-code-implementation` 在运行验收时直接使用：
 
 | 目标 | 建议提供的命令别名 |
 |------|--------------------|
@@ -70,31 +70,31 @@ SOP 不绑定具体语言/框架。每个项目应当明确以下“可执行命
 
 ### 验收层级概览
 
-| 层级 | 验收对象 | 测试类型 | 设计者 | 实现者 | 运行者 | 审查者 |
+| 层级 | 验收对象 | 测试类型 | 测试设计 Skill | 测试实现 Skill | 运行 Skill | 审查 Skill |
 |------|----------|----------|--------|--------|--------|--------|
-| **L1** | 单元/函数 | 单元测试 | Tester | TestWorker | Worker | Oracle |
-| **L2** | 模块 | 集成测试 | Tester | TestWorker | Worker | Oracle |
-| **L3** | 功能 | 验收测试 | Tester | TestWorker | Worker | Analyst + Oracle |
-| **L4** | 系统 | E2E测试 | Tester | TestWorker | Worker | Prometheus + Analyst + Oracle |
+| **L1** | 单元/函数 | 单元测试 | sop-test-design-csv | sop-test-implementation | sop-code-implementation | sop-code-review |
+| **L2** | 模块 | 集成测试 | sop-test-design-csv | sop-test-implementation | sop-code-implementation | sop-code-review |
+| **L3** | 功能 | 验收测试 | sop-test-design-csv | sop-test-implementation | sop-code-implementation | sop-code-review |
+| **L4** | 系统 | E2E测试 | sop-test-design-csv | sop-test-implementation | sop-code-implementation | sop-code-review |
 
 ### 验收顺序
 
 ```
 L1 (单元测试)
   ↓ 通过
-L1 审查 (Oracle)
+L1 审查 (sop-code-review)
   ↓ 通过
 L2 (模块集成测试)
   ↓ 通过
-L2 审查 (Oracle)
+L2 审查 (sop-code-review)
   ↓ 通过
 L3 (功能验收测试)
   ↓ 通过
-L3 审查 (Analyst + Oracle)
+L3 审查 (sop-code-review)
   ↓ 通过
 L4 (系统E2E测试)
   ↓ 通过
-L4 审查 (Prometheus + Analyst + Oracle)
+L4 审查 (sop-code-review)
   ↓ 通过
 验收完成
 ```
@@ -110,7 +110,7 @@ L4 审查 (Prometheus + Analyst + Oracle)
 - 单个类
 - 独立工具函数
 
-### 测试设计（Tester）
+### 测试设计（sop-test-design-csv）
 
 **设计输出**: `tests/acceptance/l1/[module]_l1_test_design.md`
 
@@ -119,12 +119,12 @@ L4 审查 (Prometheus + Analyst + Oracle)
 - 场景（正向/边界/异常）
 - 标准（覆盖率/通过率）
 
-### 测试实现（TestWorker）
+### 测试实现（sop-test-implementation）
 
 **实现位置**: `tests/acceptance/l1/test_[function].py`
 
 **实现要求**:
-- 基于 Tester 的设计实现
+- 基于 `sop-test-design-csv` 的设计实现
 - 使用标准测试框架（pytest/jest等）
 - 包含所有设计场景
 
@@ -150,7 +150,7 @@ npm run test:l1 -- --coverage
 go test ./tests/acceptance/l1/ -v -cover
 ```
 
-### 审查检查点（Oracle）
+### 审查检查点（sop-code-review）
 
 - [ ] 接口实现符合 design.md 定义
 - [ ] 异常处理完整
@@ -166,7 +166,7 @@ go test ./tests/acceptance/l1/ -v -cover
 - 模块对外接口
 - 模块间依赖（同层）
 
-### 测试设计（Tester）
+### 测试设计（sop-test-design-csv）
 
 **设计输出**: `tests/acceptance/l2/[module]_l2_test_design.md`
 
@@ -175,7 +175,7 @@ go test ./tests/acceptance/l1/ -v -cover
 - 集成场景（组件集成/接口调用）
 - 依赖验证（mock 策略）
 
-### 测试实现（TestWorker）
+### 测试实现（sop-test-implementation）
 
 **实现位置**: `tests/acceptance/l2/test_[module]_integration.py`
 
@@ -201,7 +201,7 @@ npm run test:l2
 go test ./tests/acceptance/l2/ -v
 ```
 
-### 审查检查点（Oracle）
+### 审查检查点（sop-code-review）
 
 - [ ] 模块设计符合 design.md
 - [ ] 模块间依赖正确
@@ -217,7 +217,7 @@ go test ./tests/acceptance/l2/ -v
 - 用户场景
 - 业务规则验证
 
-### 测试设计（Tester）
+### 测试设计（sop-test-design-csv）
 
 **设计输出**: `tests/acceptance/l3/[feature]_l3_test_design.md`
 
@@ -226,7 +226,7 @@ go test ./tests/acceptance/l2/ -v
 - 场景（主/替代/异常）
 - 业务规则（规则清单）
 
-### 测试实现（TestWorker）
+### 测试实现（sop-test-implementation）
 
 **实现位置**: `tests/acceptance/l3/test_[feature].py`
 
@@ -252,7 +252,7 @@ npm run test:l3
 go test ./tests/acceptance/l3/ -v
 ```
 
-### 审查检查点（Analyst + Oracle）
+### 审查检查点（sop-code-review）
 
 - [ ] 功能实现符合 design.md
 - [ ] 符合 FRD 需求
@@ -268,7 +268,7 @@ go test ./tests/acceptance/l3/ -v
 - 系统性能
 - 架构约束验证
 
-### 测试设计（Tester）
+### 测试设计（sop-test-design-csv）
 
 **设计输出**: `tests/acceptance/l4/system_l4_test_design.md`
 
@@ -277,7 +277,7 @@ go test ./tests/acceptance/l3/ -v
 - 场景（E2E/性能/可靠性）
 - 指标/约束（阈值/校验项）
 
-### 测试实现（TestWorker）
+### 测试实现（sop-test-implementation）
 
 **实现位置**: `tests/acceptance/l4/test_system_e2e.py`
 
@@ -307,7 +307,7 @@ go test ./tests/acceptance/l4/ -v
 k6 run performance-tests.js
 ```
 
-### 审查检查点（Prometheus + Analyst + Oracle）
+### 审查检查点（sop-code-review）
 
 - [ ] 符合架构设计文档
 - [ ] 符合 design.md 整体设计
@@ -319,9 +319,9 @@ k6 run performance-tests.js
 
 ## 测试充分性检查
 
-### Worker 运行前检查清单
+### sop-code-implementation 运行前检查清单
 
-Worker 在运行每层验收测试前，必须检查：
+`sop-code-implementation` 在运行每层验收测试前，必须检查：
 
 检查项（每层一致）：测试文件存在 / 测试设计存在 / 测试代码存在 / 覆盖关键场景与指标。
 不充分：中断并标记 `[WAITING_FOR_TEST_CREATION]`（等待用户决策）
@@ -330,15 +330,15 @@ Worker 在运行每层验收测试前，必须检查：
 
 ## 停止点定义
 
-| 停止点 | 触发时机 | 等待内容 | 处理角色 |
+| 停止点 | 触发时机 | 等待内容 | 处理 Skill |
 |--------|----------|----------|----------|
-| `[WAITING_FOR_TEST_DESIGN]` | Tester完成测试设计 | 用户确认测试设计充分 | Tester |
-| `[WAITING_FOR_TEST_IMPLEMENTATION]` | TestWorker完成测试实现 | CodeReviewer审查测试代码充分性与合规性 | CodeReviewer |
-| `[WAITING_FOR_L1_REVIEW]` | L1测试通过后 | Oracle审查 | Oracle |
-| `[WAITING_FOR_L2_REVIEW]` | L2测试通过后 | Oracle审查 | Oracle |
-| `[WAITING_FOR_L3_REVIEW]` | L3测试通过后 | Analyst + Oracle审查 | Analyst, Oracle |
-| `[WAITING_FOR_L4_REVIEW]` | L4测试通过后 | Prometheus + Analyst + Oracle审查 | Prometheus, Analyst, Oracle |
-| `[WAITING_FOR_TEST_CREATION]` | 测试不充分时 | 用户决策（补充测试/继续/暂停） | Worker → 用户 |
+| `[WAITING_FOR_TEST_DESIGN]` | sop-test-design-csv 完成测试设计 | 用户确认测试设计充分 | sop-test-design-csv |
+| `[WAITING_FOR_TEST_IMPLEMENTATION]` | sop-test-implementation 完成测试实现 | sop-code-review 审查测试代码充分性与合规性 | sop-code-review |
+| `[WAITING_FOR_L1_REVIEW]` | L1测试通过后 | sop-code-review 审查 | sop-code-review |
+| `[WAITING_FOR_L2_REVIEW]` | L2测试通过后 | sop-code-review 审查 | sop-code-review |
+| `[WAITING_FOR_L3_REVIEW]` | L3测试通过后 | sop-code-review 审查 | sop-code-review |
+| `[WAITING_FOR_L4_REVIEW]` | L4测试通过后 | sop-code-review 审查 | sop-code-review |
+| `[WAITING_FOR_TEST_CREATION]` | 测试不充分时 | 用户决策（补充测试/继续/暂停） | sop-code-implementation → 用户 |
 
 ---
 
@@ -370,10 +370,10 @@ Worker修复代码
 从该层重新开始验收
 ```
 
-### 测试不充分（Worker发现）
+### 测试不充分（sop-code-implementation 发现）
 
 ```
-Worker检查测试充分性
+`sop-code-implementation` 检查测试充分性
   ↓
 测试不充分
   ↓
@@ -382,7 +382,7 @@ Worker检查测试充分性
 停止工作
   ↓
 等待用户决策
-  ├─ 补充测试 → Tester设计 → TestWorker实现
+  ├─ 补充测试 → sop-test-design-csv 设计 → sop-test-implementation 实现
   ├─ 继续（接受风险）→ 继续运行
   └─ 暂停 → 暂停任务
 ```
@@ -397,8 +397,8 @@ Worker检查测试充分性
 tests/
 ├── acceptance/
 │   ├── l1/                          # L1 单元测试
-│   │   ├── [module]_l1_test_design.md   # Tester设计
-│   │   └── test_[function].py           # TestWorker实现
+│   │   ├── [module]_l1_test_design.md   # sop-test-design-csv（非CSV形态时的替代载体）
+│   │   └── test_[function].py           # sop-test-implementation
 │   ├── l2/                          # L2 模块集成测试
 │   │   ├── [module]_l2_test_design.md
 │   │   └── test_[module]_integration.py
@@ -413,7 +413,7 @@ tests/
 
 ### 验收报告
 
-每层验收完成后，Worker生成验收报告：
+每层验收完成后，`sop-code-implementation` 生成验收报告：
 
 模板：04_reference/interaction_formats/worker_execution_result.md
 
@@ -427,4 +427,4 @@ tests/
 
 ---
 
-**注意**: 分层验收是质量保证的关键环节。所有角色必须严格遵守，确保每层验收通过后再进入下一层。
+**注意**: 分层验收是质量保证的关键环节。所有 Skill 必须严格遵守，确保每层验收通过后再进入下一层。

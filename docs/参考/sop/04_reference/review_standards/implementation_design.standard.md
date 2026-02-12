@@ -1,5 +1,5 @@
 ---
-version: v1.5.0
+version: v2.0.0
 updated: 2026-02-11
 artifact: L3 Implementation Design (design.md)
 ---
@@ -9,7 +9,8 @@ artifact: L3 Implementation Design (design.md)
 ## Scope
 
 - 适用产物：目录内 `design.md`（`04_reference/document_templates/implementation_design.md` 的实例）
-- 审查角色：Oracle（设计者）/ CodeReviewer（设计一致性复核，按需要）
+- 设计者：`sop-implementation-designer`
+- 复核者：`sop-code-review`（按需要）
 
 ## SSOT
 
@@ -37,7 +38,7 @@ artifact: L3 Implementation Design (design.md)
 
 - 数据模型与约束：关键字段、校验规则、幂等与一致性策略明确
 - 性能：可能的热点与上界风险已识别
-- 文档可导航：小节结构清晰，可被 CodeReviewer 作为设计依据引用
+- 文档可导航：小节结构清晰，可被 `sop-code-review` 作为设计依据引用
 
 ## 证据要求（Evidence）
 

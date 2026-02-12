@@ -2,7 +2,7 @@
 
 **层级**: L3 - 功能级 (UI项目)  
 **位置**: `docs/01_requirements/prototypes/[module]/`  
-**创建者**: Analyst  
+**创建者**: sop-requirement-analyst  
 **规范**: 定义界面原型文件格式和设计标准
 
 ---

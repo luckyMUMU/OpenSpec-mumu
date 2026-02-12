@@ -5,7 +5,12 @@ description: "Fast path workflow for single-file, small changes. Invoke when tas
 
 # Fast Path Workflow
 
-> **版本**: v1.5.0
+> **版本**: v2.0.0
+
+## 触发条件
+
+- 仅当满足 fast 判定（单文件 + <30 行 + 无逻辑变更）时 → 才能调用本 Skill
+- 仅当无法证明无行为变化或存在跨文件/跨目录影响时 → 必须升级到 `sop-deep-path`
 
 ## Input
 

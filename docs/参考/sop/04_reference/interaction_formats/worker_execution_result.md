@@ -1,9 +1,9 @@
 ---
-version: v1.5.0
+version: v2.0.0
 updated: 2026-02-11
 ---
 
-# Worker 执行结果格式
+# 实现执行结果格式（Implementation Result）
 
 ```markdown
 ## 执行结果

@@ -7,9 +7,9 @@
 | 层级 | 目录 | 内容 | 格式 | 创建者 |
 |------|------|------|------|--------|
 | L1 | `01_concept_overview.md` | 核心概念 | Markdown | - |
-| L2 | `docs/02_logical_workflow/` | 逻辑工作流 | `.md` | Prometheus |
-| L3 | `docs/03_technical_spec/` / `src/**/design.md` | 技术规格 | Markdown/YAML | Oracle |
-| L4 | `docs/04_context_reference/` | 决策参考 | `adr_*.md` | Prometheus/Oracle |
+| L2 | `docs/02_logical_workflow/` | 逻辑工作流 | `.md` | sop-architecture-design |
+| L3 | `docs/03_technical_spec/` / `src/**/design.md` | 技术规格 | Markdown/YAML | sop-implementation-designer |
+| L4 | `docs/04_context_reference/` | 决策参考 | `adr_*.md` | sop-architecture-design / sop-implementation-designer |
 
 ---
 
@@ -19,28 +19,28 @@
 |------|------|------|
 | `/docs` | 项目设计文档 | 动态创建更新 |
 | `/docs/参考/` | SOP参考文档 | **非指定不变更** |
-| `/docs/01_requirements/` | **需求文档 (L1-L3)** | **Analyst创建** |
-| `/docs/01_requirements/modules/` | **模块/功能需求 (L2-L3)** | **Analyst创建** |
-| `/docs/01_requirements/prototypes/` | **原型设计 (L3)** | **Analyst创建** |
-| `/docs/02_logical_workflow/` | 架构设计 (L2) | Prometheus创建 |
-| `/docs/03_technical_spec/` | 技术规格 (L3) | Oracle创建 |
-| `/docs/03_technical_spec/test_cases/` | **测试用例** | **Tester创建** |
-| `/docs/04_context_reference/` | 决策参考 (L4) | Prometheus/Oracle创建 |
-| `src/**/design.md` | 实现设计 (L3) | Oracle创建 |
-| `tests/` | **测试代码** | **TestWorker创建** |
+| `/docs/01_requirements/` | **需求文档 (L1-L3)** | **sop-requirement-analyst 产出** |
+| `/docs/01_requirements/modules/` | **模块/功能需求 (L2-L3)** | **sop-requirement-analyst 产出** |
+| `/docs/01_requirements/prototypes/` | **原型设计 (L3)** | **sop-requirement-analyst 产出** |
+| `/docs/02_logical_workflow/` | 架构设计 (L2) | sop-architecture-design 产出 |
+| `/docs/03_technical_spec/` | 技术规格 (L3) | sop-implementation-designer 产出 |
+| `/docs/03_technical_spec/test_cases/` | **测试用例** | **sop-test-design-csv 产出** |
+| `/docs/04_context_reference/` | 决策参考 (L4) | sop-architecture-design / sop-implementation-designer 产出 |
+| `src/**/design.md` | 实现设计 (L3) | sop-implementation-designer 产出 |
+| `tests/` | **测试代码** | **sop-test-implementation 产出** |
 
 ---
 
-## L1-L3: 需求分层 (Analyst)
+## L1-L3: 需求分层（sop-requirement-analyst）
 
 ### 需求层级
 
 | 层级 | 文档 | 位置 | 内容 | 创建者 |
 |------|------|------|------|--------|
-| L1 | **Project PRD** | `01_requirements/project_prd.md` | 项目愿景、模块清单 | Analyst |
-| L2 | **Module MRD** | `01_requirements/modules/[module]_mrd.md` | 模块功能、边界 | Analyst |
-| L3 | **Feature FRD** | `01_requirements/modules/[module]/[feature]_frd.md` | 功能详情、交互 | Analyst |
-| L3 | **Prototype** | `01_requirements/prototypes/[module]/` | 界面原型 | Analyst |
+| L1 | **Project PRD** | `01_requirements/project_prd.md` | 项目愿景、模块清单 | sop-requirement-analyst |
+| L2 | **Module MRD** | `01_requirements/modules/[module]_mrd.md` | 模块功能、边界 | sop-requirement-analyst |
+| L3 | **Feature FRD** | `01_requirements/modules/[module]/[feature]_frd.md` | 功能详情、交互 | sop-requirement-analyst |
+| L3 | **Prototype** | `01_requirements/prototypes/[module]/` | 界面原型 | sop-requirement-analyst |
 
 ### 需求文档结构
 
@@ -70,7 +70,7 @@ docs/01_requirements/
 
 ## L2: 逻辑工作流 (`.md`)
 
-**创建者**: Prometheus  
+**产出 Skill**: sop-architecture-design  
 **规范**: 技术无关逻辑设计（Markdown 文档，伪代码用 `pseudo` 代码块）
 
 ### 伪代码规范
@@ -83,7 +83,7 @@ docs/01_requirements/
 
 ## L3: 技术规格
 
-**创建者**: Oracle  
+**产出 Skill**: sop-implementation-designer  
 **规范**: 将L2逻辑流程映射为具体技术实现
 
 ### design.md规则
@@ -97,7 +97,7 @@ docs/01_requirements/
 
 ## L4: 决策参考 (ADR)
 
-**创建者**: Prometheus / Oracle  
+**产出 Skill**: sop-architecture-design / sop-implementation-designer  
 **规范**: 记录关键决策的背景和理由
 
 ### ADR编号
@@ -115,13 +115,13 @@ ADR-[模块]-[序号]: [标题]
 
 ## TDD测试文档
 
-**创建者**: Tester / TestWorker  
+**产出 Skill**: sop-test-design-csv / sop-test-implementation  
 **规范**: CSV格式测试用例，便于人工审核
 
 ### 测试用例位置
 ```
 docs/03_technical_spec/test_cases/
-├── [module]_test_cases.csv      # 测试用例 (Tester创建)
+├── [module]_test_cases.csv      # 测试用例 (sop-test-design-csv 产出)
 └── [module]_test_plan.md        # 测试计划 (可选)
 ```
 
@@ -129,24 +129,23 @@ docs/03_technical_spec/test_cases/
 
 ## 模板
 
-| 模板 | 层级 | 用途 | 角色 |
+| 模板 | 层级 | 用途 | Skill |
 |------|------|------|------|
-| **[项目PRD](document_templates/project_prd.md)** | **L1** | **项目级需求** | **Analyst** |
-| **[模块MRD](document_templates/module_mrd.md)** | **L2** | **模块级需求** | **Analyst** |
-| **[功能FRD](document_templates/feature_frd.md)** | **L3** | **功能级需求** | **Analyst** |
-| **[原型规范](document_templates/prototype_guide.md)** | **L3** | **原型设计** | **Analyst** |
-| [架构设计](document_templates/architecture_design.md) | L2 | 逻辑工作流 | Prometheus |
-| [实现设计](document_templates/implementation_design.md) | L3 | 技术规格 | Oracle |
-| [ADR](document_templates/adr.md) | L4 | 决策参考 | Prometheus/Oracle |
-| [测试用例CSV](document_templates/test_cases.csv) | L3 | 测试用例 | Tester |
+| **[项目PRD](document_templates/project_prd.md)** | **L1** | **项目级需求** | **sop-requirement-analyst** |
+| **[模块MRD](document_templates/module_mrd.md)** | **L2** | **模块级需求** | **sop-requirement-analyst** |
+| **[功能FRD](document_templates/feature_frd.md)** | **L3** | **功能级需求** | **sop-requirement-analyst** |
+| **[原型规范](document_templates/prototype_guide.md)** | **L3** | **原型设计** | **sop-requirement-analyst** |
+| [架构设计](document_templates/architecture_design.md) | L2 | 逻辑工作流 | sop-architecture-design |
+| [实现设计](document_templates/implementation_design.md) | L3 | 技术规格 | sop-implementation-designer |
+| [ADR](document_templates/adr.md) | L4 | 决策参考 | sop-architecture-design / sop-implementation-designer |
 
 ---
 
 ## 交互格式
 
-| 格式 | 用途 | 角色 |
+| 格式 | 用途 | Skill |
 |------|------|------|
-| [Supervisor报告](interaction_formats/supervisor_report.md) | 进度/熔断/决策 | Supervisor |
+| [Progress Supervisor报告](interaction_formats/supervisor_report.md) | 进度/熔断/决策 | sop-progress-supervisor |
 
 ---
 

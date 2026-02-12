@@ -1,6 +1,6 @@
 # 参考资料与知识沉淀规范
 
-> **版本**: v1.5.1  
+> **版本**: v2.0.0  
 > **更新日期**: 2026-02-12  
 > **位置**: `docs/04_context_reference/`  
 > **用途**: 管理用户输入和外部获取的知识
@@ -158,13 +158,13 @@ docs/04_context_reference/
 ### 引用时机
 
 **必须引用 RAG**:
-- 架构设计阶段（Prometheus）
-- 实现设计阶段（Oracle）
-- 架构审查阶段（Skeptic）
+- 架构设计阶段（sop-architecture-design）
+- 实现设计阶段（sop-implementation-designer）
+- 架构审查阶段（sop-architecture-reviewer）
 
 **建议引用 RAG**:
-- 需求分析阶段（Analyst）
-- 代码实现阶段（Worker）
+- 需求分析阶段（sop-requirement-analyst）
+- 代码实现阶段（sop-code-implementation）
 
 ### 引用格式
 
@@ -248,11 +248,11 @@ docs/04_context_reference/
 
 ### 定期审查
 
-| 频率 | 内容 | 负责人 |
+| 频率 | 内容 | 执行 Skill |
 |------|------|--------|
-| 每周 | 检查新增RAG文件 | Librarian |
-| 每月 | 审查RAG文件有效性 | Librarian |
-| 每季度 | 更新项目知识库 | Oracle |
+| 每周 | 检查新增RAG文件 | sop-document-sync |
+| 每月 | 审查RAG文件有效性 | sop-document-sync |
+| 每季度 | 更新项目知识库 | sop-document-sync |
 
 ### 清理规则
 

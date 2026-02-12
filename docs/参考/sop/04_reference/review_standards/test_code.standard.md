@@ -1,5 +1,5 @@
 ---
-version: v1.5.0
+version: v2.0.0
 updated: 2026-02-11
 artifact: Test Code
 ---
@@ -8,12 +8,12 @@ artifact: Test Code
 
 ## Scope
 
-- 适用产物：测试代码 Diff（单测/集成/验收/E2E），由 TestWorker/Worker 产出
-- 审查角色：CodeReviewer（审查）/ TestWorker（测试实现者）
+- 适用产物：测试代码 Diff（单测/集成/验收/E2E），由 `sop-test-implementation` 产出
+- 审查者：`sop-code-review`
 
 ## SSOT
 
-- 测试设计与权限隔离：`02_role_matrix/index.md`、`prompts/test_worker_prompt.md`
+- 测试设计与权限隔离：`02_skill_matrix/index.md`、`prompts/packs/default/skills/sop-test-implementation.md`
 - 分层验收标准：`05_constraints/acceptance_criteria.md`
 - 状态/命令：`05_constraints/state_dictionary.md`、`05_constraints/command_dictionary.md`
 
@@ -26,7 +26,7 @@ artifact: Test Code
 
 ## 必检项（Hard requirements）
 
-- 设计一致性：测试场景覆盖与测试设计/CSV 一致；缺失必须说明并回流到 Tester
+- 设计一致性：测试场景覆盖与测试设计/CSV 一致；缺失必须说明并回流到 `sop-test-design-csv`
 - 可运行与稳定：可重复运行、无随机性、不依赖外部不稳定资源（除非明确声明并隔离）
 - 断言质量：断言业务结果而非实现细节；避免脆弱断言
 - 隔离性：Mock/Stub 边界合理，不污染全局状态，不产生跨用例耦合

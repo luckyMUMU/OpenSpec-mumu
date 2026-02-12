@@ -5,7 +5,7 @@ description: "Code audit workflow for impact assessment and risk identification.
 
 # Code Audit Workflow
 
-> **版本**: v1.5.0
+> **版本**: v2.0.0
 
 **位置**: `sop/skills/sop-code-explorer/SKILL.md`
 

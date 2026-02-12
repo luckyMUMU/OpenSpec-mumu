@@ -5,7 +5,12 @@ description: "Code review workflow for validating changes against design docs an
 
 # Code Review Workflow
 
-> **版本**: v1.5.0
+> **版本**: v2.0.0
+
+## 触发条件
+
+- 仅当已产出可审查 Diff 且需要放行/返工判定时 → 必须调用本 Skill
+- 仅当审查依据（设计/验收/红线）缺失或冲突无法消解时 → 必须进入 `[USER_DECISION]`
 
 ## Input
 
@@ -64,7 +69,7 @@ description: "Code review workflow for validating changes against design docs an
 
 **Flow**:
 ```
-Round 1: Identify issues → Worker fixes
+Round 1: Identify issues → sop-code-implementation fixes
 Round 2: Verify fixes → New issues?
 Round 3: Final check → Pass or deadlock
 ```
@@ -84,7 +89,15 @@ When deadlock happens:
 
 ## Constraints
 
-- 只审查不修改：CodeReviewer 不改代码，只输出审查结论与建议
+- 只审查不修改：`sop-code-review` 不改代码，只输出审查结论与建议
 - 证据优先：结论必须绑定到设计章节/验收标准/红线条款或 RAG 引用
 - 目录边界合规：禁止建议跨越 design.md 边界的直接修改路径
 - 外部规范引用必须沉淀：行业规范/最佳实践若用于决策或阻塞项，需落到 RAG 并在报告中引用
+
+## Stop Points
+
+- `[USER_DECISION]`: 审查依据缺失/冲突，或 3 轮迭代无法收敛
+
+## Failure Handling
+
+- 当 Diff 无法映射到任何设计依据且影响放行结论时，必须进入 `[USER_DECISION]` 并给出补全证据清单

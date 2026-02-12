@@ -5,7 +5,7 @@ description: "Implementation design workflow for creating detailed technical des
 
 # Implementation Design Workflow
 
-> **版本**: v1.5.0
+> **版本**: v2.0.0
 
 **位置**: `sop/skills/sop-implementation-designer/SKILL.md`
 
@@ -17,7 +17,7 @@ description: "Implementation design workflow for creating detailed technical des
 ## Input
 
 - L2 架构文档（link 或内容）
-- Explorer 审计报告（可选）
+- `sop-code-explorer` 审计报告（可选）
 - ADR/RAG 参考（可选）
 - 目录范围（dir）
 

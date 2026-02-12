@@ -5,7 +5,12 @@ description: "Requirement analysis workflow for multi-level requirements (L1 PRD
 
 # Requirement Analysis Workflow
 
-> **版本**: v1.5.0
+> **版本**: v2.0.0
+
+## 触发条件
+
+- 仅当开始新项目/新模块/新功能，或需求存在缺口需要澄清时 → 必须调用本 Skill
+- 仅当输入不足或存在冲突且影响后续设计/实现时 → 必须进入 `[WAITING_FOR_REQUIREMENTS]` 或 `[USER_DECISION]`
 
 ## Input
 

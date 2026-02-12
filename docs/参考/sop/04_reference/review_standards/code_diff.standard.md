@@ -1,5 +1,5 @@
 ---
-version: v1.5.0
+version: v2.0.0
 updated: 2026-02-11
 artifact: Code Diff
 ---
@@ -9,7 +9,8 @@ artifact: Code Diff
 ## Scope
 
 - 适用产物：代码变更 Diff（含实现代码与测试代码）
-- 审查角色：CodeReviewer（审查）/ Worker（实现者）/ TestWorker（测试实现者，按范围）
+- 审查者：`sop-code-review`
+- 实现者：`sop-code-implementation`（功能代码）/ `sop-test-implementation`（测试代码，按范围）
 
 ## SSOT
 

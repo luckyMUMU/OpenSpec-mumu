@@ -2,7 +2,7 @@
 
 **层级**: L1 - 项目级  
 **位置**: `docs/01_requirements/project_prd.md`  
-**创建者**: Analyst  
+**创建者**: sop-requirement-analyst  
 **规范**: 定义项目愿景、目标、范围，不涉及具体功能细节
 
 ---
@@ -133,11 +133,11 @@
 
 ## 与L2/L3的关系
 
-| 层级 | 文档 | 内容 | 创建者 |
+| 层级 | 文档 | 内容 | 产出 Skill |
 |------|------|------|--------|
-| L1 | `project_prd.md` | 项目愿景、范围 | Analyst |
-| L2 | `modules/[module]_mrd.md` | 模块功能 | Analyst |
-| L3 | `modules/[module]/[feature]_frd.md` | 功能详情 | Analyst |
-| L3 | `prototypes/[module]/` | 界面原型 | Analyst |
+| L1 | `project_prd.md` | 项目愿景、范围 | sop-requirement-analyst |
+| L2 | `modules/[module]_mrd.md` | 模块功能 | sop-requirement-analyst |
+| L3 | `modules/[module]/[feature]_frd.md` | 功能详情 | sop-requirement-analyst |
+| L3 | `prototypes/[module]/` | 界面原型 | sop-requirement-analyst |
 
 👉 L1 只定义模块清单，详细功能下沉到L2/L3

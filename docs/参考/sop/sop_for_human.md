@@ -1,137 +1,135 @@
-# SOP for Human (人类阅读版)
+# SOP for Human（Skill-first 人类阅读版）
 
-> **版本**: v1.5.1
-> **更新日期**: 2026-02-12
-> **用途**: 帮助人类理解 AI Agent 的工作流程、角色分工与协作规范。
+> **版本**: v2.0.0  
+> **更新日期**: 2026-02-12  
+> **用途**: 帮助人类理解 Skill-first 的工作流、Prompt Pack 与协作规范
 
 ---
 
 ## 1. 概述
 
-本 SOP (Standard Operating Procedure) 定义了一套 AI 辅助软件工程的标准化流程。它旨在让 AI Agent (Analyst, Architect, Coder, Tester 等) 与人类开发者高效协作，通过明确的阶段、产物和约束，保证软件开发的质量和可维护性。
+本 SOP 定义了一套 AI 辅助软件工程的标准化流程。核心思想是：**一切执行以 Skill 为单位**，通过“调用 Skill + 选择/覆盖 Prompt Pack”完成全流程，并以可落盘交付物形成可审计闭环。
 
 ### 核心理念
-- **文档驱动**: 所有设计决策和需求变更必须先落盘文档，再进行代码实现。
-- **命令式交互**: Agent 之间以及 Agent 与人类之间使用明确的指令进行交互。
-- **分层与并行**: 需求和设计分层管理，支持按目录深度的并行开发。
-- **来源可追溯**: 所有产出必须声明来源与依赖，决策必须记录。
+
+- **文档驱动**：先落盘需求/设计，再改代码
+- **命令式交互**：规则与步骤必须可验证
+- **分层与并行**：支持目录维度并行执行
+- **来源可追溯**：所有产出必须声明来源与依赖，缺口必须决策落盘
 
 ---
 
-## 2. 角色体系
+## 2. Skill 体系（SSOT）
 
-本 SOP 定义了 12 个核心角色，分为管理类、设计类、执行类和质量类。
+Skill 的定义、触发条件、输入输出、停止点、落盘交付物与默认 Prompt Pack 映射，以 [Skill 矩阵（SSOT）](02_skill_matrix/index.md) 为准。
 
-| 角色 | 职责摘要 | 典型输入 | 典型输出 |
-|------|----------|----------|----------|
-| **Router** | 任务分发与分诊 | 用户请求 | 路径规划 + 角色分配 |
-| **Explorer** | 代码库审计与上下文检索 | 目标文件/目录 | 审计报告 / 上下文摘要 |
-| **Analyst** | 需求分析与文档编写 (L1-L3) | 用户描述 | PRD / MRD / FRD / 原型 |
-| **Prometheus** | L2 架构设计与技术选型 | PRD | 架构设计文档 (L2) |
-| **Skeptic** | 架构方案审查 | 架构设计 | 审查报告 (Pass/Fail) |
-| **Oracle** | L3 实现设计 (目录级) | 架构设计 | design.md (L3) |
-| **Tester** | 测试策略与用例设计 | design.md | 测试用例 (CSV) |
-| **Worker** | 代码实现 (按目录) | design.md | 源代码 |
-| **TestWorker** | 测试代码实现 | 测试用例 | 测试代码 |
-| **CodeReviewer** | 代码与设计一致性审查 | 代码 Diff | 审查报告 |
-| **Librarian** | 文档索引维护与归档 | 变更文件 | 更新的索引 / CHANGELOG |
-| **Supervisor** | 进度监控与并行调度 | 执行状态 | 调度指令 / 熔断信号 |
+### Skill 与 Prompt Pack 的关系
+
+- **SKILL.md**：可审查的“做事骨架合约”（触发条件/步骤顺序/输出格式/质量门槛/停止点/落盘）
+- **Prompt Pack**：运行时的“表达与偏好层”（风格/侧重点/输出排版），不得改变 Skill 合约语义
+
+Prompt Pack 规范：`04_reference/prompt_pack.standard.md`，默认 pack：`prompts/packs/default/`。
 
 ---
 
-## 3. 工作流路径
+## 3. 工作流路径（Skill 调用链）
 
-根据任务的复杂度，SOP 提供了不同的执行路径。
+### 3.1 快速路径（Fast Path）
 
-### 3.1 快速路径 (Fast Path)
-适用于单文件、小规模 (<30行)、无逻辑变更的修复或调整。
-- **流程**: Explorer → Worker → CodeReviewer → Librarian
-- **特点**: 跳过繁琐的设计阶段，直接修复。
+适用：单文件 + <30 行 + 无逻辑变更。
 
-### 3.2 深度路径 (Deep Path)
-适用于新功能、重构、跨文件修改或复杂逻辑变更。是本 SOP 的标准路径。
-- **核心流程**: Analyst → Prometheus ↔ Skeptic → Oracle → Supervisor → [多 Worker 并行] → CodeReviewer → Librarian
-- **特点**: 强调设计先行，设计必须经过审查。
+```
+sop-code-explorer
+→ sop-code-implementation
+→ sop-code-review
+→ sop-document-sync
+```
 
-### 3.3 分层验收路径 (Layered Acceptance)
-在深度路径基础上，强制引入分层测试验收 (L1-L4)。
-- **流程**: ... → Tester (设计测试) → TestWorker (实现测试) → Worker (实现代码并运行测试) ...
-- **验收层级**:
-    - L1: 单元/函数级
-    - L2: 模块级
-    - L3: 功能级
-    - L4: 系统级
+### 3.2 深度路径（Deep Path）
+
+适用：新功能、重构、跨文件修改、复杂逻辑变更。
+
+```
+sop-requirement-analyst
+→ sop-architecture-design (可选)
+→ sop-architecture-reviewer (可选)
+→ sop-implementation-designer
+→ sop-code-implementation
+→ sop-code-review
+→ sop-document-sync
+```
+
+### 3.3 分层验收/测试驱动（TDD / Layered Acceptance）
+
+仅当深度路径且要求高覆盖时启用：
+
+```
+... deep path ...
+→ sop-test-design-csv
+→ sop-test-implementation
+→ sop-code-implementation (运行验收 + 修正代码)
+```
 
 ---
 
-## 4. 目录维度并行策略
+## 4. 目录维度并行策略（Skill 版）
 
-为了提高大规模项目的开发效率，SOP 支持按目录结构并行工作。
+仅当任务涉及多个包含 `design.md` 的目录时启用目录并行：
 
-1.  **扫描**: Explorer 识别所有包含 `design.md` 的目录。
-2.  **调度**: Supervisor 根据目录深度构建依赖树。
-3.  **执行**:
-    - 自底向上（深度优先）执行。
-    - 同一深度的目录，若无依赖关系，启动多个 Worker 并行处理。
-    - Worker 仅被授权修改其分配的目录。
-4.  **依赖处理**: 若 Worker 发现需修改其他目录，禁止直接修改，需向目标目录的 `design.md` 追加“待处理变更”条目，并通知 Supervisor 调度。
+1. **扫描**：`sop-code-explorer` 识别所有包含 `design.md` 的目录
+2. **调度**：`sop-progress-supervisor` 根据目录深度构建依赖与 dir_map
+3. **执行**：`sop-code-implementation` 按 dir_map 并行推进（同深度并行、自底向上）
+4. **依赖处理**：跨目录依赖必须进入 `[DIR_WAITING_DEP]`，由 `sop-progress-supervisor` 负责唤醒与重排
 
 ---
 
 ## 5. 核心约束
 
-所有参与者必须遵守以下核心约束：
-
-1.  **状态先行**: 在进行任何实质性工作前，必须先更新任务状态（如 `[DIR_WORKING]`；以 05_constraints/state_dictionary.md 为准）。
-2.  **目录隔离**: 父目录文档仅保留对子目录的摘要和链接，不包含细节。
-3.  **闭环交付**: 目录任务结束必须将状态流转至 `[DIR_COMPLETED]`；全流程收尾后标记 `[已完成]`。
-4.  **权限最小化**: 角色只能操作其职责范围内的文件。
-5.  **复用优先**: 代码和文档应优先复用现有资产，其次改进，最后才新建。
-6.  **三错即停**: 同一步骤连续失败 3 次，必须触发熔断，停止自动执行并报告。
+1. **状态先行**：仅当进入 `[DIR_WORKING]` 后才能改代码（SSOT：`05_constraints/state_dictionary.md`）
+2. **目录隔离**：父目录只保留摘要+链接
+3. **闭环交付**：目录任务必须流转到 `[DIR_COMPLETED]`
+4. **Scope 最小化**：每个 Skill 只能操作其合约范围
+5. **复用优先**：先复用→改进→新建→清理
+6. **三错即停**：同一步骤连续失败 3 次必须熔断并落盘报告
 
 ---
 
 ## 6. 文档规范
 
 ### 6.1 需求分层
-- **L1 项目级 (Project PRD)**: 定义愿景、范围、模块清单。
-- **L2 模块级 (Module MRD)**: 定义模块功能、边界、接口。
-- **L3 功能级 (Feature FRD)**: 定义功能详情、交互流程、原型。
+
+- L1：Project PRD
+- L2：Module MRD
+- L3：Feature FRD / Prototype
 
 ### 6.2 设计文档
-- **架构设计 (L2)**: `docs/02_logical_workflow/`，定义逻辑流程和伪代码。
-- **实现设计 (L3)**: `src/**/design.md`，定义具体实现计划、任务清单。
+
+- L2：架构设计（`docs/02_logical_workflow/`）
+- L3：实现设计（`src/**/design.md`）
 
 ---
 
-## 7. 来源与依赖合规 (新增)
+## 7. 来源与依赖合规
 
-为了保证 AI 产出的可解释性和可追溯性，所有分析与设计类文档必须包含 **"来源与依赖声明"**。
+所有分析与设计类文档必须包含“来源与依赖声明”。当来源缺失/冲突/依赖不足时：
 
-### 7.1 声明原则
-1.  **来源明确**: 必须说明需求的来源（用户输入、文档引用、代码现状）。
-2.  **依赖清晰**: 必须列出完成本任务所依赖的前置产物（如 FRD 依赖 MRD，Design 依赖 PRD）。
-3.  **决策记录**: 当来源缺失、冲突或依赖不足时，**禁止猜测**。必须：
-    - 中断流程。
-    - 进入 `[USER_DECISION]` 状态。
-    - 记录决策选项和用户选择到 `docs/04_context_reference/decisions/`。
+- 必须中断并进入 `[USER_DECISION]`
+- 必须落盘决策记录到 `docs/04_context_reference/decisions/`
 
-### 7.2 声明格式
-参见模板 `docs/参考/sop/04_reference/interaction_formats/source_dependency.md`。
+声明模板：`04_reference/interaction_formats/source_dependency.md`。
 
 ---
 
 ## 8. 验收与质量
 
-- **验收标准**: 必须明确 L1-L4 的验收标准。
-- **代码审查**: CodeReviewer 不仅检查代码风格，还需检查代码是否符合 `design.md` 的设计。
-- **文档同步**: 代码变更后，Librarian 必须同步更新相关文档，保持文档与代码一致。
+- **验收标准**：以 `05_constraints/acceptance_criteria.md` 的 L1-L4 门禁为准
+- **代码审查**：由 `sop-code-review` 输出可追溯审查报告（不得改代码）
+- **文档同步**：由 `sop-document-sync` 同步索引、导航与版本一致性
 
 ---
 
-## 9. 最佳实践
+## 9. Prompt Pack 使用
 
-- **Design First**: 不要跳过 design.md 直接写代码（除非是快速路径）。
-- **TDD**: 对于复杂逻辑，推荐先写测试 (TestWorker) 再写实现 (Worker)。
-- **保持原子性**: 每次 Commit 应只包含一个逻辑变更。
-- **及时沟通**: 遇到不确定的依赖，及时向用户确认并记录。
+- 默认 pack：`prompts/packs/default/`
+- 仅当用户请求包含 `ultrawork` 或明确要求全自动时 → 允许连续调用多个 Skill
+- 仅当需要覆盖单个 Skill 的表达风格时 → 覆盖 `prompts/packs/<pack>/skills/<skill>.md`

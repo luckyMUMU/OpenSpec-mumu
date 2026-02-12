@@ -1,9 +1,9 @@
 # design.md 创建判断规则
 
-> **版本**: v1.5.0  
+> **版本**: v2.0.0  
 > **关联文档**: AGENT_SOP.md, design_directory_strategy.md, skills/sop-design-placement/SKILL.md  
 
-本文档定义 Oracle 角色在创建 design.md 时的统一判断逻辑，整合目录层级和代码复杂度两个维度的判断标准。
+本文档定义 `sop-implementation-designer` 在创建 design.md 时的统一判断逻辑，整合目录层级和代码复杂度两个维度的判断标准。
 
 ---
 
@@ -96,18 +96,18 @@ design.md 的创建需要综合两个维度进行判断：
 | 中间目录（有子目录） | 必须创建 design.md，汇总子目录接口 | `src/auth/design.md` |
 | 单文件目录 | 按文件复杂度判断 | `src/payment/` |
 
-### 4.3 Worker 工作范围
+### 4.3 实现 Scope 工作范围（DIR_SCOPE）
 
-Worker 以 design.md 所在目录为工作边界：
+`sop-code-implementation` 以 design.md 所在目录为工作边界：
 
 ```
-WorkerScope(dir_with_design_md) = dir/** - {subdir/** | subdir contains design.md}
+DIR_SCOPE(dir_with_design_md) = dir/** - {subdir/** | subdir contains design.md}
 ```
 
 **说明**：
-- Worker 负责当前目录下所有代码文件
-- Worker 不跨越子目录的 design.md 边界
-- 子目录由独立的 Worker 处理
+- `sop-code-implementation` 负责当前目录下所有代码文件
+- `sop-code-implementation` 不跨越子目录的 design.md 边界
+- 子目录由独立的实现 Scope 处理
 
 ---
 
@@ -152,7 +152,7 @@ src/auth/login/
 **处理**：
 - 创建 `src/auth/login/design.md`（极简版）
 - 包含：接口契约、简要说明
-- 不合并到父目录（保持 Worker 边界清晰）
+- 不合并到父目录（保持实现 Scope 边界清晰）
 
 ### 场景2：深度为2的模块，300行代码
 
@@ -231,7 +231,7 @@ design_decision_rules.md (本文档)
 | 本文档章节 | 引用文档 | 引用内容 |
 |------------|----------|----------|
 | 3.1 复杂度分级 | AGENT_SOP.md | design.md规则表格 |
-| 4.3 Worker 工作范围 | design_directory_strategy.md | WorkerScope 定义 |
+| 4.3 实现 Scope 工作范围 | design_directory_strategy.md | DIR_SCOPE 定义 |
 | 5.2 优先级规则 | AGENT_SOP.md | 快速路径条件 |
 | 设计模板 | implementation_design.md | L3实现设计模板 |
 
@@ -239,7 +239,7 @@ design_decision_rules.md (本文档)
 
 当以下文档更新时，需同步检查本文档：
 - AGENT_SOP.md 的 design.md 规则章节
-- design_directory_strategy.md 的 Worker 范围定义
+- design_directory_strategy.md 的 DIR_SCOPE 范围定义
 - sop-design-placement/SKILL.md 的复杂度判断标准
 
 ---
@@ -248,7 +248,7 @@ design_decision_rules.md (本文档)
 
 ### 8.1 决策检查清单
 
-Oracle 在创建 design.md 前，按以下顺序检查：
+`sop-implementation-designer` 在创建 design.md 前，按以下顺序检查：
 
 - [ ] **步骤1**：确认当前目录是否为快速路径（单文件+<30行）
   - 是 → 可省略 design.md
@@ -283,7 +283,7 @@ Oracle 在创建 design.md 前，按以下顺序检查：
 
 ## 9. 约束
 
-1. **目录边界**：Worker 不跨越 design.md 边界修改代码
+1. **目录边界**：`sop-code-implementation` 不跨越 design.md 边界修改代码
 2. **层级优先**：目录层级判断优先于复杂度判断
 3. **快速路径例外**：快速路径可跳过 design.md 创建
 4. **依赖声明**：所有 design.md 必须声明目录依赖

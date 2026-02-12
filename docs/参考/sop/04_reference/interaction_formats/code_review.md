@@ -1,15 +1,15 @@
 ---
-version: v1.5.1
+version: v2.0.0
 updated: 2026-02-12
 ---
 
 # 代码审查格式
 
-**使用**: CodeReviewer ↔ Worker
+**使用**: sop-code-review ↔ sop-code-implementation
 
 ---
 
-## CodeReviewer 审查报告
+## sop-code-review 审查报告
 
 ```markdown
 ## 代码审查报告 - 第[N]轮
@@ -46,9 +46,7 @@ updated: 2026-02-12
 规则：当轮次 >= 3 且仍存在 🔴 阻塞项时，必须选择“陷入僵局（需用户决策）”，并进入 `[USER_DECISION]`。
 ```
 
----
-
-## Worker 回复
+## sop-code-implementation 回复
 
 ```markdown
 ## 审查回复 - 第[N]轮
@@ -80,8 +78,8 @@ updated: 2026-02-12
 - 轮次: [N]
 
 ### 观点
-**CodeReviewer**: [观点]
-**Worker**: [观点]
+**sop-code-review**: [观点]
+**sop-code-implementation**: [观点]
 
 ### 选项
 - A: [方案]
@@ -104,7 +102,7 @@ updated: 2026-02-12
 - 已采纳: [N]
 
 ### 下一步
-进入 Diff 展示等待用户审批；随后 Librarian 执行文档同步。
+进入 Diff 展示等待用户审批；随后 sop-document-sync 执行文档同步。
 ```
 
 ---

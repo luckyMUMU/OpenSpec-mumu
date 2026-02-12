@@ -1,5 +1,5 @@
 ---
-version: v1.5.0
+version: v2.0.0
 updated: 2026-02-11
 artifact: Test Design
 ---
@@ -9,13 +9,14 @@ artifact: Test Design
 ## Scope
 
 - 适用产物：CSV 测试用例、分层验收测试设计文档（L1-L4）
-- 审查角色：Tester（设计者）/ Oracle 或 Analyst（需求/设计一致性复核，按需要）
+- 设计者：`sop-test-design-csv`
+- 复核者：`sop-code-review`（或项目在 Profile 中指定）
 
 ## SSOT
 
 - 分层验收标准：`05_constraints/acceptance_criteria.md`
 - 状态/命令：`05_constraints/state_dictionary.md`、`05_constraints/command_dictionary.md`
-- 角色权限（CSV 隔离）：`02_role_matrix/index.md`
+- 测试资产隔离与边界：`02_skill_matrix/index.md`
 
 ## 严重等级与通过规则
 

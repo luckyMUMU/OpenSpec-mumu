@@ -1,6 +1,6 @@
 # 工作流规范
 
-> **版本**: v1.5.1  
+> **版本**: v2.0.0  
 > **更新日期**: 2026-02-12
 
 ## 路径选择
@@ -17,7 +17,7 @@
 
 ### 核心原则
 
-Worker 以 `design.md` 所在目录为工作范围，按目录深度自底向上并行执行：
+实现类 Skill（如 `sop-code-implementation`）以 `design.md` 所在目录为工作范围，按目录深度自底向上并行执行：
 
 CMD: `LIST_DESIGN_MD(root) -> design_list`
 CMD: `SCHEDULE_DIRS(design_list) -> dir_map`
@@ -30,10 +30,10 @@ CMD: `WAIT_DEP(dir,deps)` / `COMPLETE_DIR(dir)`
 
 | 场景 | 执行方式 | 说明 |
 |------|----------|------|
-| 同深度无依赖 | **并行** | 多个 Worker 同时执行 |
+| 同深度无依赖 | **并行** | 多个目录批次同时执行 `sop-code-implementation` |
 | 同深度有依赖 | 串行 | 按依赖顺序执行 |
 | 父子目录 | 串行 | 子目录完成后父目录才能开始 |
-| 跨模块依赖 | 协调 | 通过 Supervisor 协调 |
+| 跨模块依赖 | 协调 | 通过 `sop-progress-supervisor` 调度与唤醒 |
 
 👉 [目录维度工作策略详情](../04_reference/design_directory_strategy.md)
 
@@ -42,18 +42,18 @@ CMD: `WAIT_DEP(dir,deps)` / `COMPLETE_DIR(dir)`
 ## 快速路径
 
 ```
-Explorer → Worker → CodeReviewer → Librarian
+sop-code-explorer → sop-code-implementation → sop-code-review → sop-document-sync
 ```
 
 | 阶段 | 输入 | 输出 | 停止点 |
 |------|------|------|--------|
-| Explorer | 目标文件 | 审计报告 | - |
-| Worker | 审计报告 | 代码修改 | `[WAITING_FOR_CODE_REVIEW]` |
-| CodeReviewer | Diff+设计文档 | 审查报告 | Diff展示 |
-| Librarian | 代码修改 | 文档更新 | `[已完成]` |
+| sop-code-explorer | 目标文件/范围 | 审计报告 | `[USER_DECISION]` |
+| sop-code-implementation | 审计报告/Scope | 代码修改 + 验证结果 | `[WAITING_FOR_CODE_REVIEW]` / `[DIR_WAITING_DEP]` |
+| sop-code-review | Diff+设计依据 | 审查报告 | `[USER_DECISION]` |
+| sop-document-sync | 变更集 | 文档同步变更 | `[USER_DECISION]` |
 
 来源与依赖准则：
-- Worker/CodeReviewer 必须声明来源与依赖（模板：`04_reference/interaction_formats/source_dependency.md`）
+- `sop-code-implementation` / `sop-code-review` 必须声明来源与依赖（模板：`04_reference/interaction_formats/source_dependency.md`）
 - 当找不到来源或依赖时，必须进入 `[USER_DECISION]` 并落盘决策记录
 
 **注意**：快速路径不涉及多目录并行，单文件修改直接执行。
@@ -67,29 +67,28 @@ Explorer → Worker → CodeReviewer → Librarian
 ### 新项目/大重构（目录维度）
 
 ```
-Analyst → Prometheus ↔ Skeptic → Oracle → Supervisor → [多 Worker 并行] → CodeReviewer → Librarian
-                                              ↓
-                                    按目录深度调度 Worker
+sop-requirement-analyst
+→ sop-architecture-design
+→ sop-architecture-reviewer
+→ sop-implementation-designer (按目录)
+→ sop-progress-supervisor (dir_map)
+→ sop-code-implementation (按目录并行)
+→ sop-code-review
+→ sop-document-sync
 ```
 
 ### 功能迭代（目录维度）
 
 ```
-Analyst → Oracle → Supervisor → [多 Worker 并行] → CodeReviewer → Librarian
-                          ↓
-                    按目录深度调度 Worker
+sop-requirement-analyst
+→ sop-implementation-designer (按目录)
+→ sop-progress-supervisor (dir_map)
+→ sop-code-implementation (按目录并行)
+→ sop-code-review
+→ sop-document-sync
 ```
 
-| 阶段 | 输入 | 输出 | 停止点 | 工作范围 |
-|------|------|------|--------|----------|
-| Analyst | 用户描述 | PRD | `[WAITING_FOR_REQUIREMENTS]` | 全局 |
-| Prometheus | PRD | 架构设计 | `[WAITING_FOR_ARCHITECTURE]` | 全局 |
-| Skeptic | 架构设计 | 审查报告 | `[ARCHITECTURE_PASSED]` | 全局 |
-| Oracle | 架构设计 | 实现设计 | `[WAITING_FOR_DESIGN]` | 按目录 |
-| **Supervisor** | **实现设计** | **目录-Worker 映射** | **调度执行** | **全局协调** |
-| **Worker** | **design.md** | **代码** | **`[WAITING_FOR_CODE_REVIEW]`** | **design.md 所在目录** |
-| CodeReviewer | Diff+设计文档 | 审查报告 | Diff展示 | 全局 |
-| Librarian | 代码 | 文档更新 | `[已完成]` | 全局 |
+阶段合约（触发条件/输入输出/停止点/落盘交付物）以 [Skill 矩阵（SSOT）](../02_skill_matrix/index.md) 与各 `skills/*/SKILL.md` 为准。
 
 👉 [深度路径详情](deep_path.md)
 
@@ -98,18 +97,13 @@ Analyst → Oracle → Supervisor → [多 Worker 并行] → CodeReviewer → L
 ## TDD深度路径 (可选)
 
 ```
-Analyst → Prometheus ↔ Skeptic → Oracle → Tester → Supervisor → Worker + TestWorker → CodeReviewer → Librarian
-                                    ↓                 ↓
-                              生成CSV测试用例      并行调度与依赖协调
+... 深度路径调用链 ...
+→ sop-test-design-csv
+→ sop-test-implementation
+→ sop-code-implementation (运行验收 + 修正代码)
 ```
 
-| 阶段 | 输入 | 输出 | 停止点 |
-|------|------|------|--------|
-| Tester | L2+L3设计 | CSV测试用例 | `[WAITING_FOR_TEST_DESIGN]` |
-| Supervisor | 实现设计+测试设计 | 目录-Worker 映射+调度状态 | `[SCHEDULING]` |
-| Worker | 实现设计 | 代码 | `[WAITING_FOR_CODE_REVIEW]` |
-| TestWorker | CSV+代码 | 测试代码 | - |
-| CodeReviewer | Diff+设计文档 | 审查报告 | Diff展示 |
+分层验收门禁与停止点以 `05_constraints/acceptance_criteria.md` 与 `05_constraints/state_dictionary.md` 为准。
 
 **启用条件**: 核心业务/复杂逻辑/高覆盖要求
 
@@ -125,9 +119,9 @@ Analyst → Prometheus ↔ Skeptic → Oracle → Tester → Supervisor → Work
 
 | Strike | 条件 | 行动 |
 |--------|------|------|
-| 1 | Worker失败 | 自动修正 |
-| 2 | 再失败 | @Explorer+@Oracle审计+微调 |
-| 3 | 再失败 | **熔断**，生成报告 |
+| 1 | 同一 Skill 同一步骤失败 | 自动修正（同 Skill 内） |
+| 2 | 再失败 | 调用 `sop-code-explorer` + 设计类 Skill 复核并微调 |
+| 3 | 再失败 | **熔断**：由 `sop-progress-supervisor` 生成报告并停止自动推进 |
 
 👉 [三错即停详情](three_strike_rule.md)
 

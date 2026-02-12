@@ -1,17 +1,17 @@
 ---
 name: "sop-workflow-orchestrator"
-description: "Workflow orchestration for task triage and path selection. Invoke when receiving a new task request to analyze complexity, select path (fast/deep/TDD), and assign roles."
+description: "Workflow orchestration for task triage and path selection. Invoke on new task to select path (fast/deep/TDD) and produce a Skill call chain with persisted artifacts."
 ---
 
-# Workflow Orchestration
+# Workflow Orchestration（Skill-first）
 
-> **版本**: v1.5.0
+> **版本**: v2.0.0
 
 **位置**: `sop/skills/sop-workflow-orchestrator/SKILL.md`
 
 ## 触发条件
 
-- 接收到新任务，需要选择路径（fast/deep/TDD）并分配角色
+- 接收到新任务，需要选择路径（fast/deep/TDD）并输出 Skill 调用链
 - 任务范围/风险不明确，需要先做复杂度判断与依赖判断
 
 ## Input
@@ -42,39 +42,32 @@ CMD: `TDD_CHECK(scope) -> on|off`
 
 CMD: `LIST_DESIGN_MD(root) -> design_list`
 
-### Step 4: Assign Roles
+### Step 4: Compose Skill Call Chain
 
 **Fast Path Flow**:
 ```
-Explorer → Worker → Librarian
+sop-code-explorer → sop-code-implementation → sop-code-review → sop-document-sync
 ```
 
 **Deep Path Flow (Directory-based)**:
 ```
-New project: Analyst → Prometheus ↔ Skeptic → Oracle → Supervisor → [多 Worker 并行] → Librarian
-Feature:      Analyst → Oracle → Supervisor → [多 Worker 并行] → Librarian
+New project:
+sop-requirement-analyst → sop-architecture-design → sop-architecture-reviewer
+→ sop-implementation-designer → sop-progress-supervisor → sop-code-implementation
+→ sop-code-review → sop-document-sync
+
+Feature:
+sop-requirement-analyst → sop-implementation-designer
+→ sop-progress-supervisor → sop-code-implementation → sop-code-review → sop-document-sync
 ```
 
 **TDD Deep Path Flow (Directory-based)**:
 ```
-Analyst → Prometheus ↔ Skeptic → Oracle → Tester → Supervisor → [多 Worker 并行] → Librarian
-                                    ↓
-                              生成CSV测试用例
+... deep path ...
+→ sop-test-design-csv
+→ sop-test-implementation
+→ sop-code-implementation（运行验收 + 修正代码）
 ```
-
-**Role Assignment with Directory Scope**:
-
-| Stage | Role | Task | Scope |
-|-------|------|------|-------|
-| 1 | Analyst | 需求分析 | 全局 |
-| 2 | Prometheus | 架构设计 | 全局 |
-| 3 | Skeptic | 架构审查 | 全局 |
-| 4 | Oracle | 实现设计 | 按目录 |
-| 5 | Tester | 测试设计 | 按目录 |
-| 6 | **Supervisor** | **调度协调** | **全局** |
-| 7 | **Worker** | **编码实现** | **design.md 所在目录** |
-| 7 | **TestWorker** | **测试实现** | **design.md 所在目录** |
-| 8 | Librarian | 文档维护 | 全局 |
 
 ### Step 5: Parallel Execution Plan
 
@@ -91,7 +84,7 @@ CMD: `SCHEDULE_DIRS(design_list) -> dir_map`
 ## Output
 
 - 交付物（模板）：04_reference/interaction_formats/router_triage.md
-- CMD: `ROUTE(task)`（必须输出：路径、角色链路、下一步命令式指令）
+- CMD: `ROUTE(task)`（必须输出：路径、Skill 调用链、下一步命令式指令）
 
 ## Stop Points
 
@@ -111,4 +104,4 @@ CMD: `SCHEDULE_DIRS(design_list) -> dir_map`
 - Must persist output via the router triage template (artifact)
 - **Must analyze directory structure for parallel execution**
 - **Must create directory-based execution plan**
-- **Must assign directory scope to Workers**
+- **Must assign directory scope to implementation skills**

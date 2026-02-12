@@ -1,0 +1,63 @@
+---
+name: "sop-test-implementation"
+description: "Acceptance test implementation workflow from CSV test cases. Invoke after CSV test design is ready to generate L1-L4 test code and verification instructions."
+---
+
+# Test Implementation Workflow
+
+> **版本**: v2.0.0
+
+## 触发条件
+
+- 仅当存在已落盘的 CSV 测试用例且需要实现测试代码时 → 必须调用本 Skill
+- 仅当 CSV 存在缺口/歧义影响实现时 → 必须进入 `[USER_DECISION]`
+
+## Input
+
+- CSV 测试用例：`docs/03_technical_spec/test_cases/*.csv`
+- 接口信息（只读）：L3 design.md / 代码接口签名（只用于对齐调用方式）
+- 运行约束：`05_constraints/acceptance_criteria.md`
+
+## Workflow Steps
+
+### Step 1: Validate CSV Contract
+
+- 必须校验 CSV 是否满足模板字段（参见 `04_reference/interaction_formats/test_case_csv.md`）
+- 仅当字段缺失/冲突 → 必须进入 `[USER_DECISION]`
+
+### Step 2: Implement Tests
+
+- 按 L1-L4 分层实现（路径与组织可按项目覆写，但必须可复现）
+- 仅能修改测试代码；禁止修改 CSV
+
+### Step 3: Persist & Document How-To-Run
+
+- 必须输出可执行命令契约（如何运行测试/如何定位失败）
+- 审查标准：`04_reference/review_standards/test_code.standard.md`
+
+## 来源与依赖准则
+
+- 测试代码产出必须声明来源与依赖（CSV/设计依据/验收门禁）
+- 当依据缺失或冲突无法消解时 → 必须进入 `[USER_DECISION]` 并落盘决策记录
+
+## Output
+
+- 交付物（落盘）：`tests/**`（项目约定路径）
+- Stop: `[WAITING_FOR_TEST_IMPLEMENTATION]`
+- CMD: `TEST_IMPLEMENT(csv, design_refs) -> test_paths`
+
+## Stop Points
+
+- `[WAITING_FOR_TEST_IMPLEMENTATION]`: 测试代码已落盘，等待审查/继续实现
+- `[USER_DECISION]`: CSV/接口信息不足导致无法实现可运行测试
+
+## Failure Handling
+
+- 当测试无法稳定复现（flaky/非确定性）时，必须停下并给出稳定化方案或进入 `[USER_DECISION]`
+
+## Constraints
+
+- 禁止修改 CSV：本 Skill 只读 CSV
+- 测试必须可复现：必须提供运行指令与失败定位信息
+- SSOT：状态/命令引用 `05_constraints/state_dictionary.md`、`05_constraints/command_dictionary.md`
+

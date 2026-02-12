@@ -1,5 +1,5 @@
 ---
-version: v1.5.0
+version: v2.0.0
 updated: 2026-02-11
 artifact: ADR
 ---
@@ -9,7 +9,8 @@ artifact: ADR
 ## Scope
 
 - 适用产物：ADR（`04_reference/document_templates/adr.md` 的实例）
-- 审查角色：Skeptic / Prometheus / Oracle / CodeReviewer（按决策类型）
+- 审查者：`sop-architecture-reviewer` / `sop-code-review`（按决策类型）
+- 设计者：`sop-architecture-design` / `sop-implementation-designer`
 
 ## SSOT
 

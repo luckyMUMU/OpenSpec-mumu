@@ -1,11 +1,11 @@
 ---
 name: "sop-design-placement"
-description: "指导AI Agent正确放置设计文档和创建design.md。Invoke when creating design documents or design.md files, to determine the correct placement based on module division and complexity."
+description: "指导AI正确放置设计文档和创建design.md。Invoke when deciding design/doc placement and design.md granularity in a skill-first workflow."
 ---
 
 # 设计文档放置指南
 
-> **版本**: v1.5.0
+> **版本**: v2.0.0
 
 **位置**: `sop/skills/sop-design-placement/SKILL.md`
 
@@ -24,8 +24,8 @@ description: "指导AI Agent正确放置设计文档和创建design.md。Invoke 
 
 ⚠️ **`/docs/参考/` 非指定不变更**
 - 该目录包含 SOP 标准文档
-- 仅 Librarian 角色维护
-- 其他角色**禁止**修改此目录
+- 仅 `sop-document-sync` 可在明确任务下维护
+- 其他 Skill **禁止**修改此目录
 
 ## design.md 创建规则
 
@@ -65,8 +65,8 @@ description: "指导AI Agent正确放置设计文档和创建design.md。Invoke 
 **目录深度与执行顺序**:
 参见：04_reference/design_directory_strategy.md + 05_constraints/command_dictionary.md
 
-**Worker 分配**:
-- 每个 design.md 目录分配一个 Worker
+**实现分配**:
+- 每个 design.md 目录对应一个实现 Scope（供实现类 Skill 执行）
 - 同深度无依赖的目录并行执行
 - 父目录等待子目录完成后才能开始
 
@@ -86,9 +86,9 @@ description: "指导AI Agent正确放置设计文档和创建design.md。Invoke 
 
 | 文档类型 | 创建者 | 放置位置 |
 |----------|--------|----------|
-| PRD | Analyst | `docs/01_requirements/*.md` |
-| 架构设计 | Prometheus | `docs/02_logical_workflow/*.md` |
-| 实现设计 | Oracle | `src/**/design.md` 或 `docs/**/design.md` |
+| PRD | sop-requirement-analyst | `docs/01_requirements/*.md` |
+| 架构设计 | sop-architecture-design | `docs/02_logical_workflow/*.md` |
+| 实现设计 | sop-implementation-designer | `src/**/design.md` 或 `docs/**/design.md` |
 
 CMD: `IMPL_DESIGN(l2, dir) -> design.md`
 
@@ -115,7 +115,7 @@ CMD: `IMPL_DESIGN(l2, dir) -> design.md`
 
 ## 约束
 
-1. **禁止修改 `/docs/参考/`** - 仅 Librarian 可维护
+1. **禁止修改 `/docs/参考/`** - 仅 `sop-document-sync` 可维护
 2. **基于目录划分** - 每个独立目录创建独立 design.md
 3. **基于复杂度判断** - 低复杂度可省略，中高复杂度必须创建
 4. **必须包含接口契约** - 输入/输出/依赖必须明确定义
@@ -126,7 +126,7 @@ CMD: `IMPL_DESIGN(l2, dir) -> design.md`
 
 ## Failure Handling
 
-- 当发现需要修改 `/docs/参考/` 且非 Librarian 场景时，必须停止并转为 `[USER_DECISION]` 或交由 Librarian 处理
+- 当发现需要修改 `/docs/参考/` 且任务未包含该范围时，必须停止并转为 `[USER_DECISION]` 或调用 `sop-document-sync` 处理
 
 ## 快速参考
 参见：AGENT_SOP.md（design.md 规则）+ 04_reference/design_directory_strategy.md

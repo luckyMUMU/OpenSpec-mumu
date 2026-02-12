@@ -1,6 +1,6 @@
-# Supervisor报告格式
+# 进度调度报告格式
 
-**使用**: Supervisor
+**使用**: sop-progress-supervisor
 
 ---
 
@@ -26,7 +26,7 @@
 - 🔴 [严重]
 
 ### 下一步
-@[角色]: [任务]
+@[Skill]: [任务]
 ```
 
 ---

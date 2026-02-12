@@ -5,13 +5,18 @@ description: "Architecture design workflow for creating technology-agnostic desi
 
 # Architecture Design Workflow
 
-> **版本**: v1.5.0
+> **版本**: v2.0.0
+
+## 触发条件
+
+- 仅当需求已确认且需要产出 L2 架构设计时 → 必须调用本 Skill
+- 仅当关键技术选型/约束存在缺口或冲突影响架构决策时 → 必须进入 `[USER_DECISION]`
 
 ## Input
 
 - PRD（link 或内容）
 - 关键约束（含安全/性能/合规）
-- 目录结构（来自 Explorer 的 audit_report，可选）
+- 目录结构（来自 `sop-code-explorer` 的 audit_report，可选）
 
 ## Workflow Steps
 

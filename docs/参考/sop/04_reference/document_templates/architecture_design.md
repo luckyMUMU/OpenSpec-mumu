@@ -2,7 +2,7 @@
 
 **层级**: L2 - 逻辑工作流  
 **位置**: `docs/02_logical_workflow/[module].md`  
-**创建者**: Prometheus  
+**创建者**: sop-architecture-design  
 **规范**: 技术无关，只描述逻辑，不写实现
 
 ---
@@ -159,11 +159,11 @@ END FOR
 
 ## 与L3/L4的关系
 
-| 层级 | 文件 | 内容 | 创建者 |
+| 层级 | 文件 | 内容 | 产出 Skill |
 |------|------|------|--------|
-| L2 | `.md` | 逻辑工作流 | Prometheus |
-| L3 | `design.md` / `03_technical_spec/` | 技术规格 | Oracle |
-| L4 | `04_context_reference/adr_*.md` | 决策背景 | Prometheus/Oracle |
+| L2 | `.md` | 逻辑工作流 | sop-architecture-design |
+| L3 | `design.md` / `03_technical_spec/` | 技术规格 | sop-implementation-designer |
+| L4 | `04_context_reference/adr_*.md` | 决策背景 | sop-architecture-design / sop-implementation-designer |
 
 👉 L3 将 L2 的伪代码映射为具体技术实现  
 👉 L4 记录 L2/L3 的关键决策理由

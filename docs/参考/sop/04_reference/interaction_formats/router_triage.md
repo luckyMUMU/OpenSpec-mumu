@@ -1,9 +1,9 @@
 ---
-version: v1.5.0
+version: v2.0.0
 updated: 2026-02-11
 ---
 
-# Router 分诊输出格式
+# Workflow Orchestrator 分诊输出格式
 
 ```markdown
 ## 任务分诊结果
@@ -14,23 +14,24 @@ updated: 2026-02-11
 ### 需求层级
 - L: [L1/L2/L3]
 
-### 角色分配
-| Stage | Role | Output |
+### Skill 调用链
+| Stage | Skill | Output |
 |---|---|---|
-| 1 | Analyst | PRD/MRD/FRD |
-| 2 | Prometheus | L2(.md) |
-| 3 | Skeptic | Review |
-| 4 | Oracle | design.md |
-| 5 | (optional) Tester | test design / CSV |
-| 6 | Worker | code + diff |
-| 6 | (optional) TestWorker | test code |
-| 7 | Librarian | indexes |
-| * | (optional) Supervisor | scheduling / fuse |
+| 1 | sop-requirement-analyst | PRD/MRD/FRD |
+| 2 | sop-architecture-design | L2(.md) + ADR |
+| 3 | sop-architecture-reviewer | design review report |
+| 4 | sop-implementation-designer | design.md |
+| 5 | (optional) sop-test-design-csv | test cases CSV |
+| 6 | sop-code-implementation | code + diff |
+| 6 | (optional) sop-test-implementation | test code |
+| 7 | sop-code-review | review report |
+| 8 | sop-document-sync | indexes/changelog sync |
+| * | (optional) sop-progress-supervisor | scheduling / fuse |
 
 ### 文档位置
 参见 04_reference/document_directory_mapping.md
 
 ### 下一步
-@Analyst: CMD REQ_ANALYZE(input)
+CMD REQ_ANALYZE(input)
 ```
 

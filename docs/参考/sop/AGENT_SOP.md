@@ -1,8 +1,8 @@
-# AI Agent SOP
+# SOP（Skill-first / Agent 执行版）
 
-> **版本**: v1.5.1  
+> **版本**: v2.0.0  
 > **更新日期**: 2026-02-12  
-> AI Agent专用 | 命令式 | 最小Token
+> AI Agent专用 | Skill-first | 命令式 | 最小Token
 
 ---
 
@@ -11,9 +11,9 @@
 1. 先标记`[DIR_WORKING]`，再改代码
 2. 父目录只保留摘要+链接
 3. `[DIR_WORKING]`→`[DIR_COMPLETED]`
-4. 各角色只操作授权范围
+4. 各 Skill 只操作合约范围（Scope）
 5. 先复用→改进→新建→清理
-6. **Worker 按目录工作**: 以 design.md 所在目录为工作范围
+6. **实现类 Skill 按目录工作**: 以 design.md 所在目录为工作范围
 7. **自底向上并行**: 按目录深度从深到浅并行执行
 
 **禁止项矩阵**: [查看完整黑白名单](05_constraints/constraint_matrix.md)
@@ -30,32 +30,19 @@
 
 ---
 
-## 角色指令
+## Skill 指令（SSOT）
 
-| 角色 | 职责 | 输入 | 输出 | 停止点 | 工作范围 |
-|------|------|------|------|--------|----------|
-| Router | 任务分诊 | 用户请求 | 路径+角色分配 | - | 全局 |
-| Explorer | 代码审计 | 目标文件 | 审计报告 | - | 全局 |
-| Analyst | 需求分析 | 用户描述 | **多级需求** | `[WAITING_FOR_REQUIREMENTS]` | 全局 |
-| Prometheus | 架构设计 | PRD | 架构设计 | `[WAITING_FOR_ARCHITECTURE]` | 全局 |
-| Skeptic | 架构审查 | 架构设计 | 审查报告 | `[ARCHITECTURE_PASSED]` | 全局 |
-| Oracle | 实现设计 | 架构设计 | 实现设计 | `[WAITING_FOR_DESIGN]` | 按目录 |
-| Tester | CSV测试用例唯一维护者，分层验收测试设计者 | 实现设计 | L1-L4测试设计 | `[WAITING_FOR_TEST_DESIGN]` | 按目录 |
-| **Worker** | **编码实现** | **design.md** | **代码** | **`[WAITING_FOR_CODE_REVIEW]`** | **design.md 所在目录** |
-| **TestWorker** | **实现验收测试代码** | **测试设计** | **L1-L4测试代码** | **`[WAITING_FOR_TEST_IMPLEMENTATION]`** | **design.md 所在目录** |
-| **CodeReviewer** | **代码审查** | **Diff+设计文档** | **审查报告** | **`[WAITING_FOR_CODE_REVIEW]`** | **全局(只读代码/可写审查)** |
-| Librarian | 文档维护 | 设计文档 | 索引更新 | `[已完成]` | 全局 |
-| **Supervisor** | **进度监管+并行协调** | **执行状态** | **熔断决策** | **`[FUSION_TRIGGERED]`** | **全局协调** |
+以 [Skill 矩阵（SSOT）](02_skill_matrix/index.md) 为准（Skill 清单、触发条件、输入/输出、停止点、落盘交付物、默认 Prompt Pack 映射）。
 
 ---
 
 ## 目录维度工作范围
 
-### Worker 工作范围定义
+### 实现类 Skill 工作范围定义
 
-Worker 以 `design.md` 所在目录为工作边界：
+实现类 Skill（如 `sop-code-implementation`）以 `design.md` 所在目录为工作边界：
 
-CMD: `WorkerScope(dir_with_design_md) = dir/** - {subdir/** | subdir contains design.md}`
+CMD: `DIR_SCOPE(dir_with_design_md) = dir/** - {subdir/** | subdir contains design.md}`
 
 参见：04_reference/design_directory_strategy.md + 05_constraints/command_dictionary.md
 
@@ -75,36 +62,53 @@ CMD: `RUN_DIR_BATCH(depth_desc)`（同 depth 并行；父目录等待子目录 `
 
 **核心流程** (带并行执行)
 ```
-Analyst → Prometheus ↔ Skeptic → Oracle → Supervisor → [多 Worker 并行] → CodeReviewer → Librarian
-                                              ↓
-                                    按目录深度调度 Worker
+sop-requirement-analyst
+→ sop-architecture-design
+→ sop-architecture-reviewer
+→ sop-implementation-designer (按目录)
+→ sop-progress-supervisor (dir_map)
+→ sop-code-implementation (按目录并行)
+→ sop-code-review
+→ sop-document-sync
 ```
 
 **目录并行执行流程**
 ```
-1. Explorer 扫描目录结构，识别所有 design.md
-2. Supervisor 按目录深度排序，创建目录-Worker 映射表
-3. 按深度降序分批启动 Worker（同深度并行）
-4. Worker 处理当前目录，遇到依赖则标记等待
-5. Supervisor 监控进度，唤醒等待依赖的 Worker
-6. Worker 完成实现后进入代码审查回路（CodeReviewer 驱动返工或放行）
-7. 所有目录完成且代码审查通过后，Librarian 更新文档
+1. `sop-code-explorer` 扫描目录结构，识别所有 design.md
+2. `sop-progress-supervisor` 按目录深度排序，创建 dir_map
+3. `sop-progress-supervisor` 按深度降序分批调度 `sop-code-implementation`（同深度并行）
+4. `sop-code-implementation` 在 Scope 内执行；遇到跨目录依赖则进入 `[DIR_WAITING_DEP]`
+5. `sop-progress-supervisor` 监控状态并唤醒等待依赖的目录批次
+6. `sop-code-review` 审查 Diff（只输出报告）；失败则回到 `sop-code-implementation` 返工
+7. 全部目录完成且审查放行后，`sop-document-sync` 更新文档与索引
 ```
 
 ### 标准深度路径（单目录）
 ```
-新项目: Analyst → Prometheus ↔ Skeptic → Oracle → Worker → CodeReviewer → Librarian
-功能迭代: Analyst → Oracle → Worker → CodeReviewer → Librarian
+新项目:
+sop-requirement-analyst → sop-architecture-design → sop-architecture-reviewer
+→ sop-implementation-designer → sop-code-implementation → sop-code-review → sop-document-sync
+
+功能迭代:
+sop-requirement-analyst → sop-implementation-designer → sop-code-implementation
+→ sop-code-review → sop-document-sync
 ```
 
 ### 分层验收深度路径 (推荐)
 ```
-Analyst → Prometheus ↔ Skeptic → Oracle → Tester → Supervisor → [多 Worker 并行] → CodeReviewer → Librarian
-                                    ↓           ↓
-                              设计验收测试    实现验收测试
+sop-requirement-analyst
+→ sop-architecture-design
+→ sop-architecture-reviewer
+→ sop-implementation-designer
+→ sop-test-design-csv
+→ sop-test-implementation
+→ sop-progress-supervisor (dir_map)
+→ sop-code-implementation (运行验收 + 修正代码)
+→ sop-code-review
+→ sop-document-sync
 ```
 
-**验收流程** (Worker执行)
+**验收流程** (由实现类 Skill 驱动)
 CMD: `RUN_ACCEPTANCE(L1) -> [WAITING_FOR_L1_REVIEW] -> REVIEW_ACCEPTANCE(L1)`
 CMD: `RUN_ACCEPTANCE(L2) -> [WAITING_FOR_L2_REVIEW] -> REVIEW_ACCEPTANCE(L2)`
 CMD: `RUN_ACCEPTANCE(L3) -> [WAITING_FOR_L3_REVIEW] -> REVIEW_ACCEPTANCE(L3)`
@@ -114,7 +118,7 @@ CMD: `RUN_ACCEPTANCE(L4) -> [WAITING_FOR_L4_REVIEW] -> REVIEW_ACCEPTANCE(L4)`
 
 **快速路径**
 ```
-Explorer → Worker → CodeReviewer → Librarian
+sop-code-explorer → sop-code-implementation → sop-code-review → sop-document-sync
 ```
 
 适用条件与升级红线参见：[快速路径](03_workflow/fast_path.md)
@@ -125,9 +129,9 @@ Explorer → Worker → CodeReviewer → Librarian
 
 | Strike | 条件 | 行动 |
 |--------|------|------|
-| 1 | Worker失败 | 自动修正 |
-| 2 | 再失败 | @Explorer+@Oracle审计+微调 |
-| 3 | 再失败 | **熔断**，生成报告 |
+| 1 | 同一 Skill 同一步骤失败 | 自动修正（同 Skill 内） |
+| 2 | 再失败 | 调用 `sop-code-explorer` + 设计类 Skill 复核并微调设计/实现策略 |
+| 3 | 再失败 | **熔断**：由 `sop-progress-supervisor` 生成报告并停止自动推进 |
 
 ---
 
@@ -135,27 +139,27 @@ Explorer → Worker → CodeReviewer → Librarian
 
 参见 [document_directory_mapping.md](04_reference/document_directory_mapping.md)（逻辑目录 → 项目实际目录映射）。
 
-### 需求文档 (Analyst)
-| 类型 | 位置 | 层级 | 创建者 |
+### 需求文档
+| 类型 | 位置 | 层级 | 产出 Skill |
 |------|------|------|--------|
-| 项目PRD | `docs/01_requirements/project_prd.md` | L1 | Analyst |
-| 模块MRD | `docs/01_requirements/modules/[module]_mrd.md` | L2 | Analyst |
-| 功能FRD | `docs/01_requirements/modules/[module]/[feature]_frd.md` | L3 | Analyst |
-| 原型 | `docs/01_requirements/prototypes/[module]/` | L3 | Analyst |
+| 项目PRD | `docs/01_requirements/project_prd.md` | L1 | sop-requirement-analyst |
+| 模块MRD | `docs/01_requirements/modules/[module]_mrd.md` | L2 | sop-requirement-analyst |
+| 功能FRD | `docs/01_requirements/modules/[module]/[feature]_frd.md` | L3 | sop-requirement-analyst |
+| 原型 | `docs/01_requirements/prototypes/[module]/` | L3 | sop-requirement-analyst |
 
 ### 设计文档
-| 类型 | 位置 | 层级 | 创建者 |
+| 类型 | 位置 | 层级 | 产出 Skill |
 |------|------|------|--------|
-| 架构设计 | `docs/02_logical_workflow/*.md` | L2 | Prometheus |
-| 实现设计 | `src/**/design.md` | L3 | Oracle |
-| 测试用例 | `docs/03_technical_spec/test_cases/*.csv` | L3 | Tester |
-| 测试代码 | `tests/*.test.[ext]` | L3 | TestWorker |
+| 架构设计 | `docs/02_logical_workflow/*.md` | L2 | sop-architecture-design |
+| 实现设计 | `src/**/design.md` | L3 | sop-implementation-designer |
+| 测试用例 | `docs/03_technical_spec/test_cases/*.csv` | L3 | sop-test-design-csv |
+| 测试代码 | `tests/*.test.[ext]` | L3 | sop-test-implementation |
 
 **约束**: `/docs/参考/` **非指定不变更**
 
 ---
 
-## 需求分层 (Analyst)
+## 需求分层（sop-requirement-analyst）
 
 | 层级 | 文档 | 内容 | 触发条件 |
 |------|------|------|----------|
@@ -200,8 +204,8 @@ v[主版本].[次版本].[修订版本]
 ### 规则
 | 版本位 | 变更类型 | 示例 |
 |--------|----------|------|
-| 主版本 | 架构重大变更、角色体系重构 | v5→v6 |
-| 次版本 | 新增角色、新增工作流、新增文档类型 | v6.0→v6.1 |
+| 主版本 | 架构重大变更、Skill/Prompt Pack 体系重构 | v1→v2 |
+| 次版本 | 新增 Skill、新增工作流、新增文档类型 | v2.0→v2.1 |
 | 修订版本 | 文档修正、错误修复、格式统一 | v6.0.0→v6.0.1 |
 
 ### 当前版本
@@ -216,11 +220,11 @@ v[主版本].[次版本].[修订版本]
 | 层级 | 文档 |
 |------|------|
 | L1 | [核心概念](01_concept_overview.md) |
-| L2 | [角色矩阵](02_role_matrix/index.md) |
+| L2 | [Skill矩阵](02_skill_matrix/index.md) |
 | L3 | [工作流](03_workflow/index.md) |
 | L4 | [参考文档](04_reference/index.md) |
 | L4-ADR | [架构决策](04_reference/document_templates/adr.md) |
 | L4-RAG | [参考资料管理](04_reference/knowledge_management.md) |
-| Prompts | [prompts/](prompts/) |
+| Prompts | [prompts/packs/](prompts/packs/) |
 | Skills | [skills/](skills/) |
 | 版本历史 | [CHANGELOG.md](CHANGELOG.md) |

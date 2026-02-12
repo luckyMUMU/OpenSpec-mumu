@@ -1,6 +1,6 @@
 # 快速路径
 
-> **版本**: v1.5.0
+> **版本**: v2.0.0
 
 **适用**: 单文件+<30行+无逻辑变更
 
@@ -9,30 +9,30 @@
 ## 流程
 
 ```
-Explorer → Worker → CodeReviewer → Librarian
+sop-code-explorer → sop-code-implementation → sop-code-review → sop-document-sync
 ```
 
 | 阶段 | 输入 | 输出 | 停止点 |
 |------|------|------|--------|
-| Explorer | 目标文件 | 审计报告 | - |
-| Worker | 审计报告 | 代码修改 | `[WAITING_FOR_CODE_REVIEW]` |
-| CodeReviewer | Diff+设计文档 | 审查报告 | Diff展示 |
-| Librarian | 代码修改 | 文档更新 | `[已完成]` |
+| sop-code-explorer | 目标文件 | 审计报告 | `[USER_DECISION]` |
+| sop-code-implementation | 审计报告 | 代码修改 | `[WAITING_FOR_CODE_REVIEW]` / `[DIR_WAITING_DEP]` |
+| sop-code-review | Diff+设计依据 | 审查报告 | `[USER_DECISION]` |
+| sop-document-sync | 代码修改 | 文档更新 | `[USER_DECISION]` |
 
 ---
 
 ## 步骤
 
-### 1. Explorer 分析
+### 1. sop-code-explorer 分析
 CMD: `AUDIT(file) -> audit_report`（模板：04_reference/interaction_formats/code_audit_report.md）
 
-### 2. Worker 修改
+### 2. sop-code-implementation 修改
 CMD: `IMPLEMENT(dir, design|audit) -> [WAITING_FOR_CODE_REVIEW]`（模板：04_reference/interaction_formats/worker_execution_result.md）
 
-### 3. CodeReviewer 审查
+### 3. sop-code-review 审查
 CMD: `CODE_REVIEW(diff, design_refs) -> review_report`（模板：04_reference/interaction_formats/code_review.md）
 
-### 4. Librarian 更新
+### 4. sop-document-sync 更新
 CMD: `DOC_SYNC(scope) -> [已完成]`
 
 ---

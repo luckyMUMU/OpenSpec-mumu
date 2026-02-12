@@ -2,7 +2,7 @@
 
 **层级**: L4 - 决策参考  
 **位置**: `docs/04_context_reference/adr_[模块]_[决策主题].md`  
-**创建者**: Prometheus / Oracle  
+**创建者**: sop-architecture-design / sop-implementation-designer  
 **规范**: 记录关键架构/技术决策的背景和理由
 
 ---
@@ -158,11 +158,11 @@ ADR-Cache-003: Redis集群方案选择
 
 ## 与 L2/L3 的关系
 
-| 层级 | 文件 | 内容 | 创建者 |
+| 层级 | 文件 | 内容 | 产出 Skill |
 |------|------|------|--------|
-| L2 | `.md` | 逻辑工作流 | Prometheus |
-| L3 | `design.md` | 技术规格 | Oracle |
-| L4 | `adr_*.md` | 决策背景 | Prometheus/Oracle |
+| L2 | `.md` | 逻辑工作流 | sop-architecture-design |
+| L3 | `design.md` | 技术规格 | sop-implementation-designer |
+| L4 | `adr_*.md` | 决策背景 | sop-architecture-design / sop-implementation-designer |
 
 👉 L2/L3 中的关键决策需在 L4 记录  
 👉 L4 引用对应的 L2/L3 文档  

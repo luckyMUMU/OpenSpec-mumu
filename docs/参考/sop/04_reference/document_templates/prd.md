@@ -1,7 +1,7 @@
 # PRD模板
 
 **位置**: `docs/01_requirements/[feature]_prd.md`  
-**创建者**: Analyst
+**创建者**: sop-requirement-analyst
 
 ---
 
@@ -21,7 +21,7 @@
 - 规则: [规则列表]
 
 ## 3. 用户分析
-- 画像: [角色/特征/痛点]
+- 画像: [人群/特征/痛点]
 - 场景: [触发/步骤/结果]
 - 故事: [作为XX我希望XX以便XX]
 

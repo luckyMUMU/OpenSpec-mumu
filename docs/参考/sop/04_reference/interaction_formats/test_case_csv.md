@@ -1,11 +1,11 @@
 ---
-version: v1.5.0
+version: v2.0.0
 updated: 2026-02-11
 ---
 
 # 测试用例 CSV 规范（简版）
 
-目的：Tester 以 CSV 作为测试设计载体（TDD 路径），TestWorker 只读实现测试代码。
+目的：`sop-test-design-csv` 以 CSV 作为测试设计载体（TDD 路径），`sop-test-implementation` 只读 CSV 并实现测试代码。
 
 ---
 
@@ -15,7 +15,7 @@ updated: 2026-02-11
 # version: v[major.minor.patch]
 # updated: YYYY-MM-DD
 # change: [brief]
-# owner: Tester
+# owner: sop-test-design-csv
 ```
 
 ## Columns（固定）

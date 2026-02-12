@@ -1,5 +1,5 @@
 ---
-version: v1.5.0
+version: v2.0.0
 updated: 2026-02-11
 artifact: L2 Architecture Design
 ---
@@ -9,7 +9,8 @@ artifact: L2 Architecture Design
 ## Scope
 
 - 适用产物：L2 架构文档（`04_reference/document_templates/architecture_design.md` 的实例）
-- 审查角色：Skeptic（审查）/ Prometheus（设计者）
+- 审查者：`sop-architecture-reviewer`
+- 设计者：`sop-architecture-design`
 
 ## SSOT
 

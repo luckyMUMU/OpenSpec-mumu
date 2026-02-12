@@ -1,5 +1,5 @@
 ---
-version: v1.5.1
+version: v2.0.0
 updated: 2026-02-12
 ---
 
@@ -9,7 +9,7 @@ updated: 2026-02-12
 
 原则：
 - Prompts / Skills 输出的路径以“逻辑目录”为准
-- 具体项目如采用不同目录结构，必须在此处提供映射，并要求 Router 产出路径时引用本表
+- 具体项目如采用不同目录结构，必须在此处提供映射，并要求 `sop-workflow-orchestrator` 产出路径时引用本表
 - 任何跨文档的链接优先使用“逻辑目录 + 文件名”，避免在 SOP 文档目录内使用会断链的相对路径
 
 ---
@@ -23,7 +23,7 @@ updated: 2026-02-12
 | `docs/02_logical_workflow/` | L2 架构设计（技术无关） | `docs/02_logical_workflow/` | `docs/参考/sop/04_reference/document_templates/architecture_design.md` |
 | `docs/03_technical_spec/` | L3 技术规格、测试用例资产（CSV 等） | `docs/03_technical_spec/` | `docs/参考/sop/04_reference/document_templates/implementation_design.md` |
 | `docs/04_context_reference/` | ADR + RAG + Decision Records（决策与参考资料） | `docs/04_context_reference/` | `docs/参考/sop/04_reference/knowledge_management.md` |
-| `src/**/design.md` | 目录级实现设计（Oracle 输出） | `src/**/design.md` | `docs/参考/sop/AGENT_SOP.md` |
+| `src/**/design.md` | 目录级实现设计（sop-implementation-designer 输出） | `src/**/design.md` | `docs/参考/sop/AGENT_SOP.md` |
 | `tests/acceptance/` | 分层验收测试代码与设计 | `tests/acceptance/` | `docs/参考/sop/05_constraints/acceptance_criteria.md` |
 | `temp/` | 临时产物/调度状态/报告（非持久化） | `temp/` | （无） |
 
@@ -41,9 +41,9 @@ updated: 2026-02-12
 
 ---
 
-## Router 输出要求
+## sop-workflow-orchestrator 输出要求
 
-Router 在输出“文档位置”时：
+`sop-workflow-orchestrator` 在输出“文档位置”时：
 - 必须引用本表，不得硬编码相对路径（避免在 SOP 文档目录内出现断链链接）
-- 若项目中对应目录不存在，需在输出中注明“需要创建目录”，并交由 Worker/Librarian 在后续步骤创建
+- 若项目中对应目录不存在，需在输出中注明“需要创建目录”，并交由实现/文档类 Skill 在后续步骤创建
 

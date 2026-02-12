@@ -2,7 +2,7 @@
 
 **层级**: L3 - 功能级  
 **位置**: `docs/01_requirements/modules/[module]/[feature]_frd.md`  
-**创建者**: Analyst  
+**创建者**: sop-requirement-analyst  
 **规范**: 定义功能详情、交互流程、验收标准，包含界面原型（UI项目）
 
 ---
@@ -148,10 +148,10 @@
 
 ## 与L2的关系
 
-| 层级 | 文档 | 内容 | 创建者 |
+| 层级 | 文档 | 内容 | 产出 Skill |
 |------|------|------|--------|
-| L2 | `modules/[module]_mrd.md` | 模块功能清单 | Analyst |
-| L3 | `modules/[module]/[feature]_frd.md` | 功能详情 | Analyst |
-| L3 | `prototypes/[module]/` | 界面原型 | Analyst |
+| L2 | `modules/[module]_mrd.md` | 模块功能清单 | sop-requirement-analyst |
+| L3 | `modules/[module]/[feature]_frd.md` | 功能详情 | sop-requirement-analyst |
+| L3 | `prototypes/[module]/` | 界面原型 | sop-requirement-analyst |
 
 👉 L3 详细展开L2中的功能点，UI项目包含原型设计

@@ -2,7 +2,7 @@
 
 **层级**: L2 - 模块级  
 **位置**: `docs/01_requirements/modules/[module]_mrd.md`  
-**创建者**: Analyst  
+**创建者**: sop-requirement-analyst  
 **规范**: 定义模块功能、边界、接口，不涉及具体功能实现细节
 
 ---
@@ -125,11 +125,11 @@
 
 ## 与L1/L3的关系
 
-| 层级 | 文档 | 内容 | 创建者 |
+| 层级 | 文档 | 内容 | 产出 Skill |
 |------|------|------|--------|
-| L1 | `project_prd.md` | 项目愿景、模块清单 | Analyst |
-| L2 | `modules/[module]_mrd.md` | 模块功能、边界 | Analyst |
-| L3 | `modules/[module]/[feature]_frd.md` | 功能详情 | Analyst |
-| L3 | `prototypes/[module]/` | 界面原型 | Analyst |
+| L1 | `project_prd.md` | 项目愿景、模块清单 | sop-requirement-analyst |
+| L2 | `modules/[module]_mrd.md` | 模块功能、边界 | sop-requirement-analyst |
+| L3 | `modules/[module]/[feature]_frd.md` | 功能详情 | sop-requirement-analyst |
+| L3 | `prototypes/[module]/` | 界面原型 | sop-requirement-analyst |
 
 👉 L2 定义模块边界和功能清单，详细功能下沉到L3

@@ -5,7 +5,12 @@ description: "Deep path workflow for complex changes. Invoke when task is triage
 
 # Deep Path Workflow
 
-> **版本**: v1.5.0
+> **版本**: v2.0.0
+
+## 触发条件
+
+- 仅当任务为跨文件/新功能/重构/API 变更等复杂变更时 → 必须调用本 Skill
+- 仅当存在路径选择冲突或输入缺口影响后续阶段时 → 必须进入 `[USER_DECISION]`
 
 ## Input
 

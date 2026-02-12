@@ -5,7 +5,7 @@ description: "Architecture review workflow with multi-round iteration. Invoke wh
 
 # Architecture Review Workflow
 
-> **版本**: v1.5.0
+> **版本**: v2.0.0
 
 **位置**: `sop/skills/sop-architecture-reviewer/SKILL.md`
 
@@ -63,7 +63,7 @@ description: "Architecture review workflow with multi-round iteration. Invoke wh
 
 **Flow**:
 ```
-Round 1: Identify issues → Designer fixes
+Round 1: Identify issues → sop-architecture-design fixes
 Round 2: Verify fixes → New issues?
 Round 3: Final check → Pass or deadlock
 ```

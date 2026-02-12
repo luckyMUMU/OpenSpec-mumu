@@ -1,10 +1,10 @@
 # 设计审查格式
 
-**使用**: Skeptic ↔ Prometheus
+**使用**: sop-architecture-reviewer ↔ sop-architecture-design
 
 ---
 
-## Skeptic 审查报告
+## sop-architecture-reviewer 审查报告
 
 ```markdown
 ## 审查报告 - 第[N]轮
@@ -27,7 +27,7 @@
 
 ---
 
-## Prometheus 回复
+## sop-architecture-design 回复
 
 ```markdown
 ## 审查回复 - 第[N]轮
@@ -59,8 +59,8 @@
 - 轮次: [N]
 
 ### 观点
-**Skeptic**: [观点]
-**Prometheus**: [观点]
+**sop-architecture-reviewer**: [观点]
+**sop-architecture-design**: [观点]
 
 ### 选项
 - A: [方案]
@@ -83,7 +83,7 @@
 - 已采纳: [N]
 
 ### 下一步
-进入 Oracle 实现设计
+进入 sop-implementation-designer 实现设计
 ```
 
 ---
