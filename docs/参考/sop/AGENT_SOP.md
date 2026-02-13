@@ -16,8 +16,12 @@ updated: 2026-02-12
 5. 先复用→改进→新建→清理
 6. **实现类 Skill 按目录工作**: 以 design.md 所在目录为工作范围
 7. **自底向上并行**: 按目录深度从深到浅并行执行
+8. **无出处不决断**: 无法追溯到既定依据的判断/决策须带建议询问用户（`ASK_USER_DECISION`），不得自行决断推进
+9. **审查须确认**: 各审查环节结论须通过对用户的明确提问完成确认，审查输出须包含可操作确认项（是否通过/是否修订/选项）
 
 **禁止项矩阵**: [查看完整黑白名单](05_constraints/constraint_matrix.md)
+
+**中断与再执行**：流程支持在任意停止点中断后，经用户决策与方案调整（重建），再从可恢复检查点再执行。可恢复检查点清单与续跑格式见 [03_workflow/index.md#中断与再执行](03_workflow/index.md#中断与再执行)、[state_dictionary.md](05_constraints/state_dictionary.md#可恢复检查点recoverable-checkpoints)、[continuation_request](04_reference/interaction_formats/continuation_request.md)。
 
 ---
 
@@ -67,16 +71,19 @@ sop-requirement-analyst
 → sop-architecture-design
 → sop-architecture-reviewer
 → sop-implementation-designer (按目录)
-→ sop-progress-supervisor (dir_map)
+→ sop-code-explorer (LIST_DESIGN_MD → design_list)
+→ sop-progress-supervisor (SCHEDULE_DIRS(design_list) → dir_map)
 → sop-code-implementation (按目录并行)
 → sop-code-review
 → sop-document-sync
 ```
 
+design_list 由 **sop-code-explorer** 产出，**sop-progress-supervisor** 接收后执行 SCHEDULE_DIRS 创建 dir_map。参见：05_constraints/command_dictionary.md（LIST_DESIGN_MD 主体为 sop-code-explorer）。
+
 **目录并行执行流程**
 ```
-1. `sop-code-explorer` 扫描目录结构，识别所有 design.md
-2. `sop-progress-supervisor` 按目录深度排序，创建 dir_map
+1. `sop-code-explorer` 扫描目录结构，识别所有 design.md，产出 design_list
+2. `sop-progress-supervisor` 接收 design_list，按目录深度排序，创建 dir_map
 3. `sop-progress-supervisor` 按深度降序分批调度 `sop-code-implementation`（同深度并行）
 4. `sop-code-implementation` 在 Scope 内执行；遇到跨目录依赖则进入 `[DIR_WAITING_DEP]`
 5. `sop-progress-supervisor` 监控状态并唤醒等待依赖的目录批次
@@ -131,7 +138,7 @@ sop-code-explorer → sop-code-implementation → sop-code-review → sop-docume
 | Strike | 条件 | 行动 |
 |--------|------|------|
 | 1 | 同一 Skill 同一步骤失败 | 自动修正（同 Skill 内） |
-| 2 | 再失败 | 调用 `sop-code-explorer` + 设计类 Skill 复核并微调设计/实现策略 |
+| 2 | 再失败 | 调用 `sop-code-explorer` + 设计类 Skill（implementation-designer / architecture-design / architecture-reviewer / design-placement，见 [three_strike_rule](03_workflow/three_strike_rule.md)）复核并微调设计/实现策略 |
 | 3 | 再失败 | **熔断**：由 `sop-progress-supervisor` 生成报告并停止自动推进 |
 
 ---

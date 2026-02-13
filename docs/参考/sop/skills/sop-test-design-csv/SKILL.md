@@ -47,6 +47,7 @@ CMD: `TRACE_SOURCES(inputs) -> source_dependency_block`
 - 交付物（落盘）：`docs/03_technical_spec/test_cases/*.csv`
 - Stop: `[WAITING_FOR_TEST_DESIGN]`
 - CMD: `TEST_DESIGN_CSV(design_refs, criteria) -> csv_path`
+- **审查确认**：测试设计产出后须通过对用户的明确提问完成确认（如“是否接受当前用例集”“是否补充某类场景”“选 A/B/C”），输出须包含可操作确认项，待用户回复后再进入下一阶段
 
 ## Stop Points
 

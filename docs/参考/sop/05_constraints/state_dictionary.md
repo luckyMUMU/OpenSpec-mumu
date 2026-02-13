@@ -25,6 +25,8 @@ updated: 2026-02-12
 | `[WAITING_FOR_ARCHITECTURE]` | sop-architecture-design | 架构设计已完成，等待确认 | 用户确认架构 |
 | `[WAITING_FOR_DESIGN]` | sop-implementation-designer | 实现设计已完成，等待确认 | 用户确认设计 |
 
+多目录场景下 **设计确认粒度**：默认**整批确认**（所有目录的 design.md 产出后，进行一次 `DESIGN_CONFIRM()`，用户确认后进入 SCHEDULE_DIRS）。若项目需每目录或仅关键目录确认，在实现设计中约定并执行对应停止点。
+
 ---
 
 ## 架构审查结果（Architecture Review Result）
@@ -132,4 +134,28 @@ updated: 2026-02-12
 
 | 状态 | 触发者 | 含义 | 备注 |
 |------|--------|------|------|
-| `[已完成]` | sop-document-sync / sop-progress-supervisor | 全流程收尾完成 | 用于对用户声明任务结束（非目录级别） |
+| `[已完成]` | sop-document-sync / sop-progress-supervisor | 全流程收尾完成 | 用于对用户声明任务结束（非目录级别）；不作为再执行起点 |
+
+---
+
+## 可恢复检查点（Recoverable Checkpoints）
+
+以下状态可作为“再执行”的起点；再执行前须具备对应最小输入/落盘物，并由 continuation_request 声明（模板：04_reference/interaction_formats/continuation_request.md）。
+
+| 检查点状态 | 再执行所需最小输入/落盘物 | 建议下一步 Skill |
+|------------|---------------------------|------------------|
+| `[WAITING_FOR_REQUIREMENTS]` | PRD/MRD/FRD 草稿路径、用户确认结论或决策记录 | sop-requirement-analyst（修订）或进入下一阶段 |
+| `[WAITING_FOR_ARCHITECTURE]` | PRD/MRD 路径、架构设计草稿路径、用户确认结论 | sop-architecture-design（修订）或 sop-architecture-reviewer |
+| `[ARCHITECTURE_PASSED]` | L2 架构文档路径（已审查通过） | sop-implementation-designer |
+| `[WAITING_FOR_DESIGN]` | L2 架构路径、各目录 design.md 路径、用户确认结论 | sop-implementation-designer（修订）或 sop-code-explorer + sop-progress-supervisor |
+| `[SCHEDULING]` | design_list（path + depth）、dir_map 草稿 | sop-progress-supervisor |
+| `[PARALLEL_EXECUTING]` / `[WAITING_DEPENDENCY]` | dir_map、temp/scheduler_state.md、各目录状态 | sop-progress-supervisor |
+| `[DIR_WAITING_DEP]` | 当前目录 scope、依赖目录列表、依赖目录完成情况 | sop-progress-supervisor 唤醒后 sop-code-implementation |
+| `[WAITING_FOR_CODE_REVIEW]` | Diff、design/验收依据路径、当前目录 scope | sop-code-review |
+| `[DIR_COMPLETED]`（单目录） | dir_map、已完成目录列表、剩余目录 | sop-progress-supervisor 调度下一批或 sop-code-review / sop-document-sync |
+| `[WAITING_FOR_TEST_DESIGN]` | 测试设计 CSV/文档路径、用户确认结论 | sop-test-design-csv（修订）或 sop-test-implementation |
+| `[WAITING_FOR_TEST_IMPLEMENTATION]` | CSV 路径、测试代码路径、审查结论 | sop-code-review（测试代码审查）或 sop-code-implementation |
+| `[WAITING_FOR_L1_REVIEW]` / `[WAITING_FOR_L2_REVIEW]` / `[WAITING_FOR_L3_REVIEW]` / `[WAITING_FOR_L4_REVIEW]` | 对应层级验收结果、design/验收依据路径 | sop-code-review（REVIEW_ACCEPTANCE） |
+| `[USER_DECISION]` / `[FUSION_TRIGGERED]` | 决策记录路径、方案调整说明、重置计数器 | 选择：重新分诊（ROUTE）或从本表上述某一检查点续跑 |
+
+说明：从 `[USER_DECISION]` / `[FUSION_TRIGGERED]` 续跑时，须在 continuation_request 中写明“建议下一步”对应的检查点及上表所列最小输入。

@@ -28,6 +28,8 @@ CMD: `WAIT_DEP(dir,deps)` / `COMPLETE_DIR(dir)`
 
 参见：05_constraints/command_dictionary.md
 
+**多目录时实现设计确认粒度**：默认**整批确认**（sop-implementation-designer 按目录产出全部 design.md 后，进行一次用户确认 `DESIGN_CONFIRM()`，再进入 sop-code-explorer → sop-progress-supervisor）。若需每目录或仅关键目录确认，在 05_constraints/state_dictionary.md 与实现设计中约定。
+
 ### 并行执行规则
 
 | 场景 | 执行方式 | 说明 |
@@ -73,7 +75,8 @@ sop-requirement-analyst
 → sop-architecture-design
 → sop-architecture-reviewer
 → sop-implementation-designer (按目录)
-→ sop-progress-supervisor (dir_map)
+→ sop-code-explorer (LIST_DESIGN_MD → design_list)
+→ sop-progress-supervisor (SCHEDULE_DIRS(design_list) → dir_map)
 → sop-code-implementation (按目录并行)
 → sop-code-review
 → sop-document-sync
@@ -84,7 +87,8 @@ sop-requirement-analyst
 ```
 sop-requirement-analyst
 → sop-implementation-designer (按目录)
-→ sop-progress-supervisor (dir_map)
+→ sop-code-explorer (LIST_DESIGN_MD → design_list)
+→ sop-progress-supervisor (SCHEDULE_DIRS(design_list) → dir_map)
 → sop-code-implementation (按目录并行)
 → sop-code-review
 → sop-document-sync
@@ -98,12 +102,18 @@ sop-requirement-analyst
 
 ## TDD深度路径 (可选)
 
+**多目录时**（与标准深度路径一致，需目录调度）：
 ```
 ... 深度路径调用链 ...
 → sop-test-design-csv
 → sop-test-implementation
+→ sop-progress-supervisor (dir_map)
 → sop-code-implementation (运行验收 + 修正代码)
+→ sop-code-review
+→ sop-document-sync
 ```
+
+**单目录时**：可省略 sop-progress-supervisor，直接 `sop-test-implementation → sop-code-implementation → sop-code-review → sop-document-sync`。
 
 分层验收门禁与停止点以 `05_constraints/acceptance_criteria.md` 与 `05_constraints/state_dictionary.md` 为准。
 
@@ -126,6 +136,20 @@ sop-requirement-analyst
 | 3 | 再失败 | **熔断**：由 `sop-progress-supervisor` 生成报告并停止自动推进 |
 
 👉 [三错即停详情](three_strike_rule.md)
+
+---
+
+## 中断与再执行
+
+流程支持**中断 → 重建 → 再执行**的循环：在任意停止点中断后，可经用户决策与方案调整完成“重建”，再从某一可验证检查点安全地再执行。
+
+- **中断点**：任意停止点（含 `[USER_DECISION]`、`[FUSION_TRIGGERED]`）。
+- **重建**：用户决策 + 方案调整 + 可选 Scope/设计/验收变更 + 重置计数器（熔断恢复时参见 [三错即停](three_strike_rule.md)）。
+- **再执行**：从可恢复检查点继续，使用 [续跑与恢复请求](../04_reference/interaction_formats/continuation_request.md) 交接。
+
+**可恢复检查点**：允许作为再执行起点的状态及所需最小输入见 [state_dictionary.md](../05_constraints/state_dictionary.md#可恢复检查点recoverable-checkpoints)。从 `[USER_DECISION]` / `[FUSION_TRIGGERED]` 续跑时，须在 continuation_request 中写明“建议下一步”对应的检查点及该清单所列最小输入。
+
+**状态机**：`[USER_DECISION]` / `[FUSION_TRIGGERED]` 后可选 (1) 重新分诊 → `ROUTE(task)` 或 (2) 从检查点续跑 → 输出 continuation_request → 对应 Skill 再执行。参见 [sop_state_machine.md](../../参考/sop_state_machine.md)。
 
 ---
 
