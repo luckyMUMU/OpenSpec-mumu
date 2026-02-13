@@ -149,7 +149,7 @@ sop-requirement-analyst
 
 **可恢复检查点**：允许作为再执行起点的状态及所需最小输入见 [state_dictionary.md](../05_constraints/state_dictionary.md#可恢复检查点recoverable-checkpoints)。从 `[USER_DECISION]` / `[FUSION_TRIGGERED]` 续跑时，须在 continuation_request 中写明“建议下一步”对应的检查点及该清单所列最小输入。
 
-**状态机**：`[USER_DECISION]` / `[FUSION_TRIGGERED]` 后可选 (1) 重新分诊 → `ROUTE(task)` 或 (2) 从检查点续跑 → 输出 continuation_request → 对应 Skill 再执行。参见 [sop_state_machine.md](../../参考/sop_state_machine.md)。
+**状态机**：`[USER_DECISION]` / `[FUSION_TRIGGERED]` 后可选 (1) 重新分诊 → `ROUTE(task)` 或 (2) 从检查点续跑 → 输出 continuation_request → 对应 Skill 再执行。参见 [sop_state_machine.md](../../sop_state_machine.md)。
 
 ---
 
