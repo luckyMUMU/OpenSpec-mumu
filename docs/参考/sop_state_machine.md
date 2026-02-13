@@ -1,5 +1,5 @@
 ---
-version: v2.0.0
+version: v2.1.0
 updated: 2026-02-12
 artifact: SOP State Machine
 scope: docs/参考/sop

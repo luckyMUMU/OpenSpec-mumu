@@ -1,7 +1,7 @@
 ---
 name: "sop-tdd-workflow"
 description: "TDD工作流定义。Invoke when 用户启用TDD测试驱动开发流程。"
-version: v2.0.0
+version: v2.1.0
 updated: 2026-02-12
 ---
 
@@ -74,7 +74,7 @@ TDD（测试驱动开发）作为深度路径的可选增强：在编码前先�
 
 与分层验收的关系（参见 05_constraints/acceptance_criteria.md）：
 - CSV 是 **测试设计载体**（TDD 路径下的唯一用例来源）
-- `sop-test-implementation` 将 CSV 用例实现为验收测试代码（建议落地到 `tests/acceptance/l1-l4/`）
+- `sop-test-implementation` 将 CSV 用例实现为验收测试代码（必须落地到 `tests/acceptance/l1-l4/`）
 - `sop-code-implementation` 仅运行测试并根据失败结果修正代码，不创建/修改测试资产
 
 ---
@@ -168,7 +168,7 @@ CMD: `RUN_ACCEPTANCE(level) -> [WAITING_FOR_Lx_REVIEW]`
 
 ## 启用条件
 
-`sop-workflow-orchestrator` 在以下场景建议启用 TDD：
+`sop-workflow-orchestrator` 在以下场景启用 TDD（可选推荐）：
 - 核心业务模块
 - 复杂逻辑场景
 - 需要高测试覆盖度

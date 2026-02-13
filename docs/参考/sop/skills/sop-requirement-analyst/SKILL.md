@@ -1,7 +1,7 @@
 ---
 name: "sop-requirement-analyst"
 description: "Requirement analysis workflow for multi-level requirements (L1 PRD / L2 MRD / L3 FRD). Invoke when starting a new project, module, or feature, or when requirements need clarification."
-version: v2.0.0
+version: v2.1.0
 updated: 2026-02-12
 ---
 

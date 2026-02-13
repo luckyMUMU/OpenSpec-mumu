@@ -1,7 +1,7 @@
 ---
 name: "sop-architecture-reviewer"
 description: "Architecture review workflow with multi-round iteration. Invoke when architecture design is complete and needs quality review."
-version: v2.0.0
+version: v2.1.0
 updated: 2026-02-12
 ---
 

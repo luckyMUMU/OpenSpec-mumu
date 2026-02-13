@@ -1,7 +1,7 @@
 ---
 name: "sop-code-explorer"
 description: "Code audit workflow for impact assessment and risk identification. Invoke before implementation to understand existing code and assess change impact."
-version: v2.0.0
+version: v2.1.0
 updated: 2026-02-12
 ---
 

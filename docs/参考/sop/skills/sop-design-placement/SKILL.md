@@ -1,7 +1,7 @@
 ---
 name: "sop-design-placement"
 description: "指导AI正确放置设计文档和创建design.md。Invoke when deciding design/doc placement and design.md granularity in a skill-first workflow."
-version: v2.0.0
+version: v2.1.0
 updated: 2026-02-12
 ---
 

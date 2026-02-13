@@ -1,7 +1,7 @@
 ---
 name: "sop-fast-path"
 description: "Fast path workflow for single-file, small changes. Invoke when task is triaged as fast path (single file, <30 lines, no logic change)."
-version: v2.0.0
+version: v2.1.0
 updated: 2026-02-12
 ---
 

@@ -1,5 +1,5 @@
 ---
-version: v2.0.0
+version: v2.1.0
 updated: 2026-02-12
 ---
 
@@ -178,6 +178,8 @@ docs/03_technical_spec/test_cases/
 ---
 
 ## 审查标准
+
+> 全量审查标准见 [review_standards/index.md](review_standards/index.md)
 
 | 标准 | 用途 |
 |------|------|

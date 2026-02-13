@@ -1,7 +1,7 @@
 ---
 name: "sop-code-review"
 description: "Code review workflow for validating changes against design docs and common engineering practices. Invoke after implementation diff is ready and before user approval."
-version: v2.0.0
+version: v2.1.0
 updated: 2026-02-12
 ---
 

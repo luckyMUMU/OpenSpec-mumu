@@ -1,7 +1,7 @@
 ---
 name: "sop-capability-reuse"
 description: "指导AI Agent复用和优化已有能力。Invoke when needing to create new functionality, to check for existing capabilities first and prioritize improvement over creation."
-version: v2.0.0
+version: v2.1.0
 updated: 2026-02-12
 ---
 
@@ -127,7 +127,7 @@ updated: 2026-02-12
 ## 约束
 
 1. **先检查后行动** - 必须先搜索已有能力
-2. **优先改进** - 如可能，优先改进而非新建
+2. **优先改进** - 当满足改进条件时，必须优先改进而非新建；否则进入步骤3
 3. **及时清理** - 新建后必须检查并清理过时代码
 4. **保持兼容** - 改进时不破坏已有接口
 5. **文档同步** - 所有变更必须同步更新文档
