@@ -43,14 +43,19 @@ TDD（测试驱动开发）作为深度路径的可选增强：在编码前先�
 ```
 
 ### TDD深度路径
+
+**多目录时**（需目录调度，与标准深度路径一致）：
 ```
 ... deep path ...
 → sop-test-design-csv
 → sop-test-implementation
+→ sop-progress-supervisor (dir_map)
 → sop-code-implementation（运行验收 + 修正代码）
 → sop-code-review
 → sop-document-sync
 ```
+
+**单目录时**：可省略 sop-progress-supervisor，直接 test-implementation → code-implementation → code-review → document-sync。
 
 ---
 

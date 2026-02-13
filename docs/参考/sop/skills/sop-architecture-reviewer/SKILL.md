@@ -78,6 +78,7 @@ Round 3: Final check → Pass or deadlock
 - 交付物（模板）：04_reference/interaction_formats/design_review.md
 - 交付物（落盘）：`temp/architecture_review.md`
 - CMD: `ARCH_REVIEW(l2)`（post: `[ARCHITECTURE_PASSED]` / `[USER_DECISION]`）
+- **审查确认**：审查结论须通过对用户的明确提问完成确认；输出须包含可操作确认项（如“是否通过”“是否采纳某条修订”“选 A/B/C”），使用 `ASK_USER_DECISION` 或等价形式，待用户回复后再进入下一状态
 
 ## Stop Points
 

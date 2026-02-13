@@ -30,10 +30,15 @@ updated: 2026-02-12
 
 ---
 
+## 测试设计载体（主从约定）
+
+- **默认/推荐载体**：**CSV**。与 Skill 矩阵、sop-test-design-csv 一致；建议位置 `docs/03_technical_spec/test_cases/*.csv`，测试代码落地 `tests/acceptance/l1-l4/`（参见 04_reference/document_directory_mapping.md）。
+- **替代形态**：非 TDD 或项目自选时，可采用 `.md` 等形态（如下文 L1–L4 中的 `*_test_design.md`）；在实现设计中明确载体与路径并保持可复制执行即可。
+
 ## TDD 路径的测试资产约定
 
 当启用 TDD 深度路径（参见 `skills/sop-tdd-workflow/SKILL.md`）时：
-- **sop-test-design-csv 的测试设计载体**：以 CSV 为准，建议位置 `docs/03_technical_spec/test_cases/*.csv`（参见 04_reference/document_directory_mapping.md）
+- **sop-test-design-csv 的测试设计载体**：以 **CSV 为主**，建议位置 `docs/03_technical_spec/test_cases/*.csv`（参见 04_reference/document_directory_mapping.md）
 - **sop-test-implementation 的测试代码落地**：将 CSV 用例实现为分层验收测试，建议目录 `tests/acceptance/l1-l4/`
 - **sop-code-implementation 的边界不变**：仅运行测试，不创建/修改测试资产
 

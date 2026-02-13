@@ -126,12 +126,32 @@ stateDiagram-v2
   WAITING_FOR_ARCHITECTURE --> USER_DECISION: ARCH_REVIEW deadlock
   ARCH_PASSED --> DESIGN: IMPL_DESIGN(l2, dir)
   DESIGN --> WAITING_FOR_DESIGN: [WAITING_FOR_DESIGN]
-  WAITING_FOR_DESIGN --> SCHEDULING: SCHEDULE_DIRS(design_list)
+  WAITING_FOR_DESIGN --> SCHEDULING: DESIGN_CONFIRM() 用户确认后\nSCHEDULE_DIRS(design_list)
 
-  USER_DECISION --> ROUTE: 用户给出决策/补充输入
+  state USER_DECISION [USER_DECISION]
+  state FUSION_TRIGGERED [FUSION_TRIGGERED]
+  state RESUME [从检查点续跑]
+
+  USER_DECISION --> ROUTE: 用户选择重新分诊
+  USER_DECISION --> RESUME: 用户选择从检查点续跑
+  FUSION_TRIGGERED --> ROUTE: 用户选择重新分诊
+  FUSION_TRIGGERED --> RESUME: 用户选择从检查点续跑
+
+  RESUME --> WAITING_FOR_REQUIREMENTS: 续跑至需求确认后
+  RESUME --> WAITING_FOR_ARCHITECTURE: 续跑至架构确认后
+  RESUME --> ARCH_PASSED: 续跑至架构通过后
+  RESUME --> WAITING_FOR_DESIGN: 续跑至设计确认后
+  RESUME --> SCHEDULING: 续跑至调度前
+  RESUME --> PARALLEL_EXECUTING: 续跑至并行执行中
+  PARALLEL_EXECUTING --> FUSION_TRIGGERED: STRIKE×3 熔断
+  RESUME --> WAITING_FOR_CODE_REVIEW: 续跑至代码审查前
+
+  note right of RESUME: 续跑须携带 continuation_request\n及可恢复检查点所需最小输入\n(05_constraints/state_dictionary.md)
 
   DONE --> [*]
 ```
+
+说明：`[WAITING_FOR_DESIGN]` 至 `SCHEDULING` 的转移须在用户执行 `DESIGN_CONFIRM()` 确认设计后进行；design_list 由 sop-code-explorer 在进入调度前产出（参见 AGENT_SOP 目录并行执行流程）。`[USER_DECISION]` / `[FUSION_TRIGGERED]` 后可选择重新分诊或从可恢复检查点续跑；可恢复检查点清单见 05_constraints/state_dictionary.md。
 
 ### 2) 目录级子状态机（实现 → 审查 → 人工确认 → 完成）
 

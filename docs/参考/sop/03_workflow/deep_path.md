@@ -26,7 +26,8 @@ sop-requirement-analyst
 → sop-architecture-design
 → sop-architecture-reviewer
 → sop-implementation-designer (按目录)
-→ sop-progress-supervisor (dir_map)
+→ sop-code-explorer (LIST_DESIGN_MD → design_list)
+→ sop-progress-supervisor (SCHEDULE_DIRS(design_list) → dir_map)
 → sop-code-implementation (按目录并行)
 → sop-code-review
 → sop-document-sync
@@ -34,7 +35,7 @@ sop-requirement-analyst
 
 ### 2.2 目录并行执行（状态机）
 
-CMD: `LIST_DESIGN_MD(root) -> design_list`  
+CMD: `LIST_DESIGN_MD(root) -> design_list`（主体：sop-code-explorer）  
 CMD: `SCHEDULE_DIRS(design_list) -> dir_map`  
 CMD: `RUN_DIR_BATCH(depth_desc)`（同 depth 并行）  
 CMD: `WAIT_DEP(dir,deps)` / `COMPLETE_DIR(dir)`  

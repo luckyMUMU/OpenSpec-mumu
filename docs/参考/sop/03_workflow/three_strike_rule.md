@@ -14,7 +14,9 @@ updated: 2026-02-12
 | Strike | 条件 | 行动 | 后果 |
 |--------|------|------|------|
 | 1 | 同一 Skill 失败 | 同 Skill 内自检与修正 | 允许继续 |
-| 2 | 再失败 | 调用 `sop-code-explorer` + 设计类 Skill 复核并微调 | 暂停自动推进 |
+| 2 | 再失败 | 调用 `sop-code-explorer` + **设计类 Skill** 复核并微调 | 暂停自动推进 |
+
+**设计类 Skill**（由 sop-progress-supervisor 根据失败环节选择）：sop-implementation-designer、sop-architecture-design、sop-architecture-reviewer、sop-design-placement。完整层级见 [02_skill_matrix/index.md](../02_skill_matrix/index.md)。
 | 3 | 再失败 | **熔断**：由 `sop-progress-supervisor` 生成报告并停止 | 必须人工决策 |
 
 ---

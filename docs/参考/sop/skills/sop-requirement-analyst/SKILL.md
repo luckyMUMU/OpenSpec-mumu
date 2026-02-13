@@ -69,6 +69,7 @@ Rounds: core → clarify → confirm
 
 - Stop: `[WAITING_FOR_REQUIREMENTS]`
 - CMD: `REQ_ANALYZE(input)`
+- **审查确认**：需求确认须通过对用户的明确提问完成（如“是否接受当前范围”“是否补充某条”“选 A/B/C”），输出须包含可操作确认项，使用 `ASK_USER_DECISION` 或等价形式，待用户回复后再进入下一阶段
 
 ## Stop Points
 

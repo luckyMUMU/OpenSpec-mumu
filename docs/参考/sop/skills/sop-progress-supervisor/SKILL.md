@@ -28,8 +28,8 @@ updated: 2026-02-12
 **Purpose**: Create directory-skill mapping for parallel execution
 
 **Actions**:
-CMD: `LIST_DESIGN_MD(root) -> design_list`
-CMD: `SCHEDULE_DIRS(design_list) -> dir_map`（必须持久化 `temp/scheduler_state.md`）
+- 接收 **design_list**（由 sop-code-explorer 执行 `LIST_DESIGN_MD(root)` 产出；命令归属见 05_constraints/command_dictionary.md）
+- CMD: `SCHEDULE_DIRS(design_list) -> dir_map`（必须持久化 `temp/scheduler_state.md`）
 
 ### Step 2: Implementation Skill Scheduling
 

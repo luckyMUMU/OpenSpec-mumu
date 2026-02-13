@@ -86,6 +86,7 @@ When deadlock happens:
 
 - 模板：04_reference/interaction_formats/code_review.md
 - CMD: `CODE_REVIEW(diff, design_refs)`（pre: `[WAITING_FOR_CODE_REVIEW]`；post: `Diff展示` / `[DIR_WORKING]` / `[USER_DECISION]`）
+- **审查确认**：审查结论须通过对用户的明确提问完成确认；输出须包含可操作确认项（如“是否放行”“是否返工并采纳某条”“选 A/B/C”），使用 `ASK_USER_DECISION` 或等价形式，待用户回复后再进入下一状态
 
 ## Constraints
 
