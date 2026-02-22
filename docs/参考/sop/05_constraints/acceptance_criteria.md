@@ -1,6 +1,6 @@
 ---
 version: v2.4.0
-updated: 2026-02-21
+updated: 2026-02-22
 ---
 
 # 分层验收标准规范
@@ -448,8 +448,8 @@ tests/
 ## 相关文档
 
 - [禁止项矩阵](constraint_matrix.md) - 黑白名单约束
-- [design.md模板](../04_reference/document_templates/implementation_design.md) - 实现设计模板
-- [工作流规范](../03_workflow/deep_path.md) - 深度路径流程
+- [design.md模板](04_reference/document_templates/implementation_design.md) - 实现设计模板
+- [工作流规范](03_workflow/deep_path.md) - 深度路径流程
 
 ---
 

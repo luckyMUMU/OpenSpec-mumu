@@ -166,13 +166,13 @@ FRD 中的原型章节链接到此处：
 ## 3. 界面原型
 
 ### 3.1 线框图
-👉 [线框图](../../prototypes/[module]/[feature]_wireframe.drawio)
+👉 [线框图](docs/01_requirements/prototypes/[module]/[feature]_wireframe.drawio)
 
 ### 3.2 高保真原型
-👉 [高保真原型](../../prototypes/[module]/[feature]_mockup.fig)
+👉 [高保真原型](docs/01_requirements/prototypes/[module]/[feature]_mockup.fig)
 
 ### 3.3 交互说明
-👉 [交互说明](../../prototypes/[module]/[feature]_interaction.md)
+👉 [交互说明](docs/01_requirements/prototypes/[module]/[feature]_interaction.md)
 ```
 
 ---

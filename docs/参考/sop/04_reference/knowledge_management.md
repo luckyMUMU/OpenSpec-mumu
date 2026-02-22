@@ -323,7 +323,7 @@ docs/04_context_reference/
 
 ## 相关文档
 
-- [ADR 模板](document_templates/adr.md)
-- [架构设计 Skill](../skills/sop-architecture-design/SKILL.md)
-- [实现设计 Skill](../skills/sop-implementation-designer/SKILL.md)
-- [RAG README](rag/README.md)
+- [ADR 模板](04_reference/document_templates/adr.md)
+- [架构设计 Skill](skills/sop-architecture-design/SKILL.md)
+- [实现设计 Skill](skills/sop-implementation-designer/SKILL.md)
+- [RAG README](04_reference/rag/README.md)

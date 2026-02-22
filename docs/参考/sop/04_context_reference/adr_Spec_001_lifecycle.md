@@ -135,6 +135,6 @@ created: 2026-02-22
 
 ## 相关文档
 
-- **文档目录映射**: [document_directory_mapping.md](../document_directory_mapping.md)
-- **目录策略**: [design_directory_strategy.md](../design_directory_strategy.md)
-- **ADR 模板**: [document_templates/adr.md](../document_templates/adr.md)
+- **文档目录映射**: [document_directory_mapping.md](04_reference/document_directory_mapping.md)
+- **目录策略**: [design_directory_strategy.md](04_reference/design_directory_strategy.md)
+- **ADR 模板**: [document_templates/adr.md](04_reference/document_templates/adr.md)

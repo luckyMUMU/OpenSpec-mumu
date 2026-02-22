@@ -1,6 +1,6 @@
 ---
-version: v2.1.0
-updated: 2026-02-12
+version: v2.4.0
+updated: 2026-02-22
 ---
 
 # 工作流规范
@@ -39,7 +39,7 @@ CMD: `WAIT_DEP(dir,deps)` / `COMPLETE_DIR(dir)`
 | 父子目录 | 串行 | 子目录完成后父目录才能开始 |
 | 跨模块依赖 | 协调 | 通过 `sop-progress-supervisor` 调度与唤醒 |
 
-👉 [目录维度工作策略详情](../04_reference/design_directory_strategy.md)
+👉 [目录维度工作策略详情](04_reference/design_directory_strategy.md)
 
 ---
 
@@ -94,7 +94,7 @@ sop-requirement-analyst
 → sop-document-sync
 ```
 
-阶段合约（触发条件/输入输出/停止点/落盘交付物）以 [Skill 矩阵（SSOT）](../02_skill_matrix/index.md) 与各 `skills/*/SKILL.md` 为准。
+阶段合约（触发条件/输入输出/停止点/落盘交付物）以 [Skill 矩阵（SSOT）](02_skill_matrix/index.md) 与各 `skills/*/SKILL.md` 为准。
 
 👉 [深度路径详情](deep_path.md)
 
@@ -123,7 +123,7 @@ sop-requirement-analyst
 
 **测试代码来源**: 主要基于CSV，仅参考代码接口
 
-👉 [TDD工作流详情](../skills/sop-tdd-workflow/SKILL.md)
+👉 [TDD工作流详情](skills/sop-tdd-workflow/SKILL.md)
 
 ---
 
@@ -145,11 +145,11 @@ sop-requirement-analyst
 
 - **中断点**：任意停止点（含 `[USER_DECISION]`、`[FUSION_TRIGGERED]`）。
 - **重建**：用户决策 + 方案调整 + 可选 Scope/设计/验收变更 + 重置计数器（熔断恢复时参见 [三错即停](three_strike_rule.md)）。
-- **再执行**：从可恢复检查点继续，使用 [续跑与恢复请求](../04_reference/interaction_formats/continuation_request.md) 交接。
+- **再执行**：从可恢复检查点继续，使用 [续跑与恢复请求](04_reference/interaction_formats/continuation_request.md) 交接。
 
-**可恢复检查点**：允许作为再执行起点的状态及所需最小输入见 [state_dictionary.md](../05_constraints/state_dictionary.md#可恢复检查点recoverable-checkpoints)。从 `[USER_DECISION]` / `[FUSION_TRIGGERED]` 续跑时，须在 continuation_request 中写明“建议下一步”对应的检查点及该清单所列最小输入。
+**可恢复检查点**：允许作为再执行起点的状态及所需最小输入见 [state_dictionary.md](05_constraints/state_dictionary.md#可恢复检查点recoverable-checkpoints)。从 `[USER_DECISION]` / `[FUSION_TRIGGERED]` 续跑时，须在 continuation_request 中写明"建议下一步"对应的检查点及该清单所列最小输入。
 
-**状态机**：`[USER_DECISION]` / `[FUSION_TRIGGERED]` 后可选 (1) 重新分诊 → `ROUTE(task)` 或 (2) 从检查点续跑 → 输出 continuation_request → 对应 Skill 再执行。参见 [sop_state_machine.md](../../sop_state_machine.md)。
+**状态机**：`[USER_DECISION]` / `[FUSION_TRIGGERED]` 后可选 (1) 重新分诊 → `ROUTE(task)` 或 (2) 从检查点续跑 → 输出 continuation_request → 对应 Skill 再执行。参见 [sop_state_machine.md](sop_state_machine.md)。
 
 ---
 

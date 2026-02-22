@@ -333,5 +333,5 @@ scope: src/auth/login/**                # 任务范围 (DIR_SCOPE)
 
 ### 10.5 相关文档
 
-- [ADR-Spec-002: Spec 与 Design.md 关系定义](../04_context_reference/adr_Spec_002_design_relation.md)
-- [design_directory_strategy.md](design_directory_strategy.md)
+- [ADR-Spec-002: Spec 与 Design.md 关系定义](04_context_reference/adr_Spec_002_design_relation.md)
+- [design_directory_strategy.md](04_reference/design_directory_strategy.md)

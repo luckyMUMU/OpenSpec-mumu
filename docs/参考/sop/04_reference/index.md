@@ -154,7 +154,7 @@ docs/03_technical_spec/test_cases/
 | [设计决策规则](design_decision_rules.md) | 设计决策的硬门槛与记录要求 |
 | [设计目录策略](design_directory_strategy.md) | Scope/边界与 design.md 落点策略 |
 | [Prompt Pack 规范](prompt_pack.standard.md) | Prompt Pack 的组织形式与覆盖机制 |
-| [编码原则](../05_constraints/coding_principles.md) | 六大设计原则 + 方法逻辑层级一致性 + CRUD 分层复用 |
+| [编码原则](05_constraints/coding_principles.md) | 六大设计原则 + 方法逻辑层级一致性 + CRUD 分层复用 |
 | [知识沉淀规范](knowledge_management.md) | 外部知识/用户输入/RAG 的沉淀与更新规则 |
 | [RAG 目录说明](rag/README.md) | RAG 子目录与维护规则 |
 

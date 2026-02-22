@@ -88,9 +88,9 @@ updated: 2026-02-22
 
 ## 相关文档
 
-- [Skill矩阵](../02_skill_matrix/index.md) - 完整 Skill 定义
-- [工作流规范](../03_workflow/index.md) - 路径选择
-- [快速参考](../ROLE_CHEATSHEET.md) - 速查表
+- [Skill矩阵](02_skill_matrix/index.md) - 完整 Skill 定义
+- [工作流规范](03_workflow/index.md) - 路径选择
+- [快速参考](ROLE_CHEATSHEET.md) - 速查表
 
 ---
 

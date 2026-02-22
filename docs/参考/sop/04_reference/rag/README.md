@@ -124,7 +124,7 @@ rag/
 4. **等待决策**: 等待用户选择解决方案
 5. **执行更新**: 根据决策更新设计或参考资料
 
-详见 [knowledge_management.md](../knowledge_management.md)
+详见 [knowledge_management.md](04_reference/knowledge_management.md)
 
 ---
 
@@ -154,7 +154,7 @@ updated: 2026-02-08
 
 ## 相关文档
 
-- [参考资料管理规范](../knowledge_management.md)
-- [ADR 模板](../document_templates/adr.md)
-- [架构设计 Skill](../../skills/sop-architecture-design/SKILL.md)
-- [实现设计 Skill](../../skills/sop-implementation-designer/SKILL.md)
+- [参考资料管理规范](04_reference/knowledge_management.md)
+- [ADR 模板](04_reference/document_templates/adr.md)
+- [架构设计 Skill](skills/sop-architecture-design/SKILL.md)
+- [实现设计 Skill](skills/sop-implementation-designer/SKILL.md)

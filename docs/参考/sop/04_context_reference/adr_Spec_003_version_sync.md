@@ -53,6 +53,6 @@ updated: 2026-02-22
 
 ## 相关文档
 
-- [CHANGELOG.md](../sop/CHANGELOG.md)
-- [sop_GUIDE.md](../sop_GUIDE.md)
-- [document_directory_mapping.md](../sop/04_reference/document_directory_mapping.md)
+- [CHANGELOG.md](CHANGELOG.md)
+- [sop_GUIDE.md](sop_GUIDE.md)
+- [document_directory_mapping.md](04_reference/document_directory_mapping.md)

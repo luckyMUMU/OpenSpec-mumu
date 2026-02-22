@@ -1,6 +1,6 @@
 ---
-version: v2.1.0
-updated: 2026-02-12
+version: v2.4.0
+updated: 2026-02-22
 ---
 
 # SOP 核心概念

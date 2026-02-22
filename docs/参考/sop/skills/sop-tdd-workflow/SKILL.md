@@ -185,7 +185,7 @@ CMD: `RUN_ACCEPTANCE(level) -> [WAITING_FOR_Lx_REVIEW]`
 
 ## 模板
 
-- [测试用例CSV模板](../../04_reference/document_templates/test_cases.csv)
+- [测试用例CSV模板](04_reference/document_templates/test_cases.csv)
 
 ## 输出
 

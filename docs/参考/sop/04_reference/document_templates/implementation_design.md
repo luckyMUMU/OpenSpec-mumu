@@ -19,7 +19,7 @@ updated: 2026-02-21
 ## 1. 技术选型
 
 ### 0. 来源与依赖声明
-> 必须引用 [Source and Dependency](../interaction_formats/source_dependency.md) 标准格式
+> 必须引用 [Source and Dependency](04_reference/interaction_formats/source_dependency.md) 标准格式
 
 | 组件 | 选择 | 版本 | 理由 |
 |------|------|------|------|

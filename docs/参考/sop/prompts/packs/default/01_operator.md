@@ -1,6 +1,6 @@
 ---
-version: v2.1.0
-updated: 2026-02-12
+version: v2.4.0
+updated: 2026-02-22
 ---
 
 # Prompt Pack: default/operator
@@ -8,7 +8,7 @@ updated: 2026-02-12
 ## 编排入口
 
 - 入口 Skill：`sop-workflow-orchestrator`
-- 仅当启用条件满足（见 `00_system.md`）时 → 允许连续调用多个 Skill
+- 仅当启用条件满足（见 `prompts/packs/default/00_system.md`）时 → 允许连续调用多个 Skill
 
 ## 路径选择（必须）
 

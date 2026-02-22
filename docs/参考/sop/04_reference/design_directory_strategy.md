@@ -157,8 +157,8 @@ CMD: `IMPLEMENT(dir, design.md) -> (WAIT_DEP | COMPLETE_DIR) -> notify sop-progr
 
 - Prompt：`prompts/packs/default/skills/sop-code-implementation.md`
 - Prompt：`prompts/packs/default/skills/sop-progress-supervisor.md`
-- [深度路径](../03_workflow/deep_path.md)
-- [Skill矩阵](../02_skill_matrix/index.md)
+- [深度路径](03_workflow/deep_path.md)
+- [Skill矩阵](02_skill_matrix/index.md)
 
 ---
 
@@ -195,5 +195,5 @@ CMD: `IMPLEMENT(dir, design.md) -> (WAIT_DEP | COMPLETE_DIR) -> notify sop-progr
 
 ### 相关文档
 
-- [ADR-Spec-002: Spec 与 Design.md 关系定义](../04_context_reference/adr_Spec_002_design_relation.md)
-- [design_decision_rules.md](design_decision_rules.md)
+- [ADR-Spec-002: Spec 与 Design.md 关系定义](04_context_reference/adr_Spec_002_design_relation.md)
+- [design_decision_rules.md](04_reference/design_decision_rules.md)

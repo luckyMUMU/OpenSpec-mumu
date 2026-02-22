@@ -2,7 +2,7 @@
 name: "sop-progress-supervisor"
 description: "Progress monitoring workflow for tracking execution and triggering circuit breakers. Invoke when monitoring task execution or detecting anomalies."
 version: v2.4.0
-updated: 2026-02-21
+updated: 2026-02-22
 ---
 
 # Progress Monitoring Workflow

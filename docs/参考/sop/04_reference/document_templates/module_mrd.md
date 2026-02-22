@@ -15,7 +15,7 @@ updated: 2026-02-22
 ## 1. 模块概述
 
 ### 0. 来源与依赖声明
-> 必须引用 [Source and Dependency](../interaction_formats/source_dependency.md) 标准格式
+> 必须引用 [Source and Dependency](04_reference/interaction_formats/source_dependency.md) 标准格式
 
 ### 1.1 模块定义
 [一句话描述这个模块是什么]

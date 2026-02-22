@@ -20,7 +20,7 @@ updated: 2026-02-22
 ## 1. 核心概念
 
 ### 0. 来源与依赖声明
-> 必须引用 [Source and Dependency](../interaction_formats/source_dependency.md) 标准格式
+> 必须引用 [Source and Dependency](04_reference/interaction_formats/source_dependency.md) 标准格式
 
 - 定义: [一句话定义]
 - 痛点: [解决什么问题]

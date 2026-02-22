@@ -1,10 +1,15 @@
 ---
-version: v2.1.0
-updated: 2026-02-12
+version: v2.4.0
+updated: 2026-02-22
+sop_path: sop/
 ---
 
 # SOP（Skill-first / Agent 执行版）
 
+> **SOP 文件夹路径**：`sop/` - 所有 SOP 相关文件的根目录，所有引用路径均基于此目录计算。
+>
+> **Skill 引用机制**：Skill 文件中的引用应优先读取本文件的 `sop_path` 字段获取 SOP 路径，然后根据相对路径获取目标文件。
+>
 > **唯一入口**：本文档是 SOP 的唯一入口，包含快速分诊、核心约束、工作流和导航。
 > 
 > **人类阅读版**：如需更叙述化的说明，请参考 [sop_for_human.md](sop_for_human.md)（仅供参考）。
@@ -26,7 +31,7 @@ updated: 2026-02-12
 | 理解体系概念（L1-L4、渐进披露、SSOT） | [01_concept_overview.md](01_concept_overview.md) |
 | 查看 Skill 清单与边界（唯一真源） | [02_skill_matrix/index.md](02_skill_matrix/index.md) |
 | 选择路径与执行流程（fast/deep/TDD） | [03_workflow/index.md](03_workflow/index.md) |
-| 状态机速查（状态/转移/子流程图） | [sop_state_machine.md](../sop_state_machine.md) |
+| 状态机速查（状态/转移/子流程图） | [sop_state_machine.md](sop_state_machine.md) |
 | 模板/交互格式/审查标准入口 | [04_reference/index.md](04_reference/index.md) |
 | 全局约束/红线/状态与命令字典 | [05_constraints/index.md](05_constraints/index.md) |
 
