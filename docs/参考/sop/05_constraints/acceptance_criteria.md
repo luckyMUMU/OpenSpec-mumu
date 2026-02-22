@@ -1,6 +1,6 @@
 ---
-version: v2.1.0
-updated: 2026-02-12
+version: v2.4.0
+updated: 2026-02-21
 ---
 
 # 分层验收标准规范
@@ -83,6 +83,25 @@ SOP 不绑定具体语言/框架。每个项目应当明确以下“可执行命
 | **L2** | 模块 | 集成测试 | sop-test-design-csv | sop-test-implementation | sop-code-implementation | sop-code-review |
 | **L3** | 功能 | 验收测试 | sop-test-design-csv | sop-test-implementation | sop-code-implementation | sop-code-review |
 | **L4** | 系统 | E2E测试 | sop-test-design-csv | sop-test-implementation | sop-code-implementation | sop-code-review |
+
+### 覆盖率阈值建议
+
+| 层级 | 建议覆盖率 | 关注点 | 说明 |
+|------|-----------|--------|------|
+| **L1** | >= 80% | 代码行覆盖 | 单元测试，关注函数内部逻辑 |
+| **L2** | >= 70% | 接口覆盖 | 集成测试，关注模块间接口调用 |
+| **L3** | >= 60% | 场景覆盖 | 验收测试，关注用户场景完整性 |
+| **L4** | 关键路径 100% | 流程覆盖 | E2E测试，关注核心业务流程 |
+
+**覆盖率计算规则**：
+- L1：代码行覆盖率（Line Coverage）
+- L2：接口覆盖率（API Coverage）
+- L3：场景覆盖率（Scenario Coverage）
+- L4：关键路径覆盖率（Critical Path Coverage）
+
+**不满足阈值的处理**：
+- 输出警告，建议补充测试
+- 若无法补充，需在 design.md 中说明原因并经用户确认
 
 ### 验收顺序
 

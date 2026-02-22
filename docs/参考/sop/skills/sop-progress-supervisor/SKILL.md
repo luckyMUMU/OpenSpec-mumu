@@ -1,8 +1,8 @@
 ---
 name: "sop-progress-supervisor"
 description: "Progress monitoring workflow for tracking execution and triggering circuit breakers. Invoke when monitoring task execution or detecting anomalies."
-version: v2.1.0
-updated: 2026-02-12
+version: v2.4.0
+updated: 2026-02-21
 ---
 
 # Progress Monitoring Workflow
@@ -29,6 +29,8 @@ updated: 2026-02-12
 
 **Actions**:
 - 接收 **design_list**（由 sop-code-explorer 执行 `LIST_DESIGN_MD(root)` 产出；命令归属见 05_constraints/command_dictionary.md）
+- CMD: `CYCLE_CHECK(design_list) -> cycle_report`（检测依赖循环）
+- 若检测到循环：进入 `[CYCLE_DETECTED]` → `[USER_DECISION]`
 - CMD: `SCHEDULE_DIRS(design_list) -> dir_map`（必须持久化 `temp/scheduler_state.md`）
 
 ### Step 2: Implementation Skill Scheduling
@@ -62,7 +64,16 @@ CMD: collect skill_status -> update dir_map -> persist `temp/scheduler_state.md`
 **Actions**:
 CMD: `WAIT_DEP(dir,deps)` / notify resume
 
-### Step 6: Risk Assessment
+### Step 6: Iteration Monitoring
+
+**Purpose**: Monitor iteration count and convergence
+
+**Actions**:
+CMD: `ITERATION_COUNT(state) -> iteration_count`
+- 若迭代次数 = 4：输出警告
+- 若迭代次数 ≥ 5：进入 `[USER_DECISION]` 并提供收敛建议
+
+### Step 7: Risk Assessment
 
 **Purpose**: Evaluate severity
 
@@ -71,7 +82,7 @@ CMD: `WAIT_DEP(dir,deps)` / notify resume
 - 🟡 Warning: Delayed, needs attention
 - 🟢 Normal: On track
 
-### Step 7: Decision
+### Step 8: Decision
 
 **Purpose**: Determine next action
 
@@ -99,6 +110,7 @@ CMD: `WAIT_DEP(dir,deps)` / notify resume
 - `[WAITING_DEPENDENCY]`: 存在目录依赖等待
 - `[ALL_COMPLETED]`: 所有目录进入完成态
 - `[FUSION_TRIGGERED]`: 连续失败触发熔断，必须停止推进并进入用户决策
+- `[CYCLE_DETECTED]`: 检测到目录依赖循环，进入用户决策
 
 ## Constraints
 

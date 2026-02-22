@@ -1,6 +1,6 @@
 ---
-version: v2.0.0
-updated: 2026-02-12
+version: v2.4.0
+updated: 2026-02-22
 ---
 
 # 审查规范（Review Standards）

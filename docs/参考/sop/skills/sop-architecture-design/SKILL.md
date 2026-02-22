@@ -1,8 +1,8 @@
 ---
 name: "sop-architecture-design"
 description: "Architecture design workflow for creating technology-agnostic designs. Invoke when requirements are confirmed and ready for architecture design."
-version: v2.1.0
-updated: 2026-02-12
+version: v2.4.0
+updated: 2026-02-22
 ---
 
 # Architecture Design Workflow

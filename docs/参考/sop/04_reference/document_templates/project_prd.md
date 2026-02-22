@@ -1,6 +1,6 @@
 ---
-version: v2.0.0
-updated: 2026-02-12
+version: v2.4.0
+updated: 2026-02-22
 ---
 
 # 项目级需求文档 (PRD) 模板 - L1

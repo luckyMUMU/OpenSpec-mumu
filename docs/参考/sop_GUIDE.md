@@ -1,7 +1,7 @@
 # SOP 文档审查指南（Skill-first）
 
-> **版本**: v2.1.0  
-> **更新日期**: 2026-02-12  
+> **版本**: v2.4.0  
+> **更新日期**: 2026-02-22  
 > **用途**: 以 SSOT 为中心，对 `docs/参考/sop/**` 的流程规范、模板、约束、Prompt Pack 与 Skill 合约做系统性审查
 
 ---
@@ -57,6 +57,37 @@ v[主版本].[次版本].[修订版本]
 - [ ] `sop/CHANGELOG.md` 的当前主/次版本与 `sop/**` 核心文档一致
 - [ ] `sop/skills/**/SKILL.md` 主/次版本与 SOP 一致
 - [ ] 文档页眉版本号与文档内部引用一致（不得自相矛盾）
+
+### 3.5 版本同步流程
+
+当 CHANGELOG 版本更新时，必须执行以下同步流程：
+
+```
+步骤1: 确认版本基线
+  → 读取 sop/CHANGELOG.md 确认目标版本
+
+步骤2: 批量更新版本号
+  → 更新所有 Skill 合约 (sop/skills/**/SKILL.md)
+  → 更新所有核心文档 (sop/02_skill_matrix, sop/05_constraints, sop/04_reference)
+  → 更新所有参考文档 (review_standards, interaction_formats, document_templates)
+
+步骤3: 更新 updated 日期
+  → 所有更新文件的 updated 字段改为当前日期
+
+步骤4: 验证一致性
+  → 执行版本核对（参见 9.1 版本一致性核对模板）
+  → 确认无版本超前或落后文件
+```
+
+### 3.6 版本超前处理
+
+当发现文件版本超前于 CHANGELOG 时：
+
+1. **审查变更内容**：确认超前版本的变更是否为预期变更
+2. **决策**：
+   - 如为预期变更 → 更新 CHANGELOG 到超前版本
+   - 如为非预期变更 → 回退文件版本到 CHANGELOG 版本
+3. **记录决策**：在 ADR 中记录版本超前处理决策
 
 ---
 

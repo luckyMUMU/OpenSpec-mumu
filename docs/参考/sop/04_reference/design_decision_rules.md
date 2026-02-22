@@ -1,6 +1,6 @@
 ---
-version: v2.0.0
-updated: 2026-02-12
+version: v2.4.0
+updated: 2026-02-22
 ---
 
 # design.md 创建判断规则
@@ -290,3 +290,48 @@ design_decision_rules.md (本文档)
 3. **快速路径例外**：快速路径可跳过 design.md 创建
 4. **依赖声明**：所有 design.md 必须声明目录依赖
 5. **渐进式披露**：复杂度越高，设计文档越详细
+
+---
+
+## 10. Spec 任务划分规则
+
+### 10.1 划分依据
+
+| 依据 | 说明 | 优先级 |
+|------|------|--------|
+| **目录边界** | 以 design.md 所在目录为边界 | 高 |
+| **深度优先** | 从最深目录开始执行 | 中 |
+| **依赖驱动** | 等待依赖目录完成 | 高 |
+
+### 10.2 任务声明格式
+
+每个 spec 任务应声明以下信息：
+
+```yaml
+design_path: src/auth/login/design.md  # 对应的 design.md 路径
+depth: 3                                # design.md 的深度
+dependencies:                           # 依赖的其他 design.md 路径
+  - src/auth/design.md
+scope: src/auth/login/**                # 任务范围 (DIR_SCOPE)
+```
+
+### 10.3 执行顺序规则
+
+```
+执行顺序 = depth_desc (从深到浅)
+并行条件 = same_depth AND no_dependency
+等待条件 = parent_dir OR has_dependency
+```
+
+### 10.4 动态创建条件
+
+创建新 design.md 的条件：
+
+1. **跨目录变更**：任务需要修改其他目录的代码，且目标目录无 design.md
+2. **复杂度增加**：任务复杂度超过当前 design.md 粒度
+3. **设计先行**：执行前确认 design.md 已存在或已创建
+
+### 10.5 相关文档
+
+- [ADR-Spec-002: Spec 与 Design.md 关系定义](../04_context_reference/adr_Spec_002_design_relation.md)
+- [design_directory_strategy.md](design_directory_strategy.md)

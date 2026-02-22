@@ -1,6 +1,6 @@
 ---
-version: v2.0.0
-updated: 2026-02-12
+version: v2.4.0
+updated: 2026-02-22
 ---
 
 # 目录维度工作策略
@@ -159,3 +159,41 @@ CMD: `IMPLEMENT(dir, design.md) -> (WAIT_DEP | COMPLETE_DIR) -> notify sop-progr
 - Prompt：`prompts/packs/default/skills/sop-progress-supervisor.md`
 - [深度路径](../03_workflow/deep_path.md)
 - [Skill矩阵](../02_skill_matrix/index.md)
+
+---
+
+## Spec 与 design.md 的关系
+
+### 任务划分原则
+
+- 每个 spec 任务对应一个 design.md 目录
+- 任务粒度 = DIR_SCOPE(dir_with_design_md)
+- 跨目录任务拆分为多个子任务
+
+### 执行顺序
+
+- **自底向上**：按 design.md 深度从深到浅
+- **同深度并行**：无依赖关系的任务可并行
+- **父目录等待**：父目录任务等待子目录任务完成
+
+### 动态创建 design.md
+
+- **跨目录变更**：自动创建目标目录的 design.md
+- **复杂度增加**：考虑创建更深层次的 design.md
+- **设计先行**：执行前确认 design.md 已存在或已创建
+
+### 任务声明格式
+
+每个 spec 任务应声明：
+
+| 字段 | 类型 | 说明 |
+|------|------|------|
+| design_path | string | 对应的 design.md 路径 |
+| depth | int | design.md 的深度 |
+| dependencies | string[] | 依赖的其他 design.md 路径 |
+| scope | string | 任务范围 (DIR_SCOPE) |
+
+### 相关文档
+
+- [ADR-Spec-002: Spec 与 Design.md 关系定义](../04_context_reference/adr_Spec_002_design_relation.md)
+- [design_decision_rules.md](design_decision_rules.md)

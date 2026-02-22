@@ -1,6 +1,6 @@
 ---
-version: v2.0.0
-updated: 2026-02-12
+version: v2.4.0
+updated: 2026-02-22
 ---
 
 # 文档目录映射表
@@ -26,18 +26,83 @@ updated: 2026-02-12
 | `src/**/design.md` | 目录级实现设计（sop-implementation-designer 输出） | `src/**/design.md` | `docs/参考/sop/AGENT_SOP.md` |
 | `tests/acceptance/` | 分层验收测试代码与设计 | `tests/acceptance/` | `docs/参考/sop/05_constraints/acceptance_criteria.md` |
 | `temp/` | 临时产物/调度状态/报告（非持久化） | `temp/` | （无） |
+| `.trae/specs/<change-id>/` | 任务执行期临时规范（spec/tasks/checklist） | `.trae/specs/<change-id>/` | （无） |
+| `docs/04_context_reference/archived_specs/` | 归档的 spec 产物（持久化） | `docs/04_context_reference/archived_specs/` | （无） |
 
 ---
 
 ## 关键文件约定（逻辑路径）
 
 - ADR：`docs/04_context_reference/adr_[模块]_[决策主题].md`
-- Decision Record：`docs/04_context_reference/decisions/[YYYYMMDD]_[topic].md`
+- Decision Record：`docs/04_context_reference/decisions/YYYY-MM-DD_[topic].md`
+  - **命名规范**：日期使用 ISO 格式（YYYY-MM-DD），topic 使用英文小写+下划线
+  - **示例**：`docs/04_context_reference/decisions/2026-02-21_database_selection.md`
+  - **模板**：`04_reference/document_templates/decision_record.md`
 - RAG：
   - 用户输入：`docs/04_context_reference/rag/user_input/`
   - 外部资料：`docs/04_context_reference/rag/external/`
   - 项目沉淀：`docs/04_context_reference/rag/project/`
 - TDD CSV：`docs/03_technical_spec/test_cases/[module]_test_cases.csv`
+- 任务规范文件：
+  - spec.md：`[dir]/.spec/[spec_name]/spec.md`
+  - tasks.md：`[dir]/.spec/[spec_name]/tasks.md`
+  - checklist.md：`[dir]/.spec/[spec_name]/checklist.md`
+  - **生命周期**：任务执行期临时产物，完成后归档或删除
+
+---
+
+## Spec 产物生命周期
+
+| 阶段 | 目录 | 说明 |
+|------|------|------|
+| **执行期** | `.trae/specs/<change-id>/` | 任务执行期间的临时规范 |
+| **归档期** | `docs/04_context_reference/archived_specs/YYYY-MM-DD_<change-id>/` | 重要任务完成后的归档位置 |
+| **清理** | （删除） | 简单任务完成后直接删除 |
+
+### 归档判断标准
+
+- **需要归档**：涉及架构决策、流程变更、多模块影响的任务
+- **直接删除**：简单修复、文档更新、单模块小改动
+
+### 设计先行原则
+
+- **持久化设计**：`src/**/design.md`、`docs/04_context_reference/adr_*.md`
+- **临时规范**：`.trae/specs/` 下的 spec/tasks/checklist
+- **原则**：需要长期保留的设计内容应迁移至 design 目录或 ADR
+
+---
+
+## Spec 与 design.md 的映射关系
+
+### 任务划分原则
+
+| Spec 任务 | design.md 目录 | 说明 |
+|-----------|----------------|------|
+| 单目录任务 | 单个 design.md | 任务粒度 = DIR_SCOPE |
+| 跨目录任务 | 多个 design.md | 拆分为多个子任务 |
+
+### 执行顺序
+
+| 顺序 | 条件 | 说明 |
+|------|------|------|
+| 自底向上 | depth_desc | 从最深目录开始执行 |
+| 并行执行 | same_depth AND no_dependency | 同深度无依赖可并行 |
+| 等待执行 | parent_dir OR has_dependency | 父目录或依赖目录完成后执行 |
+
+### 任务声明字段
+
+| 字段 | 说明 | 示例 |
+|------|------|------|
+| design_path | 对应的 design.md 路径 | `src/auth/login/design.md` |
+| depth | design.md 的深度 | `3` |
+| dependencies | 依赖的其他 design.md | `["src/auth/design.md"]` |
+| scope | 任务范围 (DIR_SCOPE) | `src/auth/login/**` |
+
+### 相关文档
+
+- [ADR-Spec-002: Spec 与 Design.md 关系定义](../04_context_reference/adr_Spec_002_design_relation.md)
+- [design_directory_strategy.md](design_directory_strategy.md)
+- [design_decision_rules.md](design_decision_rules.md)
 
 ---
 

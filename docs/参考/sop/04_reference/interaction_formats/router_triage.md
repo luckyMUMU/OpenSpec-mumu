@@ -1,6 +1,6 @@
 ---
-version: v2.0.0
-updated: 2026-02-11
+version: v2.4.0
+updated: 2026-02-22
 ---
 
 # Workflow Orchestrator 分诊输出格式

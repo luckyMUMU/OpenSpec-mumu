@@ -1,6 +1,6 @@
 ---
-version: v2.1.0
-updated: 2026-02-12
+version: v2.2.0
+updated: 2026-02-21
 artifact: SOP State Machine
 scope: docs/参考/sop
 ---
@@ -37,7 +37,7 @@ scope: docs/参考/sop
 ### 代码审查停止点（Code Review Stop Points）
 
 - `[WAITING_FOR_CODE_REVIEW]`
-- `Diff展示`（人工确认点）
+- `[DIFF_APPROVAL]`（人工确认点）
 
 ### 测试相关停止点（Test Stop Points）
 
@@ -60,6 +60,7 @@ scope: docs/参考/sop
 
 - `[WAITING_FOR_WORKER]`（跨目录依赖请求条目等待处理）
 - `[SCHEDULING]` / `[PARALLEL_EXECUTING]` / `[WAITING_DEPENDENCY]` / `[ALL_COMPLETED]`
+- `[CYCLE_DETECTED]`（依赖循环检测）
 - `[FUSION_TRIGGERED]`（三错熔断）
 - `[已完成]`（收尾终态）
 
@@ -83,8 +84,8 @@ scope: docs/参考/sop
 | `[SCHEDULING]` | `RUN_DIR_BATCH(depth)` | `[PARALLEL_EXECUTING]`（监督视角） | sop-progress-supervisor |
 | - | `WAIT_DEP(dir, deps)` | `[DIR_WAITING_DEP]` | sop-code-implementation |
 | - | `IMPLEMENT(dir, design)` | `[WAITING_FOR_CODE_REVIEW]` | sop-code-implementation |
-| `[WAITING_FOR_CODE_REVIEW]` | `CODE_REVIEW(diff, refs)` pass | `Diff展示` | sop-code-review |
-| `Diff展示` | 用户批准 | `[DIR_COMPLETED]` | 用户 |
+| `[WAITING_FOR_CODE_REVIEW]` | `CODE_REVIEW(diff, refs)` pass | `[DIFF_APPROVAL]` | sop-code-review |
+| `[DIFF_APPROVAL]` | 用户批准 | `[DIR_COMPLETED]` | 用户 |
 | `[WAITING_FOR_CODE_REVIEW]` | `CODE_REVIEW(...)` needs_fix | `[DIR_WORKING]` | sop-code-review |
 | `[WAITING_FOR_CODE_REVIEW]` | `CODE_REVIEW(...)` deadlock | `[USER_DECISION]` | sop-code-review |
 | - | `TEST_DESIGN_CSV(design)` | `[WAITING_FOR_TEST_DESIGN]` | sop-test-design-csv |
@@ -110,12 +111,12 @@ stateDiagram-v2
   FAST_PATH --> AUDIT: sop-code-explorer
   AUDIT --> DIR_WORKING: IMPLEMENT(dir, design)
   DIR_WORKING --> WAITING_FOR_CODE_REVIEW: [WAITING_FOR_CODE_REVIEW]
-  WAITING_FOR_CODE_REVIEW --> DIFF_APPROVAL: CODE_REVIEW pass\n(Diff展示)
+  WAITING_FOR_CODE_REVIEW --> DIFF_APPROVAL: CODE_REVIEW pass\n([DIFF_APPROVAL])
   WAITING_FOR_CODE_REVIEW --> DIR_WORKING: CODE_REVIEW needs_fix
   WAITING_FOR_CODE_REVIEW --> USER_DECISION: CODE_REVIEW deadlock
   DIFF_APPROVAL --> DIR_COMPLETED: 用户批准
   DIR_COMPLETED --> DOC_SYNC: DOC_SYNC(scope)
-  DOC_SYNC --> DONE: [已完成]
+  DOC_SYNC --> COMPLETED: [已完成]
 
   DEEP_PATH --> REQUIREMENTS: REQ_ANALYZE(input)
   REQUIREMENTS --> WAITING_FOR_REQUIREMENTS: [WAITING_FOR_REQUIREMENTS]
@@ -148,7 +149,7 @@ stateDiagram-v2
 
   note right of RESUME: 续跑须携带 continuation_request\n及可恢复检查点所需最小输入\n(05_constraints/state_dictionary.md)
 
-  DONE --> [*]
+  COMPLETED --> [*]
 ```
 
 说明：`[WAITING_FOR_DESIGN]` 至 `SCHEDULING` 的转移须在用户执行 `DESIGN_CONFIRM()` 确认设计后进行；design_list 由 sop-code-explorer 在进入调度前产出（参见 AGENT_SOP 目录并行执行流程）。`[USER_DECISION]` / `[FUSION_TRIGGERED]` 后可选择重新分诊或从可恢复检查点续跑；可恢复检查点清单见 05_constraints/state_dictionary.md。
@@ -164,7 +165,7 @@ stateDiagram-v2
   DIR_WORKING --> WAITING_FOR_CODE_REVIEW: IMPLEMENT(dir, design)\n产出 Diff
   WAITING_FOR_CODE_REVIEW --> DIR_WORKING: CODE_REVIEW needs_fix
   WAITING_FOR_CODE_REVIEW --> USER_DECISION: deadlock / 证据缺口
-  WAITING_FOR_CODE_REVIEW --> DIFF_APPROVAL: CODE_REVIEW pass\n(Diff展示)
+  WAITING_FOR_CODE_REVIEW --> DIFF_APPROVAL: CODE_REVIEW pass\n([DIFF_APPROVAL])
   DIFF_APPROVAL --> DIR_COMPLETED: 用户批准
   DIR_COMPLETED --> [*]
 
@@ -196,7 +197,7 @@ stateDiagram-v2
   [*] --> WAITING_FOR_TEST_DESIGN: TEST_DESIGN_CSV(design)\n([WAITING_FOR_TEST_DESIGN])
   WAITING_FOR_TEST_DESIGN --> WAITING_FOR_TEST_IMPLEMENTATION: 用户确认
   WAITING_FOR_TEST_IMPLEMENTATION --> WAITING_FOR_CODE_REVIEW: 测试代码就绪\n交给 CODE_REVIEW
-  WAITING_FOR_CODE_REVIEW --> DIFF_APPROVAL: CODE_REVIEW pass\n(Diff展示)
+  WAITING_FOR_CODE_REVIEW --> DIFF_APPROVAL: CODE_REVIEW pass\n([DIFF_APPROVAL])
   WAITING_FOR_CODE_REVIEW --> USER_DECISION: deadlock
   DIFF_APPROVAL --> ACCEPTANCE: 进入分层验收运行
 

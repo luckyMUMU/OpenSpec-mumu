@@ -1,6 +1,6 @@
 ---
-version: v2.1.0
-updated: 2026-02-12
+version: v2.4.0
+updated: 2026-02-21
 scope: docs/参考/sop
 ---
 
@@ -74,7 +74,7 @@ scope: docs/参考/sop
 
 | CMD | 主体（Skill/用户） | args | out | pre | post |
 |---|---|---|---|---|---|
-| `CODE_REVIEW(diff, design_refs)` | sop-code-review | diff, refs(L2/L3/tests) | review_report | `[WAITING_FOR_CODE_REVIEW]` / `[WAITING_FOR_TEST_IMPLEMENTATION]` | `Diff展示(通过) / [DIR_WORKING]（需修改） / [USER_DECISION]（僵局或>=3轮）` |
+| `CODE_REVIEW(diff, design_refs)` | sop-code-review | diff, refs(L2/L3/tests) | review_report | `[WAITING_FOR_CODE_REVIEW]` / `[WAITING_FOR_TEST_IMPLEMENTATION]` | `[DIFF_APPROVAL]`(通过) / `[DIR_WORKING]`（需修改） / `[USER_DECISION]`（僵局或>=3轮） |
 
 ### 测试（分层验收 / 可选 TDD）
 
@@ -83,7 +83,7 @@ scope: docs/参考/sop
 | `TEST_DESIGN_CSV(design)` | sop-test-design-csv | design.md | test_cases.csv | - | `[WAITING_FOR_TEST_DESIGN]` |
 | `TEST_DESIGN(design)` | sop-test-design-csv | design.md | test_cases.csv | - | `[WAITING_FOR_TEST_DESIGN]` |
 | `TEST_IMPLEMENT(test_design)` | sop-test-implementation | test_cases.csv | test_code | - | `[WAITING_FOR_TEST_IMPLEMENTATION]` |
-| `RUN_ACCEPTANCE(level)` | sop-code-implementation | L1/L2/L3/L4 | test_result | - | `[WAITING_FOR_Lx_REVIEW]` / Diff展示 |
+| `RUN_ACCEPTANCE(level)` | sop-code-implementation | L1/L2/L3/L4 | test_result | - | `[WAITING_FOR_Lx_REVIEW]` / `[DIFF_APPROVAL]` |
 | `REVIEW_ACCEPTANCE(level)` | sop-code-review | Lx_result | pass/fail | `[WAITING_FOR_Lx_REVIEW]` | `pass:- / fail:[DIR_WORKING] / deadlock:[USER_DECISION]` |
 
 ### 文档维护
@@ -109,3 +109,13 @@ scope: docs/参考/sop
 | `TASK_BLOCK(task_id, reason)` | sop-code-implementation | task_id, reason | task_status | - | `[!]` (已阻塞) |
 | `TASK_UNBLOCK(task_id)` | sop-code-implementation | task_id | task_status | 依赖解决 | `[-]` (进行中) |
 | `TASK_ARCHIVE(dir)` | sop-document-sync | dir | archived_tasks | `[DIR_COMPLETED]` | 归档清单更新 |
+| `TASK_SPEC_CREATE(dir, spec_name)` | sop-implementation-designer | dir, spec_name | spec.md, tasks.md, checklist.md | - | `[WAITING_FOR_DESIGN]` |
+| `TASK_SPEC_SYNC(dir)` | sop-code-implementation | dir | updated_tasks.md | 任务状态变更 | - |
+
+### 调度增强
+
+| CMD | 主体（Skill/用户） | args | out | pre | post |
+|---|---|---|---|---|---|
+| `CYCLE_CHECK(design_list)` | sop-progress-supervisor | design_list | cycle_report | - | `[CYCLE_DETECTED]` / 通过 |
+| `ITERATION_COUNT(state)` | sop-progress-supervisor | state | iteration_count | - | - |
+| `ITERATION_RESET(state)` | sop-progress-supervisor | state | reset | 用户决策 | - |

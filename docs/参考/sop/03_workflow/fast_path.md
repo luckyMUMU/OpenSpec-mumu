@@ -1,6 +1,6 @@
 ---
-version: v2.1.0
-updated: 2026-02-12
+version: v2.4.0
+updated: 2026-02-21
 ---
 
 # 快速路径
@@ -53,15 +53,46 @@ CMD: `DOC_SYNC(scope) -> [已完成]`
 
 CMD: `FAST_PATH_CHECK(change) -> allow|upgrade`
 
-allow 条件（全满足）：
-- single_file && delta_lines < 30
-- no_interface_change && no_control_flow_change && no_data_model_change
-- no_security_boundary_change && no_concurrency_change && no_dependency_behavior_change
-- tests_passed（或可执行命令契约可复现）
+### 量化判断标准
 
-upgrade 条件（任一满足）：
-- cross_file_or_cross_dir
-- touch_interface|control_flow|data_model|security|concurrency|deps
-- uncertain（无法证明无行为变化）
+#### 允许条件（全满足）
+
+| 条件 | 量化标准 | 检测方法 |
+|------|----------|----------|
+| 单文件 | `affected_files_count == 1` | Git diff 统计 |
+| 行数限制 | `delta_lines < 30`（新增+删除） | Git diff 统计 |
+| 无接口变更 | `interface_signature_changed == false` | AST 分析 |
+| 无控制流变更 | `control_flow_nodes_changed == false` | AST 分析 |
+| 无数据模型变更 | `data_model_fields_changed == false` | Schema/Model 文件检测 |
+| 无安全边界变更 | `authz_check_changed == false` | 关键函数调用检测 |
+| 无并发变更 | `concurrency_pattern_changed == false` | 锁/信号量/async 检测 |
+| 无依赖行为变更 | `dependency_call_changed == false` | Import/调用分析 |
+| 测试通过 | `tests_passed == true` | 执行测试命令 |
+
+#### 升级条件（任一满足）
+
+| 条件 | 量化标准 | 检测方法 |
+|------|----------|----------|
+| 跨文件/目录 | `affected_files_count > 1` | Git diff 统计 |
+| 接口变更 | `interface_signature_changed == true` | AST 分析 |
+| 控制流变更 | `control_flow_nodes_changed == true` | AST 分析 |
+| 数据模型变更 | `data_model_fields_changed == true` | Schema/Model 文件检测 |
+| 安全边界变更 | `authz_check_changed == true` | 关键函数调用检测 |
+| 并发变更 | `concurrency_pattern_changed == true` | 锁/信号量/async 检测 |
+| 依赖行为变更 | `dependency_call_changed == true` | Import/调用分析 |
+| 不确定 | `cannot_prove_no_behavior_change == true` | 人工判断 |
+
+### AST 变化检测说明
+
+以下 AST 节点变更视为"逻辑变更"：
+
+| 节点类型 | 示例 |
+|----------|------|
+| 函数签名 | 参数类型/数量/返回值变化 |
+| 条件分支 | if/switch/case 变化 |
+| 循环结构 | for/while/递归变化 |
+| 异常处理 | try/catch/throw 变化 |
+| 类继承 | extends/implements 变化 |
+| 方法调用 | 关键方法调用变化 |
 
 参见：05_constraints/command_dictionary.md
