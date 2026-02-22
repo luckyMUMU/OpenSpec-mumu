@@ -1,5 +1,5 @@
 ---
-version: v2.7.0
+version: v2.7.1
 updated: 2026-02-23
 ---
 
@@ -22,6 +22,26 @@ v[主版本].[次版本].[修订版本]
 ---
 
 ## 版本历史
+
+### v2.7.1 (2026-02-23)
+
+**文件架构整理** - 清理过时和临时性内容，同步版本号
+
+#### 关键变更
+
+- **删除过时审查报告**：
+  - 删除 `SOP_REVIEW_REPORT.md`（v2.0.0，内容已过时）
+  - 删除 `SKILL_REVIEW_REPORT.md`（v2.2.0，问题已修复）
+  - 删除 `PROMPT_SKILL_CONSISTENCY_REPORT.md`（v2.0.0，内容已过时）
+- **删除已废弃文件**：
+  - 删除 `ROLE_CHEATSHEET.md`（已标记 deprecated）
+- **清理已完成 specs 目录**：
+  - 删除 `.trae/specs/` 下 6 个已完成的任务目录
+- **版本号同步**：
+  - 更新 `command_dictionary.md` 版本号（v2.4.0 → v2.7.0）
+  - 更新 `state_dictionary.md` 版本号（v2.4.0 → v2.7.0）
+
+---
 
 ### v2.7.0 (2026-02-23)
 

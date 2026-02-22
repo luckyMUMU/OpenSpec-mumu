@@ -55,8 +55,6 @@ sop_path: sop/
 | 需求 | 目标文档 |
 |------|----------|
 | 审查归档入口 | [reviews/index.md](reviews/index.md) |
-| SOP 审查报告（汇总） | [SOP_REVIEW_REPORT.md](SOP_REVIEW_REPORT.md) |
-| Prompt/Skill 一致性报告（汇总） | [PROMPT_SKILL_CONSISTENCY_REPORT.md](PROMPT_SKILL_CONSISTENCY_REPORT.md) |
 
 ---
 

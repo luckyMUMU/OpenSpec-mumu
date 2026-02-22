@@ -140,7 +140,6 @@ v[主版本].[次版本].[修订版本]
 | 文档 | 用途 |
 |------|------|
 | [AGENT_SOP.md](AGENT_SOP.md) | 入口：约束+指令+导航 |
-| [ROLE_CHEATSHEET.md](ROLE_CHEATSHEET.md) | 速查：Skill+路径+规则 |
 | [02_skill_matrix](02_skill_matrix/index.md) | SSOT：Skill 清单与边界 |
 | [CHANGELOG.md](CHANGELOG.md) | 版本历史 |
 | [Prompts](prompts/packs/) | Prompt Pack（定制化 prompt） |

@@ -256,7 +256,6 @@ updated: 2026-02-23
 
 - [Skill矩阵](02_skill_matrix/index.md) - 完整 Skill 合约边界定义
 - [工作流规范](03_workflow/index.md) - 路径选择和流程规范
-- [快速参考](ROLE_CHEATSHEET.md) - Skill 和流程速查
 - [Spec 交互式指南](04_reference/spec_interactive_guide.md) - Spec 模式下的交互式提问规范与冲突检测
 
 ---
