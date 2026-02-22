@@ -1,7 +1,7 @@
 ---
 name: "sop-capability-reuse"
 description: "指导AI Agent复用和优化已有能力。Invoke when needing to create new functionality, to check for existing capabilities first and prioritize improvement over creation."
-version: v2.4.0
+version: v2.6.0
 updated: 2026-02-22
 ---
 
@@ -132,6 +132,14 @@ updated: 2026-02-22
 4. **保持兼容** - 改进时不破坏已有接口
 5. **文档同步** - 所有变更必须同步更新文档
 6. 必须引用SSOT：05_constraints/state_dictionary.md、05_constraints/command_dictionary.md
+
+## Spec 模式约束
+
+- **规划阶段只读**: 在 Spec 模式规划阶段，本 Skill 仅执行只读分析，不进行实际代码修改
+- **交互式提问**: 当检测到决策点时，必须通过 AskUserQuestion 向用户提问
+- **冲突检测**: 执行前必须检测与现有 ADR/设计文档的冲突，参考 04_reference/conflict_detection_rules.md
+- **决策记录**: 重要决策必须记录到 spec.md 的决策记录章节
+- **ADR 引用**: 本 Skill 涉及的 ADR 文档：ADR-Spec-001（生命周期）、ADR-Spec-002（设计关系）、ADR-Spec-004（交互式提问）
 
 ## Failure Handling
 

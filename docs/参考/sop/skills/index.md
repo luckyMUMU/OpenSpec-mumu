@@ -1,6 +1,6 @@
 ---
-version: v2.1.0
-updated: 2026-02-12
+version: v2.6.0
+updated: 2026-02-22
 ---
 
 # Skills（SKILL.md 索引）

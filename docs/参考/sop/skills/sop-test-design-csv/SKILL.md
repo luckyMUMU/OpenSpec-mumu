@@ -1,7 +1,7 @@
 ---
 name: "sop-test-design-csv"
 description: "Test design workflow for generating and maintaining CSV test cases from L2/L3 designs. Invoke when TDD/layered acceptance is enabled and test cases must be created or updated."
-version: v2.4.0
+version: v2.6.0
 updated: 2026-02-22
 ---
 
@@ -63,3 +63,11 @@ CMD: `TRACE_SOURCES(inputs) -> source_dependency_block`
 - 只改 CSV：本 Skill 仅维护测试用例 CSV，不得修改代码
 - 设计优先：用例必须映射到设计章节/验收条款
 - SSOT：状态/命令引用 `05_constraints/state_dictionary.md`、`05_constraints/command_dictionary.md`
+
+## Spec 模式约束
+
+- **规划阶段只读**: 在 Spec 模式规划阶段，本 Skill 仅执行只读分析，不进行实际代码修改
+- **交互式提问**: 当检测到决策点时，必须通过 AskUserQuestion 向用户提问
+- **冲突检测**: 执行前必须检测与现有 ADR/设计文档的冲突，参考 04_reference/conflict_detection_rules.md
+- **决策记录**: 重要决策必须记录到 spec.md 的决策记录章节
+- **ADR 引用**: 本 Skill 涉及的 ADR 文档：ADR-Spec-001（生命周期）、ADR-Spec-002（设计关系）、ADR-Spec-004（交互式提问）

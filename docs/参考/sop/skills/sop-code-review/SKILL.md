@@ -1,7 +1,7 @@
 ---
 name: "sop-code-review"
 description: "Code review workflow for validating changes against design docs and common engineering practices. Invoke after implementation diff is ready and before user approval."
-version: v2.4.0
+version: v2.6.0
 updated: 2026-02-22
 ---
 
@@ -94,6 +94,14 @@ When deadlock happens:
 - 证据优先：结论必须绑定到设计章节/验收标准/红线条款或 RAG 引用
 - 目录边界合规：禁止建议跨越 design.md 边界的直接修改路径
 - 外部规范引用必须沉淀：行业规范/最佳实践若用于决策或阻塞项，需落到 RAG 并在报告中引用
+
+## Spec 模式约束
+
+- **规划阶段只读**: 在 Spec 模式规划阶段，本 Skill 仅执行只读分析，不进行实际代码修改
+- **交互式提问**: 当检测到决策点时，必须通过 AskUserQuestion 向用户提问
+- **冲突检测**: 执行前必须检测与现有 ADR/设计文档的冲突，参考 04_reference/conflict_detection_rules.md
+- **决策记录**: 重要决策必须记录到 spec.md 的决策记录章节
+- **ADR 引用**: 本 Skill 涉及的 ADR 文档：ADR-Spec-001（生命周期）、ADR-Spec-002（设计关系）、ADR-Spec-004（交互式提问）
 
 ## Stop Points
 

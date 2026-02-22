@@ -1,5 +1,5 @@
 ---
-version: v2.4.0
+version: v2.5.0
 updated: 2026-02-22
 ---
 
@@ -48,6 +48,10 @@ updated: 2026-02-22
   - tasks.md：`[dir]/.spec/[spec_name]/tasks.md`
   - checklist.md：`[dir]/.spec/[spec_name]/checklist.md`
   - **生命周期**：任务执行期临时产物，完成后归档或删除
+- Spec 交互式提问相关文件：
+  - 提问指南：`04_reference/spec_design_questioning.md`
+  - 提问检查清单：`04_reference/questioning_checklist.md`
+  - **用途**：指导 Spec 设计阶段的交互式提问流程
 
 ---
 
@@ -103,6 +107,8 @@ updated: 2026-02-22
 - [ADR-Spec-002: Spec 与 Design.md 关系定义](04_context_reference/adr_Spec_002_design_relation.md)
 - [design_directory_strategy.md](04_reference/design_directory_strategy.md)
 - [design_decision_rules.md](04_reference/design_decision_rules.md)
+- [Spec 设计阶段交互式提问指南](04_reference/spec_design_questioning.md)
+- [提问检查清单](04_reference/questioning_checklist.md)
 
 ---
 

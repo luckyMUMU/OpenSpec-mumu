@@ -1,5 +1,5 @@
 ---
-version: v2.4.0
+version: v2.5.0
 updated: 2026-02-22
 ---
 
@@ -225,7 +225,8 @@ design_decision_rules.md (本文档)
   ├── AGENT_SOP.md (design.md规则章节)
   ├── design_directory_strategy.md (目录维度工作策略)
   ├── skills/sop-design-placement/SKILL.md (设计文档放置指南)
-  └── skills/sop-implementation-designer/SKILL.md (实现设计者)
+  ├── skills/sop-implementation-designer/SKILL.md (实现设计者)
+  └── spec_design_questioning.md (Spec设计阶段交互式提问指南)
 ```
 
 ### 7.2 关键引用
@@ -236,6 +237,7 @@ design_decision_rules.md (本文档)
 | 4.3 实现 Scope 工作范围 | design_directory_strategy.md | DIR_SCOPE 定义 |
 | 5.2 优先级规则 | AGENT_SOP.md | 快速路径条件 |
 | 设计模板 | implementation_design.md | L3实现设计模板 |
+| Spec 设计阶段 | spec_design_questioning.md | 交互式提问流程 |
 
 ### 7.3 更新同步
 
@@ -335,3 +337,4 @@ scope: src/auth/login/**                # 任务范围 (DIR_SCOPE)
 
 - [ADR-Spec-002: Spec 与 Design.md 关系定义](04_context_reference/adr_Spec_002_design_relation.md)
 - [design_directory_strategy.md](04_reference/design_directory_strategy.md)
+- [Spec 设计阶段交互式提问指南](04_reference/spec_design_questioning.md)

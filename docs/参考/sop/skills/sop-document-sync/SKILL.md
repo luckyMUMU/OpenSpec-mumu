@@ -1,7 +1,7 @@
 ---
 name: "sop-document-sync"
 description: "Document synchronization workflow for index updates, progressive disclosure, and task archiving. Invoke when documents need synchronization, status updates, or task archiving."
-version: v2.4.0
+version: v2.6.0
 updated: 2026-02-22
 ---
 
@@ -106,6 +106,14 @@ CMD: `TASK_ARCHIVE(dir) -> archived_tasks`
 - Progressive disclosure
 - Valid links required
 - 状态标记必须以 SSOT 为准：05_constraints/state_dictionary.md；本 Skill 仅使用 `[已完成]` / `[USER_DECISION]`
+
+## Spec 模式约束
+
+- **规划阶段只读**: 在 Spec 模式规划阶段，本 Skill 仅执行只读分析，不进行实际代码修改
+- **交互式提问**: 当检测到决策点时，必须通过 AskUserQuestion 向用户提问
+- **冲突检测**: 执行前必须检测与现有 ADR/设计文档的冲突，参考 04_reference/conflict_detection_rules.md
+- **决策记录**: 重要决策必须记录到 spec.md 的决策记录章节
+- **ADR 引用**: 本 Skill 涉及的 ADR 文档：ADR-Spec-001（生命周期）、ADR-Spec-002（设计关系）、ADR-Spec-004（交互式提问）
 
 ## Failure Handling
 

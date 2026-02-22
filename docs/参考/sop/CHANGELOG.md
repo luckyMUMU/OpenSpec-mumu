@@ -1,5 +1,5 @@
 ---
-version: v2.4.0
+version: v2.6.0
 updated: 2026-02-22
 ---
 
@@ -22,6 +22,36 @@ v[主版本].[次版本].[修订版本]
 ---
 
 ## 版本历史
+
+### v2.6.0 (2026-02-22)
+
+**审查改进实施** - 根据系统性审查报告实施改进，完善 Skill 合约与 ADR 模板
+
+#### 关键变更
+
+- **Skill 合约 Spec 约束**：
+  - 为全部 17 个 Skill 合约添加 Spec 模式约束章节
+  - 包含：规划阶段只读、交互式提问、冲突检测、决策记录、ADR 引用
+  - sop-fast-path 新增 Spec 模式升级规则
+- **ADR 模板完善**：
+  - 合并"决策变更记录"和"决策记录"为统一的"决策记录"章节
+  - 完善用户确认机制，扩展为四个选项：更新现有 ADR、创建新 ADR、请求讨论、跳过更新
+- **快速路径与 Spec 模式交互**：
+  - 明确升级触发条件（用户决策、跨文件影响、ADR 冲突、复杂度超限）
+  - 定义升级目标（Spec 模式交互式提问 / 深度路径）
+  - 规范升级流程
+
+#### 主要更新文件
+
+- ADR 模板：`04_reference/document_templates/adr.md`
+- 入口文档：`AGENT_SOP.md`
+- Skill 合约（17个）：
+  - 核心：`sop-fast-path`、`sop-deep-path`、`sop-architecture-design`、`sop-implementation-designer`、`sop-code-implementation`
+  - 辅助：`sop-code-review`、`sop-architecture-reviewer`、`sop-test-design-csv`、`sop-test-implementation`、`sop-tdd-workflow`
+  - 协调：`sop-workflow-orchestrator`、`sop-progress-supervisor`、`sop-document-sync`、`sop-design-placement`
+  - 探索：`sop-code-explorer`、`sop-requirement-analyst`、`sop-capability-reuse`
+
+---
 
 ### v2.4.0 (2026-02-22)
 
