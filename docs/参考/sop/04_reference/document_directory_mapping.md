@@ -1,6 +1,6 @@
 ---
-version: v2.5.0
-updated: 2026-02-22
+version: v2.7.0
+updated: 2026-02-23
 ---
 
 # 文档目录映射表
@@ -48,67 +48,30 @@ updated: 2026-02-22
   - tasks.md：`[dir]/.spec/[spec_name]/tasks.md`
   - checklist.md：`[dir]/.spec/[spec_name]/checklist.md`
   - **生命周期**：任务执行期临时产物，完成后归档或删除
-- Spec 交互式提问相关文件：
-  - 提问指南：`04_reference/spec_design_questioning.md`
-  - 提问检查清单：`04_reference/questioning_checklist.md`
+- Spec 交互式提问指南：`04_reference/spec_interactive_guide.md`
   - **用途**：指导 Spec 设计阶段的交互式提问流程
 
 ---
 
 ## Spec 产物生命周期
 
-| 阶段 | 目录 | 说明 |
-|------|------|------|
-| **执行期** | `.trae/specs/<change-id>/` | 任务执行期间的临时规范 |
-| **归档期** | `docs/04_context_reference/archived_specs/YYYY-MM-DD_<change-id>/` | 重要任务完成后的归档位置 |
-| **清理** | （删除） | 简单任务完成后直接删除 |
-
-### 归档判断标准
-
-- **需要归档**：涉及架构决策、流程变更、多模块影响的任务
-- **直接删除**：简单修复、文档更新、单模块小改动
-
-### 设计先行原则
-
-- **持久化设计**：`src/**/design.md`、`docs/04_context_reference/adr_*.md`
-- **临时规范**：`.trae/specs/` 下的 spec/tasks/checklist
-- **原则**：需要长期保留的设计内容应迁移至 design 目录或 ADR
+详见 [ADR-Spec-001: Spec 产物生命周期定义](04_context_reference/adr_Spec_001_lifecycle.md)
 
 ---
 
 ## Spec 与 design.md 的映射关系
 
-### 任务划分原则
+详见 [ADR-Spec-002: Spec 与 Design.md 关系定义](04_context_reference/adr_Spec_002_design_relation.md)
 
-| Spec 任务 | design.md 目录 | 说明 |
-|-----------|----------------|------|
-| 单目录任务 | 单个 design.md | 任务粒度 = DIR_SCOPE |
-| 跨目录任务 | 多个 design.md | 拆分为多个子任务 |
+---
 
-### 执行顺序
+## 相关文档
 
-| 顺序 | 条件 | 说明 |
-|------|------|------|
-| 自底向上 | depth_desc | 从最深目录开始执行 |
-| 并行执行 | same_depth AND no_dependency | 同深度无依赖可并行 |
-| 等待执行 | parent_dir OR has_dependency | 父目录或依赖目录完成后执行 |
-
-### 任务声明字段
-
-| 字段 | 说明 | 示例 |
-|------|------|------|
-| design_path | 对应的 design.md 路径 | `src/auth/login/design.md` |
-| depth | design.md 的深度 | `3` |
-| dependencies | 依赖的其他 design.md | `["src/auth/design.md"]` |
-| scope | 任务范围 (DIR_SCOPE) | `src/auth/login/**` |
-
-### 相关文档
-
+- [ADR-Spec-001: Spec 产物生命周期定义](04_context_reference/adr_Spec_001_lifecycle.md)
 - [ADR-Spec-002: Spec 与 Design.md 关系定义](04_context_reference/adr_Spec_002_design_relation.md)
 - [design_directory_strategy.md](04_reference/design_directory_strategy.md)
 - [design_decision_rules.md](04_reference/design_decision_rules.md)
-- [Spec 设计阶段交互式提问指南](04_reference/spec_design_questioning.md)
-- [提问检查清单](04_reference/questioning_checklist.md)
+- [Spec 交互式提问指南](04_reference/spec_interactive_guide.md)
 
 ---
 

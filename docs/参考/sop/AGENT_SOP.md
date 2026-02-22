@@ -1,6 +1,6 @@
 ---
-version: v2.6.0
-updated: 2026-02-22
+version: v2.7.0
+updated: 2026-02-23
 sop_path: sop/
 ---
 
@@ -105,7 +105,7 @@ sop_path: sop/
 
 CMD: `DIR_SCOPE(dir_with_design_md) = dir/** - {subdir/** | subdir contains design.md}`
 
-参见：04_reference/design_directory_strategy.md + 05_constraints/command_dictionary.md
+参见：04_reference/design_guide.md + 05_constraints/command_dictionary.md
 
 ### 目录层级处理顺序
 
@@ -113,7 +113,7 @@ CMD: `LIST_DESIGN_MD(root) -> design_list`
 CMD: `SCHEDULE_DIRS(design_list) -> dir_map`
 CMD: `RUN_DIR_BATCH(depth_desc)`（同 depth 并行；父目录等待子目录 `DIR_COMPLETED`）
 
-👉 [目录维度工作策略详情](04_reference/design_directory_strategy.md)
+👉 [目录维度工作策略详情](04_reference/design_guide.md)
 
 ---
 

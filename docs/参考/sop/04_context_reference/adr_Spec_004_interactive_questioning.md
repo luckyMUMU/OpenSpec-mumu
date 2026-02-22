@@ -16,9 +16,7 @@ created: 2026-02-22
 | 类型 | 来源 | 说明 |
 |------|------|------|
 | 输入 | 用户需求 | 持久化交互式提问机制核心决策 |
-| 依赖 | spec_design_questioning.md | Spec 设计阶段交互式提问指南 |
-| 依赖 | conflict_detection_rules.md | 设计冲突检测规则 |
-| 依赖 | questioning_checklist.md | Spec 设计阶段提问角度检查清单 |
+| 依赖 | spec_interactive_guide.md | Spec 设计阶段交互式提问指南（整合版） |
 | 关联 | adr_Spec_001_lifecycle.md | Spec 产物生命周期管理 |
 | 关联 | adr_Spec_002_design_relation.md | Spec 与 Design.md 关系定义 |
 | 关联 | adr_Spec_003_version_sync.md | 版本同步机制 |
@@ -43,9 +41,7 @@ created: 2026-02-22
 
 ### 影响范围
 
-- `sop/04_reference/spec_design_questioning.md`
-- `sop/04_reference/conflict_detection_rules.md`
-- `sop/04_reference/questioning_checklist.md`
+- `sop/04_reference/spec_interactive_guide.md`
 - `docs/04_context_reference/adr_*.md`
 
 ## 决策 (Decision)
@@ -475,9 +471,7 @@ ADR-Spec-004 (交互式提问机制)
 
 ## 相关文档
 
-- **交互式提问指南**: [spec_design_questioning.md](04_reference/spec_design_questioning.md)
-- **冲突检测规则**: [conflict_detection_rules.md](04_reference/conflict_detection_rules.md)
-- **提问检查清单**: [questioning_checklist.md](04_reference/questioning_checklist.md)
+- **交互式提问指南**: [spec_interactive_guide.md](04_reference/spec_interactive_guide.md)
 - **ADR 模板**: [document_templates/adr.md](04_reference/document_templates/adr.md)
 - **ADR-Spec-001**: [adr_Spec_001_lifecycle.md](adr_Spec_001_lifecycle.md)
 - **ADR-Spec-002**: [adr_Spec_002_design_relation.md](adr_Spec_002_design_relation.md)

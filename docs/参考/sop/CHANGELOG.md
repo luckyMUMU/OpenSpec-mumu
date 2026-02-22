@@ -1,6 +1,6 @@
 ---
-version: v2.6.0
-updated: 2026-02-22
+version: v2.7.0
+updated: 2026-02-23
 ---
 
 # SOP 版本变更历史
@@ -22,6 +22,43 @@ v[主版本].[次版本].[修订版本]
 ---
 
 ## 版本历史
+
+### v2.7.0 (2026-02-23)
+
+**文档精简与整合** - 消除重复内容，建立清晰的引用层次
+
+#### 关键变更
+
+- **文档整合**：
+  - 合并 `spec_design_questioning.md`、`conflict_detection_rules.md`、`questioning_checklist.md` 为 `spec_interactive_guide.md`（184行）
+  - 合并 `design_decision_rules.md`、`design_directory_strategy.md` 为 `design_guide.md`（284行）
+  - 精简 `document_directory_mapping.md`（119行→82行）
+- **ADR 整理**：
+  - ADR-Spec-003 标记为"历史决策记录"
+  - ADR-Spec-004 更新引用关系
+- **引用关系优化**：
+  - 核心决策引用 ADR 作为唯一真源
+  - 参考文档精简为操作指南
+  - 消除循环引用
+
+#### 删除文件
+
+- `04_reference/spec_design_questioning.md`（已合并）
+- `04_reference/conflict_detection_rules.md`（已合并）
+- `04_reference/questioning_checklist.md`（已合并）
+- `04_reference/design_decision_rules.md`（已合并）
+- `04_reference/design_directory_strategy.md`（已合并）
+
+#### 主要更新文件
+
+- 新增：`04_reference/spec_interactive_guide.md`
+- 新增：`04_reference/design_guide.md`
+- 精简：`04_reference/document_directory_mapping.md`
+- 更新：`04_context_reference/adr_Spec_003_version_sync.md`
+- 更新：`04_context_reference/adr_Spec_004_interactive_questioning.md`
+- 更新：`AGENT_SOP.md`、`04_reference/index.md`、`05_constraints/constraint_matrix.md`
+
+---
 
 ### v2.6.0 (2026-02-22)
 
