@@ -1,0 +1,255 @@
+---
+version: v2.4.0
+updated: 2026-02-22
+---
+
+# OpenSpec 用户指南
+
+> **面向 AGENT 的 SOP 使用指南** - 指导如何使用 SOP 进行复杂项目编程
+
+---
+
+## 一、快速入门
+
+### 1.1 什么是 OpenSpec？
+
+OpenSpec 是一套 AI 辅助软件工程的标准化流程体系。核心思想是：
+
+- **一切执行以 Skill 为单位**：每个 Skill 定义清晰的输入、输出、停止点和交付物
+- **文档驱动开发**：先落盘需求/设计，再改代码
+- **可审计闭环**：所有产出必须声明来源与依赖
+
+### 1.2 核心概念
+
+| 概念 | 说明 |
+|------|------|
+| **Skill** | 执行单元，定义触发条件、步骤、输出格式 |
+| **Prompt Pack** | 表达偏好层，不改变 Skill 合约语义 |
+| **SSOT** | Single Source of Truth，唯一真源 |
+| **Spec** | 任务执行期的临时规范（spec.md/tasks.md/checklist.md） |
+
+### 1.3 目录结构
+
+```text
+project/
+├── docs/
+│   ├── 01_requirements/         # L1: 需求文档
+│   ├── 02_logical_workflow/     # L2: 架构设计
+│   ├── 03_technical_spec/       # L3: 技术规格
+│   └── 04_context_reference/    # L4: 决策记录
+├── src/                         # 源代码
+│   └── **/design.md             # 目录级实现设计
+├── tests/                       # 测试代码
+└── .trae/specs/                 # 任务执行期临时规范
+```
+
+---
+
+## 二、工作流程
+
+### 2.1 选择工作流路径
+
+根据任务复杂度选择合适的路径：
+
+#### 快速路径（Fast Path）
+
+**适用条件**：
+- 单文件修改
+- <30 行代码变更
+- 无逻辑变更
+
+**Skill 调用链**：
+```
+sop-code-explorer → sop-code-implementation → sop-code-review → sop-document-sync
+```
+
+#### 深度路径（Deep Path）
+
+**适用条件**：
+- 新功能开发
+- 重构任务
+- 跨文件修改
+- 复杂逻辑变更
+
+**Skill 调用链**：
+```
+sop-requirement-analyst
+→ sop-architecture-design (可选)
+→ sop-architecture-reviewer (可选)
+→ sop-implementation-designer
+→ sop-code-implementation
+→ sop-code-review
+→ sop-document-sync
+```
+
+#### TDD 路径
+
+**适用条件**：
+- 深度路径任务
+- 要求高测试覆盖
+
+**Skill 调用链**：
+```
+... deep path ...
+→ sop-test-design-csv
+→ sop-test-implementation
+→ sop-code-implementation (运行验收 + 修正代码)
+```
+
+### 2.2 目录维度并行执行
+
+当任务涉及多个包含 `design.md` 的目录时：
+
+1. **扫描**：识别所有包含 `design.md` 的目录
+2. **调度**：根据目录深度构建依赖关系
+3. **执行**：按深度自底向上执行（同深度无依赖可并行）
+4. **依赖处理**：跨目录依赖进入等待状态
+
+### 2.3 Spec 驱动开发
+
+使用 Spec 进行任务管理：
+
+```text
+.trae/specs/<change-id>/
+├── spec.md      # 规范定义（Why/What/Impact）
+├── tasks.md     # 任务列表（可验证的工作项）
+└── checklist.md # 检查清单（验证点）
+```
+
+**生命周期**：
+1. **执行期**：在 `.trae/specs/` 下创建规范
+2. **归档期**：重要任务完成后归档到 `docs/04_context_reference/archived_specs/`
+3. **清理**：简单任务完成后直接删除
+
+---
+
+## 三、Skill 使用指南
+
+### 3.1 核心 Skill 清单
+
+| Skill | 用途 | 输出 |
+|-------|------|------|
+| sop-workflow-orchestrator | 任务分诊 | Skill 调用链 |
+| sop-requirement-analyst | 需求分析 | PRD/MRD/FRD |
+| sop-architecture-design | 架构设计 | L2 架构文档 |
+| sop-architecture-reviewer | 架构审查 | 审查报告 |
+| sop-implementation-designer | 实现设计 | design.md |
+| sop-code-explorer | 代码审计 | 影响评估报告 |
+| sop-code-implementation | 代码实现 | 代码变更 |
+| sop-code-review | 代码审查 | 审查报告 |
+| sop-test-design-csv | 测试设计 | CSV 测试用例 |
+| sop-test-implementation | 测试实现 | 测试代码 |
+| sop-document-sync | 文档同步 | 索引更新 |
+| sop-progress-supervisor | 进度监控 | 进度报告 |
+
+### 3.2 Skill 调用规范
+
+每个 Skill 调用必须遵循：
+
+1. **确认触发条件**：检查是否满足 Skill 的触发条件
+2. **准备输入**：收集所需的输入参数
+3. **执行步骤**：按 Skill 定义的步骤顺序执行
+4. **验证输出**：确认输出符合预期格式
+5. **落盘交付物**：将交付物保存到指定位置
+
+### 3.3 停止点处理
+
+当遇到停止点时：
+
+| 停止点 | 处理方式 |
+|--------|----------|
+| `[USER_DECISION]` | 等待用户决策，记录决策到 ADR |
+| `[DIR_WAITING_DEP]` | 等待依赖目录完成 |
+| `[BLOCKED]` | 记录阻塞原因，等待解除 |
+| `[CYCLE_DETECTED]` | 报告循环依赖，等待处理 |
+
+---
+
+## 四、最佳实践
+
+### 4.1 设计先行原则
+
+1. **持久化设计**：将设计内容保存到 `design.md` 或 ADR
+2. **临时规范**：使用 Spec 管理任务执行期的临时规范
+3. **迁移原则**：任务完成后，将需要长期保留的内容迁移到持久化位置
+
+### 4.2 任务划分原则
+
+| 任务类型 | 划分方式 |
+|----------|----------|
+| 单目录任务 | 对应单个 design.md |
+| 跨目录任务 | 拆分为多个子任务 |
+| 复杂任务 | 使用 Spec 三件套管理 |
+
+### 4.3 执行顺序原则
+
+1. **自底向上**：从最深目录开始执行
+2. **并行执行**：同深度无依赖的任务可并行
+3. **依赖等待**：有依赖的任务等待依赖完成后执行
+
+### 4.4 文档规范
+
+1. **来源声明**：所有分析文档必须声明来源
+2. **依赖声明**：设计文档必须声明依赖
+3. **决策记录**：重要决策必须记录到 ADR
+
+---
+
+## 五、常见问题
+
+### 5.1 如何选择工作流路径？
+
+根据任务复杂度判断：
+- **快速路径**：单文件、小变更、无逻辑变化
+- **深度路径**：新功能、重构、跨文件修改
+- **TDD 路径**：需要高测试覆盖的任务
+
+### 5.2 如何处理跨目录依赖？
+
+1. 识别依赖关系
+2. 按深度排序
+3. 自底向上执行
+4. 依赖目录完成后唤醒等待任务
+
+### 5.3 Spec 产物如何处理？
+
+- **重要任务**：归档到 `docs/04_context_reference/archived_specs/`
+- **简单任务**：完成后直接删除
+- **设计内容**：迁移到 `design.md` 或 ADR
+
+### 5.4 版本不一致如何处理？
+
+1. 确认 CHANGELOG 基准版本
+2. 批量更新所有文件版本号
+3. 更新 updated 日期
+4. 验证一致性
+
+### 5.5 遇到停止点怎么办？
+
+1. 记录当前状态
+2. 产出续跑请求（使用 `continuation_request.md` 模板）
+3. 等待外部输入
+4. 恢复执行时读取续跑请求
+
+---
+
+## 六、相关文档
+
+### 6.1 核心文档
+
+- [AGENT_SOP.md](sop/AGENT_SOP.md) - AI Agent 执行入口
+- [sop_GUIDE.md](sop_GUIDE.md) - SOP 审查指南
+- [sop_for_human.md](sop/sop_for_human.md) - SOP 人类阅读版
+
+### 6.2 参考文档
+
+- [Skill 矩阵](sop/02_skill_matrix/index.md) - Skill 清单与边界
+- [状态字典](sop/05_constraints/state_dictionary.md) - 状态定义
+- [命令字典](sop/05_constraints/command_dictionary.md) - 命令定义
+- [目录映射表](sop/04_reference/document_directory_mapping.md) - 目录映射
+
+### 6.3 模板文档
+
+- [实现设计模板](sop/04_reference/document_templates/implementation_design.md)
+- [ADR 模板](sop/04_reference/document_templates/adr.md)
+- [决策记录模板](sop/04_reference/document_templates/decision_record.md)
