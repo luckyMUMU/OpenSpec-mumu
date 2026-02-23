@@ -1,8 +1,8 @@
 ---
 name: "sop-tdd-workflow"
 description: "TDD工作流定义。Invoke when 用户启用TDD测试驱动开发流程。"
-version: v2.6.0
-updated: 2026-02-22
+version: v2.8.0
+updated: 2026-02-23
 ---
 
 # TDD 工作流（可选 / Skill-first）
@@ -10,6 +10,11 @@ updated: 2026-02-22
 **类型**: 可选项  
 **触发**: `sop-workflow-orchestrator` 判断启用 TDD 时  
 **位置**: `sop/skills/sop-tdd-workflow/SKILL.md`
+
+## 侧重点
+
+- 测试资产隔离：CSV 仅 `sop-test-design-csv` 可写；测试代码仅 `sop-test-implementation` 可写
+- 测试用例来源：仅基于设计文档，不从代码倒推
 
 ---
 

@@ -1,11 +1,16 @@
 ---
 name: "sop-requirement-analyst"
 description: "Requirement analysis workflow for multi-level requirements (L1 PRD / L2 MRD / L3 FRD). Invoke when starting a new project, module, or feature, or when requirements need clarification."
-version: v2.6.0
-updated: 2026-02-22
+version: v2.8.0
+updated: 2026-02-23
 ---
 
 # Requirement Analysis Workflow
+
+## 侧重点
+
+- 需求分层必须可落盘、可验收、可追溯
+- 仅当存在不确定/冲突需求会影响设计或实现 → 进入 `[WAITING_FOR_REQUIREMENTS]` 或 `[USER_DECISION]`
 
 ## 触发条件
 

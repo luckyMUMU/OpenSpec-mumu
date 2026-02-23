@@ -1,13 +1,18 @@
 ---
 name: "sop-design-placement"
 description: "指导AI正确放置设计文档和创建design.md。Invoke when deciding design/doc placement and design.md granularity in a skill-first workflow."
-version: v2.6.0
-updated: 2026-02-22
+version: v2.8.0
+updated: 2026-02-23
 ---
 
 # 设计文档放置指南
 
 **位置**: `sop/skills/sop-design-placement/SKILL.md`
+
+## 侧重点
+
+- 必须按目录策略选择 design.md 落点，避免跨域耦合
+- 当落点存在冲突或影响重大 → 进入 `[USER_DECISION]` 并落盘决策记录
 
 ## 触发条件
 

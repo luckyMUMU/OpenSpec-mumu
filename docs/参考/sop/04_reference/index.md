@@ -1,5 +1,5 @@
 ---
-version: v2.7.0
+version: v2.8.2
 updated: 2026-02-23
 ---
 
@@ -174,6 +174,7 @@ docs/03_technical_spec/test_cases/
 | [来源与依赖声明](interaction_formats/source_dependency.md) | 来源/依赖/Gaps/决策声明 | sop-capability-reuse |
 | [手动模式模板](interaction_formats/manual_mode_templates.md) | 手动触发路径/模式的请求模板 | sop-workflow-orchestrator |
 | [续跑与恢复请求](interaction_formats/continuation_request.md) | 未完成/依赖等待/验证失败的续跑交接 | sop-workflow-orchestrator |
+| [SSOT 漂移检测报告](interaction_formats/ssot_drift_detection_report.md) | SSOT 引用一致性检测 | 审查时 |
 
 ---
 

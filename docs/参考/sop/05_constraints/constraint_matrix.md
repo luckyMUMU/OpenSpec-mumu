@@ -18,7 +18,17 @@ updated: 2026-02-23
 
 ---
 
-## 1. 全局禁止项（所有 Skill 通用）
+## 1. 全局不变量（所有 Skill 必须遵守）
+
+### 1.0 表达与落盘规范
+
+| 规范项 | 要求 |
+|--------|------|
+| **表达格式** | 仅当/当…时 → 必须/禁止/仅能 → 输出（交付物/路径） |
+| **SSOT 引用** | 状态/命令必须引用 `05_constraints/state_dictionary.md` 与 `05_constraints/command_dictionary.md` |
+| **来源与依赖** | 必须遵循 `04_reference/review_standards/source_dependency.standard.md` |
+| **停止点** | 当输入不足/冲突/依赖缺口时 → 必须进入 `[USER_DECISION]` 并落盘决策记录 |
+| **落盘** | 每次 Skill 必须产出可持久化交付物（使用 interaction_formats 或 document_templates 的模板） |
 
 ### 1.1 状态管理约束
 

@@ -1,13 +1,18 @@
 ---
 name: "sop-code-explorer"
 description: "Code audit workflow for impact assessment and risk identification. Invoke before implementation to understand existing code and assess change impact."
-version: v2.6.0
-updated: 2026-02-22
+version: v2.8.0
+updated: 2026-02-23
 ---
 
 # Code Audit Workflow
 
 **位置**: `sop/skills/sop-code-explorer/SKILL.md`
+
+## 侧重点
+
+- 先定位"最小必要上下文"，再扩展检索范围
+- 仅输出可验证证据（文件路径/行号范围/接口签名/调用关系）
 
 ## 触发条件
 

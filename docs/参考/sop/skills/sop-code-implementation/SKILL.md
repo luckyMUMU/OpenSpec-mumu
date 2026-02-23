@@ -1,11 +1,17 @@
 ---
 name: "sop-code-implementation"
 description: "Code implementation workflow for physical coding. Invoke when implementation design is approved and ready for coding."
-version: v2.6.0
-updated: 2026-02-22
+version: v2.8.0
+updated: 2026-02-23
 ---
 
 # Code Implementation Workflow
+
+## 侧重点
+
+- 仅当 `design.md` 存在且 Scope 明确 → 才能进入 `[DIR_WORKING]` 并开始改代码
+- 优先复用：先复用→改进→新建→清理（必要时调用 `sop-capability-reuse`）
+- 跨目录依赖 → 必须进入 `[DIR_WAITING_DEP]` 并请求 `sop-progress-supervisor` 调度
 
 ## 触发条件
 

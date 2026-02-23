@@ -1,11 +1,16 @@
 ---
 name: "sop-architecture-design"
 description: "Architecture design workflow for creating technology-agnostic designs. Invoke when requirements are confirmed and ready for architecture design."
-version: v2.6.0
-updated: 2026-02-22
+version: v2.8.0
+updated: 2026-02-23
 ---
 
 # Architecture Design Workflow
+
+## 侧重点
+
+- 用最少可审查信息完成 L2 架构闭环（边界/接口/数据流/关键决策）
+- 所有关键决策必须可追溯（必要时落 ADR）
 
 ## 触发条件
 

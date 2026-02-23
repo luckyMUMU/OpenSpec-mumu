@@ -1,5 +1,5 @@
 ---
-version: v2.7.1
+version: v2.8.1
 updated: 2026-02-23
 ---
 
@@ -19,9 +19,72 @@ v[主版本].[次版本].[修订版本]
 | **次版本** | 新增/调整 Skill、工作流、文档类型 | v2.0→v2.1 |
 | **修订版本** | 文档修正、错误修复、格式统一 | v2.0.0→v2.0.1 |
 
+**版本同步检查**：版本更新时必须执行 [版本同步检查清单](05_constraints/version_sync_checklist.md)。
+
 ---
 
 ## 版本历史
+
+### v2.8.1 (2026-02-23)
+
+**持续改进机制建立** - 根据全面审查结果建立改进机制
+
+#### 关键变更
+
+- **新增版本同步检查清单**：
+  - 新增 `05_constraints/version_sync_checklist.md`
+  - 定义版本更新检查流程
+  - 定义检查结果模板
+- **更新约束索引**：
+  - `05_constraints/index.md` 新增版本同步检查清单引用
+- **更新审查指南**：
+  - `sop_GUIDE.md` 新增审查触发条件章节
+  - 新增 SSOT 漂移监控方法
+
+#### 主要更新文件
+
+- 版本同步检查清单：`05_constraints/version_sync_checklist.md`（新增）
+- 约束索引：`05_constraints/index.md`
+- 审查指南：`sop_GUIDE.md`
+
+---
+
+### v2.8.0 (2026-02-23)
+
+**prompts 目录删除与 SSOT 合并** - 消除内容重复，符合 SSOT 原则
+
+#### 关键变更
+
+- **🔴 BREAKING：删除 prompts 目录**：
+  - 删除 `prompts/` 整个目录（20个文件）
+  - 全局不变量合并到 `05_constraints/constraint_matrix.md`
+  - 编排规则合并到 `03_workflow/index.md`
+  - 侧重点合并到各 `skills/*/SKILL.md`
+- **Skill 合约更新**：
+  - 所有 17 个 Skill 合约新增"侧重点"章节
+  - 版本号统一更新为 v2.8.0
+- **参考文档更新**：
+  - `prompt_pack.standard.md` 标记为废弃
+  - `02_skill_matrix/index.md` 删除"默认 Prompt 模块"列
+- **工作流更新**：
+  - `03_workflow/index.md` 新增"编排入口"和"能力选择协议"章节
+
+#### 删除文件
+
+- `prompts/packs/default/00_system.md`（已合并）
+- `prompts/packs/default/01_operator.md`（已合并）
+- `prompts/packs/default/index.md`（已删除）
+- `prompts/packs/default/skills/*.md`（17个文件，已合并）
+
+#### 主要更新文件
+
+- 约束矩阵：`05_constraints/constraint_matrix.md`
+- 工作流入口：`03_workflow/index.md`
+- Skill 合约：`skills/*/SKILL.md`（17个）
+- Skill 矩阵：`02_skill_matrix/index.md`
+- Prompt Pack 规范：`04_reference/prompt_pack.standard.md`（标记废弃）
+
+---
 
 ### v2.7.1 (2026-02-23)
 

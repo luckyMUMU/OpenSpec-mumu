@@ -1,6 +1,6 @@
 ---
-version: v2.4.0
-updated: 2026-02-22
+version: v2.8.1
+updated: 2026-02-23
 ---
 
 # 约束规范
@@ -22,6 +22,7 @@ updated: 2026-02-22
 | [命令字典](command_dictionary.md) | SOP 命令式交互的统一命令清单（SSOT） | 所有 Skill |
 | [状态字典](state_dictionary.md) | 状态标记的唯一来源（停止点/目录状态/熔断状态） | 所有 Skill |
 | [安全与供应链红线](security_supply_chain.md) | 安全边界与依赖治理的硬性要求 | 所有 Skill |
+| [版本同步检查清单](version_sync_checklist.md) | 版本更新时的强制检查清单，确保版本一致性 | 版本更新时 |
 
 ---
 

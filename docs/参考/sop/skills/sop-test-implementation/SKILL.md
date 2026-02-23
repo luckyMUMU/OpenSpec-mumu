@@ -1,11 +1,16 @@
 ---
 name: "sop-test-implementation"
 description: "Acceptance test implementation workflow from CSV test cases. Invoke after CSV test design is ready to generate L1-L4 test code and verification instructions."
-version: v2.6.0
-updated: 2026-02-22
+version: v2.8.0
+updated: 2026-02-23
 ---
 
 # Test Implementation Workflow
+
+## 侧重点
+
+- 仅实现测试代码；禁止修改 CSV 用例
+- 测试代码必须满足分层验收门禁（L1-L4）并可重复运行
 
 ## 触发条件
 

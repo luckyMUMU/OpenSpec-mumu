@@ -1,13 +1,18 @@
 ---
 name: "sop-architecture-reviewer"
 description: "Architecture review workflow with multi-round iteration. Invoke when architecture design is complete and needs quality review."
-version: v2.6.0
-updated: 2026-02-22
+version: v2.8.0
+updated: 2026-02-23
 ---
 
 # Architecture Review Workflow
 
 **位置**: `sop/skills/sop-architecture-reviewer/SKILL.md`
+
+## 侧重点
+
+- 只输出审查报告；禁止直接修改架构文档
+- 审查结论必须绑定证据（设计章节/验收标准/红线条款）
 
 ## 触发条件
 

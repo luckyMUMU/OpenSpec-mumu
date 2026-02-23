@@ -1,11 +1,16 @@
 ---
 name: "sop-fast-path"
 description: "Fast path workflow for single-file, small changes. Invoke when task is triaged as fast path (single file, <30 lines, no logic change)."
-version: v2.6.0
-updated: 2026-02-22
+version: v2.8.0
+updated: 2026-02-23
 ---
 
 # Fast Path Workflow
+
+## 侧重点
+
+- 仅当满足 fast 判定（单文件 + <30 行 + 无逻辑变更）时 → 才能调用本 Skill
+- 无法证明无行为变化或存在跨文件/跨目录影响 → 必须升级到 `sop-deep-path`
 
 ## 触发条件
 

@@ -1,13 +1,18 @@
 ---
 name: "sop-workflow-orchestrator"
 description: "Workflow orchestration for task triage and path selection. Invoke on new task to select path (fast/deep/TDD) and produce a Skill call chain with persisted artifacts."
-version: v2.6.0
-updated: 2026-02-22
+version: v2.8.0
+updated: 2026-02-23
 ---
 
 # Workflow Orchestration（Skill-first）
 
 **位置**: `sop/skills/sop-workflow-orchestrator/SKILL.md`
+
+## 侧重点
+
+- 优先最小可行调用链；仅当风险/范围不清时才升级深度路径
+- 所有结论必须绑定"来源与依赖声明"；缺口直接触发 `[USER_DECISION]`
 
 ## 触发条件
 

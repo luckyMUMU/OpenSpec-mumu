@@ -1,5 +1,5 @@
 ---
-version: v2.7.0
+version: v2.8.0
 updated: 2026-02-23
 scope: docs/参考/sop
 ---

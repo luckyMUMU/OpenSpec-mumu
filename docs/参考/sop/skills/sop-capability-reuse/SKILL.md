@@ -1,13 +1,18 @@
 ---
 name: "sop-capability-reuse"
 description: "指导AI Agent复用和优化已有能力。Invoke when needing to create new functionality, to check for existing capabilities first and prioritize improvement over creation."
-version: v2.6.0
-updated: 2026-02-22
+version: v2.8.0
+updated: 2026-02-23
 ---
 
 # 能力复用与优化
 
 **位置**: `sop/skills/sop-capability-reuse/SKILL.md`
+
+## 侧重点
+
+- 必须先检索现有能力与资产，再决定改造或新建
+- 复用决策必须可追溯：引用搜索证据与对比结论
 
 ## 触发条件
 

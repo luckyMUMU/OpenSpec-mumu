@@ -1,13 +1,18 @@
 ---
 name: "sop-progress-supervisor"
 description: "Progress monitoring workflow for tracking execution and triggering circuit breakers. Invoke when monitoring task execution or detecting anomalies."
-version: v2.6.0
-updated: 2026-02-22
+version: v2.8.0
+updated: 2026-02-23
 ---
 
 # Progress Monitoring Workflow
 
 **位置**: `sop/skills/sop-progress-supervisor/SKILL.md`
+
+## 侧重点
+
+- 目录并行调度以状态机驱动：`[DIR_WORKING]` → `[DIR_COMPLETED]`，等待以 `[DIR_WAITING_DEP]` 表达
+- 三错即停：到达熔断条件必须产出报告并停止自动推进
 
 ## 触发条件
 

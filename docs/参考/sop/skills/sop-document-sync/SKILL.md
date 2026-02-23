@@ -1,13 +1,18 @@
 ---
 name: "sop-document-sync"
 description: "Document synchronization workflow for index updates, progressive disclosure, and task archiving. Invoke when documents need synchronization, status updates, or task archiving."
-version: v2.6.0
-updated: 2026-02-22
+version: v2.8.0
+updated: 2026-02-23
 ---
 
 # Document Synchronization Workflow
 
 **位置**: `sop/skills/sop-document-sync/SKILL.md`
+
+## 侧重点
+
+- 仅同步文档与索引；不得改动 `docs/参考/` 下的 SSOT（除非重构任务明确包含）
+- 变更必须包含版本一致性检查与链接检查结果
 
 ## 触发条件
 

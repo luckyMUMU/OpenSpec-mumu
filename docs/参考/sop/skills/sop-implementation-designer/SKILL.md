@@ -1,13 +1,18 @@
 ---
 name: "sop-implementation-designer"
 description: "Implementation design workflow for creating detailed technical designs. Invoke when architecture is approved and ready for implementation design."
-version: v2.6.0
-updated: 2026-02-22
+version: v2.8.0
+updated: 2026-02-23
 ---
 
 # Implementation Design Workflow
 
 **位置**: `sop/skills/sop-implementation-designer/SKILL.md`
+
+## 侧重点
+
+- 目录级设计必须包含接口契约与跨目录依赖声明
+- 当设计依据（L2/ADR）存在冲突 → 必须进入 `[USER_DECISION]` 并落盘决策记录
 
 ## 触发条件
 
