@@ -39,7 +39,7 @@ artifact: Context Handoff
 
 ## 推荐项（Soft requirements）
 
-- 快照应尽量短，但必须可执行恢复
+- 快照应保持精简，但必须可执行恢复
 - 证据引用优先使用“文件路径 + 行号范围”或“命令输出摘要”
 - 将跨目录依赖明确归类为 `[DIR_WAITING_DEP]`，避免隐式等待
 

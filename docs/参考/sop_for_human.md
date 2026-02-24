@@ -1,7 +1,7 @@
 # AI 项目协作规约 - 人类阅读版
 
-> **版本**: v2.1.0  
-> **更新日期**: 2026-02-13  
+> **版本**: v2.9.2  
+> **更新日期**: 2026-02-24  
 > **适用对象**: 产品经理、项目经理、技术负责人、开发者
 > **状态**: 仅供参考（v1.5.0 历史版本，已迁移至 SOP v2.x 体系）
 
@@ -273,7 +273,26 @@ Analyst → Prometheus ↔ Skeptic → Oracle → Tester → Supervisor → [多
 
 ---
 
-## 4. 质量控制：三错即停
+## 4. 质量控制：三错即停与质量门控
+
+### 4.1 质量门控机制
+
+每个阶段完成后必须执行门控检查，确保质量：
+
+| 阶段 | 门控检查项 | 通过条件 | 失败处理 |
+|------|-----------|----------|----------|
+| 需求阶段 | 需求边界清晰、技术方案对齐、验收标准具体、关键假设确认 | 全部通过 | 返回需求分析修正 |
+| 架构阶段 | 架构图清晰、接口定义完整、与现有系统无冲突、设计可行 | 全部通过 | 返回架构设计修正 |
+| 实现设计阶段 | 任务覆盖完整、依赖无循环、每个任务可独立验证 | 全部通过 | 返回实现设计修正 |
+| 代码实现阶段 | 代码规范、测试通过、文档同步 | 全部通过 | 返回代码实现修正 |
+| 文档同步阶段 | 需求实现、验收满足、质量达标 | 全部通过 | 返回相应阶段修正 |
+
+**门控失败约束**：
+- 门控失败不累计，每次失败都需要用户决策
+- 用户可选择：修复后重试、回滚到上一阶段、终止任务
+- 不与三错即停机制关联
+
+### 4.2 三错即停
 
 Worker（写代码的 AI）如果连续出错，会自动触发熔断机制：
 
@@ -283,7 +302,7 @@ Worker（写代码的 AI）如果连续出错，会自动触发熔断机制：
 | Strike 2 | 第 2 次 | 停止编码，审计环境，微调方案 | 等待分析结果 |
 | **Strike 3** | **第 3 次** | **熔断，停止工作，生成报告** | **必须介入决策** |
 
-### 4.1 详细流程
+#### 4.2.1 详细流程
 
 **Strike 1: 初次失败**
 - Worker 遇到错误或测试未通过
@@ -304,14 +323,14 @@ Worker（写代码的 AI）如果连续出错，会自动触发熔断机制：
 - 暂停所有相关工作
 - 等待用户决策
 
-### 4.2 什么情况下会熔断？
+#### 4.2.2 什么情况下会熔断？
 
 - Worker 连续 3 次写不出正确代码
 - 发现严重的架构冲突
 - 测试持续失败
 - 进度严重偏离预期
 
-### 4.3 熔断后怎么办？
+#### 4.2.3 熔断后怎么办？
 
 1. **Supervisor 生成失败报告**
    - 失败原因分析
@@ -338,10 +357,11 @@ AI 不会擅自做主，以下节点会停下来等你确认：
 |------|-----------|----------|-------------|
 | Analyst 完成后 | `[WAITING_FOR_REQUIREMENTS]` | 需求理解是否准确？PRD/MRD/FRD 是否完整？ | 无法进入设计阶段 |
 | Prometheus 完成后 | `[WAITING_FOR_ARCHITECTURE]` | 架构设计是否合理？ | 无法进入架构审查 |
-| Skeptic 完成后 | `[ARCHITECTURE_PASSED]` | 审查问题是否解决？ | 无法进入实现设计 |
+| Skeptic 完成后 | `[ARCHITECTURE_PASSED]` / `[ARCHITECTURE_FAILED]` | 审查问题是否解决？ | 无法进入实现设计 |
 | Oracle 完成后 | `[WAITING_FOR_DESIGN]` | 实现方案是否可行？ | 无法开始编码 |
 | **Tester 完成后** | **`[WAITING_FOR_TEST_DESIGN]`** | **测试设计是否完整覆盖设计？** | **无法进入编码阶段** |
-| Worker 完成后 | 展示 Diff | 代码是否符合预期？ | 无法提交代码 |
+| Worker 完成后 | `[DIFF_APPROVAL]` | 代码是否符合预期？ | 无法提交代码 |
+| 门控失败时 | `[GATE_FAILED]` | 选择：修复后重试 / 回滚 / 终止 | 无法继续执行 |
 
 ---
 
@@ -753,14 +773,15 @@ TC001,订单,创建,正常流程,用户登录,"{product:A,qty:1}","{status:succe
 |------|-----------|----------|
 | Analyst | `[WAITING_FOR_REQUIREMENTS]` | 用户确认PRD/MRD/FRD |
 | Prometheus | `[WAITING_FOR_ARCHITECTURE]` | 架构审批 |
-| Skeptic | `[ARCHITECTURE_PASSED]` | 审查通过 |
+| Skeptic | `[ARCHITECTURE_PASSED]` / `[ARCHITECTURE_FAILED]` | 审查通过/失败处理 |
 | Oracle | `[WAITING_FOR_DESIGN]` | 设计审批 |
 | **Tester** | **`[WAITING_FOR_TEST_DESIGN]`** | **用户确认测试设计** |
-| Worker | Diff展示 | 用户审批代码 |
+| Worker | `[DIFF_APPROVAL]` | 用户审批代码 |
 | **Supervisor** | **`[SCHEDULING]`** | **目录调度完成** |
 | **Worker** | **`[DIR_WORKING]`** | **目录处理中** |
 | **Worker** | **`[DIR_WAITING_DEP]`** | **等待依赖目录** |
 | **Worker** | **`[DIR_COMPLETED]`** | **目录处理完成** |
+| 门控失败 | `[GATE_FAILED]` | 用户选择：修复/回滚/终止 |
 
 ### 12.3 三错即停速查
 
@@ -1060,7 +1081,50 @@ Worker A 完成 module_a/
 | `[SCHEDULING]` | Supervisor 正在调度 | 创建目录-Worker 映射时 |
 | `[PARALLEL_EXECUTING]` | 多 Worker 并行执行中 | 同深度目录并行处理时 |
 
-### 15.8 适用场景
+### 15.8 目录调度状态机
+
+多目录并行执行时，目录状态按以下状态机流转：
+
+```
+[DIR_WAITING_DEP] ←── 依赖未就绪 ──┐
+       │                          │
+       ↓ 依赖就绪（自动触发）       │
+[DIR_WORKING] ──→ 处理完成 ──→ [DIR_COMPLETED]
+       │                          │
+       ↓ 处理失败                 │
+[DIR_FAILED] ─────────────────────┘
+```
+
+### 15.9 调度状态保存格式
+
+中断恢复时，调度状态保存为 JSON 格式：
+
+```json
+{
+  "version": "1.0",
+  "timestamp": "2026-02-24T10:30:00Z",
+  "directories": [
+    {
+      "path": "src/module-a",
+      "state": "DIR_COMPLETED",
+      "design_md": "src/module-a/design.md",
+      "completed_at": "2026-02-24T10:00:00Z"
+    },
+    {
+      "path": "src/module-b",
+      "state": "DIR_WAITING_DEP",
+      "dependencies": ["src/module-a"],
+      "design_md": "src/module-b/design.md"
+    }
+  ],
+  "current_batch": 1,
+  "total_batches": 3
+}
+```
+
+保存位置：`.trae/scheduler_state.json`
+
+### 15.10 适用场景
 
 **推荐使用目录维度路径**：
 - ✅ 跨多个模块的新功能开发
@@ -1073,7 +1137,7 @@ Worker A 完成 module_a/
 - ✅ 简单模块修改
 - ✅ 独立工具函数开发
 
-### 15.9 最佳实践
+### 15.11 最佳实践
 
 1. **合理划分目录**：按功能模块划分目录，每个目录一个 design.md
 2. **明确依赖关系**：在 design.md 中声明目录依赖

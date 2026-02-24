@@ -1,8 +1,8 @@
 ---
 name: "sop-implementation-designer"
 description: "Implementation design workflow for creating detailed technical designs. Invoke when architecture is approved and ready for implementation design."
-version: v2.8.0
-updated: 2026-02-23
+version: v2.9.0
+updated: 2026-02-24
 ---
 
 # Implementation Design Workflow
@@ -13,6 +13,38 @@ updated: 2026-02-23
 
 - 目录级设计必须包含接口契约与跨目录依赖声明
 - 当设计依据（L2/ADR）存在冲突 → 必须进入 `[USER_DECISION]` 并落盘决策记录
+
+## 质量门控检查
+
+> 完成实现设计后，必须执行以下门控检查：
+
+| 检查项 | 通过标准 | 状态 |
+|--------|----------|------|
+| 任务覆盖完整 | 所有L2原子操作已映射到L3实现 | [ ] |
+| 依赖无循环 | 目录依赖图中无循环依赖 | [ ] |
+| 任务可独立验证 | 每个任务有明确的验收标准 | [ ] |
+
+**门控失败处理**：若任一检查项未通过，应记录失败原因并返回修正。
+
+## 输入/输出契约定义要求
+
+> 每个目录的design.md应包含以下契约定义：
+
+### 输入契约
+
+| 契约项 | 说明 |
+|--------|------|
+| 前置依赖 | L2架构设计文档、需求文档(FRD/MRD) |
+| 输入数据 | 业务需求、技术约束、现有代码上下文 |
+| 环境依赖 | 开发环境、技术栈版本、外部服务 |
+
+### 输出契约
+
+| 契约项 | 说明 |
+|--------|------|
+| 输出数据 | design.md文档、接口定义、数据模型 |
+| 交付物 | 可执行的任务清单、验收标准 |
+| 验收标准 | 门控检查项全部通过、用户确认 |
 
 ## 触发条件
 

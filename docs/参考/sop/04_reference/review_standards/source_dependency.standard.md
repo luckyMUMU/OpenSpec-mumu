@@ -36,7 +36,7 @@ artifact: Sources & Dependencies
 
 ## 推荐项（Soft requirements）
 
-- External Sources 尽量可复核（优先沉淀到项目 RAG/决策记录）
+- External Sources 必须可复核（优先沉淀到项目 RAG/决策记录）
   - 引用外部规范时说明采用/不采用的理由
   - 对关键假设给出验证路径
 

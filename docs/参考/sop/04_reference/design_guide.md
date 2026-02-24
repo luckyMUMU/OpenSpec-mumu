@@ -1,6 +1,6 @@
 ---
-version: v2.7.0
-updated: 2026-02-23
+version: v2.9.0
+updated: 2026-02-24
 ---
 
 # design.md 创建与执行指南

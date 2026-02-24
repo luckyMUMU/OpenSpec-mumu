@@ -1,6 +1,6 @@
 ---
-version: v2.4.0
-updated: 2026-02-22
+version: v2.9.2
+updated: 2026-02-24
 ---
 
 # 基于伪代码逻辑与分级目录的 LLM 技术规范
@@ -185,6 +185,56 @@ docs/
 | sop-implementation-designer | L3 | 实现设计 |
 | sop-code-implementation | 代码 | 代码实现 |
 
+### 质量门控机制
+
+每个阶段完成后必须执行门控检查，确保质量：
+
+| 阶段 | 门控检查项 | 通过条件 | 失败处理 |
+|------|-----------|----------|----------|
+| 需求阶段 | 需求边界清晰、技术方案对齐、验收标准具体、关键假设确认 | 全部通过 | 返回需求分析修正 |
+| 架构阶段 | 架构图清晰、接口定义完整、与现有系统无冲突、设计可行 | 全部通过 | 返回架构设计修正 |
+| 实现设计阶段 | 任务覆盖完整、依赖无循环、每个任务可独立验证 | 全部通过 | 返回实现设计修正 |
+| 代码实现阶段 | 代码规范、测试通过、文档同步 | 全部通过 | 返回代码实现修正 |
+| 文档同步阶段 | 需求实现、验收满足、质量达标 | 全部通过 | 返回相应阶段修正 |
+
+**门控失败约束**：
+- 门控失败不累计，每次失败都需要用户决策
+- 用户可选择：修复后重试、回滚到上一阶段、终止任务
+- 不与三错即停机制关联
+
+### 目录调度状态机
+
+多目录并行执行时，目录状态按以下状态机流转：
+
+```
+[DIR_WAITING_DEP] ←── 依赖未就绪 ──┐
+       │                          │
+       ↓ 依赖就绪（自动触发）       │
+[DIR_WORKING] ──→ 处理完成 ──→ [DIR_COMPLETED]
+       │                          │
+       ↓ 处理失败                 │
+[DIR_FAILED] ─────────────────────┘
+```
+
+**调度状态保存格式**（JSON）：
+```json
+{
+  "version": "1.0",
+  "timestamp": "2026-02-24T10:30:00Z",
+  "directories": [
+    {
+      "path": "src/module-a",
+      "state": "DIR_COMPLETED",
+      "design_md": "src/module-a/design.md",
+      "completed_at": "2026-02-24T10:00:00Z"
+    }
+  ],
+  "current_batch": 1,
+  "total_batches": 3
+}
+```
+保存位置：`.trae/scheduler_state.json`
+
 ### 文档模板位置
 
 | 文档类型 | 模板位置 |
@@ -199,3 +249,6 @@ docs/
 - [SOP 入口](sop/AGENT_SOP.md)
 - [SOP 审查指南](sop_GUIDE.md)
 - [目录映射表](sop/04_reference/document_directory_mapping.md)
+- [状态字典](sop/05_constraints/state_dictionary.md)
+- [命令字典](sop/05_constraints/command_dictionary.md)
+- [约束矩阵](sop/05_constraints/constraint_matrix.md)

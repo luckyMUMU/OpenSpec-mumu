@@ -1,6 +1,6 @@
 ---
-version: v2.8.2
-updated: 2026-02-23
+version: v2.9.0
+updated: 2026-02-24
 ---
 
 # 参考文档
@@ -141,8 +141,8 @@ docs/03_technical_spec/test_cases/
 | **[模块MRD](document_templates/module_mrd.md)** | **L2** | **模块级需求** | **sop-requirement-analyst** |
 | **[功能FRD](document_templates/feature_frd.md)** | **L3** | **功能级需求** | **sop-requirement-analyst** |
 | **[原型规范](document_templates/prototype_guide.md)** | **L3** | **原型设计** | **sop-requirement-analyst** |
-| [架构设计](document_templates/architecture_design.md) | L2 | 逻辑工作流 | sop-architecture-design |
-| [实现设计](document_templates/implementation_design.md) | L3 | 技术规格 | sop-implementation-designer |
+| [架构设计](document_templates/architecture_design.md) | L2 | 逻辑工作流 | sop-architecture-design | 质量门控检查清单、架构图建议 |
+| [实现设计](document_templates/implementation_design.md) | L3 | 技术规格 | sop-implementation-designer | 质量门控检查清单、输入/输出契约定义 |
 | [ADR](document_templates/adr.md) | L4 | 决策参考 | sop-architecture-design / sop-implementation-designer |
 
 ---

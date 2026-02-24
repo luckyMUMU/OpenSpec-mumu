@@ -1,8 +1,8 @@
 ---
 name: "sop-document-sync"
 description: "Document synchronization workflow for index updates, progressive disclosure, and task archiving. Invoke when documents need synchronization, status updates, or task archiving."
-version: v2.8.0
-updated: 2026-02-23
+version: v2.9.0
+updated: 2026-02-24
 ---
 
 # Document Synchronization Workflow
@@ -13,6 +13,36 @@ updated: 2026-02-23
 
 - 仅同步文档与索引；不得改动 `docs/参考/` 下的 SSOT（除非重构任务明确包含）
 - 变更必须包含版本一致性检查与链接检查结果
+
+## 质量门控检查
+
+> 完成文档同步后，必须执行以下门控检查：
+
+| 检查项 | 通过标准 | 状态 |
+|--------|----------|------|
+| 需求实现 | 所有需求已实现 | [ ] |
+| 验收满足 | 验收标准全部满足 | [ ] |
+| 质量达标 | 文档完整准确 | [ ] |
+
+**门控失败处理**：若任一检查项未通过，应记录失败原因并返回相应阶段修正。
+
+## 评估阶段产出建议
+
+> 当任务全部完成时，建议产出以下评估文档：
+
+### 项目总结报告（可追加到spec.md）
+
+- 任务完成情况汇总
+- 质量指标达成情况
+- 遗留问题清单
+- 经验教训总结
+
+### 待办事项清单（可追加到tasks.md）
+
+- 未完成事项
+- 后续优化建议
+- 配置缺失项
+- 需要支持的事项
 
 ## 触发条件
 

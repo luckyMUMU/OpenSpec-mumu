@@ -1,6 +1,6 @@
 ---
-version: v2.4.0
-updated: 2026-02-22
+version: v2.9.0
+updated: 2026-02-24
 ---
 
 # 安全与供应链红线

@@ -1,6 +1,6 @@
 ---
-version: v2.8.1
-updated: 2026-02-23
+version: v2.9.0
+updated: 2026-02-24
 ---
 
 # 版本同步检查清单

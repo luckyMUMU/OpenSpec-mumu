@@ -1,6 +1,6 @@
 ---
-version: v2.8.0
-updated: 2026-02-23
+version: v2.9.0
+updated: 2026-02-24
 scope: docs/参考/sop
 ---
 
@@ -25,7 +25,7 @@ scope: docs/参考/sop
 | CMD | 主体（Skill/用户） | args | out | pre | post |
 |---|---|---|---|---|---|
 | `ROUTE(task)` | sop-workflow-orchestrator | task | path, call_chain | - | - |
-| `FAST_PATH_CHECK(change)` | sop-workflow-orchestrator | change | allow/upgrade | - | - |
+| `FAST_PATH_CHECK(change)` | sop-workflow-orchestrator | change | allow/spec_upgrade/deep_path | - | - |
 | `TDD_CHECK(scope)` | sop-workflow-orchestrator | scope | on/off | - | - |
 | `AUDIT(scope)` | sop-code-explorer | scope(paths) | audit_report | - | - |
 | `LIST_DESIGN_MD(root)` | sop-code-explorer | root | design_list(path,depth) | - | - |
@@ -44,7 +44,9 @@ scope: docs/参考/sop
 | CMD | 主体（Skill/用户） | args | out | pre | post |
 |---|---|---|---|---|---|
 | `ARCH_DESIGN(prd)` | sop-architecture-design | PRD | L2_arch(.md), ADR_refs | - | `[WAITING_FOR_ARCHITECTURE]` |
-| `ARCH_REVIEW(l2)` | sop-architecture-reviewer | L2_arch | review_report | `[WAITING_FOR_ARCHITECTURE]` | `[ARCHITECTURE_PASSED]` / `[USER_DECISION]` |
+| `ARCH_REVIEW(l2)` | sop-architecture-reviewer | L2_arch | review_report | `[WAITING_FOR_ARCHITECTURE]` | `[ARCHITECTURE_PASSED]` / `[ARCHITECTURE_FAILED]` |
+| `ARCH_REPAIR(reason)` | sop-architecture-design | reason | repair_report | `[ARCHITECTURE_FAILED]` | `[WAITING_FOR_ARCHITECTURE]` |
+| `ARCH_ROLLBACK(reason)` | sop-architecture-design | reason | rollback_report | `[ARCHITECTURE_FAILED]` | `[WAITING_FOR_REQUIREMENTS]` |
 
 ### 实现设计（L3 / 目录）
 
@@ -59,7 +61,7 @@ scope: docs/参考/sop
 |---|---|---|---|---|---|
 | `DIR_SCOPE(dir_with_design_md)` | sop-code-implementation | dir | scope(paths) | - | - |
 | `SCHEDULE_DIRS(design_list)` | sop-progress-supervisor | design_list | dir_map | - | `[SCHEDULING]` |
-| `RUN_DIR_BATCH(depth)` | sop-progress-supervisor | depth | started_scopes | `[SCHEDULING]` | `[DIR_WORKING]` |
+| `RUN_DIR_BATCH(depth_desc)` | sop-progress-supervisor | depth_desc | started_scopes | `[SCHEDULING]` | `[DIR_WORKING]` |
 | `WAIT_DEP(dir, deps)` | sop-code-implementation | dir,deps | waiting | - | `[DIR_WAITING_DEP]` |
 | `COMPLETE_DIR(dir)` | sop-code-implementation | dir | done | - | `[DIR_COMPLETED]` |
 
@@ -80,9 +82,9 @@ scope: docs/参考/sop
 
 | CMD | 主体（Skill/用户） | args | out | pre | post |
 |---|---|---|---|---|---|
-| `TEST_DESIGN_CSV(design)` | sop-test-design-csv | design.md | test_cases.csv | - | `[WAITING_FOR_TEST_DESIGN]` |
+| `TEST_DESIGN_CSV(design, criteria)` | sop-test-design-csv | design.md | test_cases.csv | - | `[WAITING_FOR_TEST_DESIGN]` |
 | `TEST_DESIGN(design)` | sop-test-design-csv | design.md | test_cases.csv | - | `[WAITING_FOR_TEST_DESIGN]` |
-| `TEST_IMPLEMENT(test_design)` | sop-test-implementation | test_cases.csv | test_code | - | `[WAITING_FOR_TEST_IMPLEMENTATION]` |
+| `TEST_IMPLEMENT(csv, design_refs)` | sop-test-implementation | test_cases.csv, design_refs | test_code | - | `[WAITING_FOR_TEST_IMPLEMENTATION]` |
 | `RUN_ACCEPTANCE(level)` | sop-code-implementation | L1/L2/L3/L4 | test_result | - | `[WAITING_FOR_Lx_REVIEW]` / `[DIFF_APPROVAL]` |
 | `REVIEW_ACCEPTANCE(level)` | sop-code-review | Lx_result | pass/fail | `[WAITING_FOR_Lx_REVIEW]` | `pass:- / fail:[DIR_WORKING] / deadlock:[USER_DECISION]` |
 
@@ -99,6 +101,8 @@ scope: docs/参考/sop
 | `STRIKE(record)` | sop-progress-supervisor | failure | strike_count | - | - |
 | `FUSE(reason)` | sop-progress-supervisor | reason | report | - | `[FUSION_TRIGGERED]` |
 | `ASK_USER_DECISION(topic, options)` | 任意→用户 | topic, options | decision | `[USER_DECISION]` | - |
+| `GATE_RETRY(fix_description)` | sop-code-implementation | fix_description | retry_result | `[GATE_FAILED]` | 重新执行门控检查 |
+| `GATE_ROLLBACK(reason)` | sop-code-implementation | reason | rollback_report | `[GATE_FAILED]` | 回滚到上一阶段 |
 
 ### 任务管理
 

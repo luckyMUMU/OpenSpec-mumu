@@ -1,8 +1,8 @@
 ---
 name: "sop-fast-path"
 description: "Fast path workflow for single-file, small changes. Invoke when task is triaged as fast path (single file, <30 lines, no logic change)."
-version: v2.8.0
-updated: 2026-02-23
+version: v2.9.0
+updated: 2026-02-24
 ---
 
 # Fast Path Workflow
@@ -47,7 +47,7 @@ CMD: `IMPLEMENT(dir, audit) -> [WAITING_FOR_CODE_REVIEW]`
 **Purpose**: Validate changes against design and common practices
 
 **Actions**:
-CMD: `CODE_REVIEW(diff, design_refs) -> Diff展示`
+CMD: `CODE_REVIEW(diff, design_refs) -> [DIFF_APPROVAL]`
 
 ### Step 4: Document Sync
 
@@ -83,7 +83,7 @@ CMD: `DOC_SYNC(scope) -> [已完成]`
 
 - **规划阶段只读**: 在 Spec 模式规划阶段，本 Skill 仅执行只读分析，不进行实际代码修改
 - **交互式提问**: 当检测到决策点时，必须通过 AskUserQuestion 向用户提问
-- **冲突检测**: 执行前必须检测与现有 ADR/设计文档的冲突，参考 04_reference/conflict_detection_rules.md
+- **冲突检测**: 执行前必须检测与现有 ADR/设计文档的冲突，参考 04_reference/spec_interactive_guide.md
 - **决策记录**: 重要决策必须记录到 spec.md 的决策记录章节
 - **ADR 引用**: 本 Skill 涉及的 ADR 文档：ADR-Spec-001（生命周期）、ADR-Spec-002（设计关系）、ADR-Spec-004（交互式提问）
 - **Spec 模式升级**: 当快速路径任务检测到需要用户决策或存在跨文件影响时，必须升级到深度路径或进入 Spec 模式交互式提问

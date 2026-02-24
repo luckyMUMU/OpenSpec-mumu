@@ -1,6 +1,6 @@
 ---
-version: v2.7.0
-updated: 2026-02-23
+version: v2.9.0
+updated: 2026-02-24
 sop_path: sop/
 ---
 
@@ -12,7 +12,7 @@ sop_path: sop/
 >
 > **唯一入口**：本文档是 SOP 的唯一入口，包含快速分诊、核心约束、工作流和导航。
 > 
-> **人类阅读版**：如需更叙述化的说明，请参考 [sop_for_human.md](sop_for_human.md)（仅供参考）。
+> **人类阅读版**：本文档为唯一入口，概念详情参见 [01_concept_overview.md](01_concept_overview.md)。
 
 ---
 
@@ -20,6 +20,25 @@ sop_path: sop/
 
 - **目标**：不加载引用正文也能判断"是否需要继续加载"，并保证从本入口到任意 SOP 文档最短跳数 ≤3。
 - **规则**：本页只提供最小摘要 + 直达链接，不复制正文。
+
+---
+
+## 质量门控机制
+
+> 每个阶段完成后必须执行门控检查，确保质量：
+
+| 阶段 | 门控检查项 | 通过条件 | 失败处理 |
+|------|-----------|----------|----------|
+| 需求阶段 | 需求边界清晰、技术方案对齐、验收标准具体、关键假设确认 | 全部通过 | 返回需求分析修正 |
+| 架构阶段 | 架构图清晰、接口定义完整、与现有系统无冲突、设计可行 | 全部通过 | 返回架构设计修正 |
+| 实现设计阶段 | 任务覆盖完整、依赖无循环、每个任务可独立验证 | 全部通过 | 返回实现设计修正 |
+| 代码实现阶段 | 代码规范、测试通过、文档同步 | 全部通过 | 返回代码实现修正 |
+| 文档同步阶段 | 需求实现、验收满足、质量达标 | 全部通过 | 返回相应阶段修正 |
+
+**门控失败约束**：
+- 最多3次门控重试
+- 3次失败后进入`[USER_DECISION]`
+- 必须记录失败原因和检查项
 
 ---
 
@@ -31,7 +50,7 @@ sop_path: sop/
 | 理解体系概念（L1-L4、渐进披露、SSOT） | [01_concept_overview.md](01_concept_overview.md) |
 | 查看 Skill 清单与边界（唯一真源） | [02_skill_matrix/index.md](02_skill_matrix/index.md) |
 | 选择路径与执行流程（fast/deep/TDD） | [03_workflow/index.md](03_workflow/index.md) |
-| 状态机速查（状态/转移/子流程图） | [sop_state_machine.md](sop_state_machine.md) |
+| 状态机速查（状态/转移/子流程图） | [状态字典](05_constraints/state_dictionary.md) |
 | 模板/交互格式/审查标准入口 | [04_reference/index.md](04_reference/index.md) |
 | 全局约束/红线/状态与命令字典 | [05_constraints/index.md](05_constraints/index.md) |
 
@@ -48,13 +67,12 @@ sop_path: sop/
 | 需求 | 目标文档 |
 |------|----------|
 | Skill 合约（SKILL.md）索引 | [skills/index.md](skills/index.md) |
-| 默认 Prompt Pack（表达与偏好层）索引 | [prompts/packs/default/index.md](prompts/packs/default/index.md) |
 
 ### 审查归档
 
 | 需求 | 目标文档 |
 |------|----------|
-| 审查归档入口 | [reviews/index.md](reviews/index.md) |
+| 审查归档入口 | [reviews/](reviews/) |
 
 ---
 
@@ -67,7 +85,7 @@ sop_path: sop/
 5. 先复用→改进→新建→清理
 6. **实现类 Skill 按目录工作**: 以 design.md 所在目录为工作范围
 7. **自底向上并行**: 按目录深度从深到浅并行执行
-8. **无出处不决断**: 无法追溯到既定依据的判断/决策须带建议询问用户（`ASK_USER_DECISION`），不得自行决断推进
+8. **无出处不决断**: 无法追溯到既定依据的判断/决策须带建议询问用户（`ASK_USER_DECISION(topic, options)`），不得自行决断推进
 9. **审查须确认**: 各审查环节结论须通过对用户的明确提问完成确认，审查输出须包含可操作确认项（是否通过/是否修订/选项）
 10. **设计冲突检测**: Spec 编写过程中实时检测与 ADR/设计文档/约束矩阵的冲突
 11. **即时提问机制**: 发现冲突时立即暂停，向用户提问获取决策
@@ -81,11 +99,7 @@ sop_path: sop/
 
 ## 路径选择
 
-| 路径 | 条件 |
-|------|------|
-| 快速 | 单文件+<30行+无逻辑变更 |
-| 深度 | 其他所有情况 |
-| TDD | 深度+启用TDD(可选) |
+👉 [路径选择详情](03_workflow/index.md)
 
 ---
 
@@ -265,11 +279,7 @@ Spec 编写过程中，在以下章节级检测点触发冲突检测：
 
 ## 三错即停
 
-| Strike | 条件 | 行动 |
-|--------|------|------|
-| 1 | 同一 Skill 同一步骤失败 | 自动修正（同 Skill 内） |
-| 2 | 再失败 | 调用 `sop-code-explorer` + 设计类 Skill（implementation-designer / architecture-design / architecture-reviewer / design-placement，见 [three_strike_rule](03_workflow/three_strike_rule.md)）复核并微调设计/实现策略 |
-| 3 | 再失败 | **熔断**：由 `sop-progress-supervisor` 生成报告并停止自动推进 |
+👉 [三错即停详情](03_workflow/three_strike_rule.md)
 
 ---
 
@@ -350,22 +360,7 @@ design.md 中的任务清单支持以下状态：
 
 ## 版本号管理
 
-### 格式
-```
-v[主版本].[次版本].[修订版本]
-```
-
-### 规则
-| 版本位 | 变更类型 | 示例 |
-|--------|----------|------|
-| 主版本 | 架构重大变更、Skill/Prompt Pack 体系重构 | v1→v2 |
-| 次版本 | 新增 Skill、新增工作流、新增文档类型 | v2.0→v2.1 |
-| 修订版本 | 文档修正、错误修复、格式统一 | v2.0.0→v2.0.1 |
-
-### 当前版本
-以 [CHANGELOG.md](CHANGELOG.md) 为准。
-
-👉 [查看版本历史](CHANGELOG.md)
+👉 [版本号规则](CHANGELOG.md#版本号规则)
 
 ---
 
@@ -379,6 +374,5 @@ v[主版本].[次版本].[修订版本]
 | L4 | [参考文档](04_reference/index.md) |
 | L4-ADR | [架构决策](04_reference/document_templates/adr.md) |
 | L4-RAG | [参考资料管理](04_reference/knowledge_management.md) |
-| Prompts | [prompts/packs/](prompts/packs/) |
 | Skills | [skills/](skills/) |
 | 版本历史 | [CHANGELOG.md](CHANGELOG.md) |

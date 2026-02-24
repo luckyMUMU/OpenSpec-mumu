@@ -1,6 +1,6 @@
 ---
-version: v2.8.1
-updated: 2026-02-23
+version: v2.9.2
+updated: 2026-02-24
 ---
 
 # SOP 版本变更历史
@@ -24,6 +24,122 @@ v[主版本].[次版本].[修订版本]
 ---
 
 ## 版本历史
+
+### v2.9.2 (2026-02-24)
+
+**逻辑缺口补全** - 根据用户决策补全 9 个逻辑缺口
+
+#### 关键变更
+
+- **状态字典增强**：
+  - 新增 `[ARCHITECTURE_FAILED]` 状态（架构审查失败处理）
+  - 完善 `[GATE_FAILED]` 状态（门控失败等待用户决策）
+  - 新增 `[已完成]` 状态排除说明（不可作为续跑起点）
+- **命令字典增强**：
+  - 新增 `ARCH_REPAIR(reason)` 命令（架构修复）
+  - 新增 `ARCH_ROLLBACK(reason)` 命令（架构回滚）
+  - 新增 `GATE_RETRY(fix_description)` 命令（门控重试）
+  - 新增 `GATE_ROLLBACK(reason)` 命令（门控回滚）
+- **流程文档增强**：
+  - 功能迭代新增架构影响评估检查点
+  - 新增目录调度状态机章节
+  - 新增调度状态保存格式（JSON）
+- **约束矩阵增强**：
+  - 门控失败处理规则更新（每次失败需用户决策）
+  - 门控失败与三错即停机制独立
+- **模板更新**：
+  - `continuation_request.md` 新增 `[已完成]` 排除说明
+
+#### 用户决策记录
+
+| 问题 | 决策 |
+|------|------|
+| 架构审查失败处理 | 新增 `[ARCHITECTURE_FAILED]` 状态，用户选择修复/回滚/终止 |
+| 架构变更检测 | 功能迭代入口增加架构影响评估检查点 |
+| 依赖唤醒机制 | 依赖目录完成后自动触发下游目录 |
+| 状态机位置 | 在 `03_workflow/index.md` 中增加状态机章节 |
+| 并行批次大小 | 由 LLM 根据系统资源判断，不固定限制 |
+| 调度状态格式 | JSON 格式保存到 `.trae/scheduler_state.json` |
+| 门控与三错关系 | 门控失败独立于三错即停，每次失败需用户决策 |
+| 门控重试机制 | 进入 `[GATE_FAILED]` 状态，等待用户决策 |
+| 已完成排除说明 | 在状态字典和续跑模板两处都增加说明 |
+
+#### 主要更新文件
+
+- 状态字典：`05_constraints/state_dictionary.md`
+- 命令字典：`05_constraints/command_dictionary.md`
+- 工作流：`03_workflow/index.md`
+- 约束矩阵：`05_constraints/constraint_matrix.md`
+- 续跑模板：`04_reference/interaction_formats/continuation_request.md`
+
+---
+
+### v2.9.1 (2026-02-24)
+
+**系统性审查修复** - 根据 sop_GUIDE.md 进行全面审查并修复问题
+
+#### 关键变更
+
+- **SSOT 一致性修复**：
+  - 新增 `[WAITING_ADR_CONFIRM]` 状态定义
+  - 修复 `Diff展示` 为 `[DIFF_APPROVAL]`（3处）
+  - 修复 `ASK_USER_DECISION` 命令格式（4处）
+  - 更新命令字典参数定义（`TEST_DESIGN_CSV`、`TEST_IMPLEMENT`、`RUN_DIR_BATCH`、`FAST_PATH_CHECK`）
+- **表达规范修复**：
+  - 修复含混词"尽量"为命令式表达（3处）
+  - 修复规则格式问题（2处）
+  - 精简重复定义为引用（三错即停、路径选择、版本号管理）
+- **版本同步**：
+  - 32+ 核心文件版本号同步至 v2.9.0
+- **链接修复**：
+  - 修复 AGENT_SOP.md 无效链接（5处）
+  - 修复 01_concept_overview.md 无效链接（2处）
+  - 修复 Skill 合约中的过时引用（5处）
+
+#### 主要更新文件
+
+- 状态字典：`05_constraints/state_dictionary.md`
+- 命令字典：`05_constraints/command_dictionary.md`
+- 入口文档：`AGENT_SOP.md`
+- 概念文档：`01_concept_overview.md`
+- 审查标准：`04_reference/review_standards/test_code.standard.md`、`source_dependency.standard.md`、`context_handoff.standard.md`
+- 验收标准：`05_constraints/acceptance_criteria.md`
+- Skill 合约：`skills/sop-code-review/SKILL.md`、`sop-fast-path/SKILL.md`、`sop-deep-path/SKILL.md` 等
+
+---
+
+### v2.9.0 (2026-02-24)
+
+**6A工作流融合优化** - 将6A方法论融入现有SOP体系
+
+#### 关键变更
+
+- **质量门控机制**：
+  - 新增各阶段质量门控检查清单
+  - 定义门控失败处理流程
+  - 新增门控状态定义（`[GATE_PASSED]`、`[GATE_FAILED]`）
+- **文档模板增强**：
+  - `implementation_design.md` 新增质量门控检查清单、输入/输出契约定义章节
+  - `architecture_design.md` 新增质量门控检查清单、架构图建议章节
+- **Skill合约增强**：
+  - 6个Skill合约新增质量门控检查要求
+  - 新增中断恢复状态保存要求
+  - 新增评估阶段产出建议
+- **约束文档增强**：
+  - `constraint_matrix.md` 新增质量门控约束章节
+  - `state_dictionary.md` 新增门控状态定义
+
+#### 主要更新文件
+
+- 入口文档：`AGENT_SOP.md`
+- 工作流：`03_workflow/index.md`
+- Skill矩阵：`02_skill_matrix/index.md`
+- 约束矩阵：`05_constraints/constraint_matrix.md`
+- 状态字典：`05_constraints/state_dictionary.md`
+- 文档模板：`04_reference/document_templates/implementation_design.md`、`architecture_design.md`
+- Skill合约：`skills/sop-requirement-analyst/SKILL.md`、`sop-architecture-design/SKILL.md`、`sop-implementation-designer/SKILL.md`、`sop-code-implementation/SKILL.md`、`sop-progress-supervisor/SKILL.md`、`sop-document-sync/SKILL.md`
+
+---
 
 ### v2.8.1 (2026-02-23)
 

@@ -1,8 +1,8 @@
 ---
 name: "sop-requirement-analyst"
 description: "Requirement analysis workflow for multi-level requirements (L1 PRD / L2 MRD / L3 FRD). Invoke when starting a new project, module, or feature, or when requirements need clarification."
-version: v2.8.0
-updated: 2026-02-23
+version: v2.9.0
+updated: 2026-02-24
 ---
 
 # Requirement Analysis Workflow
@@ -11,6 +11,28 @@ updated: 2026-02-23
 
 - 需求分层必须可落盘、可验收、可追溯
 - 仅当存在不确定/冲突需求会影响设计或实现 → 进入 `[WAITING_FOR_REQUIREMENTS]` 或 `[USER_DECISION]`
+
+## 质量门控检查
+
+> 完成需求分析后，必须执行以下门控检查：
+
+| 检查项 | 通过标准 | 状态 |
+|--------|----------|------|
+| 需求边界清晰 | 需求范围明确，无歧义 | [ ] |
+| 技术方案对齐 | 技术约束与现有架构一致 | [ ] |
+| 验收标准具体 | 每个需求有可测试的验收标准 | [ ] |
+| 关键假设确认 | 所有关键假设已与用户确认 | [ ] |
+
+**门控失败处理**：若任一检查项未通过，应记录失败原因并返回修正。
+
+## 中断恢复状态保存
+
+> 当需求阶段中断时，应保存以下状态到continuation_request：
+
+- 当前需求分析进度
+- 已确认的需求点
+- 待澄清的问题列表
+- 用户决策记录
 
 ## 触发条件
 
@@ -74,7 +96,7 @@ Rounds: core → clarify → confirm
 
 - Stop: `[WAITING_FOR_REQUIREMENTS]`
 - CMD: `REQ_ANALYZE(input)`
-- **审查确认**：需求确认须通过对用户的明确提问完成（如“是否接受当前范围”“是否补充某条”“选 A/B/C”），输出须包含可操作确认项，使用 `ASK_USER_DECISION` 或等价形式，待用户回复后再进入下一阶段
+- **审查确认**：需求确认须通过对用户的明确提问完成（如“是否接受当前范围”“是否补充某条”“选 A/B/C”），输出须包含可操作确认项，使用 `ASK_USER_DECISION(topic, options)` 或等价形式，待用户回复后再进入下一阶段
 
 ## Stop Points
 

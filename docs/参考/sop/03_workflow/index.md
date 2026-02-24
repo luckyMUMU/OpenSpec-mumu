@@ -1,9 +1,27 @@
 ---
-version: v2.8.0
-updated: 2026-02-23
+version: v2.9.0
+updated: 2026-02-24
 ---
 
 # 工作流规范
+
+## 质量门控机制
+
+> 每个阶段完成后必须执行门控检查，确保质量：
+
+| 阶段 | 门控检查项 | 通过条件 | 失败处理 |
+|------|-----------|----------|----------|
+| 需求阶段 | 需求边界清晰、技术方案对齐、验收标准具体、关键假设确认 | 全部通过 | 返回需求分析修正 |
+| 架构阶段 | 架构图清晰、接口定义完整、与现有系统无冲突、设计可行 | 全部通过 | 返回架构设计修正 |
+| 实现设计阶段 | 任务覆盖完整、依赖无循环、每个任务可独立验证 | 全部通过 | 返回实现设计修正 |
+| 代码实现阶段 | 代码规范、测试通过、文档同步 | 全部通过 | 返回代码实现修正 |
+| 文档同步阶段 | 需求实现、验收满足、质量达标 | 全部通过 | 返回相应阶段修正 |
+
+**门控失败约束**：
+- 门控失败不累计，每次失败都需要用户决策
+- 用户可选择：修复后重试、回滚到上一阶段、终止任务
+- 不与三错即停机制关联
+- 必须记录失败原因和检查项
 
 ## 编排入口
 
@@ -98,6 +116,7 @@ sop-requirement-analyst
 
 ```
 sop-requirement-analyst
+→ [架构影响评估检查点]
 → sop-implementation-designer (按目录)
 → sop-code-explorer (LIST_DESIGN_MD → design_list)
 → sop-progress-supervisor (SCHEDULE_DIRS(design_list) → dir_map)
@@ -105,6 +124,12 @@ sop-requirement-analyst
 → sop-code-review
 → sop-document-sync
 ```
+
+**架构影响评估检查点**：
+- 在功能迭代入口，评估变更是否涉及架构影响
+- 评估项：接口变更、数据模型变更、跨模块依赖、性能影响
+- 仅当评估结果显示架构影响 → 必须插入 `sop-architecture-design` 和 `sop-architecture-reviewer` 阶段
+- 当评估结果显示无架构影响 → 直接进入实现设计阶段
 
 阶段合约（触发条件/输入输出/停止点/落盘交付物）以 [Skill 矩阵（SSOT）](02_skill_matrix/index.md) 与各 `skills/*/SKILL.md` 为准。
 
@@ -148,6 +173,61 @@ sop-requirement-analyst
 | 3 | 再失败 | **熔断**：由 `sop-progress-supervisor` 生成报告并停止自动推进 |
 
 👉 [三错即停详情](three_strike_rule.md)
+
+---
+
+## 目录调度状态机
+
+多目录并行执行时，目录状态按以下状态机流转：
+
+```
+[DIR_WAITING_DEP] ←── 依赖未就绪 ──┐
+       │                          │
+       ↓ 依赖就绪（自动触发）       │
+[DIR_WORKING] ──→ 处理完成 ──→ [DIR_COMPLETED]
+       │                          │
+       ↓ 处理失败                 │
+[DIR_FAILED] ─────────────────────┘
+```
+
+### 状态转移规则
+
+| 当前状态 | 触发条件 | 目标状态 | 执行动作 |
+|----------|----------|----------|----------|
+| `[DIR_WAITING_DEP]` | 依赖目录进入 `[DIR_COMPLETED]` | `[DIR_WORKING]` | 自动唤醒，继续执行 |
+| `[DIR_WORKING]` | 任务完成并通过验证 | `[DIR_COMPLETED]` | 更新 dir_map，调度下一批 |
+| `[DIR_WORKING]` | 任务失败且可恢复 | `[DIR_WORKING]` | 重试（计入迭代计数） |
+| `[DIR_WORKING]` | 任务失败且不可恢复 | `[DIR_FAILED]` | 触发熔断检查 |
+| `[DIR_FAILED]` | 用户决策继续 | `[DIR_WORKING]` | 重置计数器，重新执行 |
+
+### 调度状态保存格式
+
+中断恢复时，调度状态保存为 JSON 格式：
+
+```json
+{
+  "version": "1.0",
+  "timestamp": "2026-02-24T10:30:00Z",
+  "directories": [
+    {
+      "path": "src/module-a",
+      "state": "DIR_COMPLETED",
+      "design_md": "src/module-a/design.md",
+      "completed_at": "2026-02-24T10:00:00Z"
+    },
+    {
+      "path": "src/module-b",
+      "state": "DIR_WAITING_DEP",
+      "dependencies": ["src/module-a"],
+      "design_md": "src/module-b/design.md"
+    }
+  ],
+  "current_batch": 1,
+  "total_batches": 3
+}
+```
+
+保存位置：`.trae/scheduler_state.json`
 
 ---
 

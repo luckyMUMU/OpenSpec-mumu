@@ -1,6 +1,6 @@
 ---
-version: v2.5.0
-updated: 2026-02-22
+version: v2.9.2
+updated: 2026-02-24
 ---
 
 # OpenSpec 用户指南
@@ -82,6 +82,12 @@ sop-requirement-analyst
 → sop-document-sync
 ```
 
+**功能迭代架构影响评估**：
+- 在功能迭代入口，评估变更是否涉及架构影响
+- 评估项：接口变更、数据模型变更、跨模块依赖、性能影响
+- 仅当评估结果显示架构影响 → 必须插入 `sop-architecture-design` 和 `sop-architecture-reviewer` 阶段
+- 当评估结果显示无架构影响 → 直接进入实现设计阶段
+
 #### TDD 路径
 
 **适用条件**：
@@ -96,7 +102,24 @@ sop-requirement-analyst
 → sop-code-implementation (运行验收 + 修正代码)
 ```
 
-### 2.2 目录维度并行执行
+### 2.2 质量门控机制
+
+每个阶段完成后必须执行门控检查，确保质量：
+
+| 阶段 | 门控检查项 | 通过条件 | 失败处理 |
+|------|-----------|----------|----------|
+| 需求阶段 | 需求边界清晰、技术方案对齐、验收标准具体、关键假设确认 | 全部通过 | 返回需求分析修正 |
+| 架构阶段 | 架构图清晰、接口定义完整、与现有系统无冲突、设计可行 | 全部通过 | 返回架构设计修正 |
+| 实现设计阶段 | 任务覆盖完整、依赖无循环、每个任务可独立验证 | 全部通过 | 返回实现设计修正 |
+| 代码实现阶段 | 代码规范、测试通过、文档同步 | 全部通过 | 返回代码实现修正 |
+| 文档同步阶段 | 需求实现、验收满足、质量达标 | 全部通过 | 返回相应阶段修正 |
+
+**门控失败约束**：
+- 门控失败不累计，每次失败都需要用户决策
+- 用户可选择：修复后重试、回滚到上一阶段、终止任务
+- 不与三错即停机制关联
+
+### 2.3 目录维度并行执行
 
 当任务涉及多个包含 `design.md` 的目录时：
 
@@ -105,7 +128,38 @@ sop-requirement-analyst
 3. **执行**：按深度自底向上执行（同深度无依赖可并行）
 4. **依赖处理**：跨目录依赖进入等待状态
 
-### 2.3 Spec 驱动开发
+**目录调度状态机**：
+
+```
+[DIR_WAITING_DEP] ←── 依赖未就绪 ──┐
+       │                          │
+       ↓ 依赖就绪（自动触发）       │
+[DIR_WORKING] ──→ 处理完成 ──→ [DIR_COMPLETED]
+       │                          │
+       ↓ 处理失败                 │
+[DIR_FAILED] ─────────────────────┘
+```
+
+**调度状态保存格式**（JSON）：
+```json
+{
+  "version": "1.0",
+  "timestamp": "2026-02-24T10:30:00Z",
+  "directories": [
+    {
+      "path": "src/module-a",
+      "state": "DIR_COMPLETED",
+      "design_md": "src/module-a/design.md",
+      "completed_at": "2026-02-24T10:00:00Z"
+    }
+  ],
+  "current_batch": 1,
+  "total_batches": 3
+}
+```
+保存位置：`.trae/scheduler_state.json`
+
+### 2.4 Spec 驱动开发
 
 使用 Spec 进行任务管理：
 
@@ -266,6 +320,9 @@ sop-requirement-analyst
 | `[DIR_WAITING_DEP]` | 等待依赖目录完成 |
 | `[BLOCKED]` | 记录阻塞原因，等待解除 |
 | `[CYCLE_DETECTED]` | 报告循环依赖，等待处理 |
+| `[GATE_FAILED]` | 门控失败，等待用户决策（修复/回滚/终止） |
+| `[ARCHITECTURE_FAILED]` | 架构审查失败，等待用户决策（修复/回滚/终止） |
+| `[DIFF_APPROVAL]` | 展示代码变更，等待用户审批 |
 
 ---
 
@@ -405,6 +462,7 @@ ADR 更新遵循以下流程：
 - [Skill 矩阵](sop/02_skill_matrix/index.md) - Skill 清单与边界
 - [状态字典](sop/05_constraints/state_dictionary.md) - 状态定义
 - [命令字典](sop/05_constraints/command_dictionary.md) - 命令定义
+- [约束矩阵](sop/05_constraints/constraint_matrix.md) - 黑白名单约束
 - [目录映射表](sop/04_reference/document_directory_mapping.md) - 目录映射
 
 ### 6.3 模板文档
@@ -412,3 +470,4 @@ ADR 更新遵循以下流程：
 - [实现设计模板](sop/04_reference/document_templates/implementation_design.md)
 - [ADR 模板](sop/04_reference/document_templates/adr.md)
 - [决策记录模板](sop/04_reference/document_templates/decision_record.md)
+- [续跑请求模板](sop/04_reference/interaction_formats/continuation_request.md)

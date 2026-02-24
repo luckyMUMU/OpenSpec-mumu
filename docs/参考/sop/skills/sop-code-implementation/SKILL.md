@@ -1,8 +1,8 @@
 ---
 name: "sop-code-implementation"
 description: "Code implementation workflow for physical coding. Invoke when implementation design is approved and ready for coding."
-version: v2.8.0
-updated: 2026-02-23
+version: v2.9.0
+updated: 2026-02-24
 ---
 
 # Code Implementation Workflow
@@ -12,6 +12,27 @@ updated: 2026-02-23
 - 仅当 `design.md` 存在且 Scope 明确 → 才能进入 `[DIR_WORKING]` 并开始改代码
 - 优先复用：先复用→改进→新建→清理（必要时调用 `sop-capability-reuse`）
 - 跨目录依赖 → 必须进入 `[DIR_WAITING_DEP]` 并请求 `sop-progress-supervisor` 调度
+
+## 质量门控检查
+
+> 完成代码实现后，必须执行以下门控检查：
+
+| 检查项 | 通过标准 | 状态 |
+|--------|----------|------|
+| 代码规范 | lint/type check通过 | [ ] |
+| 测试通过 | 所有测试用例通过 | [ ] |
+| 文档同步 | 相关文档已更新 | [ ] |
+
+**门控失败处理**：若任一检查项未通过，应记录失败原因并返回修正。
+
+## 完成情况记录建议
+
+> 当目录实现完成时，建议记录以下完成情况：
+
+- 完成的任务列表
+- 遗留问题（如有）
+- 测试覆盖率
+- 性能指标（如适用）
 
 ## 触发条件
 

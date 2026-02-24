@@ -1,8 +1,8 @@
 ---
 name: "sop-workflow-orchestrator"
 description: "Workflow orchestration for task triage and path selection. Invoke on new task to select path (fast/deep/TDD) and produce a Skill call chain with persisted artifacts."
-version: v2.8.0
-updated: 2026-02-23
+version: v2.9.0
+updated: 2026-02-24
 ---
 
 # Workflow Orchestration（Skill-first）

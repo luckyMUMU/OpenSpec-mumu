@@ -1,8 +1,8 @@
 ---
 name: "sop-progress-supervisor"
 description: "Progress monitoring workflow for tracking execution and triggering circuit breakers. Invoke when monitoring task execution or detecting anomalies."
-version: v2.8.0
-updated: 2026-02-23
+version: v2.9.0
+updated: 2026-02-24
 ---
 
 # Progress Monitoring Workflow
@@ -13,6 +13,25 @@ updated: 2026-02-23
 
 - 目录并行调度以状态机驱动：`[DIR_WORKING]` → `[DIR_COMPLETED]`，等待以 `[DIR_WAITING_DEP]` 表达
 - 三错即停：到达熔断条件必须产出报告并停止自动推进
+
+## 门控失败处理流程
+
+> 当检测到门控失败时，应执行以下流程：
+
+1. **记录失败**：记录失败的目录、阶段、检查项
+2. **分析原因**：判断是设计问题、实现问题还是依赖问题
+3. **通知相关方**：通知对应的Skill进行修正
+4. **跟踪修正**：等待修正完成后重新检查
+
+## 状态保存增强
+
+> 当调度中断时，应保存以下完整状态：
+
+- dir_map（目录-skill映射）
+- 各目录当前状态
+- 依赖关系图
+- 失败记录
+- 迭代计数
 
 ## 触发条件
 

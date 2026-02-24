@@ -1,8 +1,8 @@
 ---
 name: "sop-design-placement"
 description: "指导AI正确放置设计文档和创建design.md。Invoke when deciding design/doc placement and design.md granularity in a skill-first workflow."
-version: v2.8.0
-updated: 2026-02-23
+version: v2.9.0
+updated: 2026-02-24
 ---
 
 # 设计文档放置指南
@@ -68,7 +68,7 @@ updated: 2026-02-23
 ### 3. 目录层级与并行执行
 
 **目录深度与执行顺序**:
-参见：04_reference/design_directory_strategy.md + 05_constraints/command_dictionary.md
+参见：04_reference/design_guide.md + 05_constraints/command_dictionary.md
 
 **实现分配**:
 - 每个 design.md 目录对应一个实现 Scope（供实现类 Skill 执行）
@@ -133,7 +133,7 @@ CMD: `IMPL_DESIGN(l2, dir) -> design.md`
 
 - **规划阶段只读**: 在 Spec 模式规划阶段，本 Skill 仅执行只读分析，不进行实际代码修改
 - **交互式提问**: 当检测到决策点时，必须通过 AskUserQuestion 向用户提问
-- **冲突检测**: 执行前必须检测与现有 ADR/设计文档的冲突，参考 04_reference/conflict_detection_rules.md
+- **冲突检测**: 执行前必须检测与现有 ADR/设计文档的冲突，参考 04_reference/spec_interactive_guide.md
 - **决策记录**: 重要决策必须记录到 spec.md 的决策记录章节
 - **ADR 引用**: 本 Skill 涉及的 ADR 文档：ADR-Spec-001（生命周期）、ADR-Spec-002（设计关系）、ADR-Spec-004（交互式提问）
 
@@ -142,4 +142,4 @@ CMD: `IMPL_DESIGN(l2, dir) -> design.md`
 - 当发现需要修改 `/docs/参考/` 且任务未包含该范围时，必须停止并转为 `[USER_DECISION]` 或调用 `sop-document-sync` 处理
 
 ## 快速参考
-参见：AGENT_SOP.md（design.md 规则）+ 04_reference/design_directory_strategy.md
+参见：AGENT_SOP.md（design.md 规则）+ 04_reference/design_guide.md

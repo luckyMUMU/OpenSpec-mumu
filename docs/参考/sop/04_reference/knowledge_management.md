@@ -1,6 +1,6 @@
 ---
-version: v2.4.0
-updated: 2026-02-22
+version: v2.9.0
+updated: 2026-02-24
 ---
 
 # 参考资料与知识沉淀规范

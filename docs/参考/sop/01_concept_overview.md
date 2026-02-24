@@ -1,6 +1,6 @@
 ---
-version: v2.4.0
-updated: 2026-02-22
+version: v2.9.0
+updated: 2026-02-24
 ---
 
 # SOP 核心概念
@@ -80,7 +80,7 @@ src/
 深度 1: src/design.md                 → 第三批（等待第二批）
 ```
 
-👉 [目录维度工作策略详情](04_reference/design_directory_strategy.md)
+👉 [目录维度工作策略详情](04_reference/design_guide.md)
 
 ---
 
@@ -116,22 +116,7 @@ TDD深度:    ... 深度路径 ... → sop-test-design-csv → sop-test-implemen
 
 ## 版本号管理
 
-### 版本号格式
-```
-v[主版本].[次版本].[修订版本]
-```
-
-### 版本号规则
-| 版本位 | 变更类型 | 示例 |
-|--------|----------|------|
-| 主版本 | 架构重大变更、Skill/Prompt Pack 体系重构 | v1→v2 |
-| 次版本 | 新增 Skill、新增工作流、新增文档类型 | v2.0→v2.1 |
-| 修订版本 | 文档修正、错误修复、格式统一 | v2.0.0→v2.0.1 |
-
-### 当前版本
-以 [CHANGELOG.md](CHANGELOG.md) 为准。
-
-👉 [查看版本历史](CHANGELOG.md)
+👉 [版本号规则](CHANGELOG.md#版本号规则)
 
 ---
 
@@ -142,5 +127,4 @@ v[主版本].[次版本].[修订版本]
 | [AGENT_SOP.md](AGENT_SOP.md) | 入口：约束+指令+导航 |
 | [02_skill_matrix](02_skill_matrix/index.md) | SSOT：Skill 清单与边界 |
 | [CHANGELOG.md](CHANGELOG.md) | 版本历史 |
-| [Prompts](prompts/packs/) | Prompt Pack（定制化 prompt） |
 | [Skills](skills/) | Skill 合约定义 |

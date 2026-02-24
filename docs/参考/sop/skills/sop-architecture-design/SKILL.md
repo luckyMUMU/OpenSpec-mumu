@@ -1,8 +1,8 @@
 ---
 name: "sop-architecture-design"
 description: "Architecture design workflow for creating technology-agnostic designs. Invoke when requirements are confirmed and ready for architecture design."
-version: v2.8.0
-updated: 2026-02-23
+version: v2.9.0
+updated: 2026-02-24
 ---
 
 # Architecture Design Workflow
@@ -11,6 +11,30 @@ updated: 2026-02-23
 
 - 用最少可审查信息完成 L2 架构闭环（边界/接口/数据流/关键决策）
 - 所有关键决策必须可追溯（必要时落 ADR）
+
+## 质量门控检查
+
+> 完成架构设计后，必须执行以下门控检查：
+
+| 检查项 | 通过标准 | 状态 |
+|--------|----------|------|
+| 架构图清晰 | 逻辑流程图/模块关系图可读 | [ ] |
+| 接口定义完整 | 输入/输出/错误码定义完整 | [ ] |
+| 与现有系统无冲突 | 不与现有架构/ADR冲突 | [ ] |
+| 设计可行 | 技术方案可实现 | [ ] |
+
+**门控失败处理**：若任一检查项未通过，应记录失败原因并返回修正。
+
+## 架构图绘制建议
+
+> 对于复杂模块，建议使用mermaid绘制架构图：
+
+```mermaid
+flowchart TD
+    A[输入验证] --> B{类型判断}
+    B -->|类型A| C[处理A]
+    B -->|类型B| D[处理B]
+```
 
 ## 触发条件
 
