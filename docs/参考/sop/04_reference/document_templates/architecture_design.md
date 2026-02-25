@@ -1,6 +1,6 @@
 ---
-version: v2.9.0
-updated: 2026-02-24
+version: v2.10.0
+updated: 2026-02-25
 ---
 
 # 架构设计模板 (L2: 逻辑工作流)
@@ -23,6 +23,7 @@ updated: 2026-02-24
 | 与现有系统无冲突 | 不与现有架构/ADR冲突 | [ ] |
 | 设计可行 | 技术方案可实现 | [ ] |
 | 决策有依据 | 关键决策有ADR或RAG支撑 | [ ] |
+| 伪代码格式规范 | 使用标准Markdown格式，分层级描述 | [ ] |
 
 **门控失败处理**：若任一检查项未通过，应记录失败原因并返回修正。
 
@@ -72,24 +73,38 @@ graph LR
 - 术语: [关键术语定义]
 
 ## 2. 逻辑流程 (伪代码)
-```pseudo
-// 主流程
+
+### 2.1 模块层：[模块名称]
+
+**职责**：[一句话描述模块职责]  
+**边界**：[模块边界说明]
+
+### 2.2 流程层：主流程
+
+```text
+// 主流程：处理用户请求
 FUNCTION main(input):
+    // 输入验证是必要的前置条件
     VALIDATE_INPUT input
     
     IF input.type == "A":
-        result = PROCESS_TYPE_A(input)
+        result = process_type_a(input)
     ELSE IF input.type == "B":
-        result = PROCESS_TYPE_B(input)
+        result = process_type_b(input)
     ELSE:
         RAISE_ERROR "Invalid type"
+    END IF
     
     RETURN result
 END FUNCTION
+```
 
-// 子流程A
-FUNCTION PROCESS_TYPE_A(data):
-    // 为什么需要预处理：确保数据格式统一
+### 2.3 流程层：子流程A
+
+```text
+// 子流程A：处理类型A数据
+FUNCTION process_type_a(data):
+    // 预处理确保数据格式统一
     normalized = PREPROCESS_DATA(data)
     
     FOR EACH item IN normalized.items:
@@ -138,16 +153,36 @@ END FUNCTION
 
 ## 伪代码规范 (L2层)
 
+### 格式要求
+
+| 要求 | 说明 |
+|------|------|
+| 代码块格式 | 使用标准 Markdown 代码块，语言标识符为 `text` 或省略 |
+| 缩进规范 | 使用 4 空格缩进，保持层级清晰 |
+| 语言无关 | 不依赖特定编程语言语法 |
+
+### 分层级描述结构
+
+| 层级 | 描述方式 | 命名规范 | 示例 |
+|------|----------|----------|------|
+| 模块层 | Markdown 标题标识模块名称和职责 | - | `### 2.1 模块层：用户认证` |
+| 流程层 | 函数定义包裹主流程 | `lower_snake_case` | `FUNCTION process_request():` |
+| 操作层 | 原子操作调用 | `UPPER_SNAKE_CASE` | `VALIDATE_INPUT input` |
+
 ### 命名规范
+
 | 类型 | 格式 | 示例 |
 |------|------|------|
 | 原子操作 | `UPPER_SNAKE_CASE` | `VALIDATE_INPUT` |
 | 函数 | `lower_snake_case` | `process_data` |
 | 常量 | `UPPER_SNAKE_CASE` | `MAX_RETRY_COUNT` |
+| 变量 | `lower_snake_case` | `user_input` |
 
 ### 控制结构
-```pseudo
-// 条件
+
+#### 条件结构
+
+```text
 IF condition:
     action
 ELSE IF other_condition:
@@ -155,8 +190,11 @@ ELSE IF other_condition:
 ELSE:
     default_action
 END IF
+```
 
-// 循环
+#### 循环结构
+
+```text
 FOR EACH item IN collection:
     process(item)
 END FOR
@@ -164,22 +202,37 @@ END FOR
 WHILE condition:
     action
 END WHILE
+```
 
-// 异常处理
+#### 异常处理结构
+
+```text
 TRY:
     operation
-CATCH error:
+CATCH error_type:
     handle_error
 END TRY
 ```
 
+#### 函数定义
+
+```text
+FUNCTION function_name(param1, param2):
+    // 函数体
+    RETURN result
+END FUNCTION
+```
+
 ### 注释规范
+
 - 注释说明"为什么"，而非"是什么"
 - 复杂逻辑前添加意图说明
+- 涉及架构决策时引用 ADR
 
-```pseudo
+```text
 // 好：说明为什么需要过滤
 // 过滤已删除项目，避免处理无效数据
+// ADR-001: 采用软删除策略
 FOR EACH item IN items:
     IF item.status == "deleted":
         CONTINUE
@@ -190,20 +243,68 @@ END FOR
 // 遍历items，如果status是deleted就跳过
 ```
 
+### 完整示例
+
+```text
+// ============================================
+// 模块：订单处理模块
+// 职责：处理订单创建、更新、取消等核心流程
+// ============================================
+
+// 主流程：创建订单
+FUNCTION create_order(user_id, items):
+    // 验证用户状态，确保用户可下单
+    user = GET_USER(user_id)
+    IF user.status != "active":
+        RAISE_ERROR "USER_INACTIVE"
+    END IF
+    
+    // 验证库存，避免超卖
+    FOR EACH item IN items:
+        stock = CHECK_STOCK(item.product_id, item.quantity)
+        IF stock < item.quantity:
+            RAISE_ERROR "INSUFFICIENT_STOCK"
+        END IF
+    END FOR
+    
+    // 创建订单记录
+    order = CREATE_ORDER_RECORD(user_id, items)
+    
+    // 扣减库存
+    FOR EACH item IN items:
+        DEDUCT_STOCK(item.product_id, item.quantity)
+    END FOR
+    
+    // 发送通知
+    SEND_ORDER_NOTIFICATION(user_id, order.id)
+    
+    RETURN order
+END FUNCTION
+
+// 子流程：检查库存
+FUNCTION check_stock(product_id, quantity):
+    product = GET_PRODUCT(product_id)
+    RETURN product.stock - quantity
+END FUNCTION
+```
+
 ---
 
 ## L2层约束
 
 ✅ **必须**:
-- 使用 Markdown 文档描述逻辑，伪代码用代码块
+- 使用 Markdown 文档描述逻辑，伪代码用标准代码块（`text` 或无标识符）
 - 技术无关（不写具体语言/框架）
 - 原子操作用 `UPPER_SNAKE_CASE`
+- 函数用 `lower_snake_case`
 - 4空格缩进
+- 分层级描述（模块层/流程层/操作层）
 
 ❌ **禁止**:
-- 具体编程语言语法
+- 具体编程语言语法（如 `async/await`, `try-catch`）
 - 技术栈相关代码（如 `db.connect()`, `redis.get()`）
 - 实现细节（如 `import`, `logger.info`）
+- 非标准代码块格式（如 `pseudo`）
 
 ---
 

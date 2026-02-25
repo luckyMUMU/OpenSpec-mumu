@@ -1,8 +1,8 @@
 ---
 name: "sop-architecture-design"
 description: "Architecture design workflow for creating technology-agnostic designs. Invoke when requirements are confirmed and ready for architecture design."
-version: v2.9.0
-updated: 2026-02-24
+version: v2.10.0
+updated: 2026-02-25
 ---
 
 # Architecture Design Workflow
@@ -22,6 +22,7 @@ updated: 2026-02-24
 | 接口定义完整 | 输入/输出/错误码定义完整 | [ ] |
 | 与现有系统无冲突 | 不与现有架构/ADR冲突 | [ ] |
 | 设计可行 | 技术方案可实现 | [ ] |
+| 伪代码格式规范 | 使用标准Markdown格式，分层级描述 | [ ] |
 
 **门控失败处理**：若任一检查项未通过，应记录失败原因并返回修正。
 
@@ -71,12 +72,85 @@ flowchart TD
 
 ### Step 3: Pseudocode
 
-**Purpose**: Describe logic
+**Purpose**: Describe logic with structured, language-agnostic pseudocode
 
 **Actions**:
-1. Write algorithm pseudocode
-2. Define control flow
-3. Document edge cases
+1. **Define module layer**:
+   - Use Markdown headings to identify module name and responsibility
+   - Format: `### 2.1 模块层：[模块名称]`
+
+2. **Write flow layer functions**:
+   - Wrap main flow and sub-flows in function definitions
+   - Use `lower_snake_case` for function names
+   - Use standard Markdown code block with `text` identifier
+
+3. **Define operation layer**:
+   - Use atomic operations with `UPPER_SNAKE_CASE`
+   - Include structured control flow (IF/END IF, FOR/END FOR)
+
+4. **Add annotations**:
+   - Explain "why" not "what"
+   - Reference ADR for key decisions
+
+**Output Format**:
+```text
+// 主流程：处理用户请求
+FUNCTION process_request(input):
+    // 输入验证是必要的前置条件
+    VALIDATE_INPUT input
+    
+    IF input.type == "A":
+        result = process_type_a(input)
+    ELSE IF input.type == "B":
+        result = process_type_b(input)
+    ELSE:
+        RAISE_ERROR "Invalid type"
+    END IF
+    
+    RETURN result
+END FUNCTION
+```
+
+**Pseudocode Standards**:
+
+| 要求 | 说明 |
+|------|------|
+| 代码块格式 | 使用 `text` 或无标识符的标准 Markdown 代码块 |
+| 缩进规范 | 4 空格缩进 |
+| 语言无关 | 不使用特定编程语言语法 |
+
+**Control Structures**:
+
+```text
+// 条件结构
+IF condition:
+    action
+ELSE IF other_condition:
+    other_action
+ELSE:
+    default_action
+END IF
+
+// 循环结构
+FOR EACH item IN collection:
+    process(item)
+END FOR
+
+// 异常处理
+TRY:
+    operation
+CATCH error_type:
+    handle_error
+END TRY
+```
+
+**Naming Conventions**:
+
+| 类型 | 格式 | 示例 |
+|------|------|------|
+| 原子操作 | `UPPER_SNAKE_CASE` | `VALIDATE_INPUT` |
+| 函数 | `lower_snake_case` | `process_data` |
+| 常量 | `UPPER_SNAKE_CASE` | `MAX_RETRY_COUNT` |
 
 ### Step 4: Decision Records (ADR)
 
@@ -103,7 +177,7 @@ flowchart TD
 
 4. **Document in pseudo code**:
    - Add ADR reference comment
-   - Example: `-- ADR-001: Authentication scheme`
+   - Example: `// ADR-001: Authentication scheme`
 
 5. **Check RAG references**:
    - Review `docs/04_context_reference/rag/` for relevant info（参见 04_reference/document_directory_mapping.md）
@@ -114,7 +188,7 @@ ADR 触发规则（任一满足即需要 ADR）：技术选型 / 架构模式 / 
 
 ## 来源与依赖准则
 
-- 必须声明输入来源与依赖（PRD/约束/参考资料等），并优先用 `TRACE_SOURCES(inputs)` 固化“来源与依赖声明”
+- 必须声明输入来源与依赖（PRD/约束/参考资料等），并优先用 `TRACE_SOURCES(inputs)` 固化"来源与依赖声明"
 - 当关键来源缺失或冲突无法消解时，必须进入 `[USER_DECISION]`，并使用 `RECORD_DECISION(topic, decision)` 落盘决策记录
 - 标准：04_reference/review_standards/source_dependency.standard.md
 
@@ -138,6 +212,7 @@ ADR 触发规则（任一满足即需要 ADR）：技术选型 / 架构模式 / 
 - Documented decisions
 - **Directory-aware design**
 - **Concept-to-directory mapping**
+- **Standard Markdown pseudocode format**
 
 ## Spec 模式约束
 
