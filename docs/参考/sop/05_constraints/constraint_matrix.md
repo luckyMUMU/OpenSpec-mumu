@@ -1,6 +1,6 @@
 ---
-version: v2.9.0
-updated: 2026-02-24
+version: v2.12.0
+updated: 2026-02-25
 ---
 
 # SOP 流程禁止项矩阵（黑白名单）

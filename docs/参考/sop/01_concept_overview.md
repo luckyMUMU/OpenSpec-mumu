@@ -1,6 +1,6 @@
 ---
-version: v2.9.0
-updated: 2026-02-24
+version: v2.12.0
+updated: 2026-02-25
 ---
 
 # SOP 核心概念
@@ -86,31 +86,13 @@ src/
 
 ## 三错即停
 
-| Strike | 条件 | 行动 |
-|--------|------|------|
-| 1 | 失败 | 自动修正 |
-| 2 | 再失败 | 审计+微调 |
-| 3 | 再失败 | **熔断** |
+👉 [三错即停详情](03_workflow/three_strike_rule.md)
 
 ---
 
 ## 路径选择
 
-| 路径 | 条件 | 说明 |
-|------|------|------|
-| **快速** | 单文件+<30行+无逻辑变更 | 简单任务快速处理 |
-| **深度** | 其他所有情况 | 复杂任务完整流程 |
-| **TDD深度** | 深度+核心业务/复杂逻辑 | 测试驱动开发模式 |
-
-### 三种路径对比
-
-```
-快速路径:   sop-code-explorer → sop-code-implementation → sop-code-review → sop-document-sync
-
-深度路径:   sop-requirement-analyst → sop-implementation-designer → sop-code-implementation → sop-code-review → sop-document-sync
-
-TDD深度:    ... 深度路径 ... → sop-test-design-csv → sop-test-implementation → sop-code-implementation
-```
+👉 [路径选择详情](03_workflow/index.md#路径选择)
 
 ---
 

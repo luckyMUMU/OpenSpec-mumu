@@ -1,6 +1,6 @@
 ---
-version: v2.4.0
-updated: 2026-02-22
+version: v2.12.0
+updated: 2026-02-25
 ---
 
 # 代码审查格式

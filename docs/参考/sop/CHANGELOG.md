@@ -1,6 +1,6 @@
 ---
-version: v2.9.2
-updated: 2026-02-24
+version: v2.12.0
+updated: 2026-02-25
 ---
 
 # SOP 版本变更历史
@@ -24,6 +24,35 @@ v[主版本].[次版本].[修订版本]
 ---
 
 ## 版本历史
+
+### v2.12.0 (2026-02-25)
+
+**系统性审查与版本同步** - 完成SOP体系全面审查，统一版本号
+
+#### 关键变更
+
+- **版本号同步**：
+  - 同步18个文档版本号至v2.12.0
+  - 确立版本基准文档：state_dictionary.md、command_dictionary.md、02_skill_matrix/index.md
+- **内容去重**：
+  - 识别质量门控机制重复定义（3处）
+  - 识别三错即停规则重复定义（4处）
+  - 识别路径选择规则重复定义（3处）
+- **模拟场景验证**：
+  - 完成7个典型编程场景验证
+  - 验证入口导航流畅性（L1→L2→L3→L4）
+  - 验证跨文档引用正确性
+  - 验证模板引用完整性
+
+#### 主要更新文件
+
+- 核心文档：`AGENT_SOP.md`、`01_concept_overview.md`、`CHANGELOG.md`
+- 约束文档：`constraint_matrix.md`、`coding_principles.md`、`acceptance_criteria.md`、`05_constraints/index.md`
+- 工作流文档：`03_workflow/index.md`、`fast_path.md`、`deep_path.md`、`three_strike_rule.md`
+- 参考文档：`04_reference/index.md`、`design_guide.md`、`spec_interactive_guide.md`
+- 交互格式模板：`continuation_request.md`、`code_review.md`、`worker_execution_result.md`
+
+---
 
 ### v2.9.2 (2026-02-24)
 

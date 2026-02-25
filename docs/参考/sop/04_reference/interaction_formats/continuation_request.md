@@ -1,6 +1,6 @@
 ---
-version: v2.9.1
-updated: 2026-02-24
+version: v2.12.0
+updated: 2026-02-25
 ---
 
 # 续跑与恢复请求格式
