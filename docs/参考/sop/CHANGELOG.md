@@ -27,7 +27,7 @@ v[主版本].[次版本].[修订版本]
 
 ### v2.12.0 (2026-02-25)
 
-**系统性审查与版本同步** - 完成SOP体系全面审查，统一版本号
+**系统性审查与版本同步** - 完成SOP体系全面审查，统一版本号，清理冗余文档
 
 #### 关键变更
 
@@ -43,13 +43,20 @@ v[主版本].[次版本].[修订版本]
   - 验证入口导航流畅性（L1→L2→L3→L4）
   - 验证跨文档引用正确性
   - 验证模板引用完整性
+- **文档清理**：
+  - 移除 `04_context_reference/adr_Spec_001-004.md`（内容已整合到对应文档）
+  - 移除 `05_constraints/sop_existing_optimization.md`（已整合到improvement_plan.md）
+  - 移除 `05_constraints/sop_optimization_proposal.md`（已整合到improvement_plan.md）
+  - 移除 `05_constraints/automation_check_proposal.md`（方案阶段文档）
+  - 清理 `.trae/specs/` 临时产物（保留关键报告）
+  - 清理 `.trae/documents/` 临时文档
 
 #### 主要更新文件
 
 - 核心文档：`AGENT_SOP.md`、`01_concept_overview.md`、`CHANGELOG.md`
 - 约束文档：`constraint_matrix.md`、`coding_principles.md`、`acceptance_criteria.md`、`05_constraints/index.md`
 - 工作流文档：`03_workflow/index.md`、`fast_path.md`、`deep_path.md`、`three_strike_rule.md`
-- 参考文档：`04_reference/index.md`、`design_guide.md`、`spec_interactive_guide.md`
+- 参考文档：`04_reference/index.md`、`design_guide.md`、`spec_interactive_guide.md`、`document_directory_mapping.md`
 - 交互格式模板：`continuation_request.md`、`code_review.md`、`worker_execution_result.md`
 
 ---

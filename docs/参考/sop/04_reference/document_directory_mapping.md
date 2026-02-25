@@ -55,20 +55,29 @@ updated: 2026-02-24
 
 ## Spec 产物生命周期
 
-详见 [ADR-Spec-001: Spec 产物生命周期定义](04_context_reference/adr_Spec_001_lifecycle.md)
+Spec 产物（spec.md/tasks.md/checklist.md）为任务执行期临时产物，完成后应归档或删除。
+
+**生命周期阶段**：
+1. **执行期**：任务执行期间，存在于 `.trae/specs/<change-id>/`
+2. **归档期**：重要任务完成后归档至 `docs/04_context_reference/archived_specs/`
+3. **清理期**：简单任务完成后直接删除
 
 ---
 
 ## Spec 与 design.md 的映射关系
 
-详见 [ADR-Spec-002: Spec 与 Design.md 关系定义](04_context_reference/adr_Spec_002_design_relation.md)
+**任务划分原则**：
+- 每个 spec 任务对应一个 design.md 目录
+- 任务粒度 = DIR_SCOPE(dir_with_design_md)
+
+**执行顺序规则**：
+- 自底向上：按 design.md 深度从深到浅
+- 同深度并行：无依赖关系的任务可并行
+- 父目录等待：父目录任务等待子目录任务完成
 
 ---
 
 ## 相关文档
-
-- [ADR-Spec-001: Spec 产物生命周期定义](04_context_reference/adr_Spec_001_lifecycle.md)
-- [ADR-Spec-002: Spec 与 Design.md 关系定义](04_context_reference/adr_Spec_002_design_relation.md)
 - [design_directory_strategy.md](04_reference/design_directory_strategy.md)
 - [design_decision_rules.md](04_reference/design_decision_rules.md)
 - [Spec 交互式提问指南](04_reference/spec_interactive_guide.md)

@@ -7,7 +7,7 @@ updated: 2026-02-25
 
 ## 概述
 
-本文档整合 Spec 设计阶段（L2/L3）的交互式提问机制，确保设计决策与现有架构、ADR、约束矩阵保持一致。核心决策依据：[ADR-Spec-004](../04_context_reference/adr_Spec_004_interactive_questioning.md)。
+本文档整合 Spec 设计阶段（L2/L3）的交互式提问机制，确保设计决策与现有架构、ADR、约束矩阵保持一致。
 
 适用于 `sop-architecture-design` 和 `sop-implementation-designer` 在设计过程中与用户的交互场景。
 
@@ -177,7 +177,6 @@ updated: 2026-02-25
 
 | 文档 | 用途 |
 |------|------|
-| [ADR-Spec-004: 交互式提问机制](../04_context_reference/adr_Spec_004_interactive_questioning.md) | 核心决策依据 |
 | [ADR 模板](document_templates/adr.md) | ADR 文档格式参考 |
 | [设计指南](design_guide.md) | design.md 创建与执行指南 |
 | [约束矩阵](../05_constraints/constraint_matrix.md) | 约束验证参考 |

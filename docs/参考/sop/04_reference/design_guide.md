@@ -7,10 +7,6 @@ updated: 2026-02-25
 
 本文档整合 design.md 创建判断规则与目录维度工作策略，为 `sop-implementation-designer` 和 `sop-code-implementation` 提供统一参考。
 
-**核心决策依据**：
-- [ADR-Spec-001: 生命周期定义](../04_context_reference/adr_Spec_001_lifecycle.md)
-- [ADR-Spec-002: Spec 与 Design.md 关系](../04_context_reference/adr_Spec_002_design_relation.md)
-
 ---
 
 ## 1. 概述
@@ -157,8 +153,6 @@ WAIT_DEP(src_dir, target_dir)
 
 ## 5. Spec 任务划分规则
 
-> 详细定义参见 [ADR-Spec-002](../04_context_reference/adr_Spec_002_design_relation.md)
-
 ### 5.1 划分原则
 
 | 依据 | 说明 | 优先级 |
@@ -267,8 +261,6 @@ src/auth/
 
 | 文档 | 路径 | 说明 |
 |------|------|------|
-| ADR-Spec-001 | [../04_context_reference/adr_Spec_001_lifecycle.md](../04_context_reference/adr_Spec_001_lifecycle.md) | 生命周期定义 |
-| ADR-Spec-002 | [../04_context_reference/adr_Spec_002_design_relation.md](../04_context_reference/adr_Spec_002_design_relation.md) | Spec 与 Design.md 关系 |
 | 实现设计模板 | implementation_design.md | L3 实现设计模板 |
 | Spec 交互式指南 | spec_interactive_guide.md | 交互式提问流程 |
 
