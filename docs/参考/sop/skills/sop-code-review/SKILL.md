@@ -1,7 +1,7 @@
 ---
 name: "sop-code-review"
 description: "Code review workflow for validating changes against design docs and common engineering practices. Invoke after implementation diff is ready and before user approval."
-version: v2.10.0
+version: v2.12.0
 updated: 2026-02-25
 layer: "质量"
 load_policy:
@@ -115,7 +115,39 @@ When deadlock happens:
 
 ## Stop Points
 
+- `[DIFF_APPROVAL]`: 审查通过，- `[DIR_WORKING]`: 需修改（Strike 1/2）
 - `[USER_DECISION]`: 审查依据缺失/冲突，或 3 轮迭代无法收敛
+
+## 审查失败处理路径
+
+### 单审模式
+```
+[WAITING_FOR_CODE_REVIEW] → REVIEW() → 
+  ├── 通过 → [DIFF_APPROVAL]
+  ├── 需修改(Strike 1) → [DIR_WORKING] (修复)
+  ├── 需修改(Strike 2) → [DIR_WORKING] (修复)
+  └── 需修改(Strike 3) → [USER_DECISION] (僵局处理)
+```
+
+### 僵局处理选项
+```
+[USER_DECISION] → ASK_USER_DECISION("审查僵局", [
+  "采纳审查意见并修复",
+  "跳过当前审查点（记录分歧）",
+  "启动第二意见审查",
+  "终止任务"
+])
+→ 用户选择后执行：
+  - 修复 → [DIR_WORKING]
+  - 跳过 → [DIFF_APPROVAL] (记录分歧)
+  - 第二意见 → PARALLEL_REVIEW()
+  - 终止 → [已完成]
+```
+
+### 第二意见审查触发条件
+- Strike 3 自动触发
+- 用户明确要求
+- 涉及安全/性能敏感模块
 
 ## Failure Handling
 

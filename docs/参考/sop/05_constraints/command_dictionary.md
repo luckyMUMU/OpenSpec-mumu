@@ -1,5 +1,5 @@
----
-version: v2.11.0
+------
+version: v2.12.0
 updated: 2026-02-25
 scope: docs/参考/sop
 ---
@@ -317,8 +317,13 @@ auto_trigger:
 
 | CMD | 主体（Skill/用户） | args | out | pre | post |
 |---|---|---|---|---|---|
+| `TEST_DESIGN(design: path, format: string = "csv", criteria: string[] = [])` | sop-test-design-csv | design: path, format: string (default: "csv"), criteria: string[] (optional) | test_cases: path | - | `[WAITING_FOR_TEST_DESIGN]` |
 | `TEST_DESIGN_CSV(design: path, criteria: string[])` | sop-test-design-csv | design: path, criteria: string[] | test_cases_csv: path | - | `[WAITING_FOR_TEST_DESIGN]` |
-| `TEST_DESIGN(design: path, format: string = "csv")` | sop-test-design-csv | design: path, format: string (default: "csv") | test_cases: path | - | `[WAITING_FOR_TEST_DESIGN]` |
+
+**命令别名说明**：
+- `TEST_DESIGN_CSV(design, criteria)` ≡ `TEST_DESIGN(design, format="csv", criteria)`
+- 推荐使用统一命令 `TEST_DESIGN`，通过 `format` 参数指定输出格式
+- `TEST_DESIGN_CSV` 保留作为向后兼容别名
 | `TEST_IMPLEMENT(csv: path, design_refs: path[])` | sop-test-implementation | csv: path, design_refs: path[] | test_code: path | - | `[WAITING_FOR_TEST_IMPLEMENTATION]` |
 | `RUN_ACCEPTANCE(level: "L1"\|"L2"\|"L3"\|"L4")` | sop-code-implementation | level: "L1"\|"L2"\|"L3"\|"L4" | test_result: object | - | `[WAITING_FOR_ACCEPTANCE_REVIEW]` / `[DIFF_APPROVAL]` |
 | `REVIEW_ACCEPTANCE(level: "L1"\|"L2"\|"L3"\|"L4")` | sop-code-review | level: "L1"\|"L2"\|"L3"\|"L4" | result: "pass"\|"fail"\|"deadlock" | `[WAITING_FOR_ACCEPTANCE_REVIEW]` | `pass:- / fail:[DIR_WORKING] / deadlock:[USER_DECISION]` |
@@ -401,6 +406,71 @@ tier_3_skills:
   - sop-deep-path
   - sop-tdd-workflow
 ```
+
+### 流程效率优化（Process Efficiency）
+
+| CMD | 主体（Skill/用户） | args | out | pre | post |
+|---|---|---|---|---|---|
+| `GATE_LEVEL_CHECK(doc: path, gate: string, level: "full"\|"simplified"\|"auto")` | 各阶段Skill | doc, gate, level | result: "pass"\|"fail" | - | 根据level决定后续 |
+| `INCREMENTAL_REVIEW(full_report: object, diff: string)` | sop-code-review | full_report, diff | review_result: ReviewResult | 上一轮审查完成 | `[DIFF_APPROVAL]` / `[DIR_WORKING]` |
+| `PARTIAL_PASS(issues: object[], critical_only: boolean)` | sop-code-review | issues, critical_only | pass_result: object | 审查完成 | `[DIFF_APPROVAL]` (部分通过) |
+| `SYNC_INDEX_ONLY(scope: ChangeScope)` | sop-document-sync | scope | sync_result: object | - | 索引更新完成 |
+| `SYNC_CHANGELOG(scope: ChangeScope)` | sop-document-sync | scope | changelog_result: object | 索引更新完成 | CHANGELOG更新完成 |
+
+**门控分级机制**：
+
+```yaml
+gate_levels:
+  full:
+    description: "完整门控检查"
+    applicable: "标准深度路径"
+    checks: ["完整性", "一致性", "可行性", "风险"]
+  
+  simplified:
+    description: "简化门控检查"
+    applicable: "轻量深度路径"
+    checks: ["完整性", "可行性"]
+  
+  auto:
+    description: "自动门控检查"
+    applicable: "快速路径/极速路径"
+    checks: ["lint", "语法检查"]
+
+gate_level_selection:
+  - condition: "file_count > 3 or delta_lines > 100"
+    level: "full"
+  - condition: "file_count <= 3 and delta_lines <= 100"
+    level: "simplified"
+  - condition: "file_count == 1 and delta_lines < 30"
+    level: "auto"
+```
+
+**增量审查机制**：
+
+```yaml
+incremental_review:
+  description: "仅审查变更部分"
+  
+  flow: |
+    上一轮审查报告 → 提取已通过项
+                  → 仅审查变更部分
+                  → 合并结果
+  
+  partial_pass:
+    description: "部分通过机制"
+    rules:
+      - critical_issues: "必须修复"
+      - non_critical_issues: "记录待后续处理，可临时通过"
+      - suggestions: "作为可选优化项"
+```
+
+**文档同步分级**：
+
+| 同步类型 | 内容 | 时机 | 自动化 |
+|----------|------|------|--------|
+| 强制同步 | 索引更新 | 实时 | 必须 |
+| 推荐同步 | CHANGELOG | 任务完成 | 可选 |
+| 可选同步 | 设计决策记录 | 手动 | 手动 |
 
 ### 指标采集（Metrics Collection）
 
@@ -512,4 +582,89 @@ alert_rules:
     condition: "等待超过1小时"
     level: "info"
     action: "提醒用户"
+```
+
+### 渐进披露优化（Progressive Disclosure）
+
+| CMD | 主体（Skill/用户） | args | out | pre | post |
+|---|---|---|---|---|---|
+| `GET_QUICK_START()` | sop-workflow-orchestrator | - | quick_start_guide: string | - | - |
+| `GET_SKILL_SUMMARY(skill_name: string)` | sop-workflow-orchestrator | skill_name | summary: string | - | - |
+| `GET_DECISION_TREE(scenario: string)` | sop-workflow-orchestrator | scenario | decision_tree: string | - | - |
+
+**渐进披露层级**：
+
+```yaml
+progressive_disclosure:
+  # L1: 入口层（AGENT_SOP.md）
+  entry_level:
+    max_content: "100字内"
+    sections:
+      - name: "快速开始"
+        content: "3步完成入口"
+      - name: "我是新手"
+        content: "阅读路径指引"
+      - name: "我要查询"
+        content: "快速入口表格"
+  
+  # L2: 矩阵层（Skill Matrix）
+  matrix_level:
+    max_content: "表格形式"
+    sections:
+      - name: "Skill总览"
+        content: "17个Skills一览表"
+      - name: "工作范围规则"
+        content: "目录边界、测试隔离"
+      - name: "技能边界说明"
+        content: "职责划分、协作场景"
+      - name: "版本依赖声明"
+        content: "依赖版本检查"
+  
+  # L3: 文档层（SKILL.md）
+  document_level:
+    max_content: "完整文档"
+    sections:
+      - name: "侧重点"
+        content: "核心关注点"
+      - name: "触发条件"
+        content: "何时调用"
+      - name: "输入输出"
+        content: "标准化格式"
+      - name: "工作流步骤"
+        content: "详细步骤"
+      - name: "停止点"
+        content: "状态转移点"
+      - name: "约束"
+        content: "限制条件"
+
+# 快速入口映射
+quick_entry:
+  - question: "如何开始？"
+    link: "01_intro/"
+  - question: "状态是什么？"
+    link: "05_constraints/state_dictionary.md"
+  - question: "命令怎么用？"
+    link: "05_constraints/command_dictionary.md"
+  - question: "选择哪条路径？"
+    link: "03_workflow/path_selection.md"
+
+# 常见场景决策树
+decision_trees:
+  - scenario: "单文件小修改"
+    tree: |
+      文件数=1? → 是 → 行数<30? → 是 → 无逻辑变更? → 是 → 快速路径
+                                              → 否 → 轻量深度路径
+                              → 否 → 轻量深度路径
+              → 否 → 行数<100? → 是 → 轻量深度路径
+                              → 否 → 标准深度路径
+  
+  - scenario: "新功能开发"
+    tree: |
+      涉及新模块? → 是 → 标准深度路径
+                → 否 → 需求分析 → 架构设计 → 实现
+  
+  - scenario: "Bug修复"
+    tree: |
+      影响范围可界定? → 是 → 快速路径或轻量深度路径
+                    → 否 → 标准深度路径
 ```

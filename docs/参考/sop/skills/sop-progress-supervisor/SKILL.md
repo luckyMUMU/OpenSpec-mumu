@@ -1,7 +1,7 @@
 ---
 name: "sop-progress-supervisor"
 description: "Progress monitoring workflow for tracking execution and triggering circuit breakers. Invoke when monitoring task execution or detecting anomalies."
-version: v2.10.0
+version: v2.12.0
 updated: 2026-02-25
 layer: "编排"
 load_policy:
@@ -92,6 +92,44 @@ CMD: collect skill_status -> update dir_map -> persist `temp/scheduler_state.md`
 
 **Actions**:
 CMD: `WAIT_DEP(dir,deps)` / notify resume
+
+### Step 5.1: Dependency Wake Mechanism
+
+**Purpose**: Detect and wake directories waiting for dependencies
+
+**Detection Methods**:
+1. **Event-driven (Preferred)**: Subscribe to directory state change events
+2. **Polling (Fallback)**: Check dependency status every N seconds
+
+**Wake Sequence**:
+```yaml
+dependency_wake:
+  detection_method: "event_driven"
+  fallback: "polling"
+  polling_interval: 30  # seconds
+  
+  wake_sequence:
+    - step: 1
+      action: "检测依赖目录状态"
+      cmd: "CHECK_DEP_STATUS(dir_list)"
+    - step: 2
+      condition: "all_deps_completed"
+      action: "唤醒等待目录"
+      cmd: "WAKE_DIR(waiting_dir)"
+      output: "[DIR_WORKING]"
+    - step: 3
+      condition: "has_pending_deps"
+      action: "继续等待依赖"
+      cmd: "WAIT_FOR_DEP(pending_list)"
+      output: "[DIR_WAITING_DEP]"
+```
+
+**Wake Commands**:
+| CMD | Description |
+|-----|-------------|
+| `CHECK_DEP_STATUS(dir_list: path[])` | 检查依赖目录状态 |
+| `WAKE_DIR(waiting_dir: path)` | 唤醒等待中的目录 |
+| `WAIT_FOR_DEP(pending_list: path[])` | 继续等待依赖完成 |
 
 ### Step 6: Iteration Monitoring
 

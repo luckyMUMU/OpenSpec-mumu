@@ -1,7 +1,7 @@
 ---
 name: "sop-document-sync"
 description: "Document synchronization workflow for index updates, progressive disclosure, and task archiving. Invoke when documents need synchronization, status updates, or task archiving."
-version: v2.10.0
+version: v2.12.0
 updated: 2026-02-25
 layer: "文档"
 load_policy:

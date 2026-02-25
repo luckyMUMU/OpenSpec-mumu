@@ -1,7 +1,7 @@
 ---
 name: "sop-capability-reuse"
 description: "指导AI Agent复用和优化已有能力。Invoke when needing to create new functionality, to check for existing capabilities first and prioritize improvement over creation."
-version: v2.10.0
+version: v2.12.0
 updated: 2026-02-25
 layer: "复用"
 load_policy:

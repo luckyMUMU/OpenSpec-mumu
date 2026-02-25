@@ -1,7 +1,7 @@
 ---
 name: "sop-tdd-workflow"
 description: "TDD工作流定义。Invoke when 用户启用TDD测试驱动开发流程。"
-version: v2.10.0
+version: v2.12.0
 updated: 2026-02-25
 layer: "路径宏"
 load_policy:
@@ -165,7 +165,7 @@ CMD: `TEST_IMPLEMENT(test_design) -> [WAITING_FOR_TEST_IMPLEMENTATION]`
 
 ### Step 3: Run Acceptance & Fix
 
-CMD: `RUN_ACCEPTANCE(level) -> [WAITING_FOR_Lx_REVIEW]`
+CMD: `RUN_ACCEPTANCE(level) -> [WAITING_FOR_ACCEPTANCE_REVIEW]`
 
 ## 停止点
 
@@ -173,6 +173,12 @@ CMD: `RUN_ACCEPTANCE(level) -> [WAITING_FOR_Lx_REVIEW]`
 |------|------|------|
 | `[WAITING_FOR_TEST_DESIGN]` | `sop-test-design-csv` 完成 | 用户确认测试设计 |
 | `[WAITING_FOR_TEST_IMPLEMENTATION]` | `sop-test-implementation` 完成 | `sop-code-review` 进行测试代码审查 |
+| `[WAITING_FOR_ACCEPTANCE_REVIEW]` | 验收测试通过 | `sop-code-review` 进行验收审查（level参数指定L1-L4） |
+
+**统一验收审查说明**：
+- 使用统一状态 `[WAITING_FOR_ACCEPTANCE_REVIEW]`，通过参数 `level` 指定验收级别
+- 旧状态 `[WAITING_FOR_L1_REVIEW]` ~ `[WAITING_FOR_L4_REVIEW]` 保留兼容性支持
+- 命令 `RUN_ACCEPTANCE(level)` 输出统一状态
 
 ---
 
@@ -193,7 +199,7 @@ CMD: `RUN_ACCEPTANCE(level) -> [WAITING_FOR_Lx_REVIEW]`
 ## 输出
 
 - 交付物：测试用例 CSV + 测试代码 + 运行/验收证据
-- 状态：`[WAITING_FOR_TEST_DESIGN]` / `[WAITING_FOR_TEST_IMPLEMENTATION]` / `[WAITING_FOR_Lx_REVIEW]`
+- 状态：`[WAITING_FOR_TEST_DESIGN]` / `[WAITING_FOR_TEST_IMPLEMENTATION]` / `[WAITING_FOR_ACCEPTANCE_REVIEW]`
 
 ## 约束
 

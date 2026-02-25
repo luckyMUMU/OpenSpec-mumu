@@ -1,5 +1,5 @@
 ---
-version: v2.11.0
+version: v2.12.0
 updated: 2026-02-25
 ---
 
@@ -161,6 +161,79 @@ updated: 2026-02-25
   - GATE_ROLLBACK(reason) → 回滚到上一阶段
   - 终止流程
 ```
+
+---
+
+## 失败处理规范（Failure Handling Standards）
+
+### 错误类型分类
+
+| 错误类型 | 描述 | 恢复策略 |
+|----------|------|----------|
+| `UNKNOWN_ERROR` | 未知错误 | 记录错误日志，查询用户如何处理 |
+| `TOOL_UNAVAILABLE` | 工具不可用 | 尝试替代工具或降级方案 |
+| `CONTEXT_OVERFLOW` | 上下文溢出 | 卸载非必要Skills，压缩上下文 |
+| `DEPENDENCY_MISSING` | 依赖缺失 | 等待依赖完成或进入用户决策 |
+| `VALIDATION_FAILED` | 验证失败 | 修复后重试 |
+| `CONFLICT_DETECTED` | 冲突检测 | 进入冲突解决流程 |
+
+### 三错即停机制详解
+
+**触发条件**：
+- "同一Skill同一步骤"：相同的Skill + 相同的action
+- 连续3次失败触发熔断
+- 不同失败原因分别计数
+
+**熔断级别**：
+
+| 级别 | 连续失败次数 | 影响 | 处理方式 |
+|------|-------------|------|----------|
+| 警告 | 2 | 提示即将熔断 | 记录警告，继续执行 |
+| 熔断 | 3 | 暂停技能执行 | 进入`[FUSION_TRIGGERED]` |
+
+**恢复流程**：
+```
+[FUSION_TRIGGERED] → 
+  1. 记录熔断详情（Skill、步骤、失败原因、时间戳）
+  2. 保存当前检查点
+  3. ASK_USER_DECISION([
+      "重置并继续（计数器归零）",
+      "回滚到上一检查点",
+      "人工介入",
+      "终止任务"
+    ])
+  4. 根据用户选择执行对应命令
+```
+
+### 冲突检测机制
+
+**触发时机**：
+1. 每次保存设计文档时
+2. 进入下一阶段前
+3. 用户明确触发
+
+**检测粒度**：
+- **语义冲突**：接口签名变更、逻辑变更
+- **依赖冲突**：循环依赖、缺失依赖
+- **设计冲突**：与现有ADR/设计文档冲突
+
+**冲突解决流程**：
+```
+[CONFLICT_DETECTED] →
+  1. 生成冲突报告（冲突位置、冲突内容、影响范围）
+  2. ASK_USER_DECISION([
+      "采纳当前修改",
+      "保留冲突，由后续处理",
+      "人工介入解决"
+    ])
+  3. 更新设计文档状态
+  4. 记录冲突解决决策
+```
+
+**冲突优先级**：
+- 安全相关冲突：最高优先级，必须解决
+- 接口兼容性冲突：高优先级，建议解决
+- 设计风格冲突：低优先级，可记录待处理
 
 ---
 
@@ -539,4 +612,56 @@ updated: "2026-02-25"
 | `[WAITING_FOR_L1_REVIEW]` / `[WAITING_FOR_L2_REVIEW]` / `[WAITING_FOR_L3_REVIEW]` / `[WAITING_FOR_L4_REVIEW]` | 对应层级验收结果、design/验收依据路径 | sop-code-review（REVIEW_ACCEPTANCE） |
 | `[USER_DECISION]` / `[FUSION_TRIGGERED]` | 决策记录路径、方案调整说明、重置计数器 | 选择：重新分诊（ROUTE）或从本表上述某一检查点续跑 |
 
-说明：从 `[USER_DECISION]` / `[FUSION_TRIGGERED]` 续跑时，须在 continuation_request 中写明“建议下一步”对应的检查点及上表所列最小输入。
+说明：从 `[USER_DECISION]` / `[FUSION_TRIGGERED]` 续跑时，须在 continuation_request 中写明"建议下一步"对应的检查点及上表所列最小输入。
+
+---
+
+## SOP 术语表（Terminology）
+
+### 设计相关术语
+
+| 标准名称 | 历史别名 | 使用场景 |
+|----------|----------|----------|
+| 设计依据 | 设计参考、设计引用 | FRD/设计文档 |
+| 设计决策 | 设计选择 | 设计文档 |
+| 设计约束 | 约束条件 | 全局 |
+| 实现设计 | L3设计、详细设计 | 目录级设计文档 |
+| 架构设计 | L2设计、技术设计 | 项目级设计文档 |
+
+### 流程相关术语
+
+| 标准名称 | 历史别名 | 使用场景 |
+|----------|----------|----------|
+| 代码审查 | Code Review、CR | 全局 |
+| 验收审查 | 交付审查、Acceptance Review | L1-L4 |
+| 门控检查 | Gate Check、质量门控 | 各阶段 |
+| 熔断 | Fuse、Circuit Breaker | 异常处理 |
+| 三错即停 | 3-Strike Rule | 失败处理 |
+
+### 状态相关术语
+
+| 标准名称 | 历史别名 | 说明 |
+|----------|----------|------|
+| `[USER_DECISION]` | `[USER_DECISION_REQUIRED]` | 用户决策点 |
+| `[WAITING_FOR_ACCEPTANCE_REVIEW]` | `[WAITING_FOR_Lx_REVIEW]` | 统一验收审查状态 |
+| `[WAITING_FOR_REVIEW]` | `[WAITING_FOR_CODE_REVIEW]` / `[WAITING_FOR_TEST_IMPLEMENTATION]` | 统一审查状态 |
+| `[已完成]` | `[COMPLETED]` | 全局终态 |
+
+### 路径相关术语
+
+| 标准名称 | 别名 | 适用场景 |
+|----------|------|----------|
+| 极速路径 | Micro Path | ≤5行变更 |
+| 快速路径 | Fast Path | <30行单文件变更 |
+| 轻量深度路径 | Light Deep Path | 30-100行跨文件变更 |
+| 标准深度路径 | Deep Path | >100行复杂变更 |
+
+### 引用路径规范
+
+- **内部引用**：使用基于 `SOP_ROOT` 的相对路径
+  - 正确：`05_constraints/state_dictionary.md`
+  - 错误：`./state_dictionary.md` 或 `../constraints/state_dictionary.md`
+
+- **跨模块引用**：使用完整路径
+  - 正确：`sop/05_constraints/command_dictionary.md`
+  - 错误：`command_dictionary.md`（缺少上下文）

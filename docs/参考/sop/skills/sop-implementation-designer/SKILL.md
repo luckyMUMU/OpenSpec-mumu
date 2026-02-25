@@ -1,7 +1,7 @@
 ---
 name: "sop-implementation-designer"
 description: "Implementation design workflow for creating detailed technical designs. Invoke when architecture is approved and ready for implementation design."
-version: v2.10.0
+version: v2.12.0
 updated: 2026-02-25
 layer: "实现设计"
 load_policy:

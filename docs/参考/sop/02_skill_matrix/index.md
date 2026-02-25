@@ -1,5 +1,5 @@
 ---
-version: v2.11.0
+version: v2.12.0
 updated: 2026-02-25
 ---
 
@@ -44,3 +44,70 @@ updated: 2026-02-25
 - 仅当处于 TDD/分层验收路径且需要测试资产变更时 → **只能**通过 `sop-test-design-csv` 变更 CSV。
 - `sop-test-implementation` **禁止**修改 CSV；只能读取 CSV 并产出测试代码。
 - `sop-code-implementation` **禁止**创建/修改 CSV；只能运行测试并根据失败结果修正代码。
+
+---
+
+## 3. 技能边界说明（Skill Boundaries）
+
+### 3.1 sop-code-explorer vs sop-requirement-analyst
+
+| 方面 | sop-code-explorer | sop-requirement-analyst |
+|------|-------------------|-------------------------|
+| **核心职责** | 代码库检索、上下文提取、依赖分析 | 需求整理与文档化、需求澄清 |
+| **禁止行为** | 不做需求分析、不产出PRD/MRD/FRD | 不做代码检索（由explorer负责） |
+| **协作场景** | 当需要分析现有代码以理解需求时：先调用 sop-code-explorer 提取上下文，再调用 sop-requirement-analyst 进行需求分析 |
+
+### 3.2 sop-architecture-design vs sop-implementation-designer
+
+| 方面 | sop-architecture-design | sop-implementation-designer |
+|------|-------------------------|------------------------------|
+| **设计层级** | L2（项目级架构设计） | L3（目录级实现设计） |
+| **设计范围** | 跨模块、跨目录的技术决策 | 单目录内的详细实现设计 |
+| **产出物** | 架构设计文档、ADR | design.md |
+| **依赖关系** | 依赖需求文档 | 依赖架构设计文档 |
+
+### 3.3 sop-code-review vs sop-architecture-reviewer
+
+| 方面 | sop-code-review | sop-architecture-reviewer |
+|------|-----------------|---------------------------|
+| **审查对象** | 代码Diff | 架构设计文档 |
+| **审查时机** | 实现阶段 | 设计阶段 |
+| **审查重点** | 设计一致性、正确性、测试覆盖 | 架构合理性、技术选型、扩展性 |
+| **输出** | 审查报告（通过/需修改/僵局） | 审查报告（Pass/Fail） |
+
+### 3.4 路径宏Skills说明
+
+| Skill | 类型 | 组成 |
+|-------|------|------|
+| sop-fast-path | 编排宏 | sop-code-explorer → sop-code-implementation → sop-code-review → sop-document-sync |
+| sop-deep-path | 编排宏 | sop-requirement-analyst → sop-architecture-design → sop-architecture-reviewer → sop-implementation-designer → sop-progress-supervisor → sop-code-implementation → sop-code-review → sop-document-sync |
+| sop-tdd-workflow | 编排宏 | sop-deep-path + sop-test-design-csv + sop-test-implementation |
+
+**编排宏特点**：
+- 不是独立技能，而是多个Skills的有序组合
+- 通过预定义的调用链简化常见工作流
+- 可根据实际需求动态调整调用链
+
+---
+
+## 4. 版本依赖声明
+
+每个SKILL.md应包含版本依赖声明：
+
+```yaml
+---
+name: "sop-code-implementation"
+version: "v2.12.0"
+depends_on:
+  sop_components:
+    state_dictionary: ">=v2.12.0"
+    command_dictionary: ">=v2.12.0"
+  skills:
+    sop-code-explorer: ">=v2.12.0"
+    sop-implementation-designer: ">=v2.12.0"
+---
+```
+
+**版本兼容性检查**：
+- CMD: `CHECK_DEPENDENCIES()` 验证所有依赖版本
+- 报告不兼容项并提示升级方案

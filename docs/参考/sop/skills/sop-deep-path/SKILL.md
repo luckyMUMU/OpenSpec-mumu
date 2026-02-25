@@ -1,7 +1,7 @@
 ---
 name: "sop-deep-path"
 description: "Deep path workflow for complex changes. Invoke when task is triaged as deep path (cross-file, new feature, refactor, API change)."
-version: v2.11.0
+version: v2.12.0
 updated: 2026-02-25
 layer: "路径宏"
 load_policy:
