@@ -1,8 +1,13 @@
 ---
 name: "sop-architecture-reviewer"
 description: "Architecture review workflow with multi-round iteration. Invoke when architecture design is complete and needs quality review."
-version: v2.9.0
-updated: 2026-02-24
+version: v2.10.0
+updated: 2026-02-25
+layer: "设计审查"
+load_policy:
+  tier: 2
+  auto_load_states: ["[WAITING_FOR_ARCHITECTURE]"]
+  depends_on: ["sop-architecture-design"]
 ---
 
 # Architecture Review Workflow

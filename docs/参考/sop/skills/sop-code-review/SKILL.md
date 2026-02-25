@@ -1,8 +1,13 @@
 ---
 name: "sop-code-review"
 description: "Code review workflow for validating changes against design docs and common engineering practices. Invoke after implementation diff is ready and before user approval."
-version: v2.9.0
-updated: 2026-02-24
+version: v2.10.0
+updated: 2026-02-25
+layer: "质量"
+load_policy:
+  tier: 1
+  auto_load_states: []
+  depends_on: []
 ---
 
 # Code Review Workflow

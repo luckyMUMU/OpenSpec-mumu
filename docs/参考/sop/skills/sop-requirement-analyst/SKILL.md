@@ -1,8 +1,13 @@
 ---
 name: "sop-requirement-analyst"
 description: "Requirement analysis workflow for multi-level requirements (L1 PRD / L2 MRD / L3 FRD). Invoke when starting a new project, module, or feature, or when requirements need clarification."
-version: v2.9.0
-updated: 2026-02-24
+version: v2.10.0
+updated: 2026-02-25
+layer: "需求"
+load_policy:
+  tier: 2
+  auto_load_states: ["[ROUTE_DEEP]"]
+  depends_on: ["sop-code-explorer"]
 ---
 
 # Requirement Analysis Workflow
@@ -85,6 +90,25 @@ Rounds: core → clarify → confirm
 - [ ] Any missing?
 
 **Stop Point**: `[WAITING_FOR_REQUIREMENTS]`
+
+### Step 6: Gate Check
+
+**Purpose**: Execute quality gate check for requirements phase
+
+**Actions**:
+CMD: `GATE_CHECK(requirements_doc, gate='GATE_REQUIREMENTS')`
+
+**Gate Check Items**:
+| 检查项 | 通过标准 | 状态 |
+|--------|----------|------|
+| 需求边界清晰 | 需求范围明确，无歧义 | [ ] |
+| 技术方案对齐 | 技术约束与现有架构一致 | [ ] |
+| 验收标准具体 | 每个需求有可测试的验收标准 | [ ] |
+| 关键假设确认 | 所有关键假设已与用户确认 | [ ] |
+
+**State Transition**:
+- 通过 → `[WAITING_FOR_REQUIREMENTS]`
+- 失败 → `[GATE_FAILED]` → 用户决策
 
 ## 来源与依赖准则
 

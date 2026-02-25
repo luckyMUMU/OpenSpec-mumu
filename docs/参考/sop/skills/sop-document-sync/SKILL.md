@@ -1,8 +1,13 @@
 ---
 name: "sop-document-sync"
 description: "Document synchronization workflow for index updates, progressive disclosure, and task archiving. Invoke when documents need synchronization, status updates, or task archiving."
-version: v2.9.0
-updated: 2026-02-24
+version: v2.10.0
+updated: 2026-02-25
+layer: "文档"
+load_policy:
+  tier: 2
+  auto_load_states: ["[ALL_COMPLETED]"]
+  depends_on: ["sop-code-review", "sop-progress-supervisor"]
 ---
 
 # Document Synchronization Workflow
@@ -116,6 +121,24 @@ CMD: `TASK_ARCHIVE(dir) -> archived_tasks`
 | 仅归档已完成任务 | 状态为 `[x]` 的任务移入归档 |
 | 保留未完成任务 | 状态为 `[ ]`、`[-]`、`[!]` 的任务保留在活跃清单 |
 | 记录归档元数据 | 归档日期、归档原因（目录归档同步） |
+
+### Step 6: Gate Check
+
+**Purpose**: Execute quality gate check for document sync phase
+
+**Actions**:
+CMD: `GATE_CHECK(sync_result, gate='GATE_SYNC')`
+
+**Gate Check Items**:
+| 检查项 | 通过标准 | 状态 |
+|--------|----------|------|
+| 需求实现 | 所有需求已实现 | [ ] |
+| 验收满足 | 验收标准全部满足 | [ ] |
+| 质量达标 | 文档完整准确 | [ ] |
+
+**State Transition**:
+- 通过 → `[已完成]`
+- 失败 → `[GATE_FAILED]` → 用户决策
 
 ## 来源与依赖准则
 

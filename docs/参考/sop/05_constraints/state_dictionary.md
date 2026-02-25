@@ -1,6 +1,6 @@
 ---
-version: v2.9.0
-updated: 2026-02-24
+version: v2.11.0
+updated: 2026-02-25
 ---
 
 # 状态字典
@@ -39,6 +39,30 @@ updated: 2026-02-24
 | 代码实现阶段 | `[GATE_IMPLEMENTATION]` | 代码规范、测试通过、文档同步 |
 | 文档同步阶段 | `[GATE_SYNC]` | 需求实现、验收满足、质量达标 |
 
+### 门控状态转移规则
+
+| 状态 | 触发者 | 含义 | 后续动作 |
+|------|--------|------|----------|
+| `[GATE_REQUIREMENTS]` | sop-requirement-analyst | 需求门控检查 | 通过→`[WAITING_FOR_REQUIREMENTS]`，失败→`[GATE_FAILED]` |
+| `[GATE_ARCHITECTURE]` | sop-architecture-design | 架构门控检查 | 通过→`[WAITING_FOR_ARCHITECTURE]`，失败→`[GATE_FAILED]` |
+| `[GATE_DESIGN]` | sop-implementation-designer | 设计门控检查 | 通过→`[WAITING_FOR_DESIGN]`，失败→`[GATE_FAILED]` |
+| `[GATE_IMPLEMENTATION]` | sop-code-implementation | 实现门控检查 | 通过→`[WAITING_FOR_CODE_REVIEW]`，失败→`[GATE_FAILED]` |
+| `[GATE_SYNC]` | sop-document-sync | 同步门控检查 | 通过→`[已完成]`，失败→`[GATE_FAILED]` |
+
+### 门控失败标准处理流程
+
+```
+[GATE_FAILED] → ASK_USER_DECISION("门控检查失败", [
+  "修复后重试",
+  "回滚到上一阶段",
+  "终止任务"
+])
+→ 用户选择后执行：
+  - GATE_RETRY(fix_description) → 重新执行门控检查
+  - GATE_ROLLBACK(reason) → 回滚到上一阶段
+  - 终止流程
+```
+
 ---
 
 ## 全局停止点（Global Stop Points）
@@ -66,11 +90,108 @@ updated: 2026-02-24
 
 ---
 
+## 异常恢复路径定义（Exception Recovery Paths）
+
+### `[ARCHITECTURE_FAILED]` 恢复路径
+
+```
+[ARCHITECTURE_FAILED] → ASK_USER_DECISION("架构审查失败", [
+  "修复架构设计",
+  "回滚到需求阶段",
+  "终止任务"
+])
+→ 用户选择后执行：
+  - ARCH_REPAIR(reason) → 返回架构设计阶段
+  - ARCH_ROLLBACK(reason) → 回滚到需求阶段
+  - 终止流程
+```
+
+### `[DIR_FAILED]` 恢复路径
+
+```
+[DIR_FAILED] → ASK_USER_DECISION("目录处理失败", [
+  "重试当前目录",
+  "跳过当前目录",
+  "终止任务"
+])
+→ 用户选择后执行：
+  - DIR_RETRY() → 重新执行当前目录
+  - DIR_SKIP(reason) → 跳过当前目录，继续下一目录
+  - 终止流程
+```
+
+### `[FUSION_TRIGGERED]` 恢复路径
+
+```
+[FUSION_TRIGGERED] → ASK_USER_DECISION("熔断触发", [
+  "重置并继续",
+  "人工介入",
+  "终止任务"
+])
+→ 用户选择后执行：
+  - FUSION_RESET() → 重置熔断计数器，继续执行
+  - MANUAL_INTERVENTION() → 等待人工处理
+  - 终止流程
+```
+
+### `[CYCLE_DETECTED]` 恢复路径
+
+```
+[CYCLE_DETECTED] → ASK_USER_DECISION("检测到循环依赖", [
+  "打破循环（指定打破点）",
+  "人工介入",
+  "终止任务"
+])
+→ 用户选择后执行：
+  - BREAK_CYCLE(point) → 打破循环依赖
+  - MANUAL_INTERVENTION() → 等待人工处理
+  - 终止流程
+```
+
+### `[GATE_FAILED]` 恢复路径
+
+```
+[GATE_FAILED] → ASK_USER_DECISION("门控检查失败", [
+  "修复后重试",
+  "回滚到上一阶段",
+  "终止任务"
+])
+→ 用户选择后执行：
+  - GATE_RETRY(fix_description) → 修复后重新执行门控检查
+  - GATE_ROLLBACK(reason) → 回滚到上一阶段
+  - 终止流程
+```
+
+---
+
 ## 代码审查停止点（Code Review Stop Points）
 
 | 状态 | 触发者 | 含义 | 继续条件 |
 |------|--------|------|----------|
 | `[WAITING_FOR_CODE_REVIEW]` | sop-code-implementation | 代码变更已就绪，等待代码审查 | sop-code-review 输出审查结论（通过/需修改/僵局→用户决策） |
+
+### 统一审查状态（Unified Review State）
+
+| 状态 | 触发者 | 含义 | 审查者 | 参数 |
+|------|--------|------|--------|------|
+| `[WAITING_FOR_REVIEW]` | sop-code-implementation / sop-test-implementation | 产物已就绪，等待审查 | sop-code-review | `type: code/test` |
+
+**使用说明**：
+- 新流程优先使用统一状态 `[WAITING_FOR_REVIEW]`，通过参数 `type` 指定审查类型
+- 旧状态 `[WAITING_FOR_CODE_REVIEW]` 和 `[WAITING_FOR_TEST_IMPLEMENTATION]` 保留兼容性支持
+- 审查类型参数：`code`（代码审查）、`test`（测试代码审查）
+
+### 第二意见审查状态（Second Opinion Review States）
+
+| 状态 | 触发者 | 含义 | 后续动作 |
+|------|--------|------|----------|
+| `[REVIEW_CONFLICT]` | sop-code-review | 多审结论冲突，需要解决 | 用户选择解决方案后继续 |
+| `[REVIEW_MERGING]` | sop-code-review | 正在合并多份审查报告 | 合并完成→`[DIFF_APPROVAL]`或`[REVIEW_CONFLICT]` |
+
+**审查冲突处理规则**：
+- 安全审查结论优先于其他审查结论
+- 关键问题必须修复，非关键问题可记录为改进建议
+- 无法自动解决的冲突进入`[USER_DECISION]`
 
 ---
 
@@ -82,8 +203,21 @@ updated: 2026-02-24
 | `[WAITING_FOR_TEST_IMPLEMENTATION]` | sop-test-implementation | 测试代码已完成，等待审查 | sop-code-review 输出审查结论（通过/需修改/僵局→用户决策） |
 | `[WAITING_FOR_TEST_CREATION]` | sop-code-implementation → 用户 | 测试不充分，暂停实现等待决策 | 用户选择：补充测试/继续/暂停 |
 
-兼容性：
-- `[WAITING_FOR_TEST_REVIEW]` 视为 `[WAITING_FOR_TEST_DESIGN]` 的历史别名；新文档统一使用 `[WAITING_FOR_TEST_DESIGN]`
+---
+
+## 历史别名与弃用状态（Deprecated States）
+
+以下状态为历史别名或已弃用状态，**新文档禁止使用**：
+
+| 弃用状态 | 替代状态 | 弃用原因 | 清理计划 |
+|----------|----------|----------|----------|
+| `[WAITING_FOR_TEST_REVIEW]` | `[WAITING_FOR_TEST_DESIGN]` | 命名不准确 | 已完成替换 |
+| `[USER_DECISION_REQUIRED]` | `[USER_DECISION]` | 命名冗余 | 已完成替换 |
+
+**兼容性处理规则**：
+- 解析时自动将弃用状态映射到替代状态
+- 输出时统一使用新状态名称
+- 遇到弃用状态时输出警告日志
 
 ---
 
@@ -95,6 +229,17 @@ updated: 2026-02-24
 | `[WAITING_FOR_L2_REVIEW]` | sop-code-implementation | L2 验收测试通过，等待审查 | sop-code-review |
 | `[WAITING_FOR_L3_REVIEW]` | sop-code-implementation | L3 验收测试通过，等待审查 | sop-code-review |
 | `[WAITING_FOR_L4_REVIEW]` | sop-code-implementation | L4 验收测试通过，等待审查 | sop-code-review |
+
+### 统一验收审查状态（Unified Acceptance Review）
+
+| 状态 | 触发者 | 含义 | 审查者 | 参数 |
+|------|--------|------|--------|------|
+| `[WAITING_FOR_ACCEPTANCE_REVIEW]` | sop-code-implementation | 验收测试通过，等待审查 | sop-code-review | `level: L1/L2/L3/L4` |
+
+**使用说明**：
+- 新流程优先使用统一状态 `[WAITING_FOR_ACCEPTANCE_REVIEW]`，通过参数 `level` 指定验收级别
+- 旧状态 `[WAITING_FOR_L1_REVIEW]` ~ `[WAITING_FOR_L4_REVIEW]` 保留兼容性支持
+- 命令 `RUN_ACCEPTANCE(level)` 可输出统一状态或旧状态（根据项目配置）
 
 ---
 
@@ -157,13 +302,62 @@ updated: 2026-02-24
 | 状态 | 触发者 | 含义 | 继续条件 |
 |------|--------|------|----------|
 | `[USER_DECISION]` | 任意 Skill → 用户 | 当前存在冲突/风险/分歧，需要用户做出决策 | 用户选择方案或给出新方案 |
-| `[USER_DECISION_REQUIRED]` | 任意 Skill → 用户 | `[USER_DECISION]` 的历史别名；新文档统一使用 `[USER_DECISION]` | 同上 |
 
 决策记录要求：
-- 当触发原因是“找不到来源或依赖”（例如 SOURCE_MISSING / DEPENDENCY_MISSING / CONFLICT）时，必须同时：
+- 当触发原因是"找不到来源或依赖"（例如 SOURCE_MISSING / DEPENDENCY_MISSING / CONFLICT）时，必须同时：
   - 使用 `ASK_USER_DECISION(topic, options)` 输出选项
   - 使用 `RECORD_DECISION(topic, decision)` 落盘决策记录文件
   - 在后续产物中引用该决策记录路径
+
+### 用户决策退出路径
+
+**标准退出路径**：
+```
+[USER_DECISION] → 用户选择继续 → 返回原状态继续执行
+[USER_DECISION] → 用户选择回滚 → 返回上一阶段检查点
+[USER_DECISION] → 用户选择终止 → 进入[已完成]（标记为终止）
+```
+
+**决策记录要求**：
+每次用户决策必须：
+1. 使用 `ASK_USER_DECISION(topic, options)` 输出选项
+2. 使用 `RECORD_DECISION(topic, decision)` 落盘决策记录
+3. 在后续产物中引用该决策记录路径
+
+**决策记录模板**：
+```markdown
+# 决策记录
+
+## 决策主题
+{topic}
+
+## 可选方案
+{options}
+
+## 用户选择
+{selected_option}
+
+## 决策时间
+{timestamp}
+
+## 影响范围
+{affected_scope}
+
+## 后续动作
+{next_actions}
+```
+
+**决策类型与退出路径映射**：
+
+| 决策类型 | 典型选项 | 退出路径 |
+|----------|----------|----------|
+| 门控失败 | 修复后重试 / 回滚 / 终止 | `[GATE_RETRY]` / `[GATE_ROLLBACK]` / `[已完成]` |
+| 架构审查失败 | 修复架构 / 回滚到需求 / 终止 | `[ARCH_REPAIR]` / `[ARCH_ROLLBACK]` / `[已完成]` |
+| 目录处理失败 | 重试 / 跳过 / 终止 | `[DIR_RETRY]` / `[DIR_SKIP]` / `[已完成]` |
+| 熔断触发 | 重置并继续 / 人工介入 / 终止 | `[FUSION_RESET]` / `[MANUAL_INTERVENTION]` / `[已完成]` |
+| 循环依赖 | 打破循环 / 人工介入 / 终止 | `[BREAK_CYCLE]` / `[MANUAL_INTERVENTION]` / `[已完成]` |
+| 路径选择冲突 | 选择路径A / 选择路径B / 终止 | 对应路径入口 / `[已完成]` |
+| 来源缺失 | 补充信息 / 跳过 / 终止 | 继续执行 / 跳过当前步骤 / `[已完成]` |
 
 ---
 
@@ -172,6 +366,61 @@ updated: 2026-02-24
 | 状态 | 触发者 | 含义 | 恢复条件 |
 |------|--------|------|----------|
 | `[FUSION_TRIGGERED]` | sop-progress-supervisor | 连续失败触发熔断，停止执行 | 用户决策 + 方案调整 + 重置计数器 |
+
+---
+
+## Skills加载状态（Skill Loading States）
+
+| 状态 | 触发者 | 含义 | 后续动作 |
+|------|--------|------|----------|
+| `[SKILL_LOADING]` | LOAD_SKILL命令 | 正在加载Skill及资源 | 资源加载成功→`[SKILL_LOADED]` |
+| `[SKILL_LOADED]` | 资源加载完成 | Skill加载完成 | 继续执行 |
+| `[SKILL_UNLOADING]` | UNLOAD_SKILL命令 | 正在卸载Skill | 卸载完成→继续执行 |
+| `[CONTEXT_WARNING]` | 上下文监控 | 上下文接近阈值 | token使用量超过80%→提示用户 |
+
+**Skills分层加载规则**：
+- **Tier 1（核心）**：始终加载，包括 sop-workflow-orchestrator, sop-code-explorer, sop-progress-supervisor, sop-code-review
+- **Tier 2（阶段）**：按需加载，根据当前状态自动触发
+- **Tier 3（增强）**：手动加载，通过 LOAD_SKILL 命令显式调用
+
+---
+
+## 极速路径状态（Micro Path States）
+
+| 状态 | 触发者 | 含义 | 后续动作 |
+|------|--------|------|----------|
+| `[DIRECT_EXECUTE]` | sop-code-implementation | 直接执行模式，跳过门控检查 | 执行完成后→`[AUTO_VERIFY]` |
+| `[AUTO_VERIFY]` | sop-code-implementation | 自动验证中（lint+语法检查） | 验证通过→`[AUTO_SYNC]`，失败→`[DIR_WORKING]` |
+| `[AUTO_SYNC]` | sop-document-sync | 自动同步中（仅更新索引） | 同步完成→`[已完成]` |
+
+**极速路径适用条件**（全部满足）：
+- 单文件修改
+- 行数变化 ≤ 5行
+- 仅涉及格式/注释/命名调整
+- 无测试依赖
+- 无文档依赖
+
+---
+
+## 轻量深度路径状态（Light Deep Path States）
+
+| 状态 | 触发者 | 含义 | 后续动作 |
+|------|--------|------|----------|
+| `[ROUTE_LIGHT_DEEP]` | sop-workflow-orchestrator | 路由到轻量深度路径 | 进入轻量需求分析 |
+| `[LIGHT_REQUIREMENTS]` | sop-requirement-analyst | 轻量需求分析中 | 分析完成→`[WAITING_FOR_REQUIREMENTS]` |
+| `[LIGHT_DESIGN]` | sop-implementation-designer | 轻量设计进行中 | 设计完成→`[WAITING_FOR_DESIGN]` |
+
+**轻量深度路径适用条件**（任一满足）：
+- 跨文件修改（但影响范围可界定，文件数1-3）
+- 行数变化 30-100行
+- 存在接口变更（但影响范围可界定）
+- 存在逻辑变更（但可局部验证）
+
+**轻量版特点**：
+- 需求和设计阶段采用简化模板
+- 不要求完整的文档产出
+- 支持单轮快速确认
+- 简化审查清单，聚焦变更区域
 
 ---
 
@@ -196,6 +445,45 @@ updated: 2026-02-24
 - 用户决策后重置迭代计数器
 - CMD: `ITERATION_COUNT(state)` 查询当前迭代次数
 - CMD: `ITERATION_RESET(state)` 重置迭代计数器
+
+---
+
+## 指标采集状态（Metrics Collection States）
+
+| 状态 | 触发者 | 含义 | 后续动作 |
+|------|--------|------|----------|
+| `[METRICS_COLLECTING]` | sop-progress-supervisor | 正在采集指标数据 | 采集完成→存储 |
+| `[ALERT_TRIGGERED]` | sop-progress-supervisor | 告警触发 | 根据告警级别处理 |
+| `[HEALTH_REPORT_READY]` | sop-progress-supervisor | 健康报告已生成 | 等待用户查看 |
+
+**指标采集规则**：
+- 状态转移时自动记录timestamp
+- 关键事件（路径升级、审查失败等）记录事件日志
+- 定期生成健康报告
+- 告警触发时自动通知
+
+**指标卡片模板**：
+```markdown
+# .trae/metrics/skill_execution_time.md
+---
+metric: "skill_execution_time"
+skill: "sop-code-implementation"
+period: "weekly"
+updated: "2026-02-25"
+---
+
+## 本周统计
+- 平均执行时长: 45分钟
+- 中位数: 38分钟
+- P95: 72分钟
+- 样本数: 23
+
+## 趋势
+📈 较上周 +12%（因复杂需求增加）
+
+## 建议
+关注执行时长超过P95的案例，分析瓶颈
+```
 
 ---
 

@@ -1,8 +1,13 @@
 ---
 name: "sop-tdd-workflow"
 description: "TDD工作流定义。Invoke when 用户启用TDD测试驱动开发流程。"
-version: v2.9.0
-updated: 2026-02-24
+version: v2.10.0
+updated: 2026-02-25
+layer: "路径宏"
+load_policy:
+  tier: 3
+  auto_load_states: ["[ROUTE_TDD]"]
+  depends_on: ["sop-deep-path", "sop-test-design-csv", "sop-test-implementation", "sop-code-implementation", "sop-code-review"]
 ---
 
 # TDD 工作流（可选 / Skill-first）

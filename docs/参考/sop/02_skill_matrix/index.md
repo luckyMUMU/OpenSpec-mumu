@@ -1,6 +1,6 @@
 ---
-version: v2.9.0
-updated: 2026-02-24
+version: v2.11.0
+updated: 2026-02-25
 ---
 
 # Skill 矩阵（SSOT）
@@ -13,19 +13,19 @@ updated: 2026-02-24
 |------|------|----------|----------|----------|--------|----------------|----------|
 | sop-workflow-orchestrator | 编排 | 分诊、路径选择、调用链编排 | user_request + context | 路径+调用链+下一步命令式指令 | `[USER_DECISION]` | `04_reference/interaction_formats/router_triage.md` | - |
 | sop-code-explorer | 编排 | 代码库检索/审计/上下文提取 | scope + targets | 审计摘要/定位结果 | `[USER_DECISION]` | `04_reference/interaction_formats/code_audit_report.md` | - |
-| sop-requirement-analyst | 需求 | L1-L3 需求分层与落盘 | user_request + constraints | PRD/MRD/FRD/原型指引 | `[WAITING_FOR_REQUIREMENTS]` / `[USER_DECISION]` | `04_reference/document_templates/*prd*.md` | 需求边界清晰、技术方案对齐、验收标准具体、关键假设确认 |
-| sop-architecture-design | 设计 | L2 架构设计与技术选型 | PRD/MRD + constraints | 架构设计文档 | `[WAITING_FOR_ARCHITECTURE]` / `[USER_DECISION]` | `04_reference/document_templates/architecture_design.md` | 架构图清晰、接口定义完整、与现有系统无冲突、设计可行 |
-| sop-architecture-reviewer | 设计审查 | L2 架构审查与结论落盘 | 架构设计文档 | 审查报告（Pass/Fail） | `[USER_DECISION]` / `[ARCHITECTURE_PASSED]` | `04_reference/interaction_formats/design_review.md` | - |
-| sop-implementation-designer | 实现设计 | 目录级 L3 design.md 设计 | L2 设计 + 目标目录 | design.md | `[WAITING_FOR_DESIGN]` / `[USER_DECISION]` | `04_reference/document_templates/implementation_design.md` | 任务覆盖完整、依赖无循环、每个任务可独立验证 |
+| sop-requirement-analyst | 需求 | L1-L3 需求分层与落盘 | user_request + constraints | PRD/MRD/FRD/原型指引 | `[WAITING_FOR_REQUIREMENTS]` / `[GATE_FAILED]` / `[USER_DECISION]` | `04_reference/document_templates/*prd*.md` | 需求边界清晰、技术方案对齐、验收标准具体、关键假设确认 |
+| sop-architecture-design | 设计 | L2 架构设计与技术选型 | PRD/MRD + constraints | 架构设计文档 | `[WAITING_FOR_ARCHITECTURE]` / `[GATE_FAILED]` / `[USER_DECISION]` | `04_reference/document_templates/architecture_design.md` | 架构图清晰、接口定义完整、与现有系统无冲突、设计可行 |
+| sop-architecture-reviewer | 设计审查 | L2 架构审查与结论落盘 | 架构设计文档 | 审查报告（Pass/Fail） | `[ARCHITECTURE_PASSED]` / `[ARCHITECTURE_FAILED]` / `[USER_DECISION]` | `04_reference/interaction_formats/design_review.md` | - |
+| sop-implementation-designer | 实现设计 | 目录级 L3 design.md 设计 | L2 设计 + 目标目录 | design.md | `[WAITING_FOR_DESIGN]` / `[GATE_FAILED]` / `[USER_DECISION]` | `04_reference/document_templates/implementation_design.md` | 任务覆盖完整、依赖无循环、每个任务可独立验证 |
 | sop-test-design-csv | 测试设计 | 基于 L2/L3 生成 CSV 用例 | L2/L3 设计 + 验收标准 | CSV 测试用例 | `[WAITING_FOR_TEST_DESIGN]` / `[USER_DECISION]` | `04_reference/interaction_formats/test_case_csv.md` | - |
 | sop-test-implementation | 测试实现 | 基于 CSV 实现验收测试代码 | CSV 用例 + 接口信息 | L1-L4 测试代码 | `[WAITING_FOR_TEST_IMPLEMENTATION]` / `[USER_DECISION]` | `04_reference/review_standards/test_code.standard.md` | - |
-| sop-code-implementation | 实现 | 按 design.md 目录边界改代码 | design.md + dir_scope | 代码 Diff + 变更说明 | `[WAITING_FOR_CODE_REVIEW]` / `[DIR_WAITING_DEP]` / `[USER_DECISION]` | `04_reference/interaction_formats/worker_execution_result.md` | 代码规范、测试通过、文档同步 |
-| sop-code-review | 质量 | 基于证据的代码审查（只输出报告） | Diff + 设计依据 | 审查报告 | `[USER_DECISION]` / `[WAITING_FOR_CODE_REVIEW]` | `04_reference/interaction_formats/code_review.md` | - |
-| sop-progress-supervisor | 监管 | 目录并行调度、等待/唤醒、熔断 | dir_map + statuses | 调度指令/熔断报告 | `[FUSION_TRIGGERED]` / `[USER_DECISION]` | `04_reference/interaction_formats/supervisor_report.md` | - |
-| sop-document-sync | 文档 | 更新索引/导航/CHANGELOG 同步 | change_set + artifacts | 文档同步变更 | `[USER_DECISION]` | `04_reference/interaction_formats/worker_execution_result.md` | 需求实现、验收满足、质量达标 |
-| sop-fast-path | 路径宏 | 快速路径调用链（编排宏） | change_request | 调用链与门禁 | `[USER_DECISION]` | `03_workflow/fast_path.md` | - |
-| sop-deep-path | 路径宏 | 深度路径调用链（编排宏） | change_request | 调用链与门禁 | `[USER_DECISION]` | `03_workflow/deep_path.md` | - |
-| sop-tdd-workflow | 路径宏 | TDD 增强调用链（编排宏） | deep_path_context | 调用链与门禁 | `[USER_DECISION]` | `05_constraints/acceptance_criteria.md` | - |
+| sop-code-implementation | 实现 | 按 design.md 目录边界改代码 | design.md + dir_scope | 代码 Diff + 变更说明 | `[WAITING_FOR_CODE_REVIEW]` / `[DIR_WAITING_DEP]` / `[DIR_COMPLETED]` / `[GATE_FAILED]` / `[USER_DECISION]` | `04_reference/interaction_formats/worker_execution_result.md` | 代码规范、测试通过、文档同步 |
+| sop-code-review | 质量 | 基于证据的代码审查（只输出报告） | Diff + 设计依据 | 审查报告 | `[WAITING_FOR_CODE_REVIEW]` / `[DIFF_APPROVAL]` / `[REVIEW_CONFLICT]` / `[USER_DECISION]` | `04_reference/interaction_formats/code_review.md` | - |
+| sop-progress-supervisor | 监管 | 目录并行调度、等待/唤醒、熔断 | dir_map + statuses | 调度指令/熔断报告 | `[SCHEDULING]` / `[PARALLEL_EXECUTING]` / `[WAITING_DEPENDENCY]` / `[ALL_COMPLETED]` / `[FUSION_TRIGGERED]` / `[CYCLE_DETECTED]` / `[USER_DECISION]` | `04_reference/interaction_formats/supervisor_report.md` | - |
+| sop-document-sync | 文档 | 更新索引/导航/CHANGELOG 同步 | change_set + artifacts | 文档同步变更 | `[已完成]` / `[GATE_FAILED]` / `[USER_DECISION]` | `04_reference/interaction_formats/worker_execution_result.md` | 需求实现、验收满足、质量达标 |
+| sop-fast-path | 路径宏 | 快速路径调用链（编排宏） | change_request | 调用链与门禁 | `[WAITING_FOR_CODE_REVIEW]` / `[DIFF_APPROVAL]` / `[USER_DECISION]` | `03_workflow/fast_path.md` | - |
+| sop-deep-path | 路径宏 | 深度路径调用链（编排宏） | change_request | 调用链与门禁 | `[WAITING_FOR_REQUIREMENTS]` / `[WAITING_FOR_ARCHITECTURE]` / `[ARCHITECTURE_PASSED]` / `[WAITING_FOR_DESIGN]` / `[SCHEDULING]` / `[WAITING_FOR_CODE_REVIEW]` / `[WAITING_FOR_TEST_DESIGN]` / `[WAITING_FOR_TEST_IMPLEMENTATION]` / `[DIFF_APPROVAL]` / `[USER_DECISION]` | `03_workflow/deep_path.md` | - |
+| sop-tdd-workflow | 路径宏 | TDD 增强调用链（编排宏） | deep_path_context | 调用链与门禁 | `[WAITING_FOR_TEST_DESIGN]` / `[WAITING_FOR_TEST_IMPLEMENTATION]` / `[WAITING_FOR_ACCEPTANCE_REVIEW]` / `[USER_DECISION]` | `05_constraints/acceptance_criteria.md` | - |
 | sop-capability-reuse | 复用 | 先复用→改进→新建→清理 | target + constraints | 复用方案/改造方案 | `[USER_DECISION]` | `04_reference/knowledge_management.md` | - |
 | sop-design-placement | 规约 | design.md 落点与目录策略 | scope + targets | 落点决策与路径 | `[USER_DECISION]` | `04_reference/design_directory_strategy.md` | - |
 

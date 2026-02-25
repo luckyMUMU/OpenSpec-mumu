@@ -1,8 +1,13 @@
 ---
 name: "sop-architecture-design"
 description: "Architecture design workflow for creating technology-agnostic designs. Invoke when requirements are confirmed and ready for architecture design."
-version: v2.10.0
+version: v2.11.0
 updated: 2026-02-25
+layer: "设计"
+load_policy:
+  tier: 2
+  auto_load_states: ["[WAITING_FOR_REQUIREMENTS]"]
+  depends_on: ["sop-requirement-analyst", "sop-code-explorer"]
 ---
 
 # Architecture Design Workflow
@@ -185,6 +190,25 @@ END TRY
    - Mark `[USER_DECISION]` if conflict found
 
 ADR 触发规则（任一满足即需要 ADR）：技术选型 / 架构模式 / 关键接口 / 安全方案 / 性能策略 / >2 个可选项
+
+### Step 5: Gate Check
+
+**Purpose**: Execute quality gate check for architecture phase
+
+**Actions**:
+CMD: `GATE_CHECK(architecture_doc, gate='GATE_ARCHITECTURE')`
+
+**Gate Check Items**:
+| 检查项 | 通过标准 | 状态 |
+|--------|----------|------|
+| 架构图清晰 | 逻辑流程图/模块关系图可读 | [ ] |
+| 接口定义完整 | 输入/输出/错误码定义完整 | [ ] |
+| 与现有系统无冲突 | 不与现有架构/ADR冲突 | [ ] |
+| 设计可行 | 技术方案可实现 | [ ] |
+
+**State Transition**:
+- 通过 → `[WAITING_FOR_ARCHITECTURE]`
+- 失败 → `[GATE_FAILED]` → 用户决策
 
 ## 来源与依赖准则
 

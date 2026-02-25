@@ -1,8 +1,14 @@
 ---
 name: "sop-code-explorer"
 description: "Code audit workflow for impact assessment and risk identification. Invoke before implementation to understand existing code and assess change impact."
-version: v2.9.0
-updated: 2026-02-24
+version: v2.10.0
+updated: 2026-02-25
+layer: "编排"
+layer_note: "虽具备工具层能力（检索/审计），但主要职责是编排上下文提取流程"
+load_policy:
+  tier: 1
+  auto_load_states: []
+  depends_on: []
 ---
 
 # Code Audit Workflow

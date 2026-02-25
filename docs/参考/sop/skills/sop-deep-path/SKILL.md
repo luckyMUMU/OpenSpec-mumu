@@ -1,8 +1,13 @@
 ---
 name: "sop-deep-path"
 description: "Deep path workflow for complex changes. Invoke when task is triaged as deep path (cross-file, new feature, refactor, API change)."
-version: v2.9.0
-updated: 2026-02-24
+version: v2.11.0
+updated: 2026-02-25
+layer: "路径宏"
+load_policy:
+  tier: 3
+  auto_load_states: ["[ROUTE_DEEP]"]
+  depends_on: ["sop-requirement-analyst", "sop-architecture-design", "sop-architecture-reviewer", "sop-implementation-designer", "sop-progress-supervisor", "sop-code-implementation", "sop-code-review", "sop-document-sync", "sop-test-design-csv", "sop-test-implementation"]
 ---
 
 # Deep Path Workflow
@@ -82,13 +87,33 @@ CMD: `RUN_DIR_BATCH(depth_desc) -> IMPLEMENT(dir, design) -> [WAITING_FOR_CODE_R
 
 **Stop Point**: `[WAITING_FOR_CODE_REVIEW]`
 
-### Step 8: Code Review
+### Step 9: Code Review
 
 **Purpose**: Validate changes against design docs and common practices
 
 CMD: `CODE_REVIEW(diff, design_refs) -> [DIFF_APPROVAL]`
 
-### Step 9: Document Maintenance
+### Step 10: Test Design (Optional)
+
+**Purpose**: Design test cases for acceptance criteria
+
+**Condition**: TDD路径或需要测试资产
+
+CMD: `TEST_DESIGN_CSV(design, criteria) -> [WAITING_FOR_TEST_DESIGN]`
+
+**Stop Point**: `[WAITING_FOR_TEST_DESIGN]`
+
+### Step 11: Test Implementation (Optional)
+
+**Purpose**: Implement test code from test cases
+
+**Condition**: 有CSV测试用例
+
+CMD: `TEST_IMPLEMENT(csv, design_refs) -> [WAITING_FOR_TEST_IMPLEMENTATION]`
+
+**Stop Point**: `[WAITING_FOR_TEST_IMPLEMENTATION]`
+
+### Step 12: Document Maintenance
 
 **Purpose**: Sync docs
 
@@ -113,6 +138,9 @@ CMD: `DOC_SYNC(scope) -> [已完成]`
 - `[WAITING_FOR_DESIGN]`: 目录级实现设计已落盘，等待确认
 - `[SCHEDULING]`: 目录调度计划已生成，等待启动批次
 - `[WAITING_FOR_CODE_REVIEW]`: 代码变更已就绪，等待代码审查
+- `[WAITING_FOR_TEST_DESIGN]`: 测试设计已就绪，等待确认
+- `[WAITING_FOR_TEST_IMPLEMENTATION]`: 测试代码已就绪，等待审查
+- `[DIFF_APPROVAL]`: 审查通过，等待用户确认变更
 - `[USER_DECISION]`: 输入不足/冲突/依赖缺口影响后续阶段，必须中断等待决策
 
 ## Constraints

@@ -1,8 +1,13 @@
 ---
 name: "sop-implementation-designer"
 description: "Implementation design workflow for creating detailed technical designs. Invoke when architecture is approved and ready for implementation design."
-version: v2.9.0
-updated: 2026-02-24
+version: v2.10.0
+updated: 2026-02-25
+layer: "实现设计"
+load_policy:
+  tier: 2
+  auto_load_states: ["[ARCHITECTURE_PASSED]"]
+  depends_on: ["sop-architecture-design", "sop-architecture-reviewer", "sop-code-explorer"]
 ---
 
 # Implementation Design Workflow
@@ -165,6 +170,24 @@ updated: 2026-02-24
    - Mark `[USER_DECISION]` if conflict found
 
 参考：04_reference/knowledge_management.md
+
+### Step 8: Gate Check
+
+**Purpose**: Execute quality gate check for implementation design phase
+
+**Actions**:
+CMD: `GATE_CHECK(design_doc, gate='GATE_DESIGN')`
+
+**Gate Check Items**:
+| 检查项 | 通过标准 | 状态 |
+|--------|----------|------|
+| 任务覆盖完整 | 所有L2原子操作已映射到L3实现 | [ ] |
+| 依赖无循环 | 目录依赖图中无循环依赖 | [ ] |
+| 任务可独立验证 | 每个任务有明确的验收标准 | [ ] |
+
+**State Transition**:
+- 通过 → `[WAITING_FOR_DESIGN]`
+- 失败 → `[GATE_FAILED]` → 用户决策
 
 ## 来源与依赖准则
 

@@ -1,8 +1,13 @@
 ---
 name: "sop-test-design-csv"
 description: "Test design workflow for generating and maintaining CSV test cases from L2/L3 designs. Invoke when TDD/layered acceptance is enabled and test cases must be created or updated."
-version: v2.9.0
-updated: 2026-02-24
+version: v2.10.0
+updated: 2026-02-25
+layer: "测试"
+load_policy:
+  tier: 2
+  auto_load_states: ["[ARCHITECTURE_PASSED]", "[WAITING_FOR_DESIGN]"]
+  depends_on: ["sop-architecture-design", "sop-implementation-designer"]
 ---
 
 # CSV Test Design Workflow

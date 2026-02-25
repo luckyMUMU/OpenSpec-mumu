@@ -1,8 +1,13 @@
 ---
 name: "sop-fast-path"
 description: "Fast path workflow for single-file, small changes. Invoke when task is triaged as fast path (single file, <30 lines, no logic change)."
-version: v2.9.0
-updated: 2026-02-24
+version: v2.11.0
+updated: 2026-02-25
+layer: "路径宏"
+load_policy:
+  tier: 3
+  auto_load_states: ["[ROUTE_FAST]"]
+  depends_on: ["sop-code-explorer", "sop-code-implementation", "sop-code-review", "sop-document-sync"]
 ---
 
 # Fast Path Workflow
@@ -19,8 +24,25 @@ updated: 2026-02-24
 
 ## Input
 
-- Task: [desc]
-- Target: file/path + delta_lines + type
+```yaml
+inputs:
+  - name: "task"
+    type: "TaskDescription"
+    description: "任务描述对象"
+    required: true
+    properties:
+      description: { type: "string", description: "任务描述" }
+      scope: { type: "string[]", description: "变更范围（文件列表）" }
+  
+  - name: "target"
+    type: "object"
+    description: "目标文件信息"
+    required: true
+    properties:
+      file: { type: "path", description: "目标文件路径" }
+      delta_lines: { type: "int", description: "预计变更行数" }
+      change_type: { type: "string", description: "变更类型" }
+```
 
 ## Workflow Steps
 
@@ -29,7 +51,7 @@ updated: 2026-02-24
 **Purpose**: Quick impact assessment
 
 **Actions**:
-CMD: `AUDIT(file) -> audit_report`
+CMD: `AUDIT(scope: ChangeScope) -> audit_report: AuditReport`
 
 **Note**: Fast path does not involve directory-based parallel execution as it targets a single file.
 
@@ -38,7 +60,7 @@ CMD: `AUDIT(file) -> audit_report`
 **Purpose**: Implement the change
 
 **Actions**:
-CMD: `IMPLEMENT(dir, audit) -> [WAITING_FOR_CODE_REVIEW]`
+CMD: `IMPLEMENT(dir: path, design: path) -> [WAITING_FOR_CODE_REVIEW]`
 
 **Stop Point**: `[WAITING_FOR_CODE_REVIEW]`
 
@@ -47,14 +69,16 @@ CMD: `IMPLEMENT(dir, audit) -> [WAITING_FOR_CODE_REVIEW]`
 **Purpose**: Validate changes against design and common practices
 
 **Actions**:
-CMD: `CODE_REVIEW(diff, design_refs) -> [DIFF_APPROVAL]`
+CMD: `CODE_REVIEW(diff: string, design_refs: path[]) -> [DIFF_APPROVAL]`
+
+**Stop Point**: `[DIFF_APPROVAL]`
 
 ### Step 4: Document Sync
 
 **Purpose**: Update related docs
 
 **Actions**:
-CMD: `DOC_SYNC(scope) -> [已完成]`
+CMD: `DOC_SYNC(scope: ChangeScope) -> [已完成]`
 
 ## 来源与依赖准则
 
@@ -63,12 +87,22 @@ CMD: `DOC_SYNC(scope) -> [已完成]`
 
 ## Output
 
-- 状态：`[已完成]`
-- 模板：04_reference/interaction_formats/worker_execution_result.md
+```yaml
+outputs:
+  - name: "execution_result"
+    type: "object"
+    description: "执行结果"
+    schema_ref: "04_reference/interaction_formats/worker_execution_result.md"
+    properties:
+      status: { type: "string", description: "执行状态" }
+      changes: { type: "object[]", description: "变更列表" }
+      documents: { type: "path[]", description: "更新的文档路径" }
+```
 
 ## Stop Points
 
 - `[WAITING_FOR_CODE_REVIEW]`: 代码变更已就绪，等待 `sop-code-review`
+- `[DIFF_APPROVAL]`: 审查通过，等待用户确认变更
 - `[USER_DECISION]`: 无法证明无行为变化或发现跨文件/跨目录影响（必须升级到 deep path）
 
 ## Constraints

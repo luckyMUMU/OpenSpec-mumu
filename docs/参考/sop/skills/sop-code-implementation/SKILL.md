@@ -1,8 +1,13 @@
 ---
 name: "sop-code-implementation"
 description: "Code implementation workflow for physical coding. Invoke when implementation design is approved and ready for coding."
-version: v2.9.0
-updated: 2026-02-24
+version: v2.10.0
+updated: 2026-02-25
+layer: "实现"
+load_policy:
+  tier: 2
+  auto_load_states: ["[WAITING_FOR_DESIGN]"]
+  depends_on: ["sop-code-explorer", "sop-implementation-designer"]
 ---
 
 # Code Implementation Workflow
@@ -106,6 +111,24 @@ CMD: `REQUEST_CROSS_DIR(src_dir, target_dir, change) -> appended_request`
 2. Mark `[WAITING_FOR_CODE_REVIEW]`
 3. Wait `sop-code-review` result
 4. If passed: mark `[DIR_COMPLETED]` and notify `sop-progress-supervisor`
+
+### Step 7: Gate Check
+
+**Purpose**: Execute quality gate check for implementation phase
+
+**Actions**:
+CMD: `GATE_CHECK(code_changes, gate='GATE_IMPLEMENTATION')`
+
+**Gate Check Items**:
+| 检查项 | 通过标准 | 状态 |
+|--------|----------|------|
+| 代码规范 | lint/type check通过 | [ ] |
+| 测试通过 | 所有测试用例通过 | [ ] |
+| 文档同步 | 相关文档已更新 | [ ] |
+
+**State Transition**:
+- 通过 → `[WAITING_FOR_CODE_REVIEW]`
+- 失败 → `[GATE_FAILED]` → 用户决策
 
 ## 来源与依赖准则
 

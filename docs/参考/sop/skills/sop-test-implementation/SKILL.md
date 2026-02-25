@@ -1,8 +1,13 @@
 ---
 name: "sop-test-implementation"
 description: "Acceptance test implementation workflow from CSV test cases. Invoke after CSV test design is ready to generate L1-L4 test code and verification instructions."
-version: v2.9.0
-updated: 2026-02-24
+version: v2.10.0
+updated: 2026-02-25
+layer: "测试"
+load_policy:
+  tier: 2
+  auto_load_states: ["[WAITING_FOR_TEST_DESIGN]"]
+  depends_on: ["sop-test-design-csv"]
 ---
 
 # Test Implementation Workflow
