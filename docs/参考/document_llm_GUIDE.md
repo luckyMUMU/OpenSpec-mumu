@@ -1,6 +1,6 @@
 ---
-version: v2.9.2
-updated: 2026-02-24
+version: v2.12.0
+updated: 2026-02-25
 ---
 
 # 基于伪代码逻辑与分级目录的 LLM 技术规范
