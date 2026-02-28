@@ -1,11 +1,11 @@
 ---
-version: v2.12.0
-updated: 2026-02-25
+version: v3.0.0
+updated: 2026-03-01
 ---
 
-# 基于伪代码逻辑与分级目录的 LLM 技术规范
+# 基于 Spec-First 的 LLM 技术规范
 
-> **相关文档**：本规范与 SOP 体系配合使用，详见 [sop_GUIDE.md](sop_GUIDE.md)
+> **相关文档**：本规范与 SOP v3.0.0 体系配合使用，详见 [sop_GUIDE.md](sop_GUIDE.md)
 
 ---
 
@@ -29,14 +29,15 @@ docs/
     └── rag/                 # RAG 参考资料
 ```
 
-### SOP 目录映射
+### SOP v3.0.0 目录映射
 
-| LLM 文档层级 | SOP 目录 | 说明 |
+| LLM 文档层级 | SOP v3.0.0 目录 | 说明 |
 |-------------|----------|------|
 | L1 需求层 | `docs/01_requirements/` | PRD/MRD/FRD |
 | L2 架构层 | `docs/02_logical_workflow/` | 技术无关的架构设计 |
 | L3 实现层 | `src/**/design.md` | 目录级实现设计 |
 | L4 决策层 | `docs/04_context_reference/` | ADR + 决策记录 |
+| Spec 执行期 | `.trae/specs/<change-id>/` | 临时规范（spec.md/tasks.md/checklist.md） |
 
 ---
 
@@ -172,35 +173,65 @@ docs/
 
 ---
 
-## 六、SOP 体系映射
+## 六、SOP v3.0.0 体系映射
 
-本规范与 SOP 体系紧密配合，以下是关键映射关系：
+本规范与 SOP v3.0.0 体系紧密配合，以下是关键映射关系：
 
-### Skill 与文档层级
+### Spec-First 架构
 
-| Skill | 输出文档层级 | 说明 |
-|-------|-------------|------|
-| sop-requirement-analyst | L1 | 需求文档 |
-| sop-architecture-design | L2 | 架构设计 |
-| sop-implementation-designer | L3 | 实现设计 |
-| sop-code-implementation | 代码 | 代码实现 |
+SOP v3.0.0 采用 **Spec-First 架构**，规范是第一性产物，Skill 是规范的执行工具：
 
-### 质量门控机制
+| 层级 | 内容 | 位置 |
+|------|------|------|
+| P0 工程宪章 | 项目章程、架构原则、质量红线、安全基线 | `sop/01_constitution/` |
+| P1 系统规范 | 跨模块约束、系统级规范 | `sop/02_specifications/` |
+| P2 模块规范 | 单模块约束、实现规范 | `sop/02_specifications/` |
+| P3 实现规范 | 自动化验证、代码规范 | `sop/05_constraints/` |
+
+### 5 阶段工作流
+
+| 阶段 | 名称 | 契约文件 | 输出物 |
+|------|------|----------|--------|
+| Stage 0 | 权重选择 | `stage-0-contract.yaml` | 路径决策（Deep/Fast） |
+| Stage 1 | 设计 | `stage-1-contract.yaml` | 设计文档（design.md） |
+| Stage 2 | 实现 | `stage-2-contract.yaml` | 代码变更 + 测试 |
+| Stage 3 | 交付 | `stage-3-contract.yaml` | 验收报告 + 文档 |
+| Stage 4 | 归档 | `stage-4-contract.yaml` | 归档文件 |
+
+### Skill 分类与文档层级
+
+| Skill 类别 | 职责 | 输出文档层级 |
+|-----------|------|-------------|
+| 编排类 (Orchestration) | 任务调度、状态管理 | Stage 契约 |
+| 规范类 (Specification) | 需求分析、架构设计 | L1-L2 文档 |
+| 实现类 (Implementation) | 代码实现、测试 | L3 代码 + 测试 |
+| 验证类 (Verification) | 质量审查、验收 | 审查报告 + 验收报告 |
+
+### 质量门控机制（P0 级约束）
 
 每个阶段完成后必须执行门控检查，确保质量：
 
 | 阶段 | 门控检查项 | 通过条件 | 失败处理 |
 |------|-----------|----------|----------|
-| 需求阶段 | 需求边界清晰、技术方案对齐、验收标准具体、关键假设确认 | 全部通过 | 返回需求分析修正 |
-| 架构阶段 | 架构图清晰、接口定义完整、与现有系统无冲突、设计可行 | 全部通过 | 返回架构设计修正 |
-| 实现设计阶段 | 任务覆盖完整、依赖无循环、每个任务可独立验证 | 全部通过 | 返回实现设计修正 |
-| 代码实现阶段 | 代码规范、测试通过、文档同步 | 全部通过 | 返回代码实现修正 |
-| 文档同步阶段 | 需求实现、验收满足、质量达标 | 全部通过 | 返回相应阶段修正 |
+| Stage 0 权重选择 | 路径选择合理、复杂度评估准确 | 全部通过 | 重新评估路径 |
+| Stage 1 设计 | 设计文档完整、接口定义清晰、无架构冲突 | 全部通过 | 返回设计修正 |
+| Stage 2 实现 | 代码规范、测试通过、契约满足 | 全部通过 | 返回实现修正 |
+| Stage 3 交付 | 验收通过、文档同步、无遗留问题 | 全部通过 | 返回交付修正 |
+| Stage 4 归档 | 归档完整、状态清理、知识沉淀 | 全部通过 | 返回归档修正 |
 
-**门控失败约束**：
-- 门控失败不累计，每次失败都需要用户决策
-- 用户可选择：修复后重试、回滚到上一阶段、终止任务
-- 不与三错即停机制关联
+**门控失败约束（P0 级）**：
+- 门控失败触发熔断机制
+- 每次失败必须记录到契约文件
+- 用户决策：修复后重试、回滚到上一阶段、终止任务
+- 与三错即停机制独立（门控失败不累计到三错计数）
+
+### 契约驱动执行
+
+每个阶段通过契约文件（YAML）进行通信，契约包含：
+- **前置条件（Preconditions）**：阶段启动前必须满足的条件
+- **后置条件（Postconditions）**：阶段完成后必须达成的状态
+- **不变式（Invariants）**：整个执行过程中必须保持的约束
+- **隔离上下文（Isolated Context）**：阶段间不共享状态，仅通过契约通信
 
 ### 目录调度状态机
 
@@ -235,20 +266,28 @@ docs/
 ```
 保存位置：`.trae/scheduler_state.json`
 
-### 文档模板位置
+### 文档模板位置（v3.0.0）
 
 | 文档类型 | 模板位置 |
 |----------|----------|
-| PRD/MRD/FRD | `sop/04_reference/document_templates/` |
-| 架构设计 | `sop/04_reference/document_templates/architecture_design.md` |
-| 实现设计 | `sop/04_reference/document_templates/implementation_design.md` |
-| ADR | `sop/04_reference/document_templates/adr.md` |
+| PRD/MRD/FRD | `sop/06_templates/documents/proposal.md` |
+| 架构设计 | `sop/06_templates/documents/design.md` |
+| 实现设计 | `src/**/design.md` (目录级) |
+| ADR | `docs/04_context_reference/adr_*.md` |
+| Stage 契约 | `sop/03_workflow/contracts/stage-{0-4}-contract.yaml` |
+| 归档文档 | `sop/06_templates/documents/archive.md` |
+| 确认文档 | `sop/06_templates/documents/confirmation.md` |
+| 审查报告 | `sop/06_templates/reports/review-report.md` |
+| 约束报告 | `sop/06_templates/reports/constraint-report.md` |
 
 ### 相关文档
 
-- [SOP 入口](sop/AGENT_SOP.md)
-- [SOP 审查指南](sop_GUIDE.md)
-- [目录映射表](sop/04_reference/document_directory_mapping.md)
-- [状态字典](sop/05_constraints/state_dictionary.md)
-- [命令字典](sop/05_constraints/command_dictionary.md)
-- [约束矩阵](sop/05_constraints/constraint_matrix.md)
+- [SOP 入口](sop/AGENT_SOP.md) - Spec-First 架构入口
+- [SOP 审查指南](sop_GUIDE.md) - SOP 文档审查规范
+- [工程宪章](sop/01_constitution/) - P0 级规范
+- [系统规范](sop/02_specifications/) - P1-P2 级规范
+- [工作流](sop/03_workflow/) - 5 阶段工作流
+- [Skill 定义](sop/04_skills/) - 4 类 Skill
+- [约束体系](sop/05_constraints/) - P0-P3 约束
+- [模板体系](sop/06_templates/) - 契约/文档/报告模板
+- [参考资料](sop/07_reference/) - 参考材料
