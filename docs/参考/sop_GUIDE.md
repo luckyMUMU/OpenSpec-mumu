@@ -1,31 +1,86 @@
-# SOP 文档审查指南（Skill-first）
+# SOP 文档审查指南（Spec-first）
 
-> **版本**: v2.12.0  
-> **更新日期**: 2026-02-25  
-> **用途**: 以 SSOT 为中心，对 `docs/参考/sop/**` 的流程规范、模板、约束、Prompt Pack 与 Skill 合约做系统性审查
+> **版本**: v3.0.0  
+> **更新日期**: 2026-03-01  
+> **用途**: 以规范为核心，对 `sop/**` 的工程宪章、规范分层、契约模板、约束体系与 Skill 定义做系统性审查
 
 ---
 
 ## 1. 核心理念与范围
 
-- 本 SOP 以 Skill 作为唯一执行单元；审查以 SSOT 为起点，不依赖任何特定实现、平台机制或特定执行者。
+- 本 SOP 以**规范为核心**，Skill 是规范的执行工具；审查以工程宪章（P0 级）为起点，不依赖任何特定实现、平台机制或特定执行者。
 - 本指南仅定义"如何审查 SOP 体系"，不定义业务方案与实现细节。
 - 仅当需要表达"强闭环/并行探索/续跑交接"等意图时 → 使用**手动模板**（可复制粘贴），不采用自动注入/自动格式化 prompt。
+
+### 1.1 规范是第一性产物
+
+**审查起点**：
+- 规范是系统的"宪法"，定义系统应该做什么、不应该做什么
+- 规范是唯一真理源，代码、测试、文档都是规范的实现
+- 审查必须从规范开始，而非从 Skill 或代码开始
+
+### 1.2 Skill 是规范的执行工具
+
+**Skill 定位**：
+- Skill 是规范的"翻译器"，将规范转换为代码、测试、文档
+- Skill 的能力边界由规范定义
+- Skill 验证规范是否被满足
 
 ---
 
 ## 2. SSOT（唯一真源）
 
-审查顺序必须从 SSOT 开始：
+审查顺序必须从规范体系开始，按 P0→P1→P2→P3 层级展开：
 
-- Skill 清单与边界：`sop/02_skill_matrix/index.md`
-- 状态字典：`sop/05_constraints/state_dictionary.md`
-- 命令字典：`sop/05_constraints/command_dictionary.md`
-- 约束矩阵与红线：`sop/05_constraints/constraint_matrix.md`
-- 参考索引入口：`sop/04_reference/index.md`
-- 上下文交接标准：`sop/04_reference/review_standards/context_handoff.standard.md`
-- 手动模式模板：`sop/04_reference/interaction_formats/manual_mode_templates.md`
-- 续跑与恢复模板：`sop/04_reference/interaction_formats/continuation_request.md`
+### 2.1 唯一入口
+
+- **AGENT_SOP.md**：`sop/AGENT_SOP.md` - SOP v3.0.0 唯一入口
+
+### 2.2 P0 级工程宪章（宪法级规范）
+
+审查必须首先检查 P0 级工程宪章：
+
+- **项目宪章**：`sop/01_constitution/project-charter.md`
+- **质量红线**：`sop/01_constitution/quality-redlines.md`
+- **架构原则**：`sop/01_constitution/architecture-principles.md`
+- **安全基线**：`sop/01_constitution/security-baseline.md`
+
+### 2.3 P1-P2 级规范分层
+
+- **系统规范**：`sop/02_specifications/`
+  - `index.md` - 系统规范索引
+  - `system-spec.md` - 系统级规范
+  - `api-contracts/` - API 契约（P2 级）
+  - `data-models/` - 数据模型（P2 级）
+  - `domain-models/` - 领域模型（P2 级）
+
+### 2.4 契约模板（5 阶段）
+
+- **阶段契约**：`sop/03_workflow/contracts/`
+  - `stage-0-contract.yaml` - 规范重量选择契约
+  - `stage-1-contract.yaml` - 理解与设计契约
+  - `stage-2-contract.yaml` - 实现与验证契约
+  - `stage-3-contract.yaml` - 交付与同步契约
+  - `stage-4-contract.yaml` - 归档与演化契约
+
+### 2.5 约束体系（P0-P3）
+
+- **P0 级约束**：`sop/05_constraints/p0-constraints.md`（不可违背）
+- **P1 级约束**：`sop/05_constraints/p1-constraints.md`（跨模块约束）
+- **P2 级约束**：`sop/05_constraints/p2-constraints.md`（单模块约束）
+- **P3 级约束**：`sop/05_constraints/p3-constraints.md`（实现细节）
+- **状态字典**：`sop/05_constraints/state-dictionary.md`
+- **命令字典**：`sop/05_constraints/command-dictionary.md`
+
+### 2.6 模板体系
+
+- **契约模板**：`sop/06_templates/contracts/`
+- **文档模板**：`sop/06_templates/documents/`
+- **报告模板**：`sop/06_templates/reports/`
+
+### 2.7 参考资料
+
+- **参考索引**：`sop/07_reference/index.md`
 
 ---
 
@@ -37,8 +92,9 @@
 |----------|----------|----------|
 | 主版本更新（v2.x → v3.x） | 全部文件 | 全面审查 |
 | 次版本更新（v2.8.x → v2.9.x） | 全部文件 | 全面审查 |
-| 新增/删除 Skill | 相关文件 | 部分审查 |
-| SSOT 结构变更 | 全部文件 | 全面审查 |
+| 工程宪章变更 | 全部文件 | 全面审查 |
+| 规范分层结构变更 | 全部文件 | 全面审查 |
+| 契约模板变更 | 相关文件 | 部分审查 |
 
 ### 3.2 建议审查触发
 
@@ -50,7 +106,9 @@
 
 ### 3.3 版本同步检查
 
-版本更新时必须执行 [版本同步检查清单](sop/05_constraints/version_sync_checklist.md)，确保所有文件版本号一致。
+版本更新时必须执行版本核对，确保所有文件版本号一致：
+- 主/次版本：所有 `sop/**` 核心文档必须一致
+- 以 `sop/CHANGELOG.md` 为准
 
 ---
 
@@ -66,40 +124,41 @@ v[主版本].[次版本].[修订版本]
 
 | 版本位 | 更新规则（命令式） | 影响范围 |
 |---|---|---|
-| 主版本 | 仅当 Skill-first 体系/SSOT 边界发生架构级变化 → 必须 +1，次/修订归零 | 全局统一 |
-| 次版本 | 仅当新增/调整 Skill、路径、约束、模板类型 → 必须 +1，修订归零 | 全局统一 |
-| 修订版本 | 仅当修正文档错误、格式、链接、表述优化（不改语义） → 仅 +1 | 允许差异化 |
+| **主版本** | 仅当 Spec-first 体系/规范分层发生架构级变化 → 必须 +1，次/修订归零 | 全局统一 |
+| **次版本** | 仅当新增/调整规范层级、契约模板、约束类型、Skill 分类 → 必须 +1，修订归零 | 全局统一 |
+| **修订版本** | 仅当修正文档错误、格式、链接、表述优化（不改语义） → 仅 +1 | 允许差异化 |
 
 ### 4.3 全局统一规则
 
 - 主/次版本：所有 `sop/**` 核心文档必须一致，且以 `sop/CHANGELOG.md` 为准。
-- 修订版本：允许子文档独立递增；仅当形成一次“对外发布基线”时 → 推荐统一修订版本号。
-- Skill 合约：`sop/skills/**/SKILL.md` 的主/次版本必须与 SOP 主/次一致。
+- 修订版本：允许子文档独立递增；仅当形成一次"对外发布基线"时 → 推荐统一修订版本号。
+- Skill 定义：`sop/04_skills/**/README.md` 的主/次版本必须与 SOP 主/次一致。
 
 ### 4.4 版本一致性检查清单
 
 - [ ] `sop/CHANGELOG.md` 的当前主/次版本与 `sop/**` 核心文档一致
-- [ ] `sop/skills/**/SKILL.md` 主/次版本与 SOP 一致
+- [ ] `sop/04_skills/**/README.md` 主/次版本与 SOP 一致
 - [ ] 文档页眉版本号与文档内部引用一致（不得自相矛盾）
+- [ ] 所有契约模板版本与主文档一致
 
 ### 4.5 版本同步流程
 
 当 CHANGELOG 版本更新时，必须执行以下同步流程：
 
 ```
-步骤1: 确认版本基线
+步骤 1: 确认版本基线
   → 读取 sop/CHANGELOG.md 确认目标版本
 
-步骤2: 批量更新版本号
-  → 更新所有 Skill 合约 (sop/skills/**/SKILL.md)
-  → 更新所有核心文档 (sop/02_skill_matrix, sop/05_constraints, sop/04_reference)
-  → 更新所有参考文档 (review_standards, interaction_formats, document_templates)
+步骤 2: 批量更新版本号
+  → 更新所有 Skill 定义 (sop/04_skills/**/README.md)
+  → 更新所有核心文档 (01_constitution, 02_specifications, 03_workflow, 05_constraints)
+  → 更新所有模板文档 (06_templates, 07_reference)
 
-步骤3: 更新 updated 日期
+步骤 3: 更新 updated 日期
   → 所有更新文件的 updated 字段改为当前日期
 
-步骤4: 验证一致性
-  → 执行版本核对（参见 9.1 版本一致性核对模板）
+步骤 4: 验证一致性
+  → 执行版本核对（参见 10.1 版本一致性核对模板）
   → 确认无版本超前或落后文件
 ```
 
@@ -111,46 +170,48 @@ v[主版本].[次版本].[修订版本]
 2. **决策**：
    - 如为预期变更 → 更新 CHANGELOG 到超前版本
    - 如为非预期变更 → 回退文件版本到 CHANGELOG 版本
-3. **记录决策**：在 ADR 中记录版本超前处理决策
+3. **记录决策**：在 ADR 或归档记录中记录版本超前处理决策
 
 ---
 
 ## 5. 审查目标（必须同时满足）
 
-1. **SSOT 一致性**：任何规则/状态/命令/路径/交付物引用必须可追溯到 SSOT。
-2. **流程闭环**：每个 Skill 都有清晰输入/输出/停止点/落盘交付物，且可被下游复用。
-3. **表达可执行**：规则满足“仅当/当…时 → 必须/禁止/仅能 → 输出（交付物/路径）”。
-4. **手动可操作**：当需要模式切换/并行探索/续跑交接时，有可复制粘贴的模板支撑。
-5. **简洁且可审计**：信息不重复，长内容下沉并可按需引用，避免在正文堆砌实现细节。
+1. **规范一致性**：任何规则/状态/命令/路径/交付物引用必须可追溯到规范（P0-P3）
+2. **流程闭环**：5 阶段工作流有清晰输入/输出/质量门控，且可被下游复用
+3. **表达可执行**：规则满足"仅当/当…时 → 必须/禁止/仅能 → 输出（交付物/路径）"
+4. **手动可操作**：当需要模式切换/并行探索/续跑交接时，有可复制粘贴的模板支撑
+5. **简洁且可审计**：信息不重复，长内容下沉并可按需引用，避免在正文堆砌实现细节
 
 ---
 
 ## 6. 审查维度与检查清单
 
-### 6.1 SSOT 一致性（硬门槛）
+### 6.1 规范一致性（硬门槛）
 
-- [ ] Skill 清单与边界以 `sop/02_skill_matrix/index.md` 为唯一来源
+- [ ] 工程宪章（P0 级）4 个文档完整且内容一致
+- [ ] 规范分层（P1-P2 级）定义清晰，跨模块约束明确
 - [ ] 状态/命令引用仅来自 `sop/05_constraints/*_dictionary.md`
-- [ ] 禁止项与后果等级以 `sop/05_constraints/constraint_matrix.md` 为准
-- [ ] 任何“新增/调整”必须同步更新：Skill矩阵、相关模板索引、相关约束引用
+- [ ] 禁止项与后果等级以 `sop/05_constraints/p0-p3-constraints.md` 为准
+- [ ] 任何"新增/调整"必须同步更新：规范文档、相关模板索引、相关约束引用
 
-### 6.2 Prompt Pack 合规性
+### 6.2 契约合规性（新增）
 
-- [ ] Prompt Pack 仅表达偏好/侧重点/排版，不重复 `SKILL.md` 合约正文
-- [ ] Prompt Pack 不引入平台实现细节（例如自动注入、hook、会话系统）
-- [ ] 覆盖机制与禁止覆盖项符合 `sop/04_reference/prompt_pack.standard.md`
+- [ ] 5 个阶段契约完整（stage-0 到 stage-4）
+- [ ] 每个契约包含前置条件、后置条件、不变式、独立上下文
+- [ ] 契约模板与阶段文档一致
+- [ ] 上下文隔离正确（context_id 唯一，expires_at 明确）
 
 ### 6.3 交付物与索引可达性
 
-- [ ] 每个 Skill 的“必须落盘交付物”可在 `sop/04_reference/index.md` 找到入口
-- [ ] 新增模板/标准必须在 `sop/04_reference/index.md` 中可达引用
+- [ ] 每个阶段的"必须落盘交付物"可在 `sop/03_workflow/` 找到定义
+- [ ] 新增模板/标准必须在 `sop/06_templates/index.md` 中可达引用
 - [ ] 交互格式与审查标准的引用路径正确且存在
 
 ### 6.4 停止点与决策闭环
 
 - [ ] 当输入不足/冲突/依赖缺口时 → 必须进入 `[USER_DECISION]` 并要求决策落盘
-- [ ] 当进入等待类状态（如 `[DIR_WAITING_DEP]`/`[WAITING_FOR_*]`）时 → 必须产出“续跑/恢复请求”（模板见 continuation_request）
-- [ ] 交接与压缩遵循 `context_handoff.standard.md`（必须保留 TODO 与证据）
+- [ ] 当进入等待类状态（如 `[WAITING_FOR_*]`）时 → 必须产出"续跑/恢复请求"
+- [ ] 交接与压缩遵循上下文隔离原则（必须保留 TODO 与证据）
 
 ### 6.5 表达规范（命令式）
 
@@ -160,8 +221,8 @@ v[主版本].[次版本].[修订版本]
 
 ### 6.6 简洁性（面向长期维护）
 
-- [ ] 重复信息合并为 SSOT 引用或表格
-- [ ] 目录边界/Scope 规则不重复定义（统一引用目录策略或 Skill矩阵）
+- [ ] 重复信息合并为规范引用或表格
+- [ ] 目录边界/Scope 规则不重复定义（统一引用目录策略或 Skill 索引）
 - [ ] 文档内容与模板库不冲突（模板变更优先以模板文件为准）
 
 ---
@@ -169,22 +230,28 @@ v[主版本].[次版本].[修订版本]
 ## 7. 审查流程（建议顺序）
 
 ```
-步骤1: 确认版本基线
-  → 读取 sop/CHANGELOG.md + sop/02_skill_matrix/index.md
+步骤 1: 确认版本基线
+  → 读取 sop/CHANGELOG.md + sop/AGENT_SOP.md
 
-步骤2: 核对 SSOT
-  → state_dictionary / command_dictionary / constraint_matrix
+步骤 2: 核对工程宪章（P0 级）
+  → project-charter.md / quality-redlines.md / architecture-principles.md / security-baseline.md
 
-步骤3: 核对索引与模板可达性
-  → sop/04_reference/index.md
+步骤 3: 核对规范分层（P1-P2 级）
+  → sop/02_specifications/
 
-步骤4: 核对 Prompt Pack 合规
-  → sop/prompts/packs/** + sop/04_reference/prompt_pack.standard.md
+步骤 4: 核对契约模板（5 阶段）
+  → sop/03_workflow/contracts/
 
-步骤5: 核对 Skill 合约可执行闭环
-  → sop/skills/**/SKILL.md
+步骤 5: 核对 Skill 定义（规范驱动）
+  → sop/04_skills/**/README.md
 
-步骤6: 链接/引用检查
+步骤 6: 核对约束体系（P0-P3）
+  → sop/05_constraints/p0-p3-constraints.md + 状态/命令字典
+
+步骤 7: 核对模板体系
+  → sop/06_templates/
+
+步骤 8: 链接/引用检查
   → 记录 FAIL 并给出命令式修复动作
 ```
 
@@ -200,79 +267,80 @@ docs/参考/sop/reviews/YYYY-MM-DD_<topic>/
 
 | 文件 | 必须内容 | 用途 |
 |---|---|---|
-| `00_scope.md` | 审查范围 + 版本基线 + SSOT清单 | 固定边界 |
-| `01_ssot_check.md` | SSOT 核对结果（通过/失败项） | 防漂移 |
-| `02_issue_list.md` | 问题分级（🔴🟠🟡🟢）+ 修复动作 | 修复输入 |
-| `03_link_check.md` | 链接/引用检查清单（OK/FAIL） | 可达性 |
-| `04_version_check.md` | 版本核对（主/次必须一致） | 发布基线 |
-| `05_review_report.md` | 结论 + 风险 + 建议（引用前述交付物） | 审查闭环 |
+| `00_scope.md` | 审查范围 + 版本基线 + 规范清单 | 固定边界 |
+| `01_spec_check.md` | 规范一致性检查结果（通过/失败项） | 防漂移 |
+| `02_contract_check.md` | 契约合规性检查（5 阶段契约） | 契约完整性 |
+| `03_issue_list.md` | 问题分级（🔴🟠🟡🟢）+ 修复动作 | 修复输入 |
+| `04_link_check.md` | 链接/引用检查清单（OK/FAIL） | 可达性 |
+| `05_version_check.md` | 版本核对（主/次必须一致） | 发布基线 |
+| `06_review_report.md` | 结论 + 风险 + 建议（引用前述交付物） | 审查闭环 |
 
 ---
 
 ## 9. 常见问题与命令式修复
 
-### 9.1 SSOT 漂移
+### 9.1 规范漂移
 
-症状：文档出现未在字典/矩阵定义的状态/命令/交付物。
+**症状**：文档出现未在规范/字典定义的状态/命令/交付物。
 
-修复：必须将引用改为 SSOT 已定义项；仅当确需新增时 → 先更新字典/矩阵，再更新引用方。
+**修复**：必须将引用改为规范已定义项；仅当确需新增时 → 先更新规范/字典，再更新引用方。
 
-### 9.2 SSOT 漂移监控方法
+### 9.2 规范漂移监控方法
 
 #### 状态引用检查
 
 | 检查项 | 检查方法 | 处理方式 |
 |--------|----------|----------|
-| 状态标记存在性 | 扫描文档中的 `[STATE_NAME]` 标记 | 在 `state_dictionary.md` 中查找定义 |
+| 状态标记存在性 | 扫描文档中的 `[STATE_NAME]` 标记 | 在 `state-dictionary.md` 中查找定义 |
 | 状态格式正确性 | 检查状态标记格式 | 必须使用 `[STATE_NAME]` 格式 |
 
 **检查流程**：
 ```
-步骤1: 扫描文档中的状态标记
-步骤2: 在 state_dictionary.md 中查找定义
-步骤3: 记录未定义的状态
-步骤4: 修复或新增状态定义
+步骤 1: 扫描文档中的状态标记
+步骤 2: 在 state-dictionary.md 中查找定义
+步骤 3: 记录未定义的状态
+步骤 4: 修复或新增状态定义
 ```
 
 #### 命令引用检查
 
 | 检查项 | 检查方法 | 处理方式 |
 |--------|----------|----------|
-| 命令存在性 | 扫描文档中的 `CMD_NAME` 引用 | 在 `command_dictionary.md` 中查找定义 |
+| 命令存在性 | 扫描文档中的 `CMD_NAME` 引用 | 在 `command-dictionary.md` 中查找定义 |
 | 命令格式正确性 | 检查命令格式 | 必须使用 `CMD_NAME(args)` 格式 |
 
 **检查流程**：
 ```
-步骤1: 扫描文档中的命令引用
-步骤2: 在 command_dictionary.md 中查找定义
-步骤3: 记录未定义的命令
-步骤4: 修复或新增命令定义
+步骤 1: 扫描文档中的命令引用
+步骤 2: 在 command-dictionary.md 中查找定义
+步骤 3: 记录未定义的命令
+步骤 4: 修复或新增命令定义
 ```
 
 #### 约束引用检查
 
 | 检查项 | 检查方法 | 处理方式 |
 |--------|----------|----------|
-| 禁止项存在性 | 扫描文档中的禁止项引用 | 在 `constraint_matrix.md` 中查找定义 |
+| 禁止项存在性 | 扫描文档中的禁止项引用 | 在 `p0-p3-constraints.md` 中查找定义 |
 | 后果等级正确性 | 检查后果等级标记 | 必须使用 🔴🟠🟡🟢 分级 |
 
 **检查流程**：
 ```
-步骤1: 扫描文档中的禁止项引用
-步骤2: 在 constraint_matrix.md 中查找定义
-步骤3: 记录未定义的禁止项
-步骤4: 修复或新增禁止项定义
+步骤 1: 扫描文档中的禁止项引用
+步骤 2: 在 p0-p3-constraints.md 中查找定义
+步骤 3: 记录未定义的禁止项
+步骤 4: 修复或新增禁止项定义
 ```
 
 #### 漂移检测报告模板
 
 ```markdown
-# SSOT 漂移检测报告
+# 规范漂移检测报告
 
 ## 元信息
-- 检查日期: YYYY-MM-DD
-- 检查范围: [全部文件 / 指定文件]
-- 检查人: [AI Agent / 用户]
+- 检查日期：YYYY-MM-DD
+- 检查范围：[全部文件 / 指定文件]
+- 检查人：[AI Agent / 用户]
 
 ## 状态引用检查
 
@@ -293,36 +361,51 @@ docs/参考/sop/reviews/YYYY-MM-DD_<topic>/
 | [path] | [禁止项] | ✅/❌ | [修复动作] |
 
 ## 统计
-- 检查文件数: N
-- 状态引用数: N
-- 未定义状态数: N
-- 命令引用数: N
-- 未定义命令数: N
-- 约束引用数: N
-- 未定义约束数: N
+- 检查文件数：N
+- 状态引用数：N
+- 未定义状态数：N
+- 命令引用数：N
+- 未定义命令数：N
+- 约束引用数：N
+- 未定义约束数：N
 
 ## 结论
 - [ ] 无漂移
 - [ ] 存在漂移，需修复后重新检查
 ```
 
-### 9.4 Prompt Pack 重复合约
+### 9.3 新增模板不可达
 
-症状：Prompt Pack 粘贴或改写 `SKILL.md` 正文。\n\n修复：必须删除重复正文，仅保留偏好/输出风格/侧重点；合约语义以 `SKILL.md` 为准。
+**症状**：新增 interaction_formats/review_standards 文件，但 `sop/06_templates/index.md` 或 `sop/07_reference/index.md` 无入口。
 
-### 9.5 新增模板不可达
+**修复**：必须在相应索引文件增加索引链接并声明用途与关联阶段。
 
-症状：新增 interaction_formats/review_standards 文件，但 `sop/04_reference/index.md` 无入口。\n\n修复：必须在 `sop/04_reference/index.md` 增加索引链接并声明用途与关联 Skill。
+### 9.4 交接信息丢失
 
-### 9.6 交接信息丢失
+**症状**：长任务拆分后无法恢复执行，TODO/证据缺失。
 
-症状：长任务拆分后无法恢复执行，TODO/证据缺失。\n\n修复：必须按 `context_handoff.standard.md` 补齐交接快照，并用 `continuation_request.md` 固化续跑输入。
+**修复**：必须按上下文隔离原则补齐交接快照，并用续跑请求模板固化续跑输入。
+
+### 9.5 契约不完整（新增）
+
+**症状**：阶段契约缺少前置条件、后置条件、不变式或独立上下文。
+
+**修复**：必须补充完整契约定义，确保符合契约模板要求。
+
+### 9.6 规范重量不匹配
+
+**症状**：轻规范路径使用了重规范模板，或重规范路径缺少必需文档。
+
+**修复**：
+- 重规范路径：必须检查工程宪章 4 个文档 + 系统规范
+- 轻规范路径：必须检查 proposal.md + confirmation.md + archive.md
+- 快速路径：可直接进入阶段 2（单文件 + <30 行 + 无逻辑变更）
 
 ---
 
 ## 10. 模板库（最小化）
 
-仅当需要快速落盘时使用；更完整模板以 `sop/04_reference/*` 为准。
+仅当需要快速落盘时使用；更完整模板以 `sop/06_templates/**` 为准。
 
 ### 10.1 版本一致性核对（摘录）
 
@@ -330,8 +413,8 @@ docs/参考/sop/reviews/YYYY-MM-DD_<topic>/
 # 版本一致性核对
 
 ## 元信息
-- 日期: YYYY-MM-DD
-- 目标主/次版本: v<MAJOR>.<MINOR>.x（以 sop/CHANGELOG.md 为准）
+- 日期：YYYY-MM-DD
+- 目标主/次版本：v<MAJOR>.<MINOR>.x（以 sop/CHANGELOG.md 为准）
 
 | 文件 | 声明版本 | 是否符合目标主/次版本 | 修复动作（命令式） |
 |---|---|---|---|
@@ -347,7 +430,37 @@ docs/参考/sop/reviews/YYYY-MM-DD_<topic>/
 |---|---|---|---|---|
 | [path] | [text] | [target] | [ ] | 必须将…更新为… |
 ```
- 
+
+### 10.3 契约完整性检查（新增）
+
+```markdown
+# 契约完整性检查
+
+## 元信息
+- 日期：YYYY-MM-DD
+- 检查范围：[全部契约 / 指定阶段契约]
+
+| 契约文件 | 前置条件 | 后置条件 | 不变式 | 独立上下文 | 完整性 |
+|---|---|---|---|---|---|
+| stage-0-contract.yaml | ✅/❌ | ✅/❌ | ✅/❌ | ✅/❌ | [完整/不完整] |
+
+## 结论
+- [ ] 所有契约完整
+- [ ] 存在不完整契约，需修复后重新检查
+```
+
 ---
- 
+
+## 11. 与 SOP v3.0.0 的映射关系
+
+| 本指南章节 | 对应 SOP 文档 | 用途 |
+|-----------|--------------|------|
+| 第 2 节 SSOT | `sop/AGENT_SOP.md` + `sop/01_constitution/` | 审查起点 |
+| 第 6.1 节 规范一致性 | `sop/01_constitution/` + `sop/02_specifications/` | P0-P2 级规范检查 |
+| 第 6.2 节 契约合规性 | `sop/03_workflow/contracts/` | 5 阶段契约检查 |
+| 第 7 节 审查流程 | `sop/03_workflow/index.md` | 审查顺序 |
+| 第 8 节 审查交付物 | `sop/06_templates/reports/` | 报告模板 |
+
+---
+
 （完）
