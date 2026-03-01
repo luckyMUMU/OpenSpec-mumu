@@ -1,11 +1,21 @@
 ---
-version: v3.0.0
+version: v3.1.0
 updated: 2026-03-01
 ---
 
 # OpenSpec 用户指南
 
-> **面向 AGENT 的 SOP v3.0.0 使用指南** - 指导如何使用 Spec-First SOP 进行复杂项目编程
+> **面向 AGENT 的 SOP v3.1.0 使用指南** - 指导如何使用 Spec-First SOP 进行复杂项目编程
+
+## 版本说明
+
+**当前版本**: v3.1.0  
+**更新日期**: 2026-03-01  
+**主要变更**:
+- 新增 P0-SEC-004（网络访问白名单）
+- 新增 P0-SEC-005（密钥安全注入）
+- 更新 Skill 调用规范（USE_SKILL / ROUTE_TO）
+- 改进需求澄清流程（4 轮提问）
 
 ---
 
@@ -22,13 +32,15 @@ OpenSpec v3.0.0 是一套 AI 辅助软件工程的标准化流程体系。核心
 
 ### 1.2 核心概念
 
-| 概念 | 说明 |
-|------|------|
-| **Spec-First** | 规范优先，规范是第一性产物 |
-| **P0-P3 规范** | 四级规范体系（工程宪章/系统规范/模块规范/实现规范） |
-| **5 阶段工作流** | Stage 0-4（权重选择/设计/实现/交付/归档） |
-| **契约文件** | YAML 格式，定义前置/后置条件、不变式 |
-| **Skill 分类** | 4 类 Skill（编排/规范/实现/验证） |
+| 概念 | 说明 | 示例 |
+|------|------|------|
+| **Spec-First** | 规范优先，规范是第一性产物 | 先写 spec.md，再写代码 |
+| **P0-P3 规范** | 四级规范体系（工程宪章/系统规范/模块规范/实现规范） | P0-SEC-004: 网络访问白名单 |
+| **5 阶段工作流** | Stage 0-4（权重选择/设计/实现/交付/归档） | stage-1-contract.yaml |
+| **契约文件** | YAML 格式，定义前置/后置条件、不变式 | stage-2-contract.yaml |
+| **USE_SKILL** | 确定性 Skill 调用语法 | USE_SKILL: sop-code-implementation |
+| **ROUTE_TO** | 智能路由 Skill 调用语法 | ROUTE_TO: 实现订单功能 |
+| **Skill 分类** | 4 类 Skill（编排/规范/实现/验证） | sop-code-implementation |
 
 ### 1.3 目录结构
 
@@ -42,15 +54,29 @@ project/
 ├── src/                         # 源代码
 │   └── **/design.md             # 目录级实现设计
 ├── tests/                       # 测试代码
-├── sop/                         # SOP v3.0.0 规范
+├── sop/                         # SOP v3.1.0 规范
 │   ├── 01_constitution/         # P0 级工程宪章
 │   ├── 02_specifications/       # P1-P2 级系统规范
 │   ├── 03_workflow/             # 5 阶段工作流
-│   ├── 04_skills/               # 4 类 Skill
+│   ├── 04_skills/               # 4 类 Skill（11 个）
 │   ├── 05_constraints/          # P0-P3 约束体系
 │   ├── 06_templates/            # 模板体系
-│   └── 07_reference/            # 参考资料
-└── .trae/specs/                 # 任务执行期临时规范
+│   ├── 07_reference/            # 参考资料
+│   └── contracts/               # 执行产物
+└── .trae/
+    ├── skills/                  # 11 个 Skill 定义
+    │   ├── sop-requirement-analyst/
+    │   ├── sop-architecture-design/
+    │   ├── sop-implementation-designer/
+    │   ├── sop-code-explorer/
+    │   ├── sop-code-implementation/
+    │   ├── sop-test-implementation/
+    │   ├── sop-architecture-reviewer/
+    │   ├── sop-code-review/
+    │   ├── sop-workflow-orchestrator/
+    │   ├── sop-document-sync/
+    │   └── sop-progress-supervisor/
+    └── specs/                   # 任务执行期临时规范
 ```
 
 ---
@@ -135,7 +161,29 @@ Stage 0 → Stage 1 → Stage 2 → Stage 3 → Stage 4
 - 用户决策：修复后重试、回滚到上一阶段、终止任务
 - 与三错即停机制独立（门控失败不累计到三错计数）
 
-### 2.3 目录维度并行执行
+### 2.4 P0 级约束（12 条红线）
+
+**SEC 安全类（5 条）**:
+- P0-SEC-001: 禁止硬编码密钥
+- P0-SEC-002: 禁止使用已知漏洞库
+- P0-SEC-003: 禁止关闭安全校验
+- **P0-SEC-004: 网络访问白名单** (新增)
+- **P0-SEC-005: 密钥安全注入** (新增)
+
+**QUAL 质量类（3 条）**:
+- P0-QUAL-001: 核心模块测试覆盖率 100%
+- P0-QUAL-002: 禁止强制解包
+- P0-QUAL-003: 禁止忽略错误
+
+**ARCH 架构类（2 条）**:
+- P0-ARCH-001: 禁止循环依赖
+- P0-ARCH-002: 禁止跨层调用
+
+**COMP 合规类（2 条）**:
+- P0-COMP-001: 数据隐私保护
+- P0-COMP-002: 许可证合规
+
+### 2.5 目录维度并行执行
 
 当任务涉及多个包含 `design.md` 的目录时：
 

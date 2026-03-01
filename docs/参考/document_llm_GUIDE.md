@@ -1,5 +1,5 @@
 ---
-version: v3.0.2
+version: v3.1.0
 updated: 2026-03-01
 ---
 
@@ -27,7 +27,7 @@ docs_structure:
     examples: [adr_*.md, decisions/, rag/]
 ```
 
-### SOP v3.0.2 目录映射
+### SOP v3.1.0 目录映射
 
 ```yaml
 mapping:
@@ -43,7 +43,7 @@ mapping:
   L4_决策层:
     path: docs/04_context_reference/
     content: ADR + 决策记录
-  Spec执行期:
+  Spec 执行期:
     path: .trae/specs/<change-id>/
     content: [spec.md, tasks.md, checklist.md]
 ```
